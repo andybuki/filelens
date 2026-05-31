@@ -1,5 +1,7 @@
 package com.filelens.commander.ui.components
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,14 +12,21 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.OpenInNew
+import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.filled.Error
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -27,14 +36,27 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.InspectorInfo
+import com.filelens.commander.domain.model.InspectorResult
+import com.filelens.commander.domain.model.PreviewContent
+import com.filelens.commander.domain.model.RiskItem
+import com.filelens.commander.domain.model.RiskSeverity
+import com.filelens.commander.domain.model.StructureNode
+import com.filelens.commander.ui.theme.RiskDanger
+import com.filelens.commander.ui.theme.RiskInfo
+import com.filelens.commander.ui.theme.RiskWarning
 
 enum class InspectorTab(val label: String) {
     OVERVIEW("Overview"),
@@ -47,6 +69,8 @@ enum class InspectorTab(val label: String) {
 @Composable
 fun InspectorPanel(
     info: InspectorInfo?,
+    result: InspectorResult? = null,
+    isAnalyzing: Boolean = false,
     onOpenWith: () -> Unit,
     onDismiss: (() -> Unit)? = null,
     modifier: Modifier = Modifier
@@ -73,11 +97,33 @@ fun InspectorPanel(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
-                Text(
-                    text = info.category.displayName(),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = info.category.displayName(),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    if (isAnalyzing) {
+                        Spacer(modifier = Modifier.width(8.dp))
+                        CircularProgressIndicator(modifier = Modifier.size(12.dp), strokeWidth = 2.dp)
+                    }
+                    val riskCount = result?.risks?.size ?: 0
+                    if (riskCount > 0) {
+                        Spacer(modifier = Modifier.width(8.dp))
+                        val hasWarning = result?.risks?.any { it.severity == RiskSeverity.WARNING || it.severity == RiskSeverity.DANGER } == true
+                        Text(
+                            text = "$riskCount risk${if (riskCount > 1) "s" else ""}",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = if (hasWarning) RiskWarning else RiskInfo,
+                            modifier = Modifier
+                                .background(
+                                    color = (if (hasWarning) RiskWarning else RiskInfo).copy(alpha = 0.1f),
+                                    shape = RoundedCornerShape(4.dp)
+                                )
+                                .padding(horizontal = 6.dp, vertical = 2.dp)
+                        )
+                    }
+                }
             }
             if (onDismiss != null) {
                 IconButton(onClick = onDismiss) {
@@ -97,17 +143,17 @@ fun InspectorPanel(
         }
 
         when (tabs[selectedTab]) {
-            InspectorTab.OVERVIEW -> OverviewTab(info, onOpenWith)
-            InspectorTab.PREVIEW -> PlaceholderTab("Preview")
-            InspectorTab.STRUCTURE -> PlaceholderTab("Structure")
-            InspectorTab.METADATA -> MetadataTab(info)
-            InspectorTab.RISKS -> PlaceholderTab("Risks")
+            InspectorTab.OVERVIEW -> OverviewTab(info, result, onOpenWith)
+            InspectorTab.PREVIEW -> PreviewTab(result)
+            InspectorTab.STRUCTURE -> StructureTab(result)
+            InspectorTab.METADATA -> MetadataTab(result)
+            InspectorTab.RISKS -> RisksTab(result)
         }
     }
 }
 
 @Composable
-private fun OverviewTab(info: InspectorInfo, onOpenWith: () -> Unit) {
+private fun OverviewTab(info: InspectorInfo, result: InspectorResult?, onOpenWith: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -122,10 +168,8 @@ private fun OverviewTab(info: InspectorInfo, onOpenWith: () -> Unit) {
         info.mimeType?.let { InfoRow("MIME", it) }
         info.size?.let { InfoRow("Size", formatFileSize(it)) }
         info.lastModified?.let { InfoRow("Modified", formatDate(it)) }
-        InfoRow("Path", info.path)
-        InfoRow("Readable", if (info.isReadable) "Yes" else "No")
 
-        info.details.forEach { (key, value) ->
+        result?.overview?.forEach { (key, value) ->
             InfoRow(key, value)
         }
 
@@ -142,43 +186,279 @@ private fun OverviewTab(info: InspectorInfo, onOpenWith: () -> Unit) {
 }
 
 @Composable
-private fun MetadataTab(info: InspectorInfo) {
+private fun PreviewTab(result: InspectorResult?) {
+    if (result?.previewContent == null) {
+        CenteredMessage("No preview available")
+        return
+    }
+
+    when (val preview = result.previewContent) {
+        is PreviewContent.TextContent -> {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .horizontalScroll(rememberScrollState())
+                    .padding(12.dp)
+            ) {
+                if (preview.language != null) {
+                    Text(
+                        text = preview.language,
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+                }
+                Text(
+                    text = preview.content.take(50_000),
+                    style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+        }
+        is PreviewContent.ImageContent -> {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                AsyncImage(
+                    model = preview.path,
+                    contentDescription = "Image preview",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(8.dp)),
+                    contentScale = ContentScale.FillWidth
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                if (preview.width != null && preview.height != null) {
+                    Text(
+                        text = "${preview.width} × ${preview.height}",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+        }
+        is PreviewContent.HexContent -> {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .horizontalScroll(rememberScrollState())
+                    .padding(12.dp)
+            ) {
+                Text(
+                    text = "Hex view (${formatFileSize(preview.totalSize)} total)",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+                Text(
+                    text = formatHex(preview.bytes),
+                    style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+        }
+        is PreviewContent.TreeContent -> {
+            StructureTreeView(preview.root)
+        }
+    }
+}
+
+@Composable
+private fun StructureTab(result: InspectorResult?) {
+    if (result?.structure == null) {
+        CenteredMessage("No structure available")
+        return
+    }
+
+    StructureTreeView(result.structure)
+}
+
+@Composable
+private fun StructureTreeView(root: StructureNode) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(16.dp)
+            .padding(12.dp)
     ) {
-        if (info.details.isEmpty()) {
-            Box(
-                modifier = Modifier.fillMaxSize().padding(32.dp),
-                contentAlignment = Alignment.Center
+        StructureNodeItem(root, depth = 0)
+    }
+}
+
+@Composable
+private fun StructureNodeItem(node: StructureNode, depth: Int) {
+    when (node) {
+        is StructureNode.Leaf -> {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = (depth * 16).dp, top = 2.dp, bottom = 2.dp)
             ) {
                 Text(
-                    "No additional metadata",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    text = node.name,
+                    style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                    modifier = Modifier.weight(1f),
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
                 )
+                if (node.value != null) {
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = node.value,
+                        style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                        color = MaterialTheme.colorScheme.primary,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
             }
-        } else {
-            info.details.forEach { (key, value) ->
-                InfoRow(key, value)
+        }
+        is StructureNode.Branch -> {
+            var expanded by remember { mutableStateOf(depth < 2) }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = (depth * 16).dp, top = 2.dp, bottom = 2.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(
+                    onClick = { expanded = !expanded },
+                    modifier = Modifier.size(20.dp)
+                ) {
+                    Icon(
+                        if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
+                        contentDescription = if (expanded) "Collapse" else "Expand",
+                        modifier = Modifier.size(16.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(
+                    text = node.name,
+                    style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                if (node.details != null) {
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = node.details,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+
+            if (expanded) {
+                node.children.forEach { child ->
+                    StructureNodeItem(child, depth + 1)
+                }
             }
         }
     }
 }
 
 @Composable
-private fun PlaceholderTab(tabName: String) {
-    Box(
-        modifier = Modifier.fillMaxSize().padding(32.dp),
-        contentAlignment = Alignment.Center
+private fun MetadataTab(result: InspectorResult?) {
+    val metadata = result?.metadata
+    if (metadata.isNullOrEmpty()) {
+        CenteredMessage("No additional metadata")
+        return
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp)
     ) {
-        Text(
-            "Coming in Phase 2",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+        metadata.forEach { (key, value) ->
+            InfoRow(key, value)
+        }
+    }
+}
+
+@Composable
+private fun RisksTab(result: InspectorResult?) {
+    val risks = result?.risks
+    if (risks.isNullOrEmpty()) {
+        Column(
+            modifier = Modifier.fillMaxSize().padding(32.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                Icons.Filled.Shield,
+                contentDescription = null,
+                modifier = Modifier.size(48.dp),
+                tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(
+                "No risks detected",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        return
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp)
+    ) {
+        risks.forEach { risk ->
+            RiskCard(risk)
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+    }
+}
+
+@Composable
+private fun RiskCard(risk: RiskItem) {
+    val (color, icon) = when (risk.severity) {
+        RiskSeverity.DANGER -> RiskDanger to Icons.Filled.Error
+        RiskSeverity.WARNING -> RiskWarning to Icons.Filled.Warning
+        RiskSeverity.INFO -> RiskInfo to Icons.Filled.Info
+    }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = color.copy(alpha = 0.08f),
+                shape = RoundedCornerShape(8.dp)
+            )
+            .padding(12.dp),
+        verticalAlignment = Alignment.Top
+    ) {
+        Icon(
+            icon,
+            contentDescription = risk.severity.name,
+            tint = color,
+            modifier = Modifier.size(20.dp)
         )
+        Spacer(modifier = Modifier.width(12.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = risk.title,
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = risk.description,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
     }
 }
 
@@ -200,8 +480,22 @@ private fun InfoRow(label: String, value: String) {
             text = value,
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.weight(0.65f),
-            maxLines = 3,
+            maxLines = 5,
             overflow = TextOverflow.Ellipsis
+        )
+    }
+}
+
+@Composable
+private fun CenteredMessage(message: String) {
+    Box(
+        modifier = Modifier.fillMaxSize().padding(32.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            message,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }
@@ -226,6 +520,30 @@ private fun EmptyInspector(modifier: Modifier = Modifier) {
             )
         }
     }
+}
+
+private fun formatHex(bytes: ByteArray): String {
+    val sb = StringBuilder()
+    for (i in bytes.indices step 16) {
+        sb.append("%08X  ".format(i))
+        for (j in 0 until 16) {
+            if (i + j < bytes.size) {
+                sb.append("%02X ".format(bytes[i + j]))
+            } else {
+                sb.append("   ")
+            }
+            if (j == 7) sb.append(" ")
+        }
+        sb.append(" |")
+        for (j in 0 until 16) {
+            if (i + j < bytes.size) {
+                val b = bytes[i + j].toInt() and 0xFF
+                sb.append(if (b in 0x20..0x7E) b.toChar() else '.')
+            }
+        }
+        sb.append("|\n")
+    }
+    return sb.toString()
 }
 
 private fun FileCategory.displayName(): String = when (this) {

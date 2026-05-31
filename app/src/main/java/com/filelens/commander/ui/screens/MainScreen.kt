@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.rememberBottomSheetScaffoldState
@@ -24,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.ui.components.FileListPanel
 import com.filelens.commander.ui.components.InspectorPanel
 import com.filelens.commander.viewmodel.FileListViewModel
@@ -113,6 +111,8 @@ private fun CompactLayout(
         sheetContent = {
             InspectorPanel(
                 info = inspectorState.info,
+                result = inspectorState.result,
+                isAnalyzing = inspectorState.isAnalyzing,
                 onOpenWith = onOpenWith,
                 onDismiss = {
                     scope.launch { bottomSheetState.hide() }
@@ -178,6 +178,8 @@ private fun ExpandedLayout(
 
         InspectorPanel(
             info = inspectorState.info,
+            result = inspectorState.result,
+            isAnalyzing = inspectorState.isAnalyzing,
             onOpenWith = onOpenWith,
             modifier = Modifier.weight(1f)
         )
