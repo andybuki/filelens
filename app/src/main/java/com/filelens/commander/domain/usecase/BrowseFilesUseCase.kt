@@ -1,0 +1,76 @@
+package com.filelens.commander.domain.usecase
+
+import com.filelens.commander.domain.model.FileCategory
+import com.filelens.commander.domain.model.FileItem
+import com.filelens.commander.domain.model.SortDirection
+import com.filelens.commander.domain.model.SortField
+import com.filelens.commander.domain.model.SortOrder
+import com.filelens.commander.domain.model.classifyByExtension
+import com.filelens.commander.vfs.LocalFileNode
+import com.filelens.commander.vfs.NodeType
+import com.filelens.commander.vfs.VirtualFileNode
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class BrowseFilesUseCase @Inject constructor() {
+
+    suspend fun listFiles(
+        node: VirtualFileNode,
+        sortOrder: SortOrder = SortOrder(),
+        showHidden: Boolean = false
+    ): List<FileItem> {
+        val children = node.children()
+
+        return children
+            .map { child -> toFileItem(child) }
+            .filter { showHidden || !it.isHidden }
+            .let { items -> sortItems(items, sortOrder) }
+    }
+
+    private fun toFileItem(node: VirtualFileNode): FileItem {
+        val extension = node.name.substringAfterLast('.', "").takeIf { it != node.name } ?: ""
+        val isHidden = (node as? LocalFileNode)?.isHidden ?: false
+        val category = if (node.type == NodeType.DIRECTORY) {
+            FileCategory.DIRECTORY
+        } else {
+            classifyByExtension(extension)
+        }
+
+        return FileItem(
+            name = node.name,
+            path = node.path,
+            nodeType = node.type,
+            size = node.size,
+            lastModified = node.lastModified,
+            isReadable = node.isReadable,
+            isHidden = isHidden,
+            fileCategory = category,
+            extension = extension
+        )
+    }
+
+    private fun sortItems(items: List<FileItem>, sortOrder: SortOrder): List<FileItem> {
+        val comparator = buildComparator(sortOrder)
+        return items.sortedWith(comparator)
+    }
+
+    private fun buildComparator(sortOrder: SortOrder): Comparator<FileItem> {
+        var comparator: Comparator<FileItem> = when (sortOrder.field) {
+            SortField.NAME -> compareBy(String.CASE_INSENSITIVE_ORDER) { it.name }
+            SortField.SIZE -> compareBy { it.size ?: 0L }
+            SortField.DATE -> compareBy { it.lastModified ?: 0L }
+            SortField.TYPE -> compareBy(String.CASE_INSENSITIVE_ORDER) { it.extension }
+        }
+
+        if (sortOrder.direction == SortDirection.DESCENDING) {
+            comparator = comparator.reversed()
+        }
+
+        if (sortOrder.directoriesFirst) {
+            comparator = compareBy<FileItem> { it.nodeType != NodeType.DIRECTORY }.then(comparator)
+        }
+
+        return comparator
+    }
+}
