@@ -81,15 +81,18 @@ class XmlInspector @Inject constructor() : FileInspector {
                 ))
             }
 
+            val pretty = prettyPrintXml(content)
+
             InspectorResult(
                 overview = overview,
                 metadata = metadata,
                 risks = risks,
                 structure = tree,
                 previewContent = PreviewContent.TextContent(
-                    content = content.take(100_000),
+                    content = pretty.take(100_000),
                     language = "XML",
-                    lineCount = content.count { it == '\n' } + 1
+                    lineCount = pretty.count { it == '\n' } + 1,
+                    rawContent = content.take(100_000)
                 )
             )
         } catch (e: Exception) {
@@ -105,6 +108,46 @@ class XmlInspector @Inject constructor() : FileInspector {
                 )
             )
         }
+    }
+
+    private fun prettyPrintXml(content: String): String {
+        return try {
+            val sb = StringBuilder(content.length + content.length / 4)
+            var depth = 0
+            var i = 0
+            var lastWasOpen = false
+            while (i < content.length) {
+                if (content[i] == '<' && i + 1 < content.length) {
+                    val isClose = content[i + 1] == '/'
+                    val isComment = content.regionMatches(i, "<!--", 0, 4)
+                    val isProlog = content[i + 1] == '?' || content[i + 1] == '!'
+
+                    if (isClose) depth = (depth - 1).coerceAtLeast(0)
+                    if (sb.isNotEmpty() && (!lastWasOpen || isClose)) {
+                        if (sb.last() != '\n') sb.append('\n')
+                        sb.append("  ".repeat(depth))
+                    }
+
+                    val end = content.indexOf('>', i)
+                    if (end == -1) { sb.append(content.substring(i)); break }
+
+                    val tag = content.substring(i, end + 1)
+                    sb.append(tag)
+                    i = end + 1
+
+                    if (!isClose && !isProlog && !isComment && !tag.endsWith("/>")) depth++
+                    lastWasOpen = !isClose && !isProlog && !isComment && !tag.endsWith("/>")
+                } else {
+                    val nextTag = content.indexOf('<', i)
+                    if (nextTag == -1) { sb.append(content.substring(i).trim()); break }
+                    val text = content.substring(i, nextTag).trim()
+                    if (text.isNotEmpty()) sb.append(text)
+                    i = nextTag
+                    lastWasOpen = false
+                }
+            }
+            sb.toString()
+        } catch (_: Exception) { content }
     }
 
     private data class XmlStats(

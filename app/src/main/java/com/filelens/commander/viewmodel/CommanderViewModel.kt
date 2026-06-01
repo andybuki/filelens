@@ -3,8 +3,10 @@ package com.filelens.commander.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.filelens.commander.domain.model.FileItem
+import com.filelens.commander.domain.usecase.CleanCopyUseCase
 import com.filelens.commander.domain.usecase.FileOperationResult
 import com.filelens.commander.domain.usecase.FileOperationsUseCase
+import com.filelens.commander.domain.usecase.TrashUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,8 +34,33 @@ data class CommanderState(
 
 @HiltViewModel
 class CommanderViewModel @Inject constructor(
-    private val fileOperations: FileOperationsUseCase
+    private val fileOperations: FileOperationsUseCase,
+    private val trashUseCase: TrashUseCase,
+    private val cleanCopyUseCase: CleanCopyUseCase
 ) : ViewModel() {
+
+    private var lastTrashed: List<TrashUseCase.TrashedItem> = emptyList()
+    fun lastTrashedItems(): List<TrashUseCase.TrashedItem> = lastTrashed
+    fun restoreLast() {
+        if (lastTrashed.isEmpty()) return
+        viewModelScope.launch {
+            val restored = trashUseCase.restore(lastTrashed)
+            _events.emit("Restored $restored item(s)")
+            lastTrashed = emptyList()
+        }
+    }
+
+    suspend fun createCleanedCopyAndShare(sourcePath: String, share: (String) -> Unit) {
+        val source = java.io.File(sourcePath)
+        val targetDir = source.parent ?: return
+        when (val result = cleanCopyUseCase.createCleanedCopy(sourcePath, targetDir)) {
+            is CleanCopyUseCase.CleanResult.Success -> {
+                _events.emit("Cleaned copy created. Stripped: ${result.strippedFields.joinToString().ifEmpty { "nothing" }}")
+                share(result.cleanPath)
+            }
+            is CleanCopyUseCase.CleanResult.Error -> _events.emit("Error: ${result.message}")
+        }
+    }
 
     private val _state = MutableStateFlow(CommanderState())
     val state: StateFlow<CommanderState> = _state.asStateFlow()
@@ -101,14 +128,14 @@ class CommanderViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = _state.value.copy(isOperationInProgress = true)
             val paths = _state.value.selectedPaths.toList()
-            when (val result = fileOperations.delete(paths)) {
-                is FileOperationResult.Success -> {
-                    _events.emit("${paths.size} item(s) deleted")
-                    clearSelection()
-                    dismissDialog()
-                    onDone()
-                }
-                is FileOperationResult.Error -> _events.emit("Error: ${result.message}")
+            try {
+                lastTrashed = trashUseCase.moveToTrash(paths)
+                _events.emit("${paths.size} item(s) moved to trash (Ctrl+Z to undo)")
+                clearSelection()
+                dismissDialog()
+                onDone()
+            } catch (e: Exception) {
+                _events.emit("Error: ${e.message ?: "Failed to delete"}")
             }
             _state.value = _state.value.copy(isOperationInProgress = false)
         }

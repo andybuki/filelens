@@ -25,7 +25,8 @@ sealed class PreviewContent {
         val content: String,
         val language: String? = null,
         val encoding: String? = null,
-        val lineCount: Int = 0
+        val lineCount: Int = 0,
+        val rawContent: String? = null
     ) : PreviewContent()
 
     data class ImageContent(

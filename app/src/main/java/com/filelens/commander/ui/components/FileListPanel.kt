@@ -14,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.CircularProgressIndicator
@@ -56,6 +57,7 @@ fun FileListPanel(
     onSortChanged: (SortOrder) -> Unit,
     onToggleHidden: () -> Unit,
     onRefresh: () -> Unit = {},
+    onBatchScan: () -> Unit = {},
     isActive: Boolean = true,
     modifier: Modifier = Modifier
 ) {
@@ -119,6 +121,19 @@ fun FileListPanel(
                         },
                         onClick = {
                             onToggleHidden()
+                            showMenu = false
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Icon(Icons.Filled.Shield, contentDescription = null)
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text("Scan folder for risks")
+                            }
+                        },
+                        onClick = {
+                            onBatchScan()
                             showMenu = false
                         }
                     )

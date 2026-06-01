@@ -90,7 +90,8 @@ class JsonInspector @Inject constructor() : FileInspector {
                 previewContent = PreviewContent.TextContent(
                     content = prettyContent.take(100_000),
                     language = "JSON",
-                    lineCount = prettyContent.count { it == '\n' } + 1
+                    lineCount = prettyContent.count { it == '\n' } + 1,
+                    rawContent = content.take(100_000)
                 )
             )
         } catch (e: Exception) {

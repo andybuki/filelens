@@ -74,6 +74,7 @@ fun InspectorPanel(
     isAnalyzing: Boolean = false,
     onOpenWith: () -> Unit,
     onViewOnMap: ((Double, Double) -> Unit)? = null,
+    onShareCleaned: (() -> Unit)? = null,
     onDismiss: (() -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
@@ -145,7 +146,7 @@ fun InspectorPanel(
         }
 
         when (tabs[selectedTab]) {
-            InspectorTab.OVERVIEW -> OverviewTab(info, result, onOpenWith, onViewOnMap)
+            InspectorTab.OVERVIEW -> OverviewTab(info, result, onOpenWith, onViewOnMap, onShareCleaned)
             InspectorTab.PREVIEW -> PreviewTab(result)
             InspectorTab.STRUCTURE -> StructureTab(result)
             InspectorTab.METADATA -> MetadataTab(result)
@@ -159,7 +160,8 @@ private fun OverviewTab(
     info: InspectorInfo,
     result: InspectorResult?,
     onOpenWith: () -> Unit,
-    onViewOnMap: ((Double, Double) -> Unit)? = null
+    onViewOnMap: ((Double, Double) -> Unit)? = null,
+    onShareCleaned: (() -> Unit)? = null
 ) {
     Column(
         modifier = Modifier
@@ -204,6 +206,19 @@ private fun OverviewTab(
             Spacer(modifier = Modifier.size(8.dp))
             Text("Open with...")
         }
+
+        val hasRisks = (result?.risks?.size ?: 0) > 0
+        if (hasRisks && onShareCleaned != null) {
+            Spacer(modifier = Modifier.height(8.dp))
+            androidx.compose.material3.OutlinedButton(
+                onClick = onShareCleaned,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(Icons.Filled.Shield, contentDescription = null, modifier = Modifier.size(18.dp))
+                Spacer(modifier = Modifier.size(8.dp))
+                Text("Share cleaned copy")
+            }
+        }
     }
 }
 
@@ -217,26 +232,44 @@ private fun PreviewTab(result: InspectorResult?) {
 
     when (val preview = previewContent) {
         is PreviewContent.TextContent -> {
+            var showRaw by remember { mutableStateOf(false) }
+            val displayed = if (showRaw && preview.rawContent != null) preview.rawContent else preview.content
+            val highlighted = remember(displayed, preview.language) {
+                highlightSyntax(displayed.take(50_000), preview.language)
+            }
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .horizontalScroll(rememberScrollState())
                     .padding(12.dp)
             ) {
-                if (preview.language != null) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    if (preview.language != null) {
+                        Text(
+                            text = preview.language,
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                    Spacer(modifier = Modifier.weight(1f))
+                    if (preview.rawContent != null) {
+                        androidx.compose.material3.TextButton(onClick = { showRaw = !showRaw }) {
+                            Text(if (showRaw) "Pretty" else "Raw", style = MaterialTheme.typography.labelMedium)
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier.height(4.dp))
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                        .horizontalScroll(rememberScrollState())
+                ) {
                     Text(
-                        text = preview.language,
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.padding(bottom = 8.dp)
+                        text = highlighted,
+                        style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
-                Text(
-                    text = preview.content.take(50_000),
-                    style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
-                    color = MaterialTheme.colorScheme.onSurface
-                )
             }
         }
         is PreviewContent.ImageContent -> {

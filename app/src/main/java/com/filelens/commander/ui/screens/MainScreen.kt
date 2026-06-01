@@ -23,8 +23,10 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -39,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.filelens.commander.ui.components.BatchScanDialog
 import com.filelens.commander.ui.components.CommanderToolbar
 import com.filelens.commander.ui.components.CopyMoveDialog
 import com.filelens.commander.ui.components.DeleteConfirmDialog
@@ -46,6 +49,7 @@ import com.filelens.commander.ui.components.FileListPanel
 import com.filelens.commander.ui.components.InspectorPanel
 import com.filelens.commander.ui.components.NewFolderDialog
 import com.filelens.commander.ui.components.RenameDialog
+import com.filelens.commander.viewmodel.BatchScanViewModel
 import com.filelens.commander.viewmodel.CommanderViewModel
 import com.filelens.commander.viewmodel.DialogType
 import com.filelens.commander.viewmodel.FileListState
@@ -60,13 +64,19 @@ import java.io.File
 fun MainScreen(
     fileListViewModel: FileListViewModel = hiltViewModel(),
     inspectorViewModel: InspectorViewModel = hiltViewModel(),
-    commanderViewModel: CommanderViewModel = hiltViewModel()
+    commanderViewModel: CommanderViewModel = hiltViewModel(),
+    batchScanViewModel: BatchScanViewModel = hiltViewModel()
 ) {
     val fileListState by fileListViewModel.state.collectAsStateWithLifecycle()
     val inspectorState by inspectorViewModel.state.collectAsStateWithLifecycle()
     val commanderState by commanderViewModel.state.collectAsStateWithLifecycle()
+    val batchScanState by batchScanViewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
+
+    if (batchScanState.active) {
+        BatchScanDialog(state = batchScanState, onDismiss = { batchScanViewModel.dismiss() })
+    }
 
     LaunchedEffect(Unit) {
         commanderViewModel.events.collect { message ->
@@ -109,6 +119,34 @@ fun MainScreen(
     }
 
     val refreshCurrentDir = { fileListViewModel.navigateTo(fileListState.currentPath) }
+    val onBatchScan = { batchScanViewModel.startScan(fileListState.currentPath) }
+
+    val coroutineScope = rememberCoroutineScope()
+    val onShareCleaned: () -> Unit = {
+        val path = inspectorState.info?.path
+        if (path != null) {
+            coroutineScope.launch {
+                commanderViewModel.createCleanedCopyAndShare(path) { cleanedPath ->
+                    val file = File(cleanedPath)
+                    try {
+                        val uri = FileProvider.getUriForFile(
+                            context,
+                            "${context.packageName}.fileprovider",
+                            file
+                        )
+                        val mime = android.webkit.MimeTypeMap.getSingleton()
+                            .getMimeTypeFromExtension(file.extension) ?: "*/*"
+                        val intent = Intent(Intent.ACTION_SEND).apply {
+                            type = mime
+                            putExtra(Intent.EXTRA_STREAM, uri)
+                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        }
+                        context.startActivity(Intent.createChooser(intent, "Share cleaned copy"))
+                    } catch (_: Exception) {}
+                }
+            }
+        }
+    }
 
     val focusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) { focusRequester.requestFocus() }
@@ -195,6 +233,12 @@ fun MainScreen(
                         true
                     }
                     event.isCtrlPressed && event.key == Key.R -> { refreshCurrentDir(); true }
+                    event.isCtrlPressed && event.key == Key.Z -> {
+                        commanderViewModel.restoreLast()
+                        refreshCurrentDir()
+                        true
+                    }
+                    event.key == Key.Tab -> { true }
                     else -> false
                 }
             }
@@ -209,6 +253,8 @@ fun MainScreen(
                 commanderViewModel = commanderViewModel,
                 onOpenWith = onOpenWith,
                 onViewOnMap = onViewOnMap,
+                onShareCleaned = onShareCleaned,
+                onBatchScan = onBatchScan,
                 onRefresh = refreshCurrentDir
             )
         } else {
@@ -221,6 +267,8 @@ fun MainScreen(
                 commanderViewModel = commanderViewModel,
                 onOpenWith = onOpenWith,
                 onViewOnMap = onViewOnMap,
+                onShareCleaned = onShareCleaned,
+                onBatchScan = onBatchScan,
                 onRefresh = refreshCurrentDir
             )
         }
@@ -243,6 +291,8 @@ private fun CompactLayout(
     commanderViewModel: CommanderViewModel,
     onOpenWith: () -> Unit,
     onViewOnMap: (Double, Double) -> Unit,
+    onShareCleaned: () -> Unit,
+    onBatchScan: () -> Unit,
     onRefresh: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
@@ -263,6 +313,7 @@ private fun CompactLayout(
                     isAnalyzing = inspectorState.isAnalyzing,
                     onOpenWith = onOpenWith,
                     onViewOnMap = onViewOnMap,
+                    onShareCleaned = onShareCleaned,
                     onDismiss = {
                         scope.launch { bottomSheetState.hide() }
                         inspectorViewModel.clearSelection()
@@ -295,6 +346,7 @@ private fun CompactLayout(
                 onSortChanged = { fileListViewModel.setSortOrder(it) },
                 onToggleHidden = { fileListViewModel.toggleHiddenFiles() },
                 onRefresh = onRefresh,
+                onBatchScan = onBatchScan,
                 modifier = Modifier.fillMaxSize()
             )
         }
@@ -328,8 +380,15 @@ private fun ExpandedLayout(
     commanderViewModel: CommanderViewModel,
     onOpenWith: () -> Unit,
     onViewOnMap: (Double, Double) -> Unit,
+    onShareCleaned: () -> Unit,
+    onBatchScan: () -> Unit,
     onRefresh: () -> Unit
 ) {
+    var dualPanel by remember { mutableStateOf(false) }
+    var activeLeft by remember { mutableStateOf(true) }
+    val rightViewModel: FileListViewModel = hiltViewModel(key = "rightPanel")
+    val rightState by rightViewModel.state.collectAsStateWithLifecycle()
+
     Column(modifier = Modifier.fillMaxSize()) {
         Row(modifier = Modifier.weight(1f)) {
             FileListPanel(
@@ -341,6 +400,7 @@ private fun ExpandedLayout(
                 sortOrder = fileListState.sortOrder,
                 showHidden = fileListState.showHidden,
                 onFileClick = { item ->
+                    activeLeft = true
                     if (commanderState.selectedPaths.isNotEmpty()) {
                         commanderViewModel.toggleSelection(item.path)
                     } else {
@@ -354,19 +414,58 @@ private fun ExpandedLayout(
                 onSortChanged = { fileListViewModel.setSortOrder(it) },
                 onToggleHidden = { fileListViewModel.toggleHiddenFiles() },
                 onRefresh = onRefresh,
-                isActive = true,
+                onBatchScan = onBatchScan,
+                isActive = activeLeft || !dualPanel,
                 modifier = Modifier.weight(1f)
             )
 
             VerticalDivider()
 
-            InspectorPanel(
-                info = inspectorState.info,
-                result = inspectorState.result,
-                isAnalyzing = inspectorState.isAnalyzing,
-                onOpenWith = onOpenWith,
-                onViewOnMap = onViewOnMap,
-                modifier = Modifier.weight(1f)
+            if (dualPanel) {
+                FileListPanel(
+                    currentPath = rightState.currentPath,
+                    files = rightState.files,
+                    isLoading = rightState.isLoading,
+                    isRoot = rightState.isRoot,
+                    selectedFilePath = inspectorState.selectedFile?.path,
+                    sortOrder = rightState.sortOrder,
+                    showHidden = rightState.showHidden,
+                    onFileClick = { item ->
+                        activeLeft = false
+                        val navigated = rightViewModel.onFileClick(item)
+                        if (!navigated) {
+                            inspectorViewModel.selectFile(item)
+                        }
+                    },
+                    onNavigateUp = { rightViewModel.navigateUp() },
+                    onSortChanged = { rightViewModel.setSortOrder(it) },
+                    onToggleHidden = { rightViewModel.toggleHiddenFiles() },
+                    onRefresh = { rightViewModel.navigateTo(rightState.currentPath) },
+                    isActive = !activeLeft,
+                    modifier = Modifier.weight(1f)
+                )
+            } else {
+                InspectorPanel(
+                    info = inspectorState.info,
+                    result = inspectorState.result,
+                    isAnalyzing = inspectorState.isAnalyzing,
+                    onOpenWith = onOpenWith,
+                    onViewOnMap = onViewOnMap,
+                    onShareCleaned = onShareCleaned,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        }
+
+        androidx.compose.material3.HorizontalDivider()
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp),
+            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+        ) {
+            androidx.compose.material3.FilterChip(
+                selected = dualPanel,
+                onClick = { dualPanel = !dualPanel },
+                label = { androidx.compose.material3.Text(if (dualPanel) "Dual panel" else "Inspector") }
             )
         }
 

@@ -2,8 +2,11 @@ package com.filelens.commander.inspector
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.InspectorResult
+import com.filelens.commander.domain.model.PreviewContent
 import com.filelens.commander.domain.model.RiskItem
 import com.filelens.commander.domain.model.RiskSeverity
 import com.filelens.commander.domain.model.StructureNode
@@ -11,6 +14,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.io.FileOutputStream
 import java.util.zip.ZipFile
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -49,6 +53,7 @@ class ApkInspector @Inject constructor(
         val overview = mutableMapOf<String, String>()
         val metadata = mutableMapOf<String, String>()
         val risks = mutableListOf<RiskItem>()
+        var iconPreview: PreviewContent.ImageContent? = null
 
         val pm = context.packageManager
         val packageInfo = try {
@@ -67,6 +72,33 @@ class ApkInspector @Inject constructor(
 
             val appInfo = packageInfo.applicationInfo
             if (appInfo != null) {
+                try {
+                    appInfo.sourceDir = file.absolutePath
+                    appInfo.publicSourceDir = file.absolutePath
+                    val drawable = pm.getApplicationIcon(appInfo)
+                    val intrinsicW = drawable.intrinsicWidth
+                    val intrinsicH = drawable.intrinsicHeight
+                    val width = if (intrinsicW > 0) intrinsicW else 192
+                    val height = if (intrinsicH > 0) intrinsicH else 192
+                    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+                    val canvas = Canvas(bitmap)
+                    drawable.setBounds(0, 0, width, height)
+                    drawable.draw(canvas)
+                    val pkgName = packageInfo.packageName ?: "unknown"
+                    val iconFile = File(context.cacheDir, "apk_icon_$pkgName.png")
+                    FileOutputStream(iconFile).use { out ->
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+                    }
+                    bitmap.recycle()
+                    iconPreview = PreviewContent.ImageContent(
+                        path = iconFile.absolutePath,
+                        width = width,
+                        height = height
+                    )
+                } catch (e: Exception) {
+                    overview["Icon error"] = e.message?.take(100) ?: "Could not extract icon"
+                }
+
                 appInfo.minSdkVersion.let { overview["Min SDK"] = "$it (Android ${sdkToAndroid(it)})" }
                 overview["Target SDK"] = "${appInfo.targetSdkVersion} (Android ${sdkToAndroid(appInfo.targetSdkVersion)})"
 
@@ -174,11 +206,17 @@ class ApkInspector @Inject constructor(
                 overview = overview,
                 metadata = metadata,
                 risks = risks,
-                structure = tree
+                structure = tree,
+                previewContent = iconPreview
             )
         } catch (e: Exception) {
             overview["ZIP Error"] = e.message?.take(100) ?: "Failed to read APK"
-            InspectorResult(overview = overview, metadata = metadata, risks = risks)
+            InspectorResult(
+                overview = overview,
+                metadata = metadata,
+                risks = risks,
+                previewContent = iconPreview
+            )
         }
     }
 

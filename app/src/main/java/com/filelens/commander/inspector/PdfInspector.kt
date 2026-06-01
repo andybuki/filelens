@@ -1,5 +1,7 @@
 package com.filelens.commander.inspector
 
+import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.pdf.PdfRenderer
 import android.os.ParcelFileDescriptor
 import com.filelens.commander.domain.model.FileCategory
@@ -8,15 +10,19 @@ import com.filelens.commander.domain.model.PreviewContent
 import com.filelens.commander.domain.model.RiskItem
 import com.filelens.commander.domain.model.RiskSeverity
 import com.filelens.commander.domain.model.StructureNode
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.io.FileOutputStream
 import java.io.RandomAccessFile
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PdfInspector @Inject constructor() : FileInspector {
+class PdfInspector @Inject constructor(
+    @ApplicationContext private val context: Context
+) : FileInspector {
 
     override val supportedCategories = setOf(FileCategory.PDF)
 
@@ -92,6 +98,41 @@ class PdfInspector @Inject constructor() : FileInspector {
                     if (renderer.pageCount > 0) {
                         renderer.openPage(0).use { page ->
                             overview["First page size"] = "${page.width} × ${page.height}"
+                            try {
+                                val maxWidth = 1024
+                                val scale = if (page.width > maxWidth) {
+                                    maxWidth.toFloat() / page.width.toFloat()
+                                } else 1f
+                                val targetWidth = (page.width * scale).toInt().coerceAtLeast(1)
+                                val targetHeight = (page.height * scale).toInt().coerceAtLeast(1)
+                                val bitmap = Bitmap.createBitmap(
+                                    targetWidth,
+                                    targetHeight,
+                                    Bitmap.Config.ARGB_8888
+                                )
+                                bitmap.eraseColor(android.graphics.Color.WHITE)
+                                page.render(
+                                    bitmap,
+                                    null,
+                                    null,
+                                    PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY
+                                )
+                                val thumbFile = File(
+                                    context.cacheDir,
+                                    "pdf_thumb_${file.name}.png"
+                                )
+                                FileOutputStream(thumbFile).use { out ->
+                                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+                                }
+                                bitmap.recycle()
+                                preview = PreviewContent.ImageContent(
+                                    path = thumbFile.absolutePath,
+                                    width = targetWidth,
+                                    height = targetHeight
+                                )
+                            } catch (e: Exception) {
+                                overview["Thumbnail error"] = e.message ?: "Could not render page"
+                            }
                         }
                     }
                     val pages = (0 until minOf(renderer.pageCount, 200)).map { i ->
@@ -101,10 +142,6 @@ class PdfInspector @Inject constructor() : FileInspector {
                         name = "Pages",
                         children = pages,
                         details = "${renderer.pageCount} pages"
-                    )
-                    preview = PreviewContent.TextContent(
-                        content = "PDF preview\n${renderer.pageCount} pages",
-                        lineCount = 2
                     )
                 }
             } catch (e: Exception) {

@@ -100,16 +100,16 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 - [x] Action: "View on map" for GPS coords
 
 ### 2.3 Text & Code Inspector ✅
-- [x] Preview tab (no syntax highlighting yet)
+- [x] Preview tab with syntax highlighting (Kotlin/Java/Python/JS/TS, JSON/XML/YAML/Markdown)
 - [x] Encoding detection
 - [x] Line/word/char count
 - [x] Code outline (regex-based, 10+ languages)
-- [ ] Syntax highlighting
 
 ### 2.4 JSON & XML Inspector ✅
 - [x] JSON tree, stats, secrets detection
 - [x] XML tree, DTD/XXE risk
-- [ ] Pretty print / raw toggle
+- [x] Pretty print / raw toggle (TextContent.rawContent)
+- [x] XML pretty-printer (indent-based)
 
 **Milestone:** User taps a photo → sees GPS warning. Taps JSON → sees tree. Taps unknown.dat → app detects it's actually a SQLite database.
 
@@ -119,18 +119,18 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 
 ### 3.1 ZIP Navigation ✅
 - [x] `ZipEntryNode` implementing `VirtualFileNode`
-- [x] Browse ZIP contents
+- [x] Browse ZIP contents (FileListViewModel navigates into archives)
 - [x] Entry metadata, ZIP overview stats
 - [x] Zip bomb detection
-- [ ] Nested archive recursion
-- [ ] Preview files inside ZIP via streaming UI
+- [x] Nested archive recursion (`NestedArchiveNode` extracts inner ZIPs to cache)
+- [x] Preview files inside ZIP via streaming UI (tap archive → browse contents)
 
 ### 3.2 APK Inspector ✅
 - [x] PackageManager-based APK analysis
 - [x] Package name, version, min/target SDK
 - [x] Permission list with risk highlighting
 - [x] Debug/backup flag risks
-- [ ] App icon extraction in UI
+- [x] App icon extraction in UI (PreviewContent.ImageContent cached PNG)
 - [x] DEX file stats (method/class counts, multidex warning)
 
 ### 3.3 Office Document Explorer ✅
@@ -144,23 +144,24 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 
 ## Phase 4: Commander Mode (Weeks 10–12) 🟡 PARTIAL
 
-### 4.1 Dual-Panel UI 🟡
+### 4.1 Dual-Panel UI ✅
 - [x] Adaptive layout: compact/expanded WindowSizeClass
-- [x] Inspector ↔ Files toggle
+- [x] Inspector ↔ Files toggle (FilterChip in expanded layout)
 - [x] Breadcrumb navigation (compressed path display)
 - [x] Active panel indicator (colored divider)
-- [ ] True dual file panels (both sides browse different folders)
+- [x] True dual file panels via `hiltViewModel(key = "rightPanel")`
 
 ### 4.2 File Operations ✅
 - [x] Multi-select with long-press
 - [x] Copy/Move/Delete/Rename/Create folder
-- [ ] Progress notification
-- [ ] Undo / app trash
+- [x] Undo via TrashUseCase (Ctrl+Z restores last delete)
+- [x] Soft delete to `.trash/` with JSONL index
+- [ ] Long-running progress notification (operations are fast enough)
 
 ### 4.3 Keyboard Shortcuts ✅
 - [x] F2 Rename, F3 View, F5 Copy, F6 Move, F7 New folder, F8 Delete
-- [x] Ctrl+A select all, Ctrl+R refresh, Backspace go up
-- [ ] Tab to switch panels (needs dual panels)
+- [x] Ctrl+A select all, Ctrl+R refresh, Ctrl+Z undo, Backspace go up
+- [x] Tab consumed (panel switch)
 
 **Milestone:** User connects keyboard to tablet, navigates files Norton Commander-style with F-keys.
 
@@ -173,7 +174,7 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 - [x] Encrypted detection
 - [x] Author, title, subject, creator, producer, dates
 - [x] JavaScript / Launch action / EmbeddedFile / AcroForm detection
-- [ ] Thumbnail rendering in UI (PdfRenderer bitmap)
+- [x] Thumbnail rendering (PdfRenderer + cached PNG, max 1024px)
 
 ### 5.2 Binary & Hex Inspector ✅
 - [x] Hex view (offset + hex + ASCII)
@@ -201,12 +202,12 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 - [x] Unified RiskScanner across all inspectors
 - [x] Severity levels: info / warning / danger
 - [x] Color-coded type badges in file list
-- [ ] Batch folder scan (scan entire folder at once)
+- [x] Batch folder scan via `BatchScanUseCase` Flow + dialog progress
 
 ### 6.2 Safe Share ✅
 - [x] SafeShareSheet UI shows pre-share risk summary
 - [x] CleanCopyUseCase — strip EXIF GPS/personal data, strip OOXML metadata
-- [ ] Share cleaned copy via Android share sheet (needs Activity wiring)
+- [x] Share cleaned copy via ACTION_SEND + FileProvider
 
 **Milestone:** User selects photo → sees "Contains GPS" → strips metadata → shares clean copy.
 
