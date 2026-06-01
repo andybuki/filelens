@@ -274,12 +274,12 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 - [x] Review screen: safe files / risky files / unsupported files
 - [x] Allow sharing only cleaned files or only files without warnings
 
-### 7.0.10 Inspection Reports
-- [ ] Export current file report as Markdown
-- [ ] Export machine-readable report as JSON
-- [ ] Share report via Android share sheet
-- [ ] Report sections: overview, detected type, metadata, structure, risks, trust score, provenance, recommended actions
-- [ ] Batch scan report for folders and archives
+### 7.0.10 Inspection Reports ✅
+- [x] Export current file report as Markdown
+- [x] Export machine-readable report as JSON
+- [x] Share report via Android share sheet
+- [x] Report sections: overview, detected type, metadata, structure, risks, trust score, provenance, recommended actions
+- [x] Batch scan report for folders and archives
 
 ### 7.0.11 Folder Intelligence Dashboard
 - [ ] Folder summary: file count, total size, largest files, newest files, unknown files, risky files, archives, media, documents, code files

@@ -77,6 +77,7 @@ fun FileListPanel(
     onSearchRecursive: (String) -> Unit = {},
     onRefresh: () -> Unit = {},
     onBatchScan: () -> Unit = {},
+    onFolderDashboard: () -> Unit = {},
     isActive: Boolean = true,
     modifier: Modifier = Modifier
 ) {
@@ -157,6 +158,19 @@ fun FileListPanel(
                         },
                         onClick = {
                             onBatchScan()
+                            showMenu = false
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Icon(Icons.Filled.Shield, contentDescription = null)
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text("Analyze folder")
+                            }
+                        },
+                        onClick = {
+                            onFolderDashboard()
                             showMenu = false
                         }
                     )

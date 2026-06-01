@@ -43,6 +43,7 @@ import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.filelens.commander.ui.components.BatchScanDialog
+import com.filelens.commander.ui.components.FolderDashboardDialog
 import com.filelens.commander.ui.components.CommanderToolbar
 import com.filelens.commander.ui.components.CopyMoveDialog
 import com.filelens.commander.ui.components.DeleteConfirmDialog
@@ -52,6 +53,7 @@ import com.filelens.commander.ui.components.NewFolderDialog
 import com.filelens.commander.ui.components.RenameDialog
 import com.filelens.commander.ui.components.SearchInsideDialog
 import com.filelens.commander.viewmodel.BatchScanViewModel
+import com.filelens.commander.viewmodel.FolderDashboardViewModel
 import com.filelens.commander.viewmodel.CommanderViewModel
 import com.filelens.commander.viewmodel.DialogType
 import com.filelens.commander.viewmodel.FileListState
@@ -67,12 +69,14 @@ fun MainScreen(
     fileListViewModel: FileListViewModel = hiltViewModel(),
     inspectorViewModel: InspectorViewModel = hiltViewModel(),
     commanderViewModel: CommanderViewModel = hiltViewModel(),
-    batchScanViewModel: BatchScanViewModel = hiltViewModel()
+    batchScanViewModel: BatchScanViewModel = hiltViewModel(),
+    folderDashboardViewModel: FolderDashboardViewModel = hiltViewModel()
 ) {
     val fileListState by fileListViewModel.state.collectAsStateWithLifecycle()
     val inspectorState by inspectorViewModel.state.collectAsStateWithLifecycle()
     val commanderState by commanderViewModel.state.collectAsStateWithLifecycle()
     val batchScanState by batchScanViewModel.state.collectAsStateWithLifecycle()
+    val folderDashboardState by folderDashboardViewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -96,6 +100,13 @@ fun MainScreen(
             },
             onClearCleanedZip = { batchScanViewModel.clearCleanedZip() },
             onDismiss = { batchScanViewModel.dismiss() }
+        )
+    }
+
+    if (folderDashboardState.active) {
+        FolderDashboardDialog(
+            state = folderDashboardState,
+            onDismiss = { folderDashboardViewModel.dismiss() }
         )
     }
 
@@ -155,6 +166,7 @@ fun MainScreen(
 
     val refreshCurrentDir = { fileListViewModel.refresh() }
     val onBatchScan = { batchScanViewModel.startScan(fileListState.currentPath) }
+    val onFolderDashboard = { folderDashboardViewModel.analyze(fileListState.currentPath) }
 
     val coroutineScope = rememberCoroutineScope()
     val onShareCleaned: () -> Unit = {
@@ -290,6 +302,7 @@ fun MainScreen(
                 onViewOnMap = onViewOnMap,
                 onShareCleaned = onShareCleaned,
                 onBatchScan = onBatchScan,
+                onFolderDashboard = onFolderDashboard,
                 onRefresh = refreshCurrentDir,
                 onSearchInside = { showSearchInsideDialog = true },
                 onExportReport = { isJson -> exportAndShareReport(isJson, inspectorViewModel, context) }
@@ -306,6 +319,7 @@ fun MainScreen(
                 onViewOnMap = onViewOnMap,
                 onShareCleaned = onShareCleaned,
                 onBatchScan = onBatchScan,
+                onFolderDashboard = onFolderDashboard,
                 onSearchInside = { showSearchInsideDialog = true },
                 onExportReport = { isJson -> exportAndShareReport(isJson, inspectorViewModel, context) },
                 onRefresh = refreshCurrentDir
@@ -332,6 +346,7 @@ private fun CompactLayout(
     onViewOnMap: (Double, Double) -> Unit,
     onShareCleaned: () -> Unit,
     onBatchScan: () -> Unit,
+    onFolderDashboard: () -> Unit,
     onSearchInside: () -> Unit,
     onExportReport: (Boolean) -> Unit,
     onRefresh: () -> Unit
@@ -407,6 +422,7 @@ private fun CompactLayout(
                 onSearchRecursive = { fileListViewModel.searchRecursive(it) },
                 onRefresh = onRefresh,
                 onBatchScan = onBatchScan,
+                onFolderDashboard = onFolderDashboard,
                 modifier = Modifier.fillMaxSize()
             )
         }
@@ -473,6 +489,7 @@ private fun ExpandedLayout(
     onViewOnMap: (Double, Double) -> Unit,
     onShareCleaned: () -> Unit,
     onBatchScan: () -> Unit,
+    onFolderDashboard: () -> Unit,
     onRefresh: () -> Unit,
     onSearchInside: () -> Unit,
     onExportReport: (Boolean) -> Unit
@@ -514,6 +531,7 @@ private fun ExpandedLayout(
                 onSearchRecursive = { fileListViewModel.searchRecursive(it) },
                 onRefresh = onRefresh,
                 onBatchScan = onBatchScan,
+                onFolderDashboard = onFolderDashboard,
                 isActive = activeLeft || !dualPanel,
                 modifier = Modifier.weight(1f)
             )
