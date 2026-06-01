@@ -89,7 +89,7 @@ private fun SummaryBody(summary: com.filelens.commander.domain.usecase.FolderAna
             Spacer(modifier = Modifier.height(8.dp))
             SectionTitle("Newest files")
             summary.newest.take(5).forEach {
-                BulletRow("${it.name} — ${formatDate(it.lastModified)}")
+                BulletRow("${it.name} — ${formatDateShort(it.lastModified)}")
             }
         }
 
@@ -141,7 +141,7 @@ private fun formatSize(bytes: Long): String {
     return "%.2f GB".format(mb / 1024.0)
 }
 
-private fun formatDate(ts: Long): String {
+private fun formatDateShort(ts: Long): String {
     if (ts <= 0) return "?"
     return SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(Date(ts))
 }
