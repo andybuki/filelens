@@ -9,7 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.CreateNewFolder
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.DriveFileMove
+import androidx.compose.material.icons.automirrored.filled.DriveFileMove
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.SelectAll
@@ -46,7 +46,7 @@ fun CommanderToolbar(
     val actions = listOf(
         CommanderAction("View", "F3", Icons.Filled.Info, onView, hasSelection),
         CommanderAction("Copy", "F5", Icons.Filled.ContentCopy, onCopy, hasSelection),
-        CommanderAction("Move", "F6", Icons.Filled.DriveFileMove, onMove, hasSelection),
+        CommanderAction("Move", "F6", Icons.AutoMirrored.Filled.DriveFileMove, onMove, hasSelection),
         CommanderAction("Mkdir", "F7", Icons.Filled.CreateNewFolder, onNewFolder, true),
         CommanderAction("Delete", "F8", Icons.Filled.Delete, onDelete, hasSelection),
         CommanderAction("Rename", "F2", Icons.Filled.Edit, onRename, hasSelection)

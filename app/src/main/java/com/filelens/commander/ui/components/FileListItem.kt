@@ -1,6 +1,8 @@
 package com.filelens.commander.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -8,10 +10,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.Archive
-import androidx.compose.material.icons.filled.Article
 import androidx.compose.material.icons.filled.AudioFile
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.Description
@@ -22,7 +24,6 @@ import androidx.compose.material.icons.filled.InsertDriveFile
 import androidx.compose.material.icons.filled.PictureAsPdf
 import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.TableChart
-import androidx.compose.material.icons.filled.TextSnippet
 import androidx.compose.material.icons.filled.VideoFile
 import androidx.compose.material.icons.filled.Slideshow
 import androidx.compose.material3.Icon
@@ -58,12 +59,14 @@ fun FileListItem(
             .alpha(alpha),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = item.fileCategory.name,
-            tint = if (isSelected) MaterialTheme.colorScheme.primary else tint,
-            modifier = Modifier.size(28.dp)
-        )
+        Box(contentAlignment = Alignment.Center) {
+            Icon(
+                imageVector = icon,
+                contentDescription = item.fileCategory.name,
+                tint = if (isSelected) MaterialTheme.colorScheme.primary else tint,
+                modifier = Modifier.size(28.dp)
+            )
+        }
         Spacer(modifier = Modifier.width(16.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(
@@ -73,13 +76,26 @@ fun FileListItem(
                 overflow = TextOverflow.Ellipsis,
                 color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
             )
-            if (item.size != null || item.lastModified != null) {
-                Text(
-                    text = buildSubtitle(item),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1
-                )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                if (item.fileCategory != FileCategory.DIRECTORY && item.fileCategory != FileCategory.UNKNOWN) {
+                    Text(
+                        text = item.extension.uppercase().ifEmpty { item.fileCategory.name },
+                        style = MaterialTheme.typography.labelSmall,
+                        color = tint,
+                        modifier = Modifier
+                            .background(tint.copy(alpha = 0.1f), RoundedCornerShape(3.dp))
+                            .padding(horizontal = 4.dp, vertical = 1.dp)
+                    )
+                    Spacer(modifier = Modifier.width(6.dp))
+                }
+                if (item.size != null || item.lastModified != null) {
+                    Text(
+                        text = buildSubtitle(item),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1
+                    )
+                }
             }
         }
     }
@@ -96,12 +112,12 @@ private fun iconForCategory(category: FileCategory): Pair<ImageVector, Color> {
         FileCategory.PRESENTATION -> Icons.Filled.Slideshow to CategoryPresentation
         FileCategory.ARCHIVE -> Icons.Filled.Archive to CategoryArchive
         FileCategory.CODE -> Icons.Filled.Code to CategoryCode
-        FileCategory.TEXT -> Icons.Filled.TextSnippet to CategoryText
+        FileCategory.TEXT -> Icons.Filled.Description to CategoryText
         FileCategory.PDF -> Icons.Filled.PictureAsPdf to CategoryPdf
         FileCategory.APK -> Icons.Filled.Android to CategoryApk
         FileCategory.DATABASE -> Icons.Filled.Storage to CategoryDatabase
         FileCategory.FONT -> Icons.Filled.FontDownload to CategoryDirectory
-        FileCategory.EXECUTABLE -> Icons.Filled.Article to CategoryUnknown
+        FileCategory.EXECUTABLE -> Icons.Filled.InsertDriveFile to CategoryUnknown
         FileCategory.UNKNOWN -> Icons.Filled.InsertDriveFile to CategoryUnknown
     }
 }

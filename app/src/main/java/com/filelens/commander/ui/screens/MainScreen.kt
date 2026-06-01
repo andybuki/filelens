@@ -1,7 +1,9 @@
 package com.filelens.commander.ui.screens
 
 import android.content.Intent
+import android.net.Uri
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,6 +26,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.isCtrlPressed
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
@@ -89,7 +99,19 @@ fun MainScreen(
         }
     }
 
+    val onViewOnMap: (Double, Double) -> Unit = { lat, lon ->
+        try {
+            val geoUri = Uri.parse("geo:$lat,$lon?q=$lat,$lon")
+            val mapIntent = Intent(Intent.ACTION_VIEW, geoUri)
+            context.startActivity(mapIntent)
+        } catch (_: Exception) {
+        }
+    }
+
     val refreshCurrentDir = { fileListViewModel.navigateTo(fileListState.currentPath) }
+
+    val focusRequester = remember { FocusRequester() }
+    LaunchedEffect(Unit) { focusRequester.requestFocus() }
 
     val selectedNames = fileListState.files
         .filter { it.path in commanderState.selectedPaths }
@@ -143,7 +165,40 @@ fun MainScreen(
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .focusRequester(focusRequester)
+            .focusable()
+            .onPreviewKeyEvent { event ->
+                if (event.type != KeyEventType.KeyDown) return@onPreviewKeyEvent false
+                when {
+                    event.key == Key.F3 -> {
+                        val first = commanderState.selectedPaths.firstOrNull()
+                        val item = fileListState.files.find { it.path == first }
+                        if (item != null) inspectorViewModel.selectFile(item)
+                        true
+                    }
+                    event.key == Key.F5 -> { commanderViewModel.showDialog(DialogType.COPY); true }
+                    event.key == Key.F6 -> { commanderViewModel.showDialog(DialogType.MOVE); true }
+                    event.key == Key.F7 -> { commanderViewModel.showDialog(DialogType.NEW_FOLDER); true }
+                    event.key == Key.F8 || event.key == Key.Delete -> {
+                        if (commanderState.selectedPaths.isNotEmpty()) {
+                            commanderViewModel.showDialog(DialogType.DELETE)
+                        }
+                        true
+                    }
+                    event.key == Key.F2 -> { commanderViewModel.showDialog(DialogType.RENAME); true }
+                    event.key == Key.Backspace -> { fileListViewModel.navigateUp(); true }
+                    event.isCtrlPressed && event.key == Key.A -> {
+                        commanderViewModel.selectAll(fileListState.files)
+                        true
+                    }
+                    event.isCtrlPressed && event.key == Key.R -> { refreshCurrentDir(); true }
+                    else -> false
+                }
+            }
+    ) {
         if (isExpandedScreen) {
             ExpandedLayout(
                 fileListState = fileListState,
@@ -152,7 +207,9 @@ fun MainScreen(
                 fileListViewModel = fileListViewModel,
                 inspectorViewModel = inspectorViewModel,
                 commanderViewModel = commanderViewModel,
-                onOpenWith = onOpenWith
+                onOpenWith = onOpenWith,
+                onViewOnMap = onViewOnMap,
+                onRefresh = refreshCurrentDir
             )
         } else {
             CompactLayout(
@@ -162,7 +219,9 @@ fun MainScreen(
                 fileListViewModel = fileListViewModel,
                 inspectorViewModel = inspectorViewModel,
                 commanderViewModel = commanderViewModel,
-                onOpenWith = onOpenWith
+                onOpenWith = onOpenWith,
+                onViewOnMap = onViewOnMap,
+                onRefresh = refreshCurrentDir
             )
         }
 
@@ -182,7 +241,9 @@ private fun CompactLayout(
     fileListViewModel: FileListViewModel,
     inspectorViewModel: InspectorViewModel,
     commanderViewModel: CommanderViewModel,
-    onOpenWith: () -> Unit
+    onOpenWith: () -> Unit,
+    onViewOnMap: (Double, Double) -> Unit,
+    onRefresh: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
     val bottomSheetState = rememberStandardBottomSheetState(
@@ -201,6 +262,7 @@ private fun CompactLayout(
                     result = inspectorState.result,
                     isAnalyzing = inspectorState.isAnalyzing,
                     onOpenWith = onOpenWith,
+                    onViewOnMap = onViewOnMap,
                     onDismiss = {
                         scope.launch { bottomSheetState.hide() }
                         inspectorViewModel.clearSelection()
@@ -232,6 +294,7 @@ private fun CompactLayout(
                 onNavigateUp = { fileListViewModel.navigateUp() },
                 onSortChanged = { fileListViewModel.setSortOrder(it) },
                 onToggleHidden = { fileListViewModel.toggleHiddenFiles() },
+                onRefresh = onRefresh,
                 modifier = Modifier.fillMaxSize()
             )
         }
@@ -263,7 +326,9 @@ private fun ExpandedLayout(
     fileListViewModel: FileListViewModel,
     inspectorViewModel: InspectorViewModel,
     commanderViewModel: CommanderViewModel,
-    onOpenWith: () -> Unit
+    onOpenWith: () -> Unit,
+    onViewOnMap: (Double, Double) -> Unit,
+    onRefresh: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         Row(modifier = Modifier.weight(1f)) {
@@ -288,6 +353,8 @@ private fun ExpandedLayout(
                 onNavigateUp = { fileListViewModel.navigateUp() },
                 onSortChanged = { fileListViewModel.setSortOrder(it) },
                 onToggleHidden = { fileListViewModel.toggleHiddenFiles() },
+                onRefresh = onRefresh,
+                isActive = true,
                 modifier = Modifier.weight(1f)
             )
 
@@ -298,6 +365,7 @@ private fun ExpandedLayout(
                 result = inspectorState.result,
                 isAnalyzing = inspectorState.isAnalyzing,
                 onOpenWith = onOpenWith,
+                onViewOnMap = onViewOnMap,
                 modifier = Modifier.weight(1f)
             )
         }

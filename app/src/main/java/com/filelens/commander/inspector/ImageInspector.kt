@@ -48,6 +48,7 @@ class ImageInspector @Inject constructor() : FileInspector {
             }
             exif.getAttribute(ExifInterface.TAG_EXPOSURE_TIME)?.let { metadata["Exposure"] = "${it}s" }
             exif.getAttribute(ExifInterface.TAG_F_NUMBER)?.let { metadata["Aperture"] = "f/$it" }
+            @Suppress("DEPRECATION")
             exif.getAttribute(ExifInterface.TAG_ISO_SPEED_RATINGS)?.let { metadata["ISO"] = it }
             exif.getAttribute(ExifInterface.TAG_FOCAL_LENGTH)?.let {
                 val parts = it.split("/")

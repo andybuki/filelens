@@ -13,9 +13,11 @@ import com.filelens.commander.inspector.ApkInspector
 import com.filelens.commander.inspector.BinaryInspector
 import com.filelens.commander.inspector.ImageInspector
 import com.filelens.commander.inspector.JsonInspector
+import com.filelens.commander.inspector.FontInspector
 import com.filelens.commander.inspector.MediaInspector
 import com.filelens.commander.inspector.OfficeInspector
 import com.filelens.commander.inspector.PdfInspector
+import com.filelens.commander.inspector.SqliteInspector
 import com.filelens.commander.inspector.TextInspector
 import com.filelens.commander.inspector.XmlInspector
 import com.filelens.commander.inspector.ZipInspector
@@ -47,7 +49,9 @@ class InspectorViewModel @Inject constructor(
     private val officeInspector: OfficeInspector,
     private val binaryInspector: BinaryInspector,
     private val pdfInspector: PdfInspector,
-    private val mediaInspector: MediaInspector
+    private val mediaInspector: MediaInspector,
+    private val sqliteInspector: SqliteInspector,
+    private val fontInspector: FontInspector
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(InspectorState())
@@ -157,6 +161,8 @@ class InspectorViewModel @Inject constructor(
                 FileCategory.CODE -> textInspector.inspect(file)
                 FileCategory.PDF -> pdfInspector.inspect(file)
                 FileCategory.AUDIO, FileCategory.VIDEO -> mediaInspector.inspect(file)
+                FileCategory.DATABASE -> sqliteInspector.inspect(file)
+                FileCategory.FONT -> fontInspector.inspect(file)
                 else -> binaryInspector.inspect(file)
             }
         } catch (e: Exception) {

@@ -27,6 +27,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -54,6 +55,8 @@ fun FileListPanel(
     onNavigateUp: () -> Unit,
     onSortChanged: (SortOrder) -> Unit,
     onToggleHidden: () -> Unit,
+    onRefresh: () -> Unit = {},
+    isActive: Boolean = true,
     modifier: Modifier = Modifier
 ) {
     var showSortMenu by remember { mutableStateOf(false) }
@@ -68,7 +71,7 @@ fun FileListPanel(
                         style = MaterialTheme.typography.titleMedium
                     )
                     Text(
-                        text = currentPath,
+                        text = buildBreadcrumb(currentPath),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1
@@ -122,11 +125,16 @@ fun FileListPanel(
                 }
             },
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.surface
+                containerColor = if (isActive) MaterialTheme.colorScheme.surface
+                    else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
             )
         )
 
-        HorizontalDivider()
+        if (isActive) {
+            HorizontalDivider(color = MaterialTheme.colorScheme.primary, thickness = 2.dp)
+        } else {
+            HorizontalDivider()
+        }
 
         when {
             isLoading -> {
@@ -150,18 +158,30 @@ fun FileListPanel(
                 }
             }
             else -> {
-                LazyColumn(modifier = Modifier.fillMaxSize()) {
-                    items(files, key = { it.path }) { file ->
-                        FileListItem(
-                            item = file,
-                            isSelected = file.path == selectedFilePath,
-                            onClick = { onFileClick(file) }
-                        )
+                PullToRefreshBox(
+                    isRefreshing = false,
+                    onRefresh = onRefresh,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    LazyColumn(modifier = Modifier.fillMaxSize()) {
+                        items(files, key = { it.path }) { file ->
+                            FileListItem(
+                                item = file,
+                                isSelected = file.path == selectedFilePath,
+                                onClick = { onFileClick(file) }
+                            )
+                        }
                     }
                 }
             }
         }
     }
+}
+
+private fun buildBreadcrumb(path: String): String {
+    val parts = path.split("/").filter { it.isNotEmpty() }
+    if (parts.size <= 3) return path
+    return ".../" + parts.takeLast(3).joinToString("/")
 }
 
 @Composable

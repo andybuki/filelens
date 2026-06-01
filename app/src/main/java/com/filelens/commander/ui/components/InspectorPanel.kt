@@ -20,7 +20,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
-import androidx.compose.material.icons.filled.OpenInNew
+import androidx.compose.material.icons.automirrored.filled.OpenInNew
+import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.icons.filled.Error
@@ -72,6 +73,7 @@ fun InspectorPanel(
     result: InspectorResult? = null,
     isAnalyzing: Boolean = false,
     onOpenWith: () -> Unit,
+    onViewOnMap: ((Double, Double) -> Unit)? = null,
     onDismiss: (() -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
@@ -143,7 +145,7 @@ fun InspectorPanel(
         }
 
         when (tabs[selectedTab]) {
-            InspectorTab.OVERVIEW -> OverviewTab(info, result, onOpenWith)
+            InspectorTab.OVERVIEW -> OverviewTab(info, result, onOpenWith, onViewOnMap)
             InspectorTab.PREVIEW -> PreviewTab(result)
             InspectorTab.STRUCTURE -> StructureTab(result)
             InspectorTab.METADATA -> MetadataTab(result)
@@ -153,7 +155,12 @@ fun InspectorPanel(
 }
 
 @Composable
-private fun OverviewTab(info: InspectorInfo, result: InspectorResult?, onOpenWith: () -> Unit) {
+private fun OverviewTab(
+    info: InspectorInfo,
+    result: InspectorResult?,
+    onOpenWith: () -> Unit,
+    onViewOnMap: ((Double, Double) -> Unit)? = null
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -174,11 +181,26 @@ private fun OverviewTab(info: InspectorInfo, result: InspectorResult?, onOpenWit
         }
 
         Spacer(modifier = Modifier.height(16.dp))
+
+        val gpsLat = result?.metadata?.get("GPS latitude")?.toDoubleOrNull()
+        val gpsLon = result?.metadata?.get("GPS longitude")?.toDoubleOrNull()
+        if (gpsLat != null && gpsLon != null && onViewOnMap != null) {
+            Button(
+                onClick = { onViewOnMap(gpsLat, gpsLon) },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(Icons.Filled.Map, contentDescription = null, modifier = Modifier.size(18.dp))
+                Spacer(modifier = Modifier.size(8.dp))
+                Text("View on map")
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+
         Button(
             onClick = onOpenWith,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Icon(Icons.Filled.OpenInNew, contentDescription = null, modifier = Modifier.size(18.dp))
+            Icon(Icons.AutoMirrored.Filled.OpenInNew, contentDescription = null, modifier = Modifier.size(18.dp))
             Spacer(modifier = Modifier.size(8.dp))
             Text("Open with...")
         }

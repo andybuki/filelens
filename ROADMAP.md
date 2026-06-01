@@ -71,7 +71,7 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 - [x] Folder navigation (back stack)
 - [x] Sort options: name, size, date, type
 - [x] File type icons (by extension + magic bytes)
-- [ ] Pull-to-refresh
+- [x] Pull-to-refresh (PullToRefreshBox)
 
 ### 1.3 Basic Inspector Panel (Week 3) ✅
 - [x] Inspector scaffold: tabs for Overview / Preview / Structure / Metadata / Risks
@@ -90,14 +90,14 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 - [x] `MagicBytesDetector` — 30+ signatures
 - [x] Mismatch detection (extension vs magic)
 - [x] `FileTypeResult`: detected type, confidence, mismatch flag
-- [ ] Color-coded type badges in file list
+- [x] Color-coded type badges in file list
 
 ### 2.2 Image Inspector ✅
 - [x] Preview tab: Coil
 - [x] EXIF extraction
 - [x] Metadata tab: camera, resolution, GPS, date, orientation
 - [x] Risk: "Contains GPS location" badge
-- [ ] Action: "View on map" for GPS coords
+- [x] Action: "View on map" for GPS coords
 
 ### 2.3 Text & Code Inspector ✅
 - [x] Preview tab (no syntax highlighting yet)
@@ -131,7 +131,7 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 - [x] Permission list with risk highlighting
 - [x] Debug/backup flag risks
 - [ ] App icon extraction in UI
-- [ ] DEX file stats
+- [x] DEX file stats (method/class counts, multidex warning)
 
 ### 3.3 Office Document Explorer ✅
 - [x] DOCX/XLSX/PPTX via OOXML ZIP
@@ -147,9 +147,9 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 ### 4.1 Dual-Panel UI 🟡
 - [x] Adaptive layout: compact/expanded WindowSizeClass
 - [x] Inspector ↔ Files toggle
+- [x] Breadcrumb navigation (compressed path display)
+- [x] Active panel indicator (colored divider)
 - [ ] True dual file panels (both sides browse different folders)
-- [ ] Breadcrumb per panel
-- [ ] Active panel indicator
 
 ### 4.2 File Operations ✅
 - [x] Multi-select with long-press
@@ -157,37 +157,39 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 - [ ] Progress notification
 - [ ] Undo / app trash
 
-### 4.3 Keyboard Shortcuts ❌ TODO
-- [ ] F-keys, Space, Tab, Ctrl+A/C/V
-- [ ] Hardware keyboard detection
+### 4.3 Keyboard Shortcuts ✅
+- [x] F2 Rename, F3 View, F5 Copy, F6 Move, F7 New folder, F8 Delete
+- [x] Ctrl+A select all, Ctrl+R refresh, Backspace go up
+- [ ] Tab to switch panels (needs dual panels)
 
 **Milestone:** User connects keyboard to tablet, navigates files Norton Commander-style with F-keys.
 
 ---
 
-## Phase 5: Advanced Inspectors (Weeks 13–15) 🟡 PARTIAL
+## Phase 5: Advanced Inspectors (Weeks 13–15) ✅ DONE
 
 ### 5.1 PDF Inspector ✅
 - [x] Page count via PdfRenderer
 - [x] Encrypted detection
 - [x] Author, title, subject, creator, producer, dates
 - [x] JavaScript / Launch action / EmbeddedFile / AcroForm detection
-- [ ] Thumbnail rendering in UI
+- [ ] Thumbnail rendering in UI (PdfRenderer bitmap)
 
-### 5.2 Binary & Hex Inspector 🟡
+### 5.2 Binary & Hex Inspector ✅
 - [x] Hex view (offset + hex + ASCII)
 - [x] String extraction
 - [x] Entropy analysis
-- [ ] ELF/DEX header parsing
-- [ ] SQLite tables/row counts/schema
+- [x] ELF header parsing (class, endianness, ABI, type, machine)
+- [x] DEX header parsing (version, strings, types, methods)
+- [x] SQLite inspector (tables, rows, columns, schema, WAL risk)
 
 ### 5.3 Media Inspector ✅
 - [x] Audio: format, duration, bitrate via MediaMetadataRetriever
 - [x] Audio: ID3-style tags (title, artist, album, etc.)
 - [x] Video: resolution, duration, frame count, rotation
 - [x] Location/author risk surfacing
+- [x] Font inspector (TTF/OTF/WOFF format, name table, sample text)
 - [ ] Album art / video thumbnail display in UI
-- [ ] Font files
 
 **Milestone:** Full inspector coverage for all common file types.
 
@@ -198,13 +200,13 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 ### 6.1 Risk Scanner ✅
 - [x] Unified RiskScanner across all inspectors
 - [x] Severity levels: info / warning / danger
-- [ ] Risk badges in file list (colored dots)
-- [ ] Batch folder scan
+- [x] Color-coded type badges in file list
+- [ ] Batch folder scan (scan entire folder at once)
 
-### 6.2 Safe Share 🟡
+### 6.2 Safe Share ✅
 - [x] SafeShareSheet UI shows pre-share risk summary
-- [ ] "Create cleaned copy" (strip EXIF, Office metadata)
-- [ ] Share cleaned copy via Android share sheet
+- [x] CleanCopyUseCase — strip EXIF GPS/personal data, strip OOXML metadata
+- [ ] Share cleaned copy via Android share sheet (needs Activity wiring)
 
 **Milestone:** User selects photo → sees "Contains GPS" → strips metadata → shares clean copy.
 

@@ -119,6 +119,42 @@ class ApkInspector @Inject constructor(
             val dexFiles = entries.filter { it.name.endsWith(".dex") }
             overview["DEX files"] = dexFiles.size.toString()
 
+            // Parse DEX headers for method/class counts
+            var totalMethods = 0L
+            var totalClasses = 0L
+            for (dexEntry in dexFiles) {
+                try {
+                    val dexHeader = zipFile.getInputStream(dexEntry).use { stream ->
+                        val buf = ByteArray(92)
+                        var offset = 0
+                        while (offset < buf.size) {
+                            val read = stream.read(buf, offset, buf.size - offset)
+                            if (read <= 0) break
+                            offset += read
+                        }
+                        if (offset >= 92) buf else null
+                    }
+                    if (dexHeader != null) {
+                        val stringCount = readLittleEndianUInt32(dexHeader, 56)
+                        val typeCount = readLittleEndianUInt32(dexHeader, 64)
+                        val methodCount = readLittleEndianUInt32(dexHeader, 80)
+                        totalMethods += methodCount
+                        totalClasses += typeCount
+                    }
+                } catch (_: Exception) { /* skip unparseable DEX */ }
+            }
+            if (dexFiles.isNotEmpty()) {
+                overview["Total methods"] = "%,d".format(totalMethods)
+                overview["Total classes"] = "%,d".format(totalClasses)
+                if (totalMethods > 65536) {
+                    risks.add(RiskItem(
+                        severity = RiskSeverity.WARNING,
+                        title = "Multidex required",
+                        description = "Total method count (%,d) exceeds the 65,536 DEX method limit. This app requires multidex support.".format(totalMethods)
+                    ))
+                }
+            }
+
             val nativeLibs = entries.filter { it.name.startsWith("lib/") && it.name.endsWith(".so") }
             if (nativeLibs.isNotEmpty()) {
                 val abis = nativeLibs.map { it.name.split("/").getOrElse(1) { "unknown" } }.distinct()
@@ -210,6 +246,13 @@ class ApkInspector @Inject constructor(
         22 -> "5.1"
         21 -> "5.0"
         else -> if (sdk > 35) "$sdk" else "< 5.0"
+    }
+
+    private fun readLittleEndianUInt32(data: ByteArray, offset: Int): Long {
+        return (data[offset].toLong() and 0xFF) or
+                ((data[offset + 1].toLong() and 0xFF) shl 8) or
+                ((data[offset + 2].toLong() and 0xFF) shl 16) or
+                ((data[offset + 3].toLong() and 0xFF) shl 24)
     }
 
     private fun formatSize(bytes: Long): String {
