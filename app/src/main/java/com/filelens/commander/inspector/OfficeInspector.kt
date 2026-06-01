@@ -86,10 +86,10 @@ class OfficeInspector @Inject constructor() : FileInspector {
             val tree = buildOoxmlTree(entries)
             zipFile.close()
 
-            InspectorResult(overview = overview, metadata = metadata, risks = risks, structure = tree)
+            return InspectorResult(overview = overview, metadata = metadata, risks = risks, structure = tree)
         } catch (e: Exception) {
             overview["Error"] = "Failed to read DOCX: ${e.message?.take(100)}"
-            InspectorResult(overview = overview, metadata = metadata, risks = risks)
+            return InspectorResult(overview = overview, metadata = metadata, risks = risks)
         }
     }
 
@@ -152,10 +152,10 @@ class OfficeInspector @Inject constructor() : FileInspector {
             val tree = buildOoxmlTree(entries)
             zipFile.close()
 
-            InspectorResult(overview = overview, metadata = metadata, risks = risks, structure = tree)
+            return InspectorResult(overview = overview, metadata = metadata, risks = risks, structure = tree)
         } catch (e: Exception) {
             overview["Error"] = "Failed to read XLSX: ${e.message?.take(100)}"
-            InspectorResult(overview = overview, metadata = metadata, risks = risks)
+            return InspectorResult(overview = overview, metadata = metadata, risks = risks)
         }
     }
 
@@ -199,10 +199,10 @@ class OfficeInspector @Inject constructor() : FileInspector {
             val tree = buildOoxmlTree(entries)
             zipFile.close()
 
-            InspectorResult(overview = overview, metadata = metadata, risks = risks, structure = tree)
+            return InspectorResult(overview = overview, metadata = metadata, risks = risks, structure = tree)
         } catch (e: Exception) {
             overview["Error"] = "Failed to read PPTX: ${e.message?.take(100)}"
-            InspectorResult(overview = overview, metadata = metadata, risks = risks)
+            return InspectorResult(overview = overview, metadata = metadata, risks = risks)
         }
     }
 
@@ -218,10 +218,10 @@ class OfficeInspector @Inject constructor() : FileInspector {
             overview["Files"] = entries.count { !it.isDirectory }.toString()
             val tree = buildOoxmlTree(entries)
             zipFile.close()
-            InspectorResult(overview = overview, metadata = metadata, risks = risks, structure = tree)
+            return InspectorResult(overview = overview, metadata = metadata, risks = risks, structure = tree)
         } catch (e: Exception) {
             overview["Error"] = e.message?.take(100) ?: "Failed to read"
-            InspectorResult(overview = overview, metadata = metadata, risks = risks)
+            return InspectorResult(overview = overview, metadata = metadata, risks = risks)
         }
     }
 

@@ -187,12 +187,13 @@ private fun OverviewTab(info: InspectorInfo, result: InspectorResult?, onOpenWit
 
 @Composable
 private fun PreviewTab(result: InspectorResult?) {
-    if (result?.previewContent == null) {
+    val previewContent = result?.previewContent
+    if (previewContent == null) {
         CenteredMessage("No preview available")
         return
     }
 
-    when (val preview = result.previewContent) {
+    when (val preview = previewContent) {
         is PreviewContent.TextContent -> {
             Column(
                 modifier = Modifier
