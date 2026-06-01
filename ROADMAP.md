@@ -281,11 +281,11 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 - [x] Report sections: overview, detected type, metadata, structure, risks, trust score, provenance, recommended actions
 - [x] Batch scan report for folders and archives
 
-### 7.0.11 Folder Intelligence Dashboard
-- [ ] Folder summary: file count, total size, largest files, newest files, unknown files, risky files, archives, media, documents, code files
-- [ ] Privacy summary: files with GPS, author metadata, possible secrets, hidden content
-- [ ] Quick filters: risky, unknown, large, recent, duplicate candidates, contains private metadata
-- [ ] Entry point from commander panel context menu: "Analyze folder"
+### 7.0.11 Folder Intelligence Dashboard ✅
+- [x] Folder summary: file count, total size, largest files, newest files, unknown files, risky files, archives, media, documents, code files
+- [x] Privacy summary: files with GPS, author metadata, possible secrets, hidden content
+- [x] Quick filters: risky, unknown, large, recent, duplicate candidates, contains private metadata
+- [x] Entry point from commander panel context menu: "Analyze folder"
 
 ### 7.0.12 Deeper APK / Office Intelligence
 - [ ] APK: certificate details, signature scheme, native libraries by ABI, exported components, deep links, network security config, cleartext traffic flag, hardcoded URLs from strings
