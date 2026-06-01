@@ -1,5 +1,6 @@
 package com.filelens.commander.ui.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -7,13 +8,18 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Sort
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -25,17 +31,24 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.filelens.commander.domain.model.FileItem
 import com.filelens.commander.domain.model.SortDirection
@@ -52,10 +65,16 @@ fun FileListPanel(
     selectedFilePath: String?,
     sortOrder: SortOrder,
     showHidden: Boolean,
+    isSearchActive: Boolean = false,
+    searchQuery: String = "",
+    isSearching: Boolean = false,
     onFileClick: (FileItem) -> Unit,
     onNavigateUp: () -> Unit,
     onSortChanged: (SortOrder) -> Unit,
     onToggleHidden: () -> Unit,
+    onSearchActiveChanged: (Boolean) -> Unit = {},
+    onSearchQueryChanged: (String) -> Unit = {},
+    onSearchRecursive: (String) -> Unit = {},
     onRefresh: () -> Unit = {},
     onBatchScan: () -> Unit = {},
     isActive: Boolean = true,
@@ -81,13 +100,17 @@ fun FileListPanel(
                 }
             },
             navigationIcon = {
-                if (!isRoot) {
+                if (!isRoot || isSearchActive) {
                     IconButton(onClick = onNavigateUp) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 }
             },
             actions = {
+                IconButton(onClick = { onSearchActiveChanged(!isSearchActive) }) {
+                    Icon(Icons.Filled.Search, contentDescription = "Search")
+                }
+
                 IconButton(onClick = { showSortMenu = true }) {
                     Icon(Icons.AutoMirrored.Filled.Sort, contentDescription = "Sort")
                 }
@@ -145,6 +168,44 @@ fun FileListPanel(
             )
         )
 
+        AnimatedVisibility(visible = isSearchActive) {
+            val focusRequester = remember { FocusRequester() }
+            LaunchedEffect(isSearchActive) {
+                if (isSearchActive) focusRequester.requestFocus()
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp, vertical = 4.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                OutlinedTextField(
+                    value = searchQuery,
+                    onValueChange = onSearchQueryChanged,
+                    placeholder = { Text("Search files...") },
+                    singleLine = true,
+                    modifier = Modifier
+                        .weight(1f)
+                        .focusRequester(focusRequester),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                    keyboardActions = KeyboardActions(onSearch = { onSearchRecursive(searchQuery) }),
+                    trailingIcon = {
+                        if (searchQuery.isNotEmpty()) {
+                            IconButton(onClick = { onSearchQueryChanged("") }) {
+                                Icon(Icons.Filled.Close, contentDescription = "Clear")
+                            }
+                        }
+                    },
+                    colors = OutlinedTextFieldDefaults.colors(),
+                    textStyle = MaterialTheme.typography.bodyMedium
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                TextButton(onClick = { onSearchRecursive(searchQuery) }, enabled = searchQuery.isNotEmpty()) {
+                    Text("Deep")
+                }
+            }
+        }
+
         if (isActive) {
             HorizontalDivider(color = MaterialTheme.colorScheme.primary, thickness = 2.dp)
         } else {
@@ -152,12 +213,21 @@ fun FileListPanel(
         }
 
         when {
-            isLoading -> {
+            isLoading || isSearching -> {
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    CircularProgressIndicator()
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        CircularProgressIndicator()
+                        if (isSearching) {
+                            Text(
+                                text = "Searching...",
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.padding(top = 8.dp)
+                            )
+                        }
+                    }
                 }
             }
             files.isEmpty() -> {
@@ -166,7 +236,7 @@ fun FileListPanel(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "Empty folder",
+                        text = if (isSearchActive && searchQuery.isNotEmpty()) "No results found" else "Empty folder",
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )

@@ -119,7 +119,7 @@ fun MainScreen(
         }
     }
 
-    val refreshCurrentDir = { fileListViewModel.navigateTo(fileListState.currentPath) }
+    val refreshCurrentDir = { fileListViewModel.refresh() }
     val onBatchScan = { batchScanViewModel.startScan(fileListState.currentPath) }
 
     val coroutineScope = rememberCoroutineScope()
@@ -196,7 +196,7 @@ fun MainScreen(
         DialogType.NONE -> {}
     }
 
-    BackHandler(enabled = !fileListState.isRoot || commanderState.selectedPaths.isNotEmpty()) {
+    BackHandler(enabled = !fileListState.isRoot || commanderState.selectedPaths.isNotEmpty() || fileListState.isSearchActive) {
         if (commanderState.selectedPaths.isNotEmpty()) {
             commanderViewModel.clearSelection()
         } else {
@@ -332,6 +332,9 @@ private fun CompactLayout(
                 selectedFilePath = inspectorState.selectedFile?.path,
                 sortOrder = fileListState.sortOrder,
                 showHidden = fileListState.showHidden,
+                isSearchActive = fileListState.isSearchActive,
+                searchQuery = fileListState.searchQuery,
+                isSearching = fileListState.isSearching,
                 onFileClick = { item ->
                     if (commanderState.selectedPaths.isNotEmpty()) {
                         commanderViewModel.toggleSelection(item.path)
@@ -346,6 +349,9 @@ private fun CompactLayout(
                 onNavigateUp = { fileListViewModel.navigateUp() },
                 onSortChanged = { fileListViewModel.setSortOrder(it) },
                 onToggleHidden = { fileListViewModel.toggleHiddenFiles() },
+                onSearchActiveChanged = { fileListViewModel.setSearchActive(it) },
+                onSearchQueryChanged = { fileListViewModel.onSearchQueryChanged(it) },
+                onSearchRecursive = { fileListViewModel.searchRecursive(it) },
                 onRefresh = onRefresh,
                 onBatchScan = onBatchScan,
                 modifier = Modifier.fillMaxSize()
@@ -400,6 +406,9 @@ private fun ExpandedLayout(
                 selectedFilePath = inspectorState.selectedFile?.path,
                 sortOrder = fileListState.sortOrder,
                 showHidden = fileListState.showHidden,
+                isSearchActive = fileListState.isSearchActive,
+                searchQuery = fileListState.searchQuery,
+                isSearching = fileListState.isSearching,
                 onFileClick = { item ->
                     activeLeft = true
                     if (commanderState.selectedPaths.isNotEmpty()) {
@@ -414,6 +423,9 @@ private fun ExpandedLayout(
                 onNavigateUp = { fileListViewModel.navigateUp() },
                 onSortChanged = { fileListViewModel.setSortOrder(it) },
                 onToggleHidden = { fileListViewModel.toggleHiddenFiles() },
+                onSearchActiveChanged = { fileListViewModel.setSearchActive(it) },
+                onSearchQueryChanged = { fileListViewModel.onSearchQueryChanged(it) },
+                onSearchRecursive = { fileListViewModel.searchRecursive(it) },
                 onRefresh = onRefresh,
                 onBatchScan = onBatchScan,
                 isActive = activeLeft || !dualPanel,
@@ -431,6 +443,9 @@ private fun ExpandedLayout(
                     selectedFilePath = inspectorState.selectedFile?.path,
                     sortOrder = rightState.sortOrder,
                     showHidden = rightState.showHidden,
+                    isSearchActive = rightState.isSearchActive,
+                    searchQuery = rightState.searchQuery,
+                    isSearching = rightState.isSearching,
                     onFileClick = { item ->
                         activeLeft = false
                         val navigated = rightViewModel.onFileClick(item)
@@ -441,7 +456,10 @@ private fun ExpandedLayout(
                     onNavigateUp = { rightViewModel.navigateUp() },
                     onSortChanged = { rightViewModel.setSortOrder(it) },
                     onToggleHidden = { rightViewModel.toggleHiddenFiles() },
-                    onRefresh = { rightViewModel.navigateTo(rightState.currentPath) },
+                    onSearchActiveChanged = { rightViewModel.setSearchActive(it) },
+                    onSearchQueryChanged = { rightViewModel.onSearchQueryChanged(it) },
+                    onSearchRecursive = { rightViewModel.searchRecursive(it) },
+                    onRefresh = { rightViewModel.refresh() },
                     isActive = !activeLeft,
                     modifier = Modifier.weight(1f)
                 )
