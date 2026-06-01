@@ -9,6 +9,7 @@ import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.FileItem
 import com.filelens.commander.domain.model.InspectorInfo
 import com.filelens.commander.domain.model.InspectorResult
+import com.filelens.commander.domain.usecase.TrustScoreUseCase
 import com.filelens.commander.inspector.ApkInspector
 import com.filelens.commander.inspector.BinaryInspector
 import com.filelens.commander.inspector.ImageInspector
@@ -52,7 +53,8 @@ class InspectorViewModel @Inject constructor(
     private val pdfInspector: PdfInspector,
     private val mediaInspector: MediaInspector,
     private val sqliteInspector: SqliteInspector,
-    private val fontInspector: FontInspector
+    private val fontInspector: FontInspector,
+    private val trustScoreUseCase: TrustScoreUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(InspectorState())
@@ -121,10 +123,12 @@ class InspectorViewModel @Inject constructor(
                 addAll(result.risks)
             }
 
-            val finalResult = result.copy(
+            val withDetection = result.copy(
                 overview = overviewWithDetection,
                 risks = risksWithDetection
             )
+            val trustScore = trustScoreUseCase.compute(withDetection, detection)
+            val finalResult = withDetection.copy(trustScore = trustScore)
 
             _state.value = InspectorState(
                 selectedFile = item,

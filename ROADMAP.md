@@ -217,12 +217,12 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 
 **Goal:** Turn FileLens from a set of inspectors into an assistant-like file commander that explains what was found, why it matters, and what the user can safely do next.
 
-### 7.0.1 Explainable Risk Cards
-- [ ] Risk cards with: what was found / why it matters / recommended action
-- [ ] Human-readable explanations for extension mismatch, GPS EXIF, PDF JavaScript, PDF launch actions, embedded files, macros, tracked changes, hidden sheets, external links, zip bombs, nested archives, APK debug builds, APK backup flag, suspicious permissions, SQLite WAL files, high entropy binaries
-- [ ] Risk detail screen with technical evidence: file path, detector name, matched rule, confidence
-- [ ] "Ignore this risk" action per file/session
-- [ ] "Learn more" microcopy for common file risks without requiring network access
+### 7.0.1 Explainable Risk Cards ✅
+- [x] Risk cards with: what was found / why it matters / recommended action
+- [x] Human-readable explanations for extension mismatch, GPS EXIF, PDF JavaScript, PDF launch actions, embedded files, macros, tracked changes, hidden sheets, external links, zip bombs, nested archives, APK debug builds, APK backup flag, suspicious permissions, SQLite WAL files, high entropy binaries
+- [x] Risk detail screen with technical evidence: file path, detector name, matched rule, confidence
+- [x] "Ignore this risk" action per file/session
+- [x] "Learn more" microcopy for common file risks without requiring network access
 
 ### 7.0.2 File Trust Score
 - [ ] Local trust score: trusted / low / medium / high risk

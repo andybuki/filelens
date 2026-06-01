@@ -5,8 +5,22 @@ data class InspectorResult(
     val metadata: Map<String, String> = emptyMap(),
     val risks: List<RiskItem> = emptyList(),
     val structure: StructureNode? = null,
-    val previewContent: PreviewContent? = null
+    val previewContent: PreviewContent? = null,
+    val trustScore: TrustScore? = null
 )
+
+data class TrustScore(
+    val level: TrustLevel,
+    val numericScore: Int,
+    val topReasons: List<String>
+)
+
+enum class TrustLevel(val displayName: String) {
+    TRUSTED("Trusted"),
+    LOW_RISK("Low risk"),
+    MEDIUM_RISK("Medium risk"),
+    HIGH_RISK("High risk")
+}
 
 data class RiskItem(
     val severity: RiskSeverity,

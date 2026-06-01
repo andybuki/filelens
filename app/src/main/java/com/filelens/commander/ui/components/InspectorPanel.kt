@@ -57,6 +57,8 @@ import com.filelens.commander.domain.model.RiskItem
 import com.filelens.commander.domain.model.RiskLearnMore
 import com.filelens.commander.domain.model.RiskSeverity
 import com.filelens.commander.domain.model.StructureNode
+import com.filelens.commander.domain.model.TrustLevel
+import com.filelens.commander.domain.model.TrustScore
 import com.filelens.commander.ui.theme.RiskDanger
 import com.filelens.commander.ui.theme.RiskInfo
 import com.filelens.commander.ui.theme.RiskWarning
@@ -114,6 +116,10 @@ fun InspectorPanel(
                     if (isAnalyzing) {
                         Spacer(modifier = Modifier.width(8.dp))
                         CircularProgressIndicator(modifier = Modifier.size(12.dp), strokeWidth = 2.dp)
+                    }
+                    result?.trustScore?.let { score ->
+                        Spacer(modifier = Modifier.width(8.dp))
+                        TrustChip(score)
                     }
                     val visibleRisks = result?.risks?.filter { it.id.isEmpty() || it.id !in ignoredRiskIds } ?: emptyList()
                     val riskCount = visibleRisks.size
@@ -175,6 +181,10 @@ private fun OverviewTab(
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
+        result?.trustScore?.let {
+            TrustScoreCard(it)
+            Spacer(modifier = Modifier.height(12.dp))
+        }
         InfoRow("File", info.name)
         InfoRow("Type", info.category.displayName())
         if (info.extension.isNotEmpty()) {
@@ -444,6 +454,85 @@ private fun MetadataTab(result: InspectorResult?) {
     ) {
         metadata.forEach { (key, value) ->
             InfoRow(key, value)
+        }
+    }
+}
+
+private fun trustColor(level: TrustLevel): androidx.compose.ui.graphics.Color = when (level) {
+    TrustLevel.TRUSTED -> androidx.compose.ui.graphics.Color(0xFF1E8E3E)
+    TrustLevel.LOW_RISK -> RiskInfo
+    TrustLevel.MEDIUM_RISK -> RiskWarning
+    TrustLevel.HIGH_RISK -> RiskDanger
+}
+
+@Composable
+private fun TrustChip(score: TrustScore) {
+    val color = trustColor(score.level)
+    Text(
+        text = score.level.displayName,
+        style = MaterialTheme.typography.labelSmall,
+        color = color,
+        modifier = Modifier
+            .background(
+                color = color.copy(alpha = 0.12f),
+                shape = RoundedCornerShape(4.dp)
+            )
+            .padding(horizontal = 6.dp, vertical = 2.dp)
+    )
+}
+
+@Composable
+private fun TrustScoreCard(score: TrustScore) {
+    val color = trustColor(score.level)
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = color.copy(alpha = 0.08f),
+                shape = RoundedCornerShape(8.dp)
+            )
+            .padding(12.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                Icons.Filled.Shield,
+                contentDescription = null,
+                tint = color,
+                modifier = Modifier.size(20.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = score.level.displayName,
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = "${score.numericScore}/100",
+                style = MaterialTheme.typography.labelMedium,
+                color = color
+            )
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = "Heuristic trust score. Not antivirus.",
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        if (score.topReasons.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Top reasons",
+                style = MaterialTheme.typography.labelSmall,
+                color = color
+            )
+            score.topReasons.forEach { reason ->
+                Text(
+                    text = "• $reason",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
         }
     }
 }
