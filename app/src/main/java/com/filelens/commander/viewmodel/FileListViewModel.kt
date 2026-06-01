@@ -70,8 +70,8 @@ class FileListViewModel @Inject constructor(
 
     fun navigateUp() {
         if (navigationStack.size > 1) {
-            navigationStack.removeLast()
-            val parentPath = navigationStack.removeLast()
+            navigationStack.removeAt(navigationStack.lastIndex)
+            val parentPath = navigationStack.removeAt(navigationStack.lastIndex)
             navigateTo(parentPath)
         }
     }
@@ -98,7 +98,7 @@ class FileListViewModel @Inject constructor(
     private fun refreshCurrentDirectory() {
         val current = _state.value.currentPath
         if (current.isNotEmpty()) {
-            navigationStack.removeLastOrNull()
+            if (navigationStack.isNotEmpty()) navigationStack.removeAt(navigationStack.lastIndex)
             navigateTo(current)
         }
     }

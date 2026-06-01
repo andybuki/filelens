@@ -163,8 +163,8 @@ class XmlInspector @Inject constructor() : FileInspector {
                 }
                 XmlPullParser.END_TAG -> {
                     if (stack.isNotEmpty()) {
-                        val children = stack.removeLast()
-                        val name = nameStack.removeLast()
+                        val children = stack.removeAt(stack.lastIndex)
+                        val name = nameStack.removeAt(nameStack.lastIndex)
                         val node = if (children.isEmpty()) {
                             StructureNode.Leaf(name = name)
                         } else {
