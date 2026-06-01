@@ -287,12 +287,12 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 - [x] Quick filters: risky, unknown, large, recent, duplicate candidates, contains private metadata
 - [x] Entry point from commander panel context menu: "Analyze folder"
 
-### 7.0.12 Deeper APK / Office Intelligence
-- [ ] APK: certificate details, signature scheme, native libraries by ABI, exported components, deep links, network security config, cleartext traffic flag, hardcoded URLs from strings
-- [ ] APK: tracker/library hints from package/class names with local rules only
-- [ ] DOCX: comments, revisions count, embedded image count, external image links, custom properties, template path
-- [ ] XLSX: very hidden sheets, formula count, external workbook links, defined names, suspicious formulas
-- [ ] PPTX: speaker notes, hidden slides, embedded media, external media links
+### 7.0.12 Deeper APK / Office Intelligence ✅
+- [x] APK: certificate details, signature scheme, native libraries by ABI, exported components, deep links, network security config, cleartext traffic flag, hardcoded URLs from strings
+- [x] APK: tracker/library hints from package/class names with local rules only
+- [x] DOCX: comments, revisions count, embedded image count, external image links, custom properties, template path
+- [x] XLSX: very hidden sheets, formula count, external workbook links, defined names, suspicious formulas
+- [x] PPTX: speaker notes, hidden slides, embedded media, external media links
 
 **Milestone:** User selects a suspicious file or folder and FileLens explains what is inside, why it may matter, where it likely came from, and what safe action is recommended.
 
