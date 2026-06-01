@@ -9,6 +9,7 @@ import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.FileItem
 import com.filelens.commander.domain.model.InspectorInfo
 import com.filelens.commander.domain.model.InspectorResult
+import com.filelens.commander.domain.usecase.ProvenanceDetector
 import com.filelens.commander.domain.usecase.TrustScoreUseCase
 import com.filelens.commander.inspector.ApkInspector
 import com.filelens.commander.inspector.BinaryInspector
@@ -56,7 +57,8 @@ class InspectorViewModel @Inject constructor(
     private val mediaInspector: MediaInspector,
     private val sqliteInspector: SqliteInspector,
     private val fontInspector: FontInspector,
-    private val trustScoreUseCase: TrustScoreUseCase
+    private val trustScoreUseCase: TrustScoreUseCase,
+    private val provenanceDetector: ProvenanceDetector
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(InspectorState())
@@ -130,9 +132,11 @@ class InspectorViewModel @Inject constructor(
                 addAll(result.risks)
             }
 
+            val provenance = provenanceDetector.detect(item.path)
             val withDetection = result.copy(
                 overview = overviewWithDetection,
-                risks = risksWithDetection
+                risks = risksWithDetection,
+                provenance = provenance
             )
             val trustScore = trustScoreUseCase.compute(withDetection, detection)
             val finalResult = withDetection.copy(trustScore = trustScore)

@@ -6,8 +6,35 @@ data class InspectorResult(
     val risks: List<RiskItem> = emptyList(),
     val structure: StructureNode? = null,
     val previewContent: PreviewContent? = null,
-    val trustScore: TrustScore? = null
+    val trustScore: TrustScore? = null,
+    val provenance: Provenance? = null
 )
+
+data class Provenance(
+    val source: ProvenanceSource,
+    val displayName: String,
+    val description: String,
+    val confidence: ProvenanceConfidence
+)
+
+enum class ProvenanceSource {
+    DOWNLOADS,
+    CAMERA,
+    SCREENSHOTS,
+    WHATSAPP,
+    TELEGRAM,
+    SIGNAL,
+    BROWSER,
+    BLUETOOTH,
+    EMAIL,
+    CLOUD,
+    APP_PRIVATE,
+    SYSTEM,
+    SDCARD,
+    OTHER
+}
+
+enum class ProvenanceConfidence { HIGH, MEDIUM, LOW }
 
 data class TrustScore(
     val level: TrustLevel,

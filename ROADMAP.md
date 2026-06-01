@@ -230,11 +230,11 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 - [x] Show top 3 reasons that influenced the score
 - [x] Keep score heuristic-only: explicitly not antivirus / not malware detection
 
-### 7.0.3 Open Safely / Open As...
-- [ ] "Open safely" action group: preview only, inspect metadata, browse archive without extracting, extract selected files only, share cleaned copy
-- [ ] "Open as..." override: Text, Binary/Hex, Archive, SQLite, JSON, XML, Image, APK, Office ZIP, PDF
-- [ ] Manual re-run of a selected inspector when automatic detection is wrong or ambiguous
-- [ ] Preserve original detected type and user-selected type in the report
+### 7.0.3 Open Safely / Open As... ✅
+- [x] "Open safely" action group: preview only, inspect metadata, browse archive without extracting, extract selected files only, share cleaned copy
+- [x] "Open as..." override: Text, Binary/Hex, Archive, SQLite, JSON, XML, Image, APK, Office ZIP, PDF
+- [x] Manual re-run of a selected inspector when automatic detection is wrong or ambiguous
+- [x] Preserve original detected type and user-selected type in the report
 
 ### 7.0.4 File Provenance & Context
 - [ ] Detect likely source from path/provider: Downloads, Camera, Screenshots, WhatsApp, Telegram, Signal, browser, Bluetooth, cloud provider, app-specific folders

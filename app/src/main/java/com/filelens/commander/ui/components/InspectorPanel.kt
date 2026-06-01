@@ -60,6 +60,8 @@ import com.filelens.commander.domain.model.RiskItem
 import com.filelens.commander.domain.model.RiskLearnMore
 import com.filelens.commander.domain.model.RiskSeverity
 import com.filelens.commander.domain.model.StructureNode
+import com.filelens.commander.domain.model.Provenance
+import com.filelens.commander.domain.model.ProvenanceConfidence
 import com.filelens.commander.domain.model.TrustLevel
 import com.filelens.commander.domain.model.TrustScore
 import com.filelens.commander.ui.theme.RiskDanger
@@ -201,6 +203,10 @@ private fun OverviewTab(
     ) {
         result?.trustScore?.let {
             TrustScoreCard(it)
+            Spacer(modifier = Modifier.height(12.dp))
+        }
+        result?.provenance?.let {
+            ProvenanceCard(it)
             Spacer(modifier = Modifier.height(12.dp))
         }
         InfoRow("File", info.name)
@@ -623,6 +629,44 @@ private fun TrustChip(score: TrustScore) {
             )
             .padding(horizontal = 6.dp, vertical = 2.dp)
     )
+}
+
+@Composable
+private fun ProvenanceCard(provenance: Provenance) {
+    val confidenceLabel = when (provenance.confidence) {
+        ProvenanceConfidence.HIGH -> "Likely source"
+        ProvenanceConfidence.MEDIUM -> "Probable source"
+        ProvenanceConfidence.LOW -> "Possible source"
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.5f),
+                shape = RoundedCornerShape(8.dp)
+            )
+            .padding(12.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = confidenceLabel,
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSecondaryContainer
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = provenance.displayName,
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = provenance.description,
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    }
 }
 
 @Composable
