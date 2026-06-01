@@ -7,7 +7,15 @@ data class InspectorResult(
     val structure: StructureNode? = null,
     val previewContent: PreviewContent? = null,
     val trustScore: TrustScore? = null,
-    val provenance: Provenance? = null
+    val provenance: Provenance? = null,
+    val secrets: List<SecretMatch> = emptyList()
+)
+
+data class SecretMatch(
+    val kind: String,
+    val redactedSample: String,
+    val location: String? = null,
+    val lineNumber: Int? = null
 )
 
 data class Provenance(

@@ -4,8 +4,9 @@ import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.InspectorResult
 import com.filelens.commander.domain.model.PreviewContent
 import com.filelens.commander.domain.model.RiskItem
-import com.filelens.commander.domain.model.RiskSeverity
+import com.filelens.commander.domain.model.Risks
 import com.filelens.commander.domain.model.StructureNode
+import com.filelens.commander.domain.usecase.SecretScanner
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
@@ -16,7 +17,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class JsonInspector @Inject constructor() : FileInspector {
+class JsonInspector @Inject constructor(
+    private val secretScanner: SecretScanner
+) : FileInspector {
 
     override val supportedCategories = setOf(FileCategory.TEXT)
 
@@ -64,12 +67,9 @@ class JsonInspector @Inject constructor() : FileInspector {
             overview["Booleans"] = "%,d".format(stats.boolCount)
             overview["Nulls"] = "%,d".format(stats.nullCount)
 
-            if (stats.possibleSecrets > 0) {
-                risks.add(RiskItem(
-                    severity = RiskSeverity.DANGER,
-                    title = "Possible secrets detected",
-                    description = "${stats.possibleSecrets} key(s) may contain secrets (API keys, tokens, passwords)"
-                ))
+            val secrets = secretScanner.scan(content, location = file.name)
+            if (secrets.isNotEmpty()) {
+                risks.add(Risks.secretsFound(secrets.size, secrets.map { it.kind }.distinct()))
             }
 
             val tree = buildTree(root, "root", maxChildren = 50, maxDepth = 10)
@@ -92,7 +92,8 @@ class JsonInspector @Inject constructor() : FileInspector {
                     language = "JSON",
                     lineCount = prettyContent.count { it == '\n' } + 1,
                     rawContent = content.take(100_000)
-                )
+                ),
+                secrets = secrets
             )
         } catch (e: Exception) {
             overview["Error"] = "Invalid JSON: ${e.message?.take(100)}"

@@ -236,11 +236,11 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 - [x] Manual re-run of a selected inspector when automatic detection is wrong or ambiguous
 - [x] Preserve original detected type and user-selected type in the report
 
-### 7.0.4 File Provenance & Context
-- [ ] Detect likely source from path/provider: Downloads, Camera, Screenshots, WhatsApp, Telegram, Signal, browser, Bluetooth, cloud provider, app-specific folders
-- [ ] Add provenance hints to the Overview tab
-- [ ] Combine provenance with risk messages, e.g. "APK from Downloads requests SMS permissions"
-- [ ] Show source confidence and avoid claiming certainty when only path heuristics are available
+### 7.0.4 File Provenance & Context ✅
+- [x] Detect likely source from path/provider: Downloads, Camera, Screenshots, WhatsApp, Telegram, Signal, browser, Bluetooth, cloud provider, app-specific folders
+- [x] Add provenance hints to the Overview tab
+- [x] Combine provenance with risk messages, e.g. "APK from Downloads requests SMS permissions"
+- [x] Show source confidence and avoid claiming certainty when only path heuristics are available
 
 ### 7.0.5 Cross-Format Secret Scanner
 - [ ] Dedicated secret scan across text, code, JSON, XML, YAML, TOML, INI, `.env`, `.properties`, logs, ZIP entries, APK strings

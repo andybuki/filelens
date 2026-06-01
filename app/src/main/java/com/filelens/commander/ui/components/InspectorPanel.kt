@@ -62,6 +62,7 @@ import com.filelens.commander.domain.model.RiskSeverity
 import com.filelens.commander.domain.model.StructureNode
 import com.filelens.commander.domain.model.Provenance
 import com.filelens.commander.domain.model.ProvenanceConfidence
+import com.filelens.commander.domain.model.SecretMatch
 import com.filelens.commander.domain.model.TrustLevel
 import com.filelens.commander.domain.model.TrustScore
 import com.filelens.commander.ui.theme.RiskDanger
@@ -207,6 +208,10 @@ private fun OverviewTab(
         }
         result?.provenance?.let {
             ProvenanceCard(it)
+            Spacer(modifier = Modifier.height(12.dp))
+        }
+        if (result?.secrets?.isNotEmpty() == true) {
+            SecretsCard(result.secrets)
             Spacer(modifier = Modifier.height(12.dp))
         }
         InfoRow("File", info.name)
@@ -629,6 +634,82 @@ private fun TrustChip(score: TrustScore) {
             )
             .padding(horizontal = 6.dp, vertical = 2.dp)
     )
+}
+
+@Composable
+private fun SecretsCard(secrets: List<SecretMatch>) {
+    val clipboard = androidx.compose.ui.platform.LocalClipboardManager.current
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = RiskDanger.copy(alpha = 0.08f),
+                shape = RoundedCornerShape(8.dp)
+            )
+            .padding(12.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                Icons.Filled.Warning,
+                contentDescription = null,
+                tint = RiskDanger,
+                modifier = Modifier.size(20.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = "Possible secrets (${secrets.size})",
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = "Values are redacted. Treat any leaked credential as compromised — rotate it first, then remove it from the file.",
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        secrets.take(20).forEach { match ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 2.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = match.kind,
+                        style = MaterialTheme.typography.labelMedium,
+                        color = RiskDanger
+                    )
+                    val sub = buildString {
+                        append(match.redactedSample)
+                        if (match.lineNumber != null) append("  · line ${match.lineNumber}")
+                    }
+                    Text(
+                        text = sub,
+                        style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                androidx.compose.material3.TextButton(
+                    onClick = {
+                        clipboard.setText(androidx.compose.ui.text.AnnotatedString(match.kind))
+                    },
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 6.dp, vertical = 0.dp)
+                ) {
+                    Text("Copy name", style = MaterialTheme.typography.labelSmall)
+                }
+            }
+        }
+        if (secrets.size > 20) {
+            Text(
+                text = "… ${secrets.size - 20} more",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+    }
 }
 
 @Composable
