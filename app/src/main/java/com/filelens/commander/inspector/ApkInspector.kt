@@ -58,7 +58,12 @@ class ApkInspector @Inject constructor(
         if (packageInfo != null) {
             overview["Package"] = packageInfo.packageName ?: "unknown"
             overview["Version name"] = packageInfo.versionName ?: "unknown"
-            overview["Version code"] = packageInfo.longVersionCode.toString()
+            overview["Version code"] = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                packageInfo.longVersionCode.toString()
+            } else {
+                @Suppress("DEPRECATION")
+                packageInfo.versionCode.toString()
+            }
 
             val appInfo = packageInfo.applicationInfo
             if (appInfo != null) {
