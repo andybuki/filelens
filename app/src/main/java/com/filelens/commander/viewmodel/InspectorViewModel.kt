@@ -16,6 +16,7 @@ import com.filelens.commander.inspector.BinaryInspector
 import com.filelens.commander.inspector.ConfigInspector
 import com.filelens.commander.inspector.ImageInspector
 import com.filelens.commander.inspector.JsonInspector
+import com.filelens.commander.inspector.LogInspector
 import com.filelens.commander.inspector.FontInspector
 import com.filelens.commander.inspector.MediaInspector
 import com.filelens.commander.inspector.OfficeInspector
@@ -59,6 +60,7 @@ class InspectorViewModel @Inject constructor(
     private val sqliteInspector: SqliteInspector,
     private val fontInspector: FontInspector,
     private val configInspector: ConfigInspector,
+    private val logInspector: LogInspector,
     private val trustScoreUseCase: TrustScoreUseCase,
     private val provenanceDetector: ProvenanceDetector
 ) : ViewModel() {
@@ -199,13 +201,17 @@ class InspectorViewModel @Inject constructor(
                     when {
                         extension.lowercase() == "json" -> jsonInspector.inspect(file)
                         extension.lowercase() in setOf("xml", "xsl", "xslt", "xsd", "svg", "xhtml", "plist") -> xmlInspector.inspect(file)
+                        logInspector.handles(file) -> logInspector.inspect(file)
                         configInspector.handles(file) -> configInspector.inspect(file)
                         else -> textInspector.inspect(file)
                     }
                 }
                 FileCategory.CODE -> {
-                    if (configInspector.handles(file)) configInspector.inspect(file)
-                    else textInspector.inspect(file)
+                    when {
+                        logInspector.handles(file) -> logInspector.inspect(file)
+                        configInspector.handles(file) -> configInspector.inspect(file)
+                        else -> textInspector.inspect(file)
+                    }
                 }
                 FileCategory.PDF -> pdfInspector.inspect(file)
                 FileCategory.AUDIO, FileCategory.VIDEO -> mediaInspector.inspect(file)

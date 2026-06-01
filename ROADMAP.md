@@ -249,11 +249,11 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 - [x] Provide "copy key name only" and "open containing file" actions
 - [x] Add Safe Share warning when possible secrets are selected for sharing
 
-### 7.0.6 Config File Inspector
-- [ ] Inspect `.env`, `.properties`, `.ini`, `.yaml`, `.yml`, `.toml`, `.conf`, `.cfg`
-- [ ] Show key/value count, duplicate keys, empty values, URLs, ports, database settings, environment/profile names
-- [ ] Detect common frameworks: Spring Boot, Android Gradle, Docker Compose, Kubernetes, GitHub Actions, npm/yarn/pnpm, Python project config
-- [ ] Risk warnings for secrets, production endpoints, insecure protocols, debug flags
+### 7.0.6 Config File Inspector ✅
+- [x] Inspect `.env`, `.properties`, `.ini`, `.yaml`, `.yml`, `.toml`, `.conf`, `.cfg`
+- [x] Show key/value count, duplicate keys, empty values, URLs, ports, database settings, environment/profile names
+- [x] Detect common frameworks: Spring Boot, Android Gradle, Docker Compose, Kubernetes, GitHub Actions, npm/yarn/pnpm, Python project config
+- [x] Risk warnings for secrets, production endpoints, insecure protocols, debug flags
 
 ### 7.0.7 Log File Analyzer
 - [ ] Detect log files by extension and content patterns
