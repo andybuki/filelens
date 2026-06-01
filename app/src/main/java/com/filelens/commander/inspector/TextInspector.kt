@@ -234,6 +234,168 @@ class TextInspector @Inject constructor() : FileInspector {
                     }
                 }
             }
+            "rb" -> {
+                val classPattern = Regex("""^\s*(class|module)\s+(\w+(?:::\w+)*)""", RegexOption.MULTILINE)
+                val methodPattern = Regex("""^\s*def\s+(self\.)?(\w+[?!=]?)""", RegexOption.MULTILINE)
+                classPattern.findAll(content).forEach { match ->
+                    items.add(StructureNode.Leaf(name = "${match.groupValues[1]} ${match.groupValues[2]}"))
+                }
+                methodPattern.findAll(content).forEach { match ->
+                    val prefix = if (match.groupValues[1].isNotEmpty()) "self." else ""
+                    items.add(StructureNode.Leaf(name = "def $prefix${match.groupValues[2]}"))
+                }
+            }
+            "php" -> {
+                val classPattern = Regex("""^\s*(abstract\s+)?(class|interface|trait|enum)\s+(\w+)""", RegexOption.MULTILINE)
+                val funcPattern = Regex("""^\s*(public\s+|private\s+|protected\s+)?(static\s+)?function\s+(\w+)""", RegexOption.MULTILINE)
+                classPattern.findAll(content).forEach { match ->
+                    items.add(StructureNode.Leaf(name = "${match.groupValues[2]} ${match.groupValues[3]}"))
+                }
+                funcPattern.findAll(content).forEach { match ->
+                    items.add(StructureNode.Leaf(name = "function ${match.groupValues[3]}"))
+                }
+            }
+            "swift" -> {
+                val classPattern = Regex("""^\s*(class|struct|enum|protocol|actor|extension)\s+(\w+)""", RegexOption.MULTILINE)
+                val funcPattern = Regex("""^\s*(func)\s+(\w+)""", RegexOption.MULTILINE)
+                classPattern.findAll(content).forEach { match ->
+                    items.add(StructureNode.Leaf(name = "${match.groupValues[1]} ${match.groupValues[2]}"))
+                }
+                funcPattern.findAll(content).forEach { match ->
+                    items.add(StructureNode.Leaf(name = "func ${match.groupValues[2]}"))
+                }
+            }
+            "scala" -> {
+                val classPattern = Regex("""^\s*(class|object|trait|case\s+class|case\s+object|abstract\s+class|enum)\s+(\w+)""", RegexOption.MULTILINE)
+                val defPattern = Regex("""^\s*def\s+(\w+)""", RegexOption.MULTILINE)
+                classPattern.findAll(content).forEach { match ->
+                    items.add(StructureNode.Leaf(name = "${match.groupValues[1]} ${match.groupValues[2]}"))
+                }
+                defPattern.findAll(content).forEach { match ->
+                    items.add(StructureNode.Leaf(name = "def ${match.groupValues[1]}"))
+                }
+            }
+            "dart" -> {
+                val classPattern = Regex("""^\s*(abstract\s+)?(class|mixin|enum|extension)\s+(\w+)""", RegexOption.MULTILINE)
+                val funcPattern = Regex("""^\s*[\w<>\[\]?]+\s+(\w+)\s*\(""", RegexOption.MULTILINE)
+                classPattern.findAll(content).forEach { match ->
+                    items.add(StructureNode.Leaf(name = "${match.groupValues[2]} ${match.groupValues[3]}"))
+                }
+                funcPattern.findAll(content).take(50).forEach { match ->
+                    val name = match.groupValues[1]
+                    if (name !in setOf("if", "else", "for", "while", "switch", "return", "import", "class", "mixin", "enum", "extension")) {
+                        items.add(StructureNode.Leaf(name = "func $name"))
+                    }
+                }
+            }
+            "pl", "pm" -> {
+                val packagePattern = Regex("""^\s*package\s+([\w:]+)""", RegexOption.MULTILINE)
+                val subPattern = Regex("""^\s*sub\s+(\w+)""", RegexOption.MULTILINE)
+                packagePattern.findAll(content).forEach { match ->
+                    items.add(StructureNode.Leaf(name = "package ${match.groupValues[1]}"))
+                }
+                subPattern.findAll(content).forEach { match ->
+                    items.add(StructureNode.Leaf(name = "sub ${match.groupValues[1]}"))
+                }
+            }
+            "ex", "exs" -> {
+                val modulePattern = Regex("""^\s*defmodule\s+([\w.]+)""", RegexOption.MULTILINE)
+                val funcPattern = Regex("""^\s*(def|defp|defmacro|defmacrop)\s+(\w+[?!]?)""", RegexOption.MULTILINE)
+                modulePattern.findAll(content).forEach { match ->
+                    items.add(StructureNode.Leaf(name = "defmodule ${match.groupValues[1]}"))
+                }
+                funcPattern.findAll(content).forEach { match ->
+                    items.add(StructureNode.Leaf(name = "${match.groupValues[1]} ${match.groupValues[2]}"))
+                }
+            }
+            "lua" -> {
+                val funcPattern = Regex("""^\s*(local\s+)?function\s+([\w.:\-]+)""", RegexOption.MULTILINE)
+                val assignFuncPattern = Regex("""^\s*(local\s+)?([\w.:\-]+)\s*=\s*function\s*\(""", RegexOption.MULTILINE)
+                funcPattern.findAll(content).forEach { match ->
+                    items.add(StructureNode.Leaf(name = "function ${match.groupValues[2]}"))
+                }
+                assignFuncPattern.findAll(content).forEach { match ->
+                    items.add(StructureNode.Leaf(name = "function ${match.groupValues[2]}"))
+                }
+            }
+            "r" -> {
+                val funcPattern = Regex("""^\s*(\w+)\s*<-\s*function\s*\(""", RegexOption.MULTILINE)
+                val classPattern = Regex("""^\s*setClass\s*\(\s*["'](\w+)["']""", RegexOption.MULTILINE)
+                classPattern.findAll(content).forEach { match ->
+                    items.add(StructureNode.Leaf(name = "class ${match.groupValues[1]}"))
+                }
+                funcPattern.findAll(content).forEach { match ->
+                    items.add(StructureNode.Leaf(name = "function ${match.groupValues[1]}"))
+                }
+            }
+            "groovy" -> {
+                val classPattern = Regex("""^\s*(class|interface|trait|enum)\s+(\w+)""", RegexOption.MULTILINE)
+                val defPattern = Regex("""^\s*def\s+(\w+)\s*\(""", RegexOption.MULTILINE)
+                classPattern.findAll(content).forEach { match ->
+                    items.add(StructureNode.Leaf(name = "${match.groupValues[1]} ${match.groupValues[2]}"))
+                }
+                defPattern.findAll(content).forEach { match ->
+                    items.add(StructureNode.Leaf(name = "def ${match.groupValues[1]}"))
+                }
+            }
+            "html", "htm" -> {
+                val headingPattern = Regex("""<(h[1-6])[^>]*>\s*(.*?)\s*</\1>""", setOf(RegexOption.MULTILINE, RegexOption.IGNORE_CASE))
+                val formPattern = Regex("""<form[^>]*(?:id\s*=\s*["']([^"']+)["']|name\s*=\s*["']([^"']+)["'])[^>]*>""", setOf(RegexOption.MULTILINE, RegexOption.IGNORE_CASE))
+                val scriptPattern = Regex("""<script[^>]*(?:src\s*=\s*["']([^"']+)["'])?[^>]*>""", setOf(RegexOption.MULTILINE, RegexOption.IGNORE_CASE))
+                val namedDivPattern = Regex("""<(div|section|nav|main|header|footer|aside|article)\s+[^>]*id\s*=\s*["']([^"']+)["'][^>]*>""", setOf(RegexOption.MULTILINE, RegexOption.IGNORE_CASE))
+                headingPattern.findAll(content).forEach { match ->
+                    val tag = match.groupValues[1].lowercase()
+                    val text = match.groupValues[2].replace(Regex("<[^>]+>"), "").trim()
+                    if (text.isNotEmpty()) {
+                        items.add(StructureNode.Leaf(name = "<$tag> $text"))
+                    }
+                }
+                namedDivPattern.findAll(content).forEach { match ->
+                    val tag = match.groupValues[1].lowercase()
+                    items.add(StructureNode.Leaf(name = "<$tag> #${match.groupValues[2]}"))
+                }
+                formPattern.findAll(content).forEach { match ->
+                    val id = match.groupValues[1].ifEmpty { match.groupValues[2] }
+                    items.add(StructureNode.Leaf(name = "<form> ${if (id.isNotEmpty()) "#$id" else ""}".trim()))
+                }
+                scriptPattern.findAll(content).forEach { match ->
+                    val src = match.groupValues[1]
+                    items.add(StructureNode.Leaf(name = if (src.isNotEmpty()) "<script> $src" else "<script> inline"))
+                }
+            }
+            "css", "scss", "less", "sass" -> {
+                val selectorPattern = Regex("""^([.#@][\w\-]+(?:\s*[,>+~]\s*[.#@]?[\w\-]+)*)\s*\{""", RegexOption.MULTILINE)
+                selectorPattern.findAll(content).take(50).forEach { match ->
+                    items.add(StructureNode.Leaf(name = match.groupValues[1].trim()))
+                }
+            }
+            "sql" -> {
+                val createPattern = Regex("""^\s*CREATE\s+(TABLE|VIEW|INDEX|FUNCTION|PROCEDURE|TRIGGER|TYPE)\s+(?:IF\s+NOT\s+EXISTS\s+)?(?:[\w.]+\.)?(\w+)""", setOf(RegexOption.MULTILINE, RegexOption.IGNORE_CASE))
+                val alterPattern = Regex("""^\s*ALTER\s+(TABLE)\s+(?:[\w.]+\.)?(\w+)""", setOf(RegexOption.MULTILINE, RegexOption.IGNORE_CASE))
+                createPattern.findAll(content).forEach { match ->
+                    items.add(StructureNode.Leaf(name = "CREATE ${match.groupValues[1].uppercase()} ${match.groupValues[2]}"))
+                }
+                alterPattern.findAll(content).forEach { match ->
+                    items.add(StructureNode.Leaf(name = "ALTER ${match.groupValues[1].uppercase()} ${match.groupValues[2]}"))
+                }
+            }
+            "sh", "bash", "zsh", "fish" -> {
+                val funcPattern = Regex("""^\s*(?:function\s+)?(\w+)\s*\(\s*\)""", RegexOption.MULTILINE)
+                val funcKeyword = Regex("""^\s*function\s+(\w+)""", RegexOption.MULTILINE)
+                val seen = mutableSetOf<String>()
+                funcPattern.findAll(content).forEach { match ->
+                    val name = match.groupValues[1]
+                    if (seen.add(name)) {
+                        items.add(StructureNode.Leaf(name = "function $name"))
+                    }
+                }
+                funcKeyword.findAll(content).forEach { match ->
+                    val name = match.groupValues[1]
+                    if (seen.add(name)) {
+                        items.add(StructureNode.Leaf(name = "function $name"))
+                    }
+                }
+            }
         }
 
         if (items.isEmpty()) return null
