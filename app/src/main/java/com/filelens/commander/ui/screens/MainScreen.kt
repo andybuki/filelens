@@ -50,6 +50,7 @@ import com.filelens.commander.ui.components.FileListPanel
 import com.filelens.commander.ui.components.InspectorPanel
 import com.filelens.commander.ui.components.NewFolderDialog
 import com.filelens.commander.ui.components.RenameDialog
+import com.filelens.commander.ui.components.SearchInsideDialog
 import com.filelens.commander.viewmodel.BatchScanViewModel
 import com.filelens.commander.viewmodel.CommanderViewModel
 import com.filelens.commander.viewmodel.DialogType
@@ -77,6 +78,20 @@ fun MainScreen(
 
     if (batchScanState.active) {
         BatchScanDialog(state = batchScanState, onDismiss = { batchScanViewModel.dismiss() })
+    }
+
+    var showSearchInsideDialog by remember { mutableStateOf(false) }
+    if (showSearchInsideDialog) {
+        SearchInsideDialog(
+            initialQuery = inspectorState.searchQuery,
+            hits = inspectorState.searchHits,
+            isSearching = inspectorState.isSearching,
+            onSearch = { q -> inspectorViewModel.searchInside(q) },
+            onDismiss = {
+                showSearchInsideDialog = false
+                inspectorViewModel.clearSearch()
+            }
+        )
     }
 
     LaunchedEffect(Unit) {
@@ -256,7 +271,8 @@ fun MainScreen(
                 onViewOnMap = onViewOnMap,
                 onShareCleaned = onShareCleaned,
                 onBatchScan = onBatchScan,
-                onRefresh = refreshCurrentDir
+                onRefresh = refreshCurrentDir,
+                onSearchInside = { showSearchInsideDialog = true }
             )
         } else {
             CompactLayout(
@@ -270,6 +286,7 @@ fun MainScreen(
                 onViewOnMap = onViewOnMap,
                 onShareCleaned = onShareCleaned,
                 onBatchScan = onBatchScan,
+                onSearchInside = { showSearchInsideDialog = true },
                 onRefresh = refreshCurrentDir
             )
         }
@@ -294,6 +311,7 @@ private fun CompactLayout(
     onViewOnMap: (Double, Double) -> Unit,
     onShareCleaned: () -> Unit,
     onBatchScan: () -> Unit,
+    onSearchInside: () -> Unit,
     onRefresh: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
@@ -328,6 +346,7 @@ private fun CompactLayout(
                     onRestoreIgnored = { inspectorViewModel.restoreIgnoredRisks() },
                     onOpenAs = { cat -> inspectorViewModel.openAs(cat) },
                     onReinspect = { inspectorViewModel.reinspect() },
+                    onSearchInside = onSearchInside,
                     forcedCategory = inspectorState.forcedCategory,
                     detectedCategory = inspectorState.detectedCategory,
                     modifier = Modifier.fillMaxWidth()
@@ -410,7 +429,8 @@ private fun ExpandedLayout(
     onViewOnMap: (Double, Double) -> Unit,
     onShareCleaned: () -> Unit,
     onBatchScan: () -> Unit,
-    onRefresh: () -> Unit
+    onRefresh: () -> Unit,
+    onSearchInside: () -> Unit
 ) {
     var dualPanel by remember { mutableStateOf(false) }
     var activeLeft by remember { mutableStateOf(true) }
@@ -501,6 +521,7 @@ private fun ExpandedLayout(
                     onRestoreIgnored = { inspectorViewModel.restoreIgnoredRisks() },
                     onOpenAs = { cat -> inspectorViewModel.openAs(cat) },
                     onReinspect = { inspectorViewModel.reinspect() },
+                    onSearchInside = onSearchInside,
                     forcedCategory = inspectorState.forcedCategory,
                     detectedCategory = inspectorState.detectedCategory,
                     modifier = Modifier.weight(1f)

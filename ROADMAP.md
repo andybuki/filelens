@@ -255,12 +255,12 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 - [x] Detect common frameworks: Spring Boot, Android Gradle, Docker Compose, Kubernetes, GitHub Actions, npm/yarn/pnpm, Python project config
 - [x] Risk warnings for secrets, production endpoints, insecure protocols, debug flags
 
-### 7.0.7 Log File Analyzer
-- [ ] Detect log files by extension and content patterns
-- [ ] Show line count, time range, log levels, top repeated errors/warnings
-- [ ] Extract stack traces and group similar errors
-- [ ] Detect HTTP status codes, slow requests, exception names, package/class names
-- [ ] Search and filter by level, time range, keyword, exception
+### 7.0.7 Log File Analyzer ✅
+- [x] Detect log files by extension and content patterns
+- [x] Show line count, time range, log levels, top repeated errors/warnings
+- [x] Extract stack traces and group similar errors
+- [x] Detect HTTP status codes, slow requests, exception names, package/class names
+- [x] Search and filter by level, time range, keyword, exception
 
 ### 7.0.8 Search Inside Structured Files
 - [ ] Search inside ZIP/APK/OOXML entries without full extraction

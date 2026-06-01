@@ -10,6 +10,7 @@ import com.filelens.commander.domain.model.FileItem
 import com.filelens.commander.domain.model.InspectorInfo
 import com.filelens.commander.domain.model.InspectorResult
 import com.filelens.commander.domain.usecase.ProvenanceDetector
+import com.filelens.commander.domain.usecase.StructuredSearchUseCase
 import com.filelens.commander.domain.usecase.TrustScoreUseCase
 import com.filelens.commander.inspector.ApkInspector
 import com.filelens.commander.inspector.BinaryInspector
@@ -41,7 +42,10 @@ data class InspectorState(
     val isAnalyzing: Boolean = false,
     val ignoredRiskKeys: Set<String> = emptySet(),
     val detectedCategory: FileCategory? = null,
-    val forcedCategory: FileCategory? = null
+    val forcedCategory: FileCategory? = null,
+    val searchQuery: String = "",
+    val searchHits: List<com.filelens.commander.domain.model.SearchHit> = emptyList(),
+    val isSearching: Boolean = false
 )
 
 @HiltViewModel
@@ -62,7 +66,8 @@ class InspectorViewModel @Inject constructor(
     private val configInspector: ConfigInspector,
     private val logInspector: LogInspector,
     private val trustScoreUseCase: TrustScoreUseCase,
-    private val provenanceDetector: ProvenanceDetector
+    private val provenanceDetector: ProvenanceDetector,
+    private val structuredSearchUseCase: StructuredSearchUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(InspectorState())
@@ -182,6 +187,27 @@ class InspectorViewModel @Inject constructor(
     fun reinspect() {
         val item = _state.value.selectedFile ?: return
         selectFile(item, forcedCategory = _state.value.forcedCategory)
+    }
+
+    fun searchInside(query: String) {
+        val item = _state.value.selectedFile ?: return
+        val cat = _state.value.info?.category ?: item.fileCategory
+        _state.value = _state.value.copy(
+            searchQuery = query,
+            isSearching = true,
+            searchHits = emptyList()
+        )
+        viewModelScope.launch {
+            val hits = structuredSearchUseCase.search(File(item.path), query, cat)
+            _state.value = _state.value.copy(
+                searchHits = hits,
+                isSearching = false
+            )
+        }
+    }
+
+    fun clearSearch() {
+        _state.value = _state.value.copy(searchQuery = "", searchHits = emptyList(), isSearching = false)
     }
 
     private suspend fun runInspector(file: File, category: FileCategory, extension: String): InspectorResult {

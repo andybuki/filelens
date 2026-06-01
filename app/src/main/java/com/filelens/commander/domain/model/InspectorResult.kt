@@ -18,6 +18,27 @@ data class SecretMatch(
     val lineNumber: Int? = null
 )
 
+data class SearchHit(
+    val kind: SearchHitKind,
+    val location: String,
+    val snippet: String,
+    val lineNumber: Int? = null,
+    val size: Long? = null
+)
+
+enum class SearchHitKind(val displayName: String) {
+    ENTRY_NAME("Entry name"),
+    ENTRY_CONTENT("Entry content"),
+    JSON_KEY("JSON key"),
+    JSON_VALUE("JSON value"),
+    XML_TAG("XML tag"),
+    XML_ATTR("XML attribute"),
+    XML_TEXT("XML text"),
+    CSV_CELL("CSV cell"),
+    SQLITE_OBJECT("SQLite object"),
+    LINE("Line")
+}
+
 data class Provenance(
     val source: ProvenanceSource,
     val displayName: String,

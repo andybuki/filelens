@@ -91,6 +91,7 @@ fun InspectorPanel(
     onRestoreIgnored: (() -> Unit)? = null,
     onOpenAs: ((FileCategory) -> Unit)? = null,
     onReinspect: (() -> Unit)? = null,
+    onSearchInside: (() -> Unit)? = null,
     forcedCategory: FileCategory? = null,
     detectedCategory: FileCategory? = null,
     modifier: Modifier = Modifier
@@ -177,7 +178,8 @@ fun InspectorPanel(
                 onOpenWith = onOpenWith,
                 onViewOnMap = onViewOnMap,
                 onShareCleaned = onShareCleaned,
-                onSwitchTab = { tab -> selectedTab = tabs.indexOf(tab) }
+                onSwitchTab = { tab -> selectedTab = tabs.indexOf(tab) },
+                onSearchInside = onSearchInside
             )
             InspectorTab.PREVIEW -> PreviewTab(result)
             InspectorTab.STRUCTURE -> StructureTab(result)
@@ -194,7 +196,8 @@ private fun OverviewTab(
     onOpenWith: () -> Unit,
     onViewOnMap: ((Double, Double) -> Unit)? = null,
     onShareCleaned: (() -> Unit)? = null,
-    onSwitchTab: ((InspectorTab) -> Unit)? = null
+    onSwitchTab: ((InspectorTab) -> Unit)? = null,
+    onSearchInside: (() -> Unit)? = null
 ) {
     Column(
         modifier = Modifier
@@ -287,6 +290,16 @@ private fun OverviewTab(
                 }
                 Spacer(modifier = Modifier.height(6.dp))
             }
+        }
+
+        if (onSearchInside != null) {
+            androidx.compose.material3.OutlinedButton(
+                onClick = onSearchInside,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Search inside…")
+            }
+            Spacer(modifier = Modifier.height(6.dp))
         }
 
         if (onShareCleaned != null) {
