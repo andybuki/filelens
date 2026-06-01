@@ -9,6 +9,8 @@ import com.filelens.commander.domain.model.classifyByExtension
 import com.filelens.commander.vfs.LocalFileNode
 import com.filelens.commander.vfs.NodeType
 import com.filelens.commander.vfs.VirtualFileNode
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,10 +21,10 @@ class BrowseFilesUseCase @Inject constructor() {
         node: VirtualFileNode,
         sortOrder: SortOrder = SortOrder(),
         showHidden: Boolean = false
-    ): List<FileItem> {
+    ): List<FileItem> = withContext(Dispatchers.IO) {
         val children = node.children()
 
-        return children
+        children
             .map { child -> toFileItem(child) }
             .filter { showHidden || !it.isHidden }
             .let { items -> sortItems(items, sortOrder) }

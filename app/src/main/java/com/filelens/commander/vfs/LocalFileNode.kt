@@ -24,7 +24,6 @@ class LocalFileNode(
         if (!file.isDirectory) return@withContext emptyList()
         file.listFiles()
             ?.map { LocalFileNode(it, this@LocalFileNode) }
-            ?.sortedWith(compareBy<LocalFileNode> { it.type != NodeType.DIRECTORY }.thenBy { it.name.lowercase() })
             ?: emptyList()
     }
 
