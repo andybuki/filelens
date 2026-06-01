@@ -267,6 +267,9 @@ private fun PreviewTab(result: InspectorResult?) {
         is PreviewContent.TreeContent -> {
             StructureTreeView(preview.root)
         }
+        else -> {
+            CenteredMessage("No preview available")
+        }
     }
 }
 
