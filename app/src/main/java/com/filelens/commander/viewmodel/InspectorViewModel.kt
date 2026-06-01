@@ -13,6 +13,7 @@ import com.filelens.commander.domain.usecase.ProvenanceDetector
 import com.filelens.commander.domain.usecase.TrustScoreUseCase
 import com.filelens.commander.inspector.ApkInspector
 import com.filelens.commander.inspector.BinaryInspector
+import com.filelens.commander.inspector.ConfigInspector
 import com.filelens.commander.inspector.ImageInspector
 import com.filelens.commander.inspector.JsonInspector
 import com.filelens.commander.inspector.FontInspector
@@ -57,6 +58,7 @@ class InspectorViewModel @Inject constructor(
     private val mediaInspector: MediaInspector,
     private val sqliteInspector: SqliteInspector,
     private val fontInspector: FontInspector,
+    private val configInspector: ConfigInspector,
     private val trustScoreUseCase: TrustScoreUseCase,
     private val provenanceDetector: ProvenanceDetector
 ) : ViewModel() {
@@ -194,13 +196,17 @@ class InspectorViewModel @Inject constructor(
                     }
                 }
                 FileCategory.TEXT -> {
-                    when (extension.lowercase()) {
-                        "json" -> jsonInspector.inspect(file)
-                        "xml", "xsl", "xslt", "xsd", "svg", "xhtml", "plist" -> xmlInspector.inspect(file)
+                    when {
+                        extension.lowercase() == "json" -> jsonInspector.inspect(file)
+                        extension.lowercase() in setOf("xml", "xsl", "xslt", "xsd", "svg", "xhtml", "plist") -> xmlInspector.inspect(file)
+                        configInspector.handles(file) -> configInspector.inspect(file)
                         else -> textInspector.inspect(file)
                     }
                 }
-                FileCategory.CODE -> textInspector.inspect(file)
+                FileCategory.CODE -> {
+                    if (configInspector.handles(file)) configInspector.inspect(file)
+                    else textInspector.inspect(file)
+                }
                 FileCategory.PDF -> pdfInspector.inspect(file)
                 FileCategory.AUDIO, FileCategory.VIDEO -> mediaInspector.inspect(file)
                 FileCategory.DATABASE -> sqliteInspector.inspect(file)

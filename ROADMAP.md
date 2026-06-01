@@ -242,12 +242,12 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 - [x] Combine provenance with risk messages, e.g. "APK from Downloads requests SMS permissions"
 - [x] Show source confidence and avoid claiming certainty when only path heuristics are available
 
-### 7.0.5 Cross-Format Secret Scanner
-- [ ] Dedicated secret scan across text, code, JSON, XML, YAML, TOML, INI, `.env`, `.properties`, logs, ZIP entries, APK strings
-- [ ] Detect API keys, JWTs, private keys, tokens, passwords, database URLs, cloud credentials, Authorization headers
-- [ ] Redact secret values by default in UI
-- [ ] Provide "copy key name only" and "open containing file" actions
-- [ ] Add Safe Share warning when possible secrets are selected for sharing
+### 7.0.5 Cross-Format Secret Scanner ✅
+- [x] Dedicated secret scan across text, code, JSON, XML, YAML, TOML, INI, `.env`, `.properties`, logs, ZIP entries, APK strings
+- [x] Detect API keys, JWTs, private keys, tokens, passwords, database URLs, cloud credentials, Authorization headers
+- [x] Redact secret values by default in UI
+- [x] Provide "copy key name only" and "open containing file" actions
+- [x] Add Safe Share warning when possible secrets are selected for sharing
 
 ### 7.0.6 Config File Inspector
 - [ ] Inspect `.env`, `.properties`, `.ini`, `.yaml`, `.yml`, `.toml`, `.conf`, `.cfg`
