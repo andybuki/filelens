@@ -92,6 +92,7 @@ fun InspectorPanel(
     onOpenAs: ((FileCategory) -> Unit)? = null,
     onReinspect: (() -> Unit)? = null,
     onSearchInside: (() -> Unit)? = null,
+    onExportReport: ((isJson: Boolean) -> Unit)? = null,
     forcedCategory: FileCategory? = null,
     detectedCategory: FileCategory? = null,
     modifier: Modifier = Modifier
@@ -179,7 +180,8 @@ fun InspectorPanel(
                 onViewOnMap = onViewOnMap,
                 onShareCleaned = onShareCleaned,
                 onSwitchTab = { tab -> selectedTab = tabs.indexOf(tab) },
-                onSearchInside = onSearchInside
+                onSearchInside = onSearchInside,
+                onExportReport = onExportReport
             )
             InspectorTab.PREVIEW -> PreviewTab(result)
             InspectorTab.STRUCTURE -> StructureTab(result)
@@ -197,7 +199,8 @@ private fun OverviewTab(
     onViewOnMap: ((Double, Double) -> Unit)? = null,
     onShareCleaned: (() -> Unit)? = null,
     onSwitchTab: ((InspectorTab) -> Unit)? = null,
-    onSearchInside: (() -> Unit)? = null
+    onSearchInside: (() -> Unit)? = null,
+    onExportReport: ((isJson: Boolean) -> Unit)? = null
 ) {
     Column(
         modifier = Modifier
@@ -298,6 +301,21 @@ private fun OverviewTab(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Search inside…")
+            }
+            Spacer(modifier = Modifier.height(6.dp))
+        }
+
+        if (onExportReport != null) {
+            Row(modifier = Modifier.fillMaxWidth()) {
+                androidx.compose.material3.OutlinedButton(
+                    onClick = { onExportReport(false) },
+                    modifier = Modifier.weight(1f)
+                ) { Text("Export Markdown") }
+                Spacer(modifier = Modifier.width(6.dp))
+                androidx.compose.material3.OutlinedButton(
+                    onClick = { onExportReport(true) },
+                    modifier = Modifier.weight(1f)
+                ) { Text("Export JSON") }
             }
             Spacer(modifier = Modifier.height(6.dp))
         }

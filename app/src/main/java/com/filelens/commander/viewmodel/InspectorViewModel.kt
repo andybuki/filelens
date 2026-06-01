@@ -10,6 +10,7 @@ import com.filelens.commander.domain.model.FileItem
 import com.filelens.commander.domain.model.InspectorInfo
 import com.filelens.commander.domain.model.InspectorResult
 import com.filelens.commander.domain.usecase.ProvenanceDetector
+import com.filelens.commander.domain.usecase.ReportExportUseCase
 import com.filelens.commander.domain.usecase.StructuredSearchUseCase
 import com.filelens.commander.domain.usecase.TrustScoreUseCase
 import com.filelens.commander.inspector.ApkInspector
@@ -67,7 +68,8 @@ class InspectorViewModel @Inject constructor(
     private val logInspector: LogInspector,
     private val trustScoreUseCase: TrustScoreUseCase,
     private val provenanceDetector: ProvenanceDetector,
-    private val structuredSearchUseCase: StructuredSearchUseCase
+    private val structuredSearchUseCase: StructuredSearchUseCase,
+    private val reportExportUseCase: ReportExportUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(InspectorState())
@@ -208,6 +210,21 @@ class InspectorViewModel @Inject constructor(
 
     fun clearSearch() {
         _state.value = _state.value.copy(searchQuery = "", searchHits = emptyList(), isSearching = false)
+    }
+
+    fun exportReport(asJson: Boolean, onReady: (java.io.File) -> Unit) {
+        val info = _state.value.info ?: return
+        val result = _state.value.result ?: return
+        val format = if (asJson) ReportExportUseCase.Format.JSON else ReportExportUseCase.Format.MARKDOWN
+        viewModelScope.launch {
+            val file = reportExportUseCase.export(
+                info = info,
+                result = result,
+                detectedType = _state.value.detection?.detectedType,
+                format = format
+            )
+            onReady(file)
+        }
     }
 
     private suspend fun runInspector(file: File, category: FileCategory, extension: String): InspectorResult {

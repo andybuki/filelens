@@ -268,11 +268,11 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 - [x] Search result grouping by file, entry path, match type, and risk relevance
 - [x] Support "search selected folder/archive" as a batch operation
 
-### 7.0.9 Batch Privacy Audit
-- [ ] Folder-level privacy audit: photos with GPS, Office author metadata, hidden Excel sheets, tracked changes, PDF embedded files, secrets in configs/logs, archives with risky entries
-- [ ] Batch Safe Share: create cleaned copies for supported formats and package them into a new ZIP
-- [ ] Review screen: safe files / risky files / unsupported files
-- [ ] Allow sharing only cleaned files or only files without warnings
+### 7.0.9 Batch Privacy Audit ✅
+- [x] Folder-level privacy audit: photos with GPS, Office author metadata, hidden Excel sheets, tracked changes, PDF embedded files, secrets in configs/logs, archives with risky entries
+- [x] Batch Safe Share: create cleaned copies for supported formats and package them into a new ZIP
+- [x] Review screen: safe files / risky files / unsupported files
+- [x] Allow sharing only cleaned files or only files without warnings
 
 ### 7.0.10 Inspection Reports
 - [ ] Export current file report as Markdown

@@ -291,7 +291,8 @@ fun MainScreen(
                 onShareCleaned = onShareCleaned,
                 onBatchScan = onBatchScan,
                 onRefresh = refreshCurrentDir,
-                onSearchInside = { showSearchInsideDialog = true }
+                onSearchInside = { showSearchInsideDialog = true },
+                onExportReport = { isJson -> exportAndShareReport(isJson, inspectorViewModel, context) }
             )
         } else {
             CompactLayout(
@@ -306,6 +307,7 @@ fun MainScreen(
                 onShareCleaned = onShareCleaned,
                 onBatchScan = onBatchScan,
                 onSearchInside = { showSearchInsideDialog = true },
+                onExportReport = { isJson -> exportAndShareReport(isJson, inspectorViewModel, context) },
                 onRefresh = refreshCurrentDir
             )
         }
@@ -331,6 +333,7 @@ private fun CompactLayout(
     onShareCleaned: () -> Unit,
     onBatchScan: () -> Unit,
     onSearchInside: () -> Unit,
+    onExportReport: (Boolean) -> Unit,
     onRefresh: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
@@ -366,6 +369,7 @@ private fun CompactLayout(
                     onOpenAs = { cat -> inspectorViewModel.openAs(cat) },
                     onReinspect = { inspectorViewModel.reinspect() },
                     onSearchInside = onSearchInside,
+                    onExportReport = onExportReport,
                     forcedCategory = inspectorState.forcedCategory,
                     detectedCategory = inspectorState.detectedCategory,
                     modifier = Modifier.fillMaxWidth()
@@ -426,6 +430,27 @@ private fun CompactLayout(
     }
 }
 
+private fun exportAndShareReport(
+    asJson: Boolean,
+    inspectorViewModel: InspectorViewModel,
+    context: android.content.Context
+) {
+    inspectorViewModel.exportReport(asJson) { file ->
+        val uri = FileProvider.getUriForFile(
+            context,
+            "${context.packageName}.fileprovider",
+            file
+        )
+        val mime = if (asJson) "application/json" else "text/markdown"
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = mime
+            putExtra(Intent.EXTRA_STREAM, uri)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        context.startActivity(Intent.createChooser(shareIntent, "Share report"))
+    }
+}
+
 private fun ignoredIdsFor(state: InspectorState): Set<String> {
     val path = state.selectedFile?.path ?: return emptySet()
     val prefix = "$path::"
@@ -449,7 +474,8 @@ private fun ExpandedLayout(
     onShareCleaned: () -> Unit,
     onBatchScan: () -> Unit,
     onRefresh: () -> Unit,
-    onSearchInside: () -> Unit
+    onSearchInside: () -> Unit,
+    onExportReport: (Boolean) -> Unit
 ) {
     var dualPanel by remember { mutableStateOf(false) }
     var activeLeft by remember { mutableStateOf(true) }
@@ -541,6 +567,7 @@ private fun ExpandedLayout(
                     onOpenAs = { cat -> inspectorViewModel.openAs(cat) },
                     onReinspect = { inspectorViewModel.reinspect() },
                     onSearchInside = onSearchInside,
+                    onExportReport = onExportReport,
                     forcedCategory = inspectorState.forcedCategory,
                     detectedCategory = inspectorState.detectedCategory,
                     modifier = Modifier.weight(1f)
