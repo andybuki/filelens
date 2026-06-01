@@ -4,8 +4,10 @@ import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.InspectorResult
 import com.filelens.commander.domain.model.PreviewContent
 import com.filelens.commander.domain.model.RiskItem
-import com.filelens.commander.domain.model.RiskSeverity
+import com.filelens.commander.domain.model.Risks
+import com.filelens.commander.domain.model.SecretMatch
 import com.filelens.commander.domain.model.StructureNode
+import com.filelens.commander.domain.usecase.SecretScanner
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -13,7 +15,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class TextInspector @Inject constructor() : FileInspector {
+class TextInspector @Inject constructor(
+    private val secretScanner: SecretScanner
+) : FileInspector {
 
     override val supportedCategories = setOf(FileCategory.TEXT, FileCategory.CODE)
 
@@ -62,7 +66,10 @@ class TextInspector @Inject constructor() : FileInspector {
 
         val outline = extractOutline(content, ext)
 
-        scanForSecrets(content, risks)
+        val secrets = secretScanner.scan(content, location = file.name)
+        if (secrets.isNotEmpty()) {
+            risks.add(Risks.secretsFound(secrets.size, secrets.map { it.kind }.distinct()))
+        }
 
         InspectorResult(
             overview = overview,
@@ -74,7 +81,8 @@ class TextInspector @Inject constructor() : FileInspector {
                 language = language,
                 encoding = encoding,
                 lineCount = lineCount
-            )
+            ),
+            secrets = secrets
         )
     }
 
@@ -400,30 +408,6 @@ class TextInspector @Inject constructor() : FileInspector {
 
         if (items.isEmpty()) return null
         return StructureNode.Branch(name = "Outline", children = items.take(100))
-    }
-
-    private fun scanForSecrets(content: String, risks: MutableList<RiskItem>) {
-        val patterns = listOf(
-            Regex("""(?i)(api[_-]?key|apikey)\s*[:=]\s*["']?[\w\-]{16,}""") to "API key",
-            Regex("""(?i)(secret|password|passwd|pwd)\s*[:=]\s*["']?[^\s"']{8,}""") to "Password/secret",
-            Regex("""(?i)(token|auth[_-]?token|access[_-]?token)\s*[:=]\s*["']?[\w\-\.]{16,}""") to "Auth token",
-            Regex("""(?i)(aws[_-]?access[_-]?key|aws[_-]?secret)\s*[:=]\s*["']?[\w/+=]{16,}""") to "AWS credential",
-            Regex("""-----BEGIN\s+(RSA\s+)?PRIVATE\s+KEY-----""") to "Private key",
-            Regex("""(?i)(database[_-]?url|db[_-]?url|jdbc:)\s*[:=]?\s*["']?[^\s"']+""") to "Database URL"
-        )
-
-        val found = mutableSetOf<String>()
-        for ((pattern, label) in patterns) {
-            if (pattern.containsMatchIn(content) && found.add(label)) {
-                risks.add(
-                    RiskItem(
-                        severity = RiskSeverity.DANGER,
-                        title = "Possible $label detected",
-                        description = "This file may contain a $label. Avoid sharing this file without reviewing its contents."
-                    )
-                )
-            }
-        }
     }
 
     private fun formatSize(bytes: Long): String {

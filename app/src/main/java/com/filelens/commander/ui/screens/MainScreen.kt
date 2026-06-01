@@ -43,6 +43,7 @@ import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.filelens.commander.ui.components.BatchScanDialog
+import com.filelens.commander.ui.components.FolderDashboardDialog
 import com.filelens.commander.ui.components.CommanderToolbar
 import com.filelens.commander.ui.components.CopyMoveDialog
 import com.filelens.commander.ui.components.DeleteConfirmDialog
@@ -50,7 +51,9 @@ import com.filelens.commander.ui.components.FileListPanel
 import com.filelens.commander.ui.components.InspectorPanel
 import com.filelens.commander.ui.components.NewFolderDialog
 import com.filelens.commander.ui.components.RenameDialog
+import com.filelens.commander.ui.components.SearchInsideDialog
 import com.filelens.commander.viewmodel.BatchScanViewModel
+import com.filelens.commander.viewmodel.FolderDashboardViewModel
 import com.filelens.commander.viewmodel.CommanderViewModel
 import com.filelens.commander.viewmodel.DialogType
 import com.filelens.commander.viewmodel.FileListState
@@ -66,17 +69,59 @@ fun MainScreen(
     fileListViewModel: FileListViewModel = hiltViewModel(),
     inspectorViewModel: InspectorViewModel = hiltViewModel(),
     commanderViewModel: CommanderViewModel = hiltViewModel(),
-    batchScanViewModel: BatchScanViewModel = hiltViewModel()
+    batchScanViewModel: BatchScanViewModel = hiltViewModel(),
+    folderDashboardViewModel: FolderDashboardViewModel = hiltViewModel()
 ) {
     val fileListState by fileListViewModel.state.collectAsStateWithLifecycle()
     val inspectorState by inspectorViewModel.state.collectAsStateWithLifecycle()
     val commanderState by commanderViewModel.state.collectAsStateWithLifecycle()
     val batchScanState by batchScanViewModel.state.collectAsStateWithLifecycle()
+    val folderDashboardState by folderDashboardViewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
 
     if (batchScanState.active) {
-        BatchScanDialog(state = batchScanState, onDismiss = { batchScanViewModel.dismiss() })
+        BatchScanDialog(
+            state = batchScanState,
+            onCleanAndShareRisky = { batchScanViewModel.cleanAndShareRisky() },
+            onShareCleanedZip = { zipPath ->
+                val zipFile = File(zipPath)
+                val uri = FileProvider.getUriForFile(
+                    context,
+                    "${context.packageName}.fileprovider",
+                    zipFile
+                )
+                val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                    type = "application/zip"
+                    putExtra(Intent.EXTRA_STREAM, uri)
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
+                context.startActivity(Intent.createChooser(shareIntent, "Share cleaned files"))
+            },
+            onClearCleanedZip = { batchScanViewModel.clearCleanedZip() },
+            onDismiss = { batchScanViewModel.dismiss() }
+        )
+    }
+
+    if (folderDashboardState.active) {
+        FolderDashboardDialog(
+            state = folderDashboardState,
+            onDismiss = { folderDashboardViewModel.dismiss() }
+        )
+    }
+
+    var showSearchInsideDialog by remember { mutableStateOf(false) }
+    if (showSearchInsideDialog) {
+        SearchInsideDialog(
+            initialQuery = inspectorState.searchQuery,
+            hits = inspectorState.searchHits,
+            isSearching = inspectorState.isSearching,
+            onSearch = { q -> inspectorViewModel.searchInside(q) },
+            onDismiss = {
+                showSearchInsideDialog = false
+                inspectorViewModel.clearSearch()
+            }
+        )
     }
 
     LaunchedEffect(Unit) {
@@ -121,6 +166,7 @@ fun MainScreen(
 
     val refreshCurrentDir = { fileListViewModel.refresh() }
     val onBatchScan = { batchScanViewModel.startScan(fileListState.currentPath) }
+    val onFolderDashboard = { folderDashboardViewModel.analyze(fileListState.currentPath) }
 
     val coroutineScope = rememberCoroutineScope()
     val onShareCleaned: () -> Unit = {
@@ -256,7 +302,10 @@ fun MainScreen(
                 onViewOnMap = onViewOnMap,
                 onShareCleaned = onShareCleaned,
                 onBatchScan = onBatchScan,
-                onRefresh = refreshCurrentDir
+                onFolderDashboard = onFolderDashboard,
+                onRefresh = refreshCurrentDir,
+                onSearchInside = { showSearchInsideDialog = true },
+                onExportReport = { isJson -> exportAndShareReport(isJson, inspectorViewModel, context) }
             )
         } else {
             CompactLayout(
@@ -270,6 +319,9 @@ fun MainScreen(
                 onViewOnMap = onViewOnMap,
                 onShareCleaned = onShareCleaned,
                 onBatchScan = onBatchScan,
+                onFolderDashboard = onFolderDashboard,
+                onSearchInside = { showSearchInsideDialog = true },
+                onExportReport = { isJson -> exportAndShareReport(isJson, inspectorViewModel, context) },
                 onRefresh = refreshCurrentDir
             )
         }
@@ -294,6 +346,9 @@ private fun CompactLayout(
     onViewOnMap: (Double, Double) -> Unit,
     onShareCleaned: () -> Unit,
     onBatchScan: () -> Unit,
+    onFolderDashboard: () -> Unit,
+    onSearchInside: () -> Unit,
+    onExportReport: (Boolean) -> Unit,
     onRefresh: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
@@ -319,6 +374,19 @@ private fun CompactLayout(
                         scope.launch { bottomSheetState.hide() }
                         inspectorViewModel.clearSelection()
                     },
+                    ignoredRiskIds = ignoredIdsFor(inspectorState),
+                    onIgnoreRisk = { risk ->
+                        inspectorState.selectedFile?.path?.let { path ->
+                            inspectorViewModel.ignoreRisk(path, risk.id)
+                        }
+                    },
+                    onRestoreIgnored = { inspectorViewModel.restoreIgnoredRisks() },
+                    onOpenAs = { cat -> inspectorViewModel.openAs(cat) },
+                    onReinspect = { inspectorViewModel.reinspect() },
+                    onSearchInside = onSearchInside,
+                    onExportReport = onExportReport,
+                    forcedCategory = inspectorState.forcedCategory,
+                    detectedCategory = inspectorState.detectedCategory,
                     modifier = Modifier.fillMaxWidth()
                 )
             },
@@ -354,6 +422,7 @@ private fun CompactLayout(
                 onSearchRecursive = { fileListViewModel.searchRecursive(it) },
                 onRefresh = onRefresh,
                 onBatchScan = onBatchScan,
+                onFolderDashboard = onFolderDashboard,
                 modifier = Modifier.fillMaxSize()
             )
         }
@@ -377,6 +446,37 @@ private fun CompactLayout(
     }
 }
 
+private fun exportAndShareReport(
+    asJson: Boolean,
+    inspectorViewModel: InspectorViewModel,
+    context: android.content.Context
+) {
+    inspectorViewModel.exportReport(asJson) { file ->
+        val uri = FileProvider.getUriForFile(
+            context,
+            "${context.packageName}.fileprovider",
+            file
+        )
+        val mime = if (asJson) "application/json" else "text/markdown"
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = mime
+            putExtra(Intent.EXTRA_STREAM, uri)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        context.startActivity(Intent.createChooser(shareIntent, "Share report"))
+    }
+}
+
+private fun ignoredIdsFor(state: InspectorState): Set<String> {
+    val path = state.selectedFile?.path ?: return emptySet()
+    val prefix = "$path::"
+    return state.ignoredRiskKeys
+        .asSequence()
+        .filter { it.startsWith(prefix) }
+        .map { it.removePrefix(prefix) }
+        .toSet()
+}
+
 @Composable
 private fun ExpandedLayout(
     fileListState: FileListState,
@@ -389,7 +489,10 @@ private fun ExpandedLayout(
     onViewOnMap: (Double, Double) -> Unit,
     onShareCleaned: () -> Unit,
     onBatchScan: () -> Unit,
-    onRefresh: () -> Unit
+    onFolderDashboard: () -> Unit,
+    onRefresh: () -> Unit,
+    onSearchInside: () -> Unit,
+    onExportReport: (Boolean) -> Unit
 ) {
     var dualPanel by remember { mutableStateOf(false) }
     var activeLeft by remember { mutableStateOf(true) }
@@ -428,6 +531,7 @@ private fun ExpandedLayout(
                 onSearchRecursive = { fileListViewModel.searchRecursive(it) },
                 onRefresh = onRefresh,
                 onBatchScan = onBatchScan,
+                onFolderDashboard = onFolderDashboard,
                 isActive = activeLeft || !dualPanel,
                 modifier = Modifier.weight(1f)
             )
@@ -471,6 +575,19 @@ private fun ExpandedLayout(
                     onOpenWith = onOpenWith,
                     onViewOnMap = onViewOnMap,
                     onShareCleaned = onShareCleaned,
+                    ignoredRiskIds = ignoredIdsFor(inspectorState),
+                    onIgnoreRisk = { risk ->
+                        inspectorState.selectedFile?.path?.let { path ->
+                            inspectorViewModel.ignoreRisk(path, risk.id)
+                        }
+                    },
+                    onRestoreIgnored = { inspectorViewModel.restoreIgnoredRisks() },
+                    onOpenAs = { cat -> inspectorViewModel.openAs(cat) },
+                    onReinspect = { inspectorViewModel.reinspect() },
+                    onSearchInside = onSearchInside,
+                    onExportReport = onExportReport,
+                    forcedCategory = inspectorState.forcedCategory,
+                    detectedCategory = inspectorState.detectedCategory,
                     modifier = Modifier.weight(1f)
                 )
             }

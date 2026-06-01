@@ -3,7 +3,7 @@ package com.filelens.commander.inspector
 import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.InspectorResult
 import com.filelens.commander.domain.model.RiskItem
-import com.filelens.commander.domain.model.RiskSeverity
+import com.filelens.commander.domain.model.Risks
 import com.filelens.commander.domain.model.StructureNode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -51,11 +51,49 @@ class OfficeInspector @Inject constructor() : FileInspector {
                 val tables = Regex("<w:tbl[ >]").findAll(documentXml).count()
                 val images = Regex("<w:drawing[ >]").findAll(documentXml).count()
                 val hyperlinks = Regex("<w:hyperlink[ >]").findAll(documentXml).count()
+                val revisions = Regex("<w:(ins|del)[ >]").findAll(documentXml).count()
+                val sectPr = Regex("<w:sectPr[ >]").findAll(documentXml).count()
 
                 overview["Paragraphs"] = "%,d".format(paragraphs)
                 if (tables > 0) overview["Tables"] = tables.toString()
                 if (images > 0) overview["Images"] = images.toString()
                 if (hyperlinks > 0) overview["Hyperlinks"] = hyperlinks.toString()
+                if (revisions > 0) overview["Revision marks"] = revisions.toString()
+                if (sectPr > 1) overview["Sections"] = sectPr.toString()
+            }
+
+            // External image / hyperlink links via document.xml.rels
+            val relsXml = zipFile.getEntry("word/_rels/document.xml.rels")?.let { entry ->
+                zipFile.getInputStream(entry).bufferedReader().readText()
+            }
+            if (relsXml != null) {
+                val externalLinks = Regex("""TargetMode="External"\s+Target="([^"]+)"""").findAll(relsXml)
+                    .map { it.groupValues[1] }
+                    .toList()
+                if (externalLinks.isNotEmpty()) {
+                    overview["External links"] = externalLinks.size.toString()
+                    metadata["External targets"] = externalLinks.take(5).joinToString("\n")
+                    risks.add(Risks.officeExternalLinks())
+                }
+            }
+
+            // Custom properties
+            val customXml = zipFile.getEntry("docProps/custom.xml")?.let { entry ->
+                zipFile.getInputStream(entry).bufferedReader().readText()
+            }
+            if (customXml != null) {
+                val customCount = Regex("<property[ >]").findAll(customXml).count()
+                if (customCount > 0) metadata["Custom properties"] = customCount.toString()
+            }
+
+            // Template path
+            val appXml = zipFile.getEntry("docProps/app.xml")?.let { entry ->
+                zipFile.getInputStream(entry).bufferedReader().readText()
+            }
+            if (appXml != null) {
+                Regex("<Template>([^<]+)</Template>").find(appXml)?.groupValues?.get(1)?.let {
+                    if (it.isNotBlank() && it != "Normal.dotm") metadata["Template"] = it
+                }
             }
 
             val hasComments = entries.any { it.name == "word/comments.xml" }
@@ -66,18 +104,18 @@ class OfficeInspector @Inject constructor() : FileInspector {
 
             if (hasComments) {
                 overview["Comments"] = "Present"
-                risks.add(RiskItem(RiskSeverity.INFO, "Contains comments", "This document has comments that may contain sensitive discussion."))
+                risks.add(Risks.officeComments())
             }
             if (hasTrackedChanges) {
                 overview["Tracked changes"] = "Present"
-                risks.add(RiskItem(RiskSeverity.WARNING, "Contains tracked changes", "Tracked changes may reveal previous edits and deleted content."))
+                risks.add(Risks.officeTrackedChanges())
             }
             if (hasEmbedded) {
                 overview["Embedded objects"] = entries.count { it.name.startsWith("word/embeddings/") }.toString()
-                risks.add(RiskItem(RiskSeverity.WARNING, "Embedded objects", "This document contains embedded objects which could include macros or external content."))
+                risks.add(Risks.officeEmbeddedObjects())
             }
             if (hasMacros) {
-                risks.add(RiskItem(RiskSeverity.DANGER, "Contains macros", "This document contains VBA macros which could execute code."))
+                risks.add(Risks.officeMacros())
             }
             if (hasMedia.isNotEmpty()) {
                 overview["Media files"] = hasMedia.size.toString()
@@ -116,8 +154,25 @@ class OfficeInspector @Inject constructor() : FileInspector {
                 val hiddenSheets = Regex("""state="hidden".*?name="([^"]+)"""").findAll(workbookXml).map { it.groupValues[1] }.toList()
                 if (hiddenSheets.isNotEmpty()) {
                     overview["Hidden sheets"] = hiddenSheets.size.toString()
-                    risks.add(RiskItem(RiskSeverity.WARNING, "Hidden sheets", "Contains ${hiddenSheets.size} hidden sheet(s): ${hiddenSheets.joinToString(", ")}"))
+                    risks.add(Risks.officeHiddenSheets(hiddenSheets))
                 }
+                val veryHidden = Regex("""state="veryHidden".*?name="([^"]+)"""").findAll(workbookXml).map { it.groupValues[1] }.toList()
+                if (veryHidden.isNotEmpty()) {
+                    overview["Very hidden sheets"] = veryHidden.size.toString()
+                    risks.add(RiskItem(
+                        id = "office-very-hidden-sheets",
+                        severity = RiskSeverity.WARNING,
+                        category = com.filelens.commander.domain.model.RiskCategory.PRIVACY,
+                        title = "Very hidden sheets",
+                        description = veryHidden.joinToString(", "),
+                        whyItMatters = "Very hidden sheets are only revealed via VBA. They are often used to hide sensitive data or hidden helper data.",
+                        recommendedAction = "Inspect every very hidden sheet through the VBA editor or by unhiding programmatically before sharing.",
+                        evidence = mapOf("Very hidden" to veryHidden.joinToString(", ")),
+                        detector = "OfficeInspector"
+                    ))
+                }
+                val definedNames = Regex("<definedName[ >]").findAll(workbookXml).count()
+                if (definedNames > 0) overview["Defined names"] = definedNames.toString()
             }
 
             val sharedStrings = zipFile.getEntry("xl/sharedStrings.xml")?.let { entry ->
@@ -129,24 +184,45 @@ class OfficeInspector @Inject constructor() : FileInspector {
 
             val sheetEntries = entries.filter { it.name.startsWith("xl/worksheets/sheet") && it.name.endsWith(".xml") }
             var totalRows = 0
-            var hasFormulas = false
-            for (sheetEntry in sheetEntries.take(5)) {
+            var totalFormulas = 0
+            val suspiciousFormulas = mutableListOf<String>()
+            val suspiciousFns = listOf("WEBSERVICE", "HYPERLINK", "DDE", "CALL", "EXEC", "FILTERXML")
+            for (sheetEntry in sheetEntries.take(20)) {
                 val sheetContent = zipFile.getInputStream(sheetEntry).bufferedReader().readText()
                 val rows = Regex("<row ").findAll(sheetContent).count()
                 totalRows += rows
-                if (sheetContent.contains("<f>") || sheetContent.contains("<f ")) hasFormulas = true
+                totalFormulas += Regex("<f[ >]").findAll(sheetContent).count()
+                for (fn in suspiciousFns) {
+                    if (sheetContent.contains(fn, ignoreCase = true)) {
+                        suspiciousFormulas += fn
+                    }
+                }
             }
             if (totalRows > 0) overview["Data rows"] = "%,d".format(totalRows)
-            if (hasFormulas) overview["Formulas"] = "Present"
+            if (totalFormulas > 0) overview["Formulas"] = "%,d".format(totalFormulas)
+            val uniqueSuspicious = suspiciousFormulas.distinct()
+            if (uniqueSuspicious.isNotEmpty()) {
+                risks.add(RiskItem(
+                    id = "xlsx-suspicious-formulas",
+                    severity = RiskSeverity.WARNING,
+                    category = com.filelens.commander.domain.model.RiskCategory.ACTIVE_CONTENT,
+                    title = "Suspicious spreadsheet formulas",
+                    description = "Functions found: ${uniqueSuspicious.joinToString(", ")}",
+                    whyItMatters = "WEBSERVICE, HYPERLINK, DDE, and CALL can make outbound requests or execute commands when the workbook opens.",
+                    recommendedAction = "Open in protected view and inspect the formulas before allowing live evaluation.",
+                    evidence = mapOf("Functions" to uniqueSuspicious.joinToString(", ")),
+                    detector = "OfficeInspector"
+                ))
+            }
 
             val hasMacros = entries.any { it.name.endsWith(".bin") && it.name.contains("vba", ignoreCase = true) }
             val hasExternalLinks = entries.any { it.name.startsWith("xl/externalLinks/") }
 
             if (hasMacros) {
-                risks.add(RiskItem(RiskSeverity.DANGER, "Contains macros", "This spreadsheet contains VBA macros."))
+                risks.add(Risks.officeMacros())
             }
             if (hasExternalLinks) {
-                risks.add(RiskItem(RiskSeverity.WARNING, "External links", "This spreadsheet references external data sources."))
+                risks.add(Risks.officeExternalLinks())
             }
 
             val tree = buildOoxmlTree(entries)
@@ -180,20 +256,58 @@ class OfficeInspector @Inject constructor() : FileInspector {
                 overview["Media size"] = formatSize(totalMediaSize)
             }
 
+            // Hidden slides
+            var hiddenSlides = 0
+            for (slide in slides.take(200)) {
+                val slideXml = zipFile.getInputStream(slide).bufferedReader().readText()
+                if (Regex("<p:sld\\b[^>]*\\bshow=\"0\"").containsMatchIn(slideXml)) {
+                    hiddenSlides++
+                }
+            }
+            if (hiddenSlides > 0) {
+                overview["Hidden slides"] = hiddenSlides.toString()
+                risks.add(RiskItem(
+                    id = "pptx-hidden-slides",
+                    severity = com.filelens.commander.domain.model.RiskSeverity.WARNING,
+                    category = com.filelens.commander.domain.model.RiskCategory.PRIVACY,
+                    title = "Hidden slides",
+                    description = "$hiddenSlides slide(s) marked hidden.",
+                    whyItMatters = "Hidden slides ship with the file and may contain content the presenter intended to remove.",
+                    recommendedAction = "Unhide and review hidden slides before sharing the deck.",
+                    evidence = mapOf("Count" to hiddenSlides.toString()),
+                    detector = "OfficeInspector"
+                ))
+            }
+
+            // External media via slide rels
+            val slideRels = entries.filter { it.name.startsWith("ppt/slides/_rels/") && it.name.endsWith(".rels") }
+            val externalMedia = mutableListOf<String>()
+            for (rel in slideRels.take(200)) {
+                val relXml = zipFile.getInputStream(rel).bufferedReader().readText()
+                Regex("""TargetMode="External"\s+Target="([^"]+)"""")
+                    .findAll(relXml)
+                    .forEach { externalMedia += it.groupValues[1] }
+            }
+            if (externalMedia.isNotEmpty()) {
+                overview["External media links"] = externalMedia.size.toString()
+                metadata["External media targets"] = externalMedia.distinct().take(5).joinToString("\n")
+                risks.add(Risks.officeExternalLinks())
+            }
+
             val hasNotes = entries.any { it.name.startsWith("ppt/notesSlides/") }
             if (hasNotes) {
                 overview["Speaker notes"] = "Present"
-                risks.add(RiskItem(RiskSeverity.INFO, "Contains speaker notes", "Speaker notes may contain information not intended for the audience."))
+                risks.add(Risks.officeSpeakerNotes())
             }
 
             val hasComments = entries.any { it.name.startsWith("ppt/comments/") }
             if (hasComments) {
-                risks.add(RiskItem(RiskSeverity.INFO, "Contains comments", "This presentation has comments."))
+                risks.add(Risks.officeComments())
             }
 
             val hasMacros = entries.any { it.name.endsWith(".bin") && it.name.contains("vba", ignoreCase = true) }
             if (hasMacros) {
-                risks.add(RiskItem(RiskSeverity.DANGER, "Contains macros", "This presentation contains VBA macros."))
+                risks.add(Risks.officeMacros())
             }
 
             val tree = buildOoxmlTree(entries)

@@ -217,82 +217,82 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 
 **Goal:** Turn FileLens from a set of inspectors into an assistant-like file commander that explains what was found, why it matters, and what the user can safely do next.
 
-### 7.0.1 Explainable Risk Cards
-- [ ] Risk cards with: what was found / why it matters / recommended action
-- [ ] Human-readable explanations for extension mismatch, GPS EXIF, PDF JavaScript, PDF launch actions, embedded files, macros, tracked changes, hidden sheets, external links, zip bombs, nested archives, APK debug builds, APK backup flag, suspicious permissions, SQLite WAL files, high entropy binaries
-- [ ] Risk detail screen with technical evidence: file path, detector name, matched rule, confidence
-- [ ] "Ignore this risk" action per file/session
-- [ ] "Learn more" microcopy for common file risks without requiring network access
+### 7.0.1 Explainable Risk Cards ✅
+- [x] Risk cards with: what was found / why it matters / recommended action
+- [x] Human-readable explanations for extension mismatch, GPS EXIF, PDF JavaScript, PDF launch actions, embedded files, macros, tracked changes, hidden sheets, external links, zip bombs, nested archives, APK debug builds, APK backup flag, suspicious permissions, SQLite WAL files, high entropy binaries
+- [x] Risk detail screen with technical evidence: file path, detector name, matched rule, confidence
+- [x] "Ignore this risk" action per file/session
+- [x] "Learn more" microcopy for common file risks without requiring network access
 
-### 7.0.2 File Trust Score
-- [ ] Local trust score: trusted / low / medium / high risk
-- [ ] Score inputs: magic-vs-extension match, known file type, active content, private metadata, archive nesting, encrypted content, suspicious strings, APK permissions, Office macros, PDF actions
-- [ ] Show top 3 reasons that influenced the score
-- [ ] Keep score heuristic-only: explicitly not antivirus / not malware detection
+### 7.0.2 File Trust Score ✅
+- [x] Local trust score: trusted / low / medium / high risk
+- [x] Score inputs: magic-vs-extension match, known file type, active content, private metadata, archive nesting, encrypted content, suspicious strings, APK permissions, Office macros, PDF actions
+- [x] Show top 3 reasons that influenced the score
+- [x] Keep score heuristic-only: explicitly not antivirus / not malware detection
 
-### 7.0.3 Open Safely / Open As...
-- [ ] "Open safely" action group: preview only, inspect metadata, browse archive without extracting, extract selected files only, share cleaned copy
-- [ ] "Open as..." override: Text, Binary/Hex, Archive, SQLite, JSON, XML, Image, APK, Office ZIP, PDF
-- [ ] Manual re-run of a selected inspector when automatic detection is wrong or ambiguous
-- [ ] Preserve original detected type and user-selected type in the report
+### 7.0.3 Open Safely / Open As... ✅
+- [x] "Open safely" action group: preview only, inspect metadata, browse archive without extracting, extract selected files only, share cleaned copy
+- [x] "Open as..." override: Text, Binary/Hex, Archive, SQLite, JSON, XML, Image, APK, Office ZIP, PDF
+- [x] Manual re-run of a selected inspector when automatic detection is wrong or ambiguous
+- [x] Preserve original detected type and user-selected type in the report
 
-### 7.0.4 File Provenance & Context
-- [ ] Detect likely source from path/provider: Downloads, Camera, Screenshots, WhatsApp, Telegram, Signal, browser, Bluetooth, cloud provider, app-specific folders
-- [ ] Add provenance hints to the Overview tab
-- [ ] Combine provenance with risk messages, e.g. "APK from Downloads requests SMS permissions"
-- [ ] Show source confidence and avoid claiming certainty when only path heuristics are available
+### 7.0.4 File Provenance & Context ✅
+- [x] Detect likely source from path/provider: Downloads, Camera, Screenshots, WhatsApp, Telegram, Signal, browser, Bluetooth, cloud provider, app-specific folders
+- [x] Add provenance hints to the Overview tab
+- [x] Combine provenance with risk messages, e.g. "APK from Downloads requests SMS permissions"
+- [x] Show source confidence and avoid claiming certainty when only path heuristics are available
 
-### 7.0.5 Cross-Format Secret Scanner
-- [ ] Dedicated secret scan across text, code, JSON, XML, YAML, TOML, INI, `.env`, `.properties`, logs, ZIP entries, APK strings
-- [ ] Detect API keys, JWTs, private keys, tokens, passwords, database URLs, cloud credentials, Authorization headers
-- [ ] Redact secret values by default in UI
-- [ ] Provide "copy key name only" and "open containing file" actions
-- [ ] Add Safe Share warning when possible secrets are selected for sharing
+### 7.0.5 Cross-Format Secret Scanner ✅
+- [x] Dedicated secret scan across text, code, JSON, XML, YAML, TOML, INI, `.env`, `.properties`, logs, ZIP entries, APK strings
+- [x] Detect API keys, JWTs, private keys, tokens, passwords, database URLs, cloud credentials, Authorization headers
+- [x] Redact secret values by default in UI
+- [x] Provide "copy key name only" and "open containing file" actions
+- [x] Add Safe Share warning when possible secrets are selected for sharing
 
-### 7.0.6 Config File Inspector
-- [ ] Inspect `.env`, `.properties`, `.ini`, `.yaml`, `.yml`, `.toml`, `.conf`, `.cfg`
-- [ ] Show key/value count, duplicate keys, empty values, URLs, ports, database settings, environment/profile names
-- [ ] Detect common frameworks: Spring Boot, Android Gradle, Docker Compose, Kubernetes, GitHub Actions, npm/yarn/pnpm, Python project config
-- [ ] Risk warnings for secrets, production endpoints, insecure protocols, debug flags
+### 7.0.6 Config File Inspector ✅
+- [x] Inspect `.env`, `.properties`, `.ini`, `.yaml`, `.yml`, `.toml`, `.conf`, `.cfg`
+- [x] Show key/value count, duplicate keys, empty values, URLs, ports, database settings, environment/profile names
+- [x] Detect common frameworks: Spring Boot, Android Gradle, Docker Compose, Kubernetes, GitHub Actions, npm/yarn/pnpm, Python project config
+- [x] Risk warnings for secrets, production endpoints, insecure protocols, debug flags
 
-### 7.0.7 Log File Analyzer
-- [ ] Detect log files by extension and content patterns
-- [ ] Show line count, time range, log levels, top repeated errors/warnings
-- [ ] Extract stack traces and group similar errors
-- [ ] Detect HTTP status codes, slow requests, exception names, package/class names
-- [ ] Search and filter by level, time range, keyword, exception
+### 7.0.7 Log File Analyzer ✅
+- [x] Detect log files by extension and content patterns
+- [x] Show line count, time range, log levels, top repeated errors/warnings
+- [x] Extract stack traces and group similar errors
+- [x] Detect HTTP status codes, slow requests, exception names, package/class names
+- [x] Search and filter by level, time range, keyword, exception
 
-### 7.0.8 Search Inside Structured Files
-- [ ] Search inside ZIP/APK/OOXML entries without full extraction
-- [ ] Search inside JSON keys/values, XML tags/attributes/text, CSV cells, SQLite schema/table names, PDF text layer, DOCX/PPTX text, code symbols
-- [ ] Search result grouping by file, entry path, match type, and risk relevance
-- [ ] Support "search selected folder/archive" as a batch operation
+### 7.0.8 Search Inside Structured Files ✅
+- [x] Search inside ZIP/APK/OOXML entries without full extraction
+- [x] Search inside JSON keys/values, XML tags/attributes/text, CSV cells, SQLite schema/table names, PDF text layer, DOCX/PPTX text, code symbols
+- [x] Search result grouping by file, entry path, match type, and risk relevance
+- [x] Support "search selected folder/archive" as a batch operation
 
-### 7.0.9 Batch Privacy Audit
-- [ ] Folder-level privacy audit: photos with GPS, Office author metadata, hidden Excel sheets, tracked changes, PDF embedded files, secrets in configs/logs, archives with risky entries
-- [ ] Batch Safe Share: create cleaned copies for supported formats and package them into a new ZIP
-- [ ] Review screen: safe files / risky files / unsupported files
-- [ ] Allow sharing only cleaned files or only files without warnings
+### 7.0.9 Batch Privacy Audit ✅
+- [x] Folder-level privacy audit: photos with GPS, Office author metadata, hidden Excel sheets, tracked changes, PDF embedded files, secrets in configs/logs, archives with risky entries
+- [x] Batch Safe Share: create cleaned copies for supported formats and package them into a new ZIP
+- [x] Review screen: safe files / risky files / unsupported files
+- [x] Allow sharing only cleaned files or only files without warnings
 
-### 7.0.10 Inspection Reports
-- [ ] Export current file report as Markdown
-- [ ] Export machine-readable report as JSON
-- [ ] Share report via Android share sheet
-- [ ] Report sections: overview, detected type, metadata, structure, risks, trust score, provenance, recommended actions
-- [ ] Batch scan report for folders and archives
+### 7.0.10 Inspection Reports ✅
+- [x] Export current file report as Markdown
+- [x] Export machine-readable report as JSON
+- [x] Share report via Android share sheet
+- [x] Report sections: overview, detected type, metadata, structure, risks, trust score, provenance, recommended actions
+- [x] Batch scan report for folders and archives
 
-### 7.0.11 Folder Intelligence Dashboard
-- [ ] Folder summary: file count, total size, largest files, newest files, unknown files, risky files, archives, media, documents, code files
-- [ ] Privacy summary: files with GPS, author metadata, possible secrets, hidden content
-- [ ] Quick filters: risky, unknown, large, recent, duplicate candidates, contains private metadata
-- [ ] Entry point from commander panel context menu: "Analyze folder"
+### 7.0.11 Folder Intelligence Dashboard ✅
+- [x] Folder summary: file count, total size, largest files, newest files, unknown files, risky files, archives, media, documents, code files
+- [x] Privacy summary: files with GPS, author metadata, possible secrets, hidden content
+- [x] Quick filters: risky, unknown, large, recent, duplicate candidates, contains private metadata
+- [x] Entry point from commander panel context menu: "Analyze folder"
 
-### 7.0.12 Deeper APK / Office Intelligence
-- [ ] APK: certificate details, signature scheme, native libraries by ABI, exported components, deep links, network security config, cleartext traffic flag, hardcoded URLs from strings
-- [ ] APK: tracker/library hints from package/class names with local rules only
-- [ ] DOCX: comments, revisions count, embedded image count, external image links, custom properties, template path
-- [ ] XLSX: very hidden sheets, formula count, external workbook links, defined names, suspicious formulas
-- [ ] PPTX: speaker notes, hidden slides, embedded media, external media links
+### 7.0.12 Deeper APK / Office Intelligence ✅
+- [x] APK: certificate details, signature scheme, native libraries by ABI, exported components, deep links, network security config, cleartext traffic flag, hardcoded URLs from strings
+- [x] APK: tracker/library hints from package/class names with local rules only
+- [x] DOCX: comments, revisions count, embedded image count, external image links, custom properties, template path
+- [x] XLSX: very hidden sheets, formula count, external workbook links, defined names, suspicious formulas
+- [x] PPTX: speaker notes, hidden slides, embedded media, external media links
 
 **Milestone:** User selects a suspicious file or folder and FileLens explains what is inside, why it may matter, where it likely came from, and what safe action is recommended.
 

@@ -48,13 +48,23 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.InspectorInfo
 import com.filelens.commander.domain.model.InspectorResult
 import com.filelens.commander.domain.model.PreviewContent
+import com.filelens.commander.domain.model.RiskCategory
 import com.filelens.commander.domain.model.RiskItem
+import com.filelens.commander.domain.model.RiskLearnMore
 import com.filelens.commander.domain.model.RiskSeverity
 import com.filelens.commander.domain.model.StructureNode
+import com.filelens.commander.domain.model.Provenance
+import com.filelens.commander.domain.model.ProvenanceConfidence
+import com.filelens.commander.domain.model.SecretMatch
+import com.filelens.commander.domain.model.TrustLevel
+import com.filelens.commander.domain.model.TrustScore
 import com.filelens.commander.ui.theme.RiskDanger
 import com.filelens.commander.ui.theme.RiskInfo
 import com.filelens.commander.ui.theme.RiskWarning
@@ -76,6 +86,15 @@ fun InspectorPanel(
     onViewOnMap: ((Double, Double) -> Unit)? = null,
     onShareCleaned: (() -> Unit)? = null,
     onDismiss: (() -> Unit)? = null,
+    ignoredRiskIds: Set<String> = emptySet(),
+    onIgnoreRisk: ((RiskItem) -> Unit)? = null,
+    onRestoreIgnored: (() -> Unit)? = null,
+    onOpenAs: ((FileCategory) -> Unit)? = null,
+    onReinspect: (() -> Unit)? = null,
+    onSearchInside: (() -> Unit)? = null,
+    onExportReport: ((isJson: Boolean) -> Unit)? = null,
+    forcedCategory: FileCategory? = null,
+    detectedCategory: FileCategory? = null,
     modifier: Modifier = Modifier
 ) {
     if (info == null) {
@@ -110,10 +129,15 @@ fun InspectorPanel(
                         Spacer(modifier = Modifier.width(8.dp))
                         CircularProgressIndicator(modifier = Modifier.size(12.dp), strokeWidth = 2.dp)
                     }
-                    val riskCount = result?.risks?.size ?: 0
+                    result?.trustScore?.let { score ->
+                        Spacer(modifier = Modifier.width(8.dp))
+                        TrustChip(score)
+                    }
+                    val visibleRisks = result?.risks?.filter { it.id.isEmpty() || it.id !in ignoredRiskIds } ?: emptyList()
+                    val riskCount = visibleRisks.size
                     if (riskCount > 0) {
                         Spacer(modifier = Modifier.width(8.dp))
-                        val hasWarning = result?.risks?.any { it.severity == RiskSeverity.WARNING || it.severity == RiskSeverity.DANGER } == true
+                        val hasWarning = visibleRisks.any { it.severity == RiskSeverity.WARNING || it.severity == RiskSeverity.DANGER }
                         Text(
                             text = "$riskCount risk${if (riskCount > 1) "s" else ""}",
                             style = MaterialTheme.typography.labelSmall,
@@ -127,6 +151,9 @@ fun InspectorPanel(
                         )
                     }
                 }
+            }
+            if (onOpenAs != null) {
+                OpenAsMenu(onOpenAs, onReinspect, forcedCategory, detectedCategory)
             }
             if (onDismiss != null) {
                 IconButton(onClick = onDismiss) {
@@ -146,11 +173,20 @@ fun InspectorPanel(
         }
 
         when (tabs[selectedTab]) {
-            InspectorTab.OVERVIEW -> OverviewTab(info, result, onOpenWith, onViewOnMap, onShareCleaned)
+            InspectorTab.OVERVIEW -> OverviewTab(
+                info = info,
+                result = result,
+                onOpenWith = onOpenWith,
+                onViewOnMap = onViewOnMap,
+                onShareCleaned = onShareCleaned,
+                onSwitchTab = { tab -> selectedTab = tabs.indexOf(tab) },
+                onSearchInside = onSearchInside,
+                onExportReport = onExportReport
+            )
             InspectorTab.PREVIEW -> PreviewTab(result)
             InspectorTab.STRUCTURE -> StructureTab(result)
             InspectorTab.METADATA -> MetadataTab(result)
-            InspectorTab.RISKS -> RisksTab(result)
+            InspectorTab.RISKS -> RisksTab(result, ignoredRiskIds, onIgnoreRisk, onRestoreIgnored)
         }
     }
 }
@@ -161,7 +197,10 @@ private fun OverviewTab(
     result: InspectorResult?,
     onOpenWith: () -> Unit,
     onViewOnMap: ((Double, Double) -> Unit)? = null,
-    onShareCleaned: (() -> Unit)? = null
+    onShareCleaned: (() -> Unit)? = null,
+    onSwitchTab: ((InspectorTab) -> Unit)? = null,
+    onSearchInside: (() -> Unit)? = null,
+    onExportReport: ((isJson: Boolean) -> Unit)? = null
 ) {
     Column(
         modifier = Modifier
@@ -169,6 +208,18 @@ private fun OverviewTab(
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
+        result?.trustScore?.let {
+            TrustScoreCard(it)
+            Spacer(modifier = Modifier.height(12.dp))
+        }
+        result?.provenance?.let {
+            ProvenanceCard(it)
+            Spacer(modifier = Modifier.height(12.dp))
+        }
+        if (result?.secrets?.isNotEmpty() == true) {
+            SecretsCard(result.secrets)
+            Spacer(modifier = Modifier.height(12.dp))
+        }
         InfoRow("File", info.name)
         InfoRow("Type", info.category.displayName())
         if (info.extension.isNotEmpty()) {
@@ -198,18 +249,78 @@ private fun OverviewTab(
             Spacer(modifier = Modifier.height(8.dp))
         }
 
-        Button(
-            onClick = onOpenWith,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Icon(Icons.AutoMirrored.Filled.OpenInNew, contentDescription = null, modifier = Modifier.size(18.dp))
-            Spacer(modifier = Modifier.size(8.dp))
-            Text("Open with...")
+        Text(
+            text = "Safe actions",
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(bottom = 4.dp)
+        )
+
+        if (onSwitchTab != null) {
+            val hasPreview = result?.previewContent != null
+            if (hasPreview) {
+                androidx.compose.material3.OutlinedButton(
+                    onClick = { onSwitchTab(InspectorTab.PREVIEW) },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Preview only")
+                }
+                Spacer(modifier = Modifier.height(6.dp))
+            }
+            val hasMetadata = (result?.metadata?.isNotEmpty() == true)
+            if (hasMetadata) {
+                androidx.compose.material3.OutlinedButton(
+                    onClick = { onSwitchTab(InspectorTab.METADATA) },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Inspect metadata")
+                }
+                Spacer(modifier = Modifier.height(6.dp))
+            }
+            val hasStructure = result?.structure != null
+            if (hasStructure) {
+                androidx.compose.material3.OutlinedButton(
+                    onClick = { onSwitchTab(InspectorTab.STRUCTURE) },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        when (info.category) {
+                            FileCategory.ARCHIVE, FileCategory.APK -> "Browse contents (no extract)"
+                            FileCategory.DOCUMENT, FileCategory.SPREADSHEET, FileCategory.PRESENTATION -> "Inspect document structure"
+                            else -> "Inspect structure"
+                        }
+                    )
+                }
+                Spacer(modifier = Modifier.height(6.dp))
+            }
         }
 
-        val hasRisks = (result?.risks?.size ?: 0) > 0
-        if (hasRisks && onShareCleaned != null) {
-            Spacer(modifier = Modifier.height(8.dp))
+        if (onSearchInside != null) {
+            androidx.compose.material3.OutlinedButton(
+                onClick = onSearchInside,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Search inside…")
+            }
+            Spacer(modifier = Modifier.height(6.dp))
+        }
+
+        if (onExportReport != null) {
+            Row(modifier = Modifier.fillMaxWidth()) {
+                androidx.compose.material3.OutlinedButton(
+                    onClick = { onExportReport(false) },
+                    modifier = Modifier.weight(1f)
+                ) { Text("Export Markdown") }
+                Spacer(modifier = Modifier.width(6.dp))
+                androidx.compose.material3.OutlinedButton(
+                    onClick = { onExportReport(true) },
+                    modifier = Modifier.weight(1f)
+                ) { Text("Export JSON") }
+            }
+            Spacer(modifier = Modifier.height(6.dp))
+        }
+
+        if (onShareCleaned != null) {
             androidx.compose.material3.OutlinedButton(
                 onClick = onShareCleaned,
                 modifier = Modifier.fillMaxWidth()
@@ -218,6 +329,22 @@ private fun OverviewTab(
                 Spacer(modifier = Modifier.size(8.dp))
                 Text("Share cleaned copy")
             }
+            Spacer(modifier = Modifier.height(12.dp))
+        }
+
+        Text(
+            text = "External",
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(bottom = 4.dp)
+        )
+        Button(
+            onClick = onOpenWith,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Icon(Icons.AutoMirrored.Filled.OpenInNew, contentDescription = null, modifier = Modifier.size(18.dp))
+            Spacer(modifier = Modifier.size(8.dp))
+            Text("Open with...")
         }
     }
 }
@@ -442,10 +569,286 @@ private fun MetadataTab(result: InspectorResult?) {
     }
 }
 
+private val openAsOptions = listOf(
+    "Text" to FileCategory.TEXT,
+    "Binary / Hex" to FileCategory.UNKNOWN,
+    "Archive (ZIP)" to FileCategory.ARCHIVE,
+    "SQLite" to FileCategory.DATABASE,
+    "Image" to FileCategory.IMAGE,
+    "APK" to FileCategory.APK,
+    "Office (ZIP)" to FileCategory.DOCUMENT,
+    "PDF" to FileCategory.PDF,
+    "Code" to FileCategory.CODE,
+    "Font" to FileCategory.FONT,
+    "Audio / Video" to FileCategory.AUDIO
+)
+
 @Composable
-private fun RisksTab(result: InspectorResult?) {
-    val risks = result?.risks
-    if (risks.isNullOrEmpty()) {
+private fun OpenAsMenu(
+    onOpenAs: (FileCategory) -> Unit,
+    onReinspect: (() -> Unit)?,
+    forcedCategory: FileCategory?,
+    detectedCategory: FileCategory?
+) {
+    var expanded by remember { mutableStateOf(false) }
+    Box {
+        IconButton(onClick = { expanded = true }) {
+            Icon(Icons.Filled.MoreVert, contentDescription = "Inspector actions")
+        }
+        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+            Text(
+                text = "Open as…",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+            )
+            openAsOptions.forEach { (label, cat) ->
+                DropdownMenuItem(
+                    text = {
+                        val isCurrent = cat == forcedCategory
+                        Text(
+                            text = if (isCurrent) "$label  ✓" else label,
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    },
+                    onClick = {
+                        expanded = false
+                        onOpenAs(cat)
+                    }
+                )
+            }
+            if (forcedCategory != null && detectedCategory != null) {
+                DropdownMenuItem(
+                    text = {
+                        Text(
+                            text = "Restore detected (${detectedCategory.displayName()})",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    },
+                    onClick = {
+                        expanded = false
+                        onOpenAs(detectedCategory)
+                    }
+                )
+            }
+            if (onReinspect != null) {
+                DropdownMenuItem(
+                    text = { Text(text = "Re-run inspector", style = MaterialTheme.typography.bodySmall) },
+                    onClick = {
+                        expanded = false
+                        onReinspect()
+                    }
+                )
+            }
+        }
+    }
+}
+
+private fun trustColor(level: TrustLevel): androidx.compose.ui.graphics.Color = when (level) {
+    TrustLevel.TRUSTED -> androidx.compose.ui.graphics.Color(0xFF1E8E3E)
+    TrustLevel.LOW_RISK -> RiskInfo
+    TrustLevel.MEDIUM_RISK -> RiskWarning
+    TrustLevel.HIGH_RISK -> RiskDanger
+}
+
+@Composable
+private fun TrustChip(score: TrustScore) {
+    val color = trustColor(score.level)
+    Text(
+        text = score.level.displayName,
+        style = MaterialTheme.typography.labelSmall,
+        color = color,
+        modifier = Modifier
+            .background(
+                color = color.copy(alpha = 0.12f),
+                shape = RoundedCornerShape(4.dp)
+            )
+            .padding(horizontal = 6.dp, vertical = 2.dp)
+    )
+}
+
+@Composable
+private fun SecretsCard(secrets: List<SecretMatch>) {
+    val clipboard = androidx.compose.ui.platform.LocalClipboardManager.current
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = RiskDanger.copy(alpha = 0.08f),
+                shape = RoundedCornerShape(8.dp)
+            )
+            .padding(12.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                Icons.Filled.Warning,
+                contentDescription = null,
+                tint = RiskDanger,
+                modifier = Modifier.size(20.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = "Possible secrets (${secrets.size})",
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = "Values are redacted. Treat any leaked credential as compromised — rotate it first, then remove it from the file.",
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        secrets.take(20).forEach { match ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 2.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = match.kind,
+                        style = MaterialTheme.typography.labelMedium,
+                        color = RiskDanger
+                    )
+                    val sub = buildString {
+                        append(match.redactedSample)
+                        if (match.lineNumber != null) append("  · line ${match.lineNumber}")
+                    }
+                    Text(
+                        text = sub,
+                        style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                androidx.compose.material3.TextButton(
+                    onClick = {
+                        clipboard.setText(androidx.compose.ui.text.AnnotatedString(match.kind))
+                    },
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 6.dp, vertical = 0.dp)
+                ) {
+                    Text("Copy name", style = MaterialTheme.typography.labelSmall)
+                }
+            }
+        }
+        if (secrets.size > 20) {
+            Text(
+                text = "… ${secrets.size - 20} more",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+    }
+}
+
+@Composable
+private fun ProvenanceCard(provenance: Provenance) {
+    val confidenceLabel = when (provenance.confidence) {
+        ProvenanceConfidence.HIGH -> "Likely source"
+        ProvenanceConfidence.MEDIUM -> "Probable source"
+        ProvenanceConfidence.LOW -> "Possible source"
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.5f),
+                shape = RoundedCornerShape(8.dp)
+            )
+            .padding(12.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = confidenceLabel,
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSecondaryContainer
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = provenance.displayName,
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = provenance.description,
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    }
+}
+
+@Composable
+private fun TrustScoreCard(score: TrustScore) {
+    val color = trustColor(score.level)
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = color.copy(alpha = 0.08f),
+                shape = RoundedCornerShape(8.dp)
+            )
+            .padding(12.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                Icons.Filled.Shield,
+                contentDescription = null,
+                tint = color,
+                modifier = Modifier.size(20.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = score.level.displayName,
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = "${score.numericScore}/100",
+                style = MaterialTheme.typography.labelMedium,
+                color = color
+            )
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = "Heuristic trust score. Not antivirus.",
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        if (score.topReasons.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Top reasons",
+                style = MaterialTheme.typography.labelSmall,
+                color = color
+            )
+            score.topReasons.forEach { reason ->
+                Text(
+                    text = "• $reason",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun RisksTab(
+    result: InspectorResult?,
+    ignoredRiskIds: Set<String>,
+    onIgnoreRisk: ((RiskItem) -> Unit)?,
+    onRestoreIgnored: (() -> Unit)?
+) {
+    val allRisks = result?.risks.orEmpty()
+    val visible = allRisks.filter { it.id.isEmpty() || it.id !in ignoredRiskIds }
+    val hiddenCount = allRisks.size - visible.size
+
+    if (allRisks.isEmpty()) {
         Column(
             modifier = Modifier.fillMaxSize().padding(32.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -473,50 +876,203 @@ private fun RisksTab(result: InspectorResult?) {
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
-        risks.forEach { risk ->
-            RiskCard(risk)
-            Spacer(modifier = Modifier.height(8.dp))
+        if (visible.isEmpty()) {
+            Text(
+                "All risks ignored for this session.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        } else {
+            visible.forEach { risk ->
+                RiskCard(risk, onIgnoreRisk)
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+        }
+        if (hiddenCount > 0 && onRestoreIgnored != null) {
+            Spacer(modifier = Modifier.height(4.dp))
+            androidx.compose.material3.TextButton(onClick = onRestoreIgnored) {
+                Text(
+                    "$hiddenCount ignored — show",
+                    style = MaterialTheme.typography.labelMedium
+                )
+            }
         }
     }
 }
 
 @Composable
-private fun RiskCard(risk: RiskItem) {
+private fun RiskCard(
+    risk: RiskItem,
+    onIgnoreRisk: ((RiskItem) -> Unit)? = null
+) {
     val (color, icon) = when (risk.severity) {
         RiskSeverity.DANGER -> RiskDanger to Icons.Filled.Error
         RiskSeverity.WARNING -> RiskWarning to Icons.Filled.Warning
         RiskSeverity.INFO -> RiskInfo to Icons.Filled.Info
     }
 
-    Row(
+    var showEvidence by remember { mutableStateOf(false) }
+    var showLearnMore by remember { mutableStateOf(false) }
+    val learnMore = RiskLearnMore[risk.learnMoreKey]
+
+    Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(
                 color = color.copy(alpha = 0.08f),
                 shape = RoundedCornerShape(8.dp)
             )
-            .padding(12.dp),
-        verticalAlignment = Alignment.Top
+            .padding(12.dp)
     ) {
-        Icon(
-            icon,
-            contentDescription = risk.severity.name,
-            tint = color,
-            modifier = Modifier.size(20.dp)
-        )
-        Spacer(modifier = Modifier.width(12.dp))
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = risk.title,
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onSurface
+        Row(verticalAlignment = Alignment.Top) {
+            Icon(
+                icon,
+                contentDescription = risk.severity.name,
+                tint = color,
+                modifier = Modifier.size(20.dp)
             )
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.width(12.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = risk.title,
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.weight(1f)
+                    )
+                    if (risk.category != RiskCategory.OTHER) {
+                        Text(
+                            text = risk.category.displayName,
+                            style = MaterialTheme.typography.labelSmall,
+                            color = color,
+                            modifier = Modifier
+                                .background(
+                                    color = color.copy(alpha = 0.15f),
+                                    shape = RoundedCornerShape(4.dp)
+                                )
+                                .padding(horizontal = 6.dp, vertical = 2.dp)
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = risk.description,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                if (risk.whyItMatters != null) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Why it matters",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = color
+                    )
+                    Text(
+                        text = risk.whyItMatters,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+                if (risk.recommendedAction != null) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Recommended action",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = color
+                    )
+                    Text(
+                        text = risk.recommendedAction,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+            }
+        }
+
+        if (showEvidence && (risk.evidence.isNotEmpty() || risk.detector != null)) {
+            Spacer(modifier = Modifier.height(8.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.6f),
+                        shape = RoundedCornerShape(6.dp)
+                    )
+                    .padding(8.dp)
+            ) {
+                if (risk.detector != null) {
+                    Text(
+                        text = "Detector: ${risk.detector}",
+                        style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                if (risk.id.isNotEmpty()) {
+                    Text(
+                        text = "Rule: ${risk.id}",
+                        style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                risk.evidence.forEach { (key, value) ->
+                    Text(
+                        text = "$key: $value",
+                        style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+        }
+
+        if (showLearnMore && learnMore != null) {
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = risk.description,
+                text = learnMore,
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.6f),
+                        shape = RoundedCornerShape(6.dp)
+                    )
+                    .padding(8.dp)
             )
+        }
+
+        Spacer(modifier = Modifier.height(4.dp))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            if (risk.evidence.isNotEmpty() || risk.detector != null) {
+                androidx.compose.material3.TextButton(
+                    onClick = { showEvidence = !showEvidence },
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 8.dp, vertical = 0.dp)
+                ) {
+                    Text(
+                        if (showEvidence) "Hide evidence" else "Show evidence",
+                        style = MaterialTheme.typography.labelSmall
+                    )
+                }
+            }
+            if (learnMore != null) {
+                androidx.compose.material3.TextButton(
+                    onClick = { showLearnMore = !showLearnMore },
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 8.dp, vertical = 0.dp)
+                ) {
+                    Text(
+                        if (showLearnMore) "Hide learn more" else "Learn more",
+                        style = MaterialTheme.typography.labelSmall
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.weight(1f))
+            if (onIgnoreRisk != null && risk.id.isNotEmpty()) {
+                androidx.compose.material3.TextButton(
+                    onClick = { onIgnoreRisk(risk) },
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 8.dp, vertical = 0.dp)
+                ) {
+                    Text("Ignore", style = MaterialTheme.typography.labelSmall)
+                }
+            }
         }
     }
 }

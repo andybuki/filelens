@@ -5,19 +5,106 @@ data class InspectorResult(
     val metadata: Map<String, String> = emptyMap(),
     val risks: List<RiskItem> = emptyList(),
     val structure: StructureNode? = null,
-    val previewContent: PreviewContent? = null
+    val previewContent: PreviewContent? = null,
+    val trustScore: TrustScore? = null,
+    val provenance: Provenance? = null,
+    val secrets: List<SecretMatch> = emptyList()
 )
+
+data class SecretMatch(
+    val kind: String,
+    val redactedSample: String,
+    val location: String? = null,
+    val lineNumber: Int? = null
+)
+
+data class SearchHit(
+    val kind: SearchHitKind,
+    val location: String,
+    val snippet: String,
+    val lineNumber: Int? = null,
+    val size: Long? = null
+)
+
+enum class SearchHitKind(val displayName: String) {
+    ENTRY_NAME("Entry name"),
+    ENTRY_CONTENT("Entry content"),
+    JSON_KEY("JSON key"),
+    JSON_VALUE("JSON value"),
+    XML_TAG("XML tag"),
+    XML_ATTR("XML attribute"),
+    XML_TEXT("XML text"),
+    CSV_CELL("CSV cell"),
+    SQLITE_OBJECT("SQLite object"),
+    LINE("Line")
+}
+
+data class Provenance(
+    val source: ProvenanceSource,
+    val displayName: String,
+    val description: String,
+    val confidence: ProvenanceConfidence
+)
+
+enum class ProvenanceSource {
+    DOWNLOADS,
+    CAMERA,
+    SCREENSHOTS,
+    WHATSAPP,
+    TELEGRAM,
+    SIGNAL,
+    BROWSER,
+    BLUETOOTH,
+    EMAIL,
+    CLOUD,
+    APP_PRIVATE,
+    SYSTEM,
+    SDCARD,
+    OTHER
+}
+
+enum class ProvenanceConfidence { HIGH, MEDIUM, LOW }
+
+data class TrustScore(
+    val level: TrustLevel,
+    val numericScore: Int,
+    val topReasons: List<String>
+)
+
+enum class TrustLevel(val displayName: String) {
+    TRUSTED("Trusted"),
+    LOW_RISK("Low risk"),
+    MEDIUM_RISK("Medium risk"),
+    HIGH_RISK("High risk")
+}
 
 data class RiskItem(
     val severity: RiskSeverity,
     val title: String,
-    val description: String
+    val description: String,
+    val id: String = "",
+    val category: RiskCategory = RiskCategory.OTHER,
+    val whyItMatters: String? = null,
+    val recommendedAction: String? = null,
+    val evidence: Map<String, String> = emptyMap(),
+    val detector: String? = null,
+    val learnMoreKey: String? = null
 )
 
 enum class RiskSeverity {
     INFO,
     WARNING,
     DANGER
+}
+
+enum class RiskCategory(val displayName: String) {
+    PRIVACY("Privacy"),
+    SECURITY("Security"),
+    ACTIVE_CONTENT("Active content"),
+    INTEGRITY("Integrity"),
+    METADATA("Metadata"),
+    ENCRYPTION("Encryption"),
+    OTHER("Other")
 }
 
 sealed class PreviewContent {

@@ -8,7 +8,7 @@ import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.InspectorResult
 import com.filelens.commander.domain.model.PreviewContent
 import com.filelens.commander.domain.model.RiskItem
-import com.filelens.commander.domain.model.RiskSeverity
+import com.filelens.commander.domain.model.Risks
 import com.filelens.commander.domain.model.StructureNode
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -38,36 +38,20 @@ class PdfInspector @Inject constructor(
         overview["File size"] = formatBytes(file.length())
 
         if (rawHeader.encrypted) {
-            risks.add(RiskItem(
-                severity = RiskSeverity.WARNING,
-                title = "Encrypted PDF",
-                description = "This PDF is password-protected. Content cannot be inspected without the password."
-            ))
+            risks.add(Risks.pdfEncrypted())
             overview["Encrypted"] = "Yes"
         }
 
         if (rawHeader.containsJavaScript) {
-            risks.add(RiskItem(
-                severity = RiskSeverity.DANGER,
-                title = "Embedded JavaScript",
-                description = "This PDF contains JavaScript actions. JavaScript in PDFs has been used for exploits and tracking."
-            ))
+            risks.add(Risks.pdfJavaScript())
         }
 
         if (rawHeader.containsLaunchAction) {
-            risks.add(RiskItem(
-                severity = RiskSeverity.DANGER,
-                title = "Launch actions",
-                description = "This PDF can launch external programs or open files when viewed."
-            ))
+            risks.add(Risks.pdfLaunchAction())
         }
 
         if (rawHeader.containsEmbeddedFiles) {
-            risks.add(RiskItem(
-                severity = RiskSeverity.WARNING,
-                title = "Embedded files",
-                description = "This PDF contains embedded files/attachments."
-            ))
+            risks.add(Risks.pdfEmbeddedFile())
         }
 
         if (rawHeader.containsForm) {
@@ -82,12 +66,8 @@ class PdfInspector @Inject constructor(
         rawHeader.creationDate?.let { metadata["Created"] = it }
         rawHeader.modDate?.let { metadata["Modified"] = it }
 
-        if ((metadata["Author"] ?: "").isNotEmpty()) {
-            risks.add(RiskItem(
-                severity = RiskSeverity.INFO,
-                title = "Contains author metadata",
-                description = "Document reveals author: ${metadata["Author"]}"
-            ))
+        metadata["Author"]?.takeIf { it.isNotEmpty() }?.let { author ->
+            risks.add(Risks.pdfAuthor(author))
         }
 
         if (!rawHeader.encrypted) {

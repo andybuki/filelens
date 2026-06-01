@@ -9,6 +9,7 @@ import com.filelens.commander.domain.model.InspectorResult
 import com.filelens.commander.domain.model.PreviewContent
 import com.filelens.commander.domain.model.RiskItem
 import com.filelens.commander.domain.model.RiskSeverity
+import com.filelens.commander.domain.model.Risks
 import com.filelens.commander.domain.model.StructureNode
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -56,8 +57,14 @@ class ApkInspector @Inject constructor(
         var iconPreview: PreviewContent.ImageContent? = null
 
         val pm = context.packageManager
+        val baseFlags = PackageManager.GET_PERMISSIONS or PackageManager.GET_ACTIVITIES or PackageManager.GET_SERVICES or PackageManager.GET_RECEIVERS or PackageManager.GET_PROVIDERS or PackageManager.GET_META_DATA
+        val signingFlag = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+            PackageManager.GET_SIGNING_CERTIFICATES
+        } else {
+            @Suppress("DEPRECATION") PackageManager.GET_SIGNATURES
+        }
         val packageInfo = try {
-            pm.getPackageArchiveInfo(file.absolutePath, PackageManager.GET_PERMISSIONS or PackageManager.GET_ACTIVITIES or PackageManager.GET_SERVICES or PackageManager.GET_RECEIVERS or PackageManager.GET_PROVIDERS or PackageManager.GET_META_DATA)
+            pm.getPackageArchiveInfo(file.absolutePath, baseFlags or signingFlag)
         } catch (_: Exception) { null }
 
         if (packageInfo != null) {
@@ -105,15 +112,54 @@ class ApkInspector @Inject constructor(
                 val isDebuggable = appInfo.flags and android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE != 0
                 overview["Debuggable"] = if (isDebuggable) "Yes" else "No"
                 if (isDebuggable) {
-                    risks.add(RiskItem(
-                        severity = RiskSeverity.WARNING,
-                        title = "Debug build",
-                        description = "This APK has the debuggable flag enabled, which should not be used in production."
-                    ))
+                    risks.add(Risks.apkDebugBuild())
                 }
 
                 val allowBackup = appInfo.flags and android.content.pm.ApplicationInfo.FLAG_ALLOW_BACKUP != 0
                 overview["Allow backup"] = if (allowBackup) "Yes" else "No"
+                if (allowBackup) {
+                    risks.add(Risks.apkBackupFlag())
+                }
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    val cleartext = appInfo.flags and android.content.pm.ApplicationInfo.FLAG_USES_CLEARTEXT_TRAFFIC != 0
+                    if (cleartext) {
+                        overview["Cleartext traffic"] = "Allowed"
+                        risks.add(RiskItem(
+                            id = "apk-cleartext-traffic",
+                            severity = RiskSeverity.WARNING,
+                            category = com.filelens.commander.domain.model.RiskCategory.SECURITY,
+                            title = "App allows cleartext traffic",
+                            description = "Manifest permits HTTP (not HTTPS) connections.",
+                            whyItMatters = "Cleartext traffic exposes user data to network observers and is rejected by default on modern Android. Apps that opt in often communicate with legacy or attacker-controlled servers.",
+                            recommendedAction = "Treat the app's network activity as untrusted on shared networks.",
+                            evidence = mapOf("Flag" to "FLAG_USES_CLEARTEXT_TRAFFIC"),
+                            detector = "ApkInspector"
+                        ))
+                    }
+                }
+            }
+
+            // Signing certificates
+            val certFingerprints = mutableListOf<String>()
+            try {
+                @Suppress("DEPRECATION")
+                val signatures: Array<android.content.pm.Signature>? = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                    packageInfo.signingInfo?.let { si ->
+                        if (si.hasMultipleSigners()) si.apkContentsSigners else si.signingCertificateHistory
+                    }
+                } else {
+                    packageInfo.signatures
+                }
+                signatures?.forEach { sig ->
+                    val sha256 = java.security.MessageDigest.getInstance("SHA-256").digest(sig.toByteArray())
+                    val hex = sha256.joinToString("") { "%02X".format(it) }
+                    certFingerprints += hex.chunked(2).joinToString(":")
+                }
+            } catch (_: Exception) {}
+            if (certFingerprints.isNotEmpty()) {
+                overview["Signers"] = certFingerprints.size.toString()
+                metadata["Signing SHA-256"] = certFingerprints.joinToString("\n") { it }
             }
 
             val permissions = packageInfo.requestedPermissions ?: emptyArray()
@@ -122,10 +168,9 @@ class ApkInspector @Inject constructor(
             val dangerous = permissions.filter { it in dangerousPermissions }
             if (dangerous.isNotEmpty()) {
                 overview["Dangerous permissions"] = dangerous.size.toString()
-                risks.add(RiskItem(
-                    severity = RiskSeverity.WARNING,
-                    title = "Requests ${dangerous.size} dangerous permission(s)",
-                    description = dangerous.joinToString("\n") { "• ${it.removePrefix("android.permission.")}" }
+                risks.add(Risks.apkDangerousPermissions(
+                    count = dangerous.size,
+                    names = dangerous.map { it.removePrefix("android.permission.") }
                 ))
             }
 
@@ -179,18 +224,60 @@ class ApkInspector @Inject constructor(
                 overview["Total methods"] = "%,d".format(totalMethods)
                 overview["Total classes"] = "%,d".format(totalClasses)
                 if (totalMethods > 65536) {
-                    risks.add(RiskItem(
-                        severity = RiskSeverity.WARNING,
-                        title = "Multidex required",
-                        description = "Total method count (%,d) exceeds the 65,536 DEX method limit. This app requires multidex support.".format(totalMethods)
-                    ))
+                    risks.add(Risks.apkMultidex())
                 }
             }
 
             val nativeLibs = entries.filter { it.name.startsWith("lib/") && it.name.endsWith(".so") }
             if (nativeLibs.isNotEmpty()) {
-                val abis = nativeLibs.map { it.name.split("/").getOrElse(1) { "unknown" } }.distinct()
-                overview["Native libraries"] = "${nativeLibs.size} (${abis.joinToString(", ")})"
+                val abiCounts = nativeLibs
+                    .groupingBy { it.name.split("/").getOrElse(1) { "unknown" } }
+                    .eachCount()
+                overview["Native libraries"] = nativeLibs.size.toString()
+                metadata["Native libs by ABI"] = abiCounts.entries.joinToString(", ") { "${it.key}: ${it.value}" }
+            }
+
+            // Tracker / library hints from asset and lib filenames (local rules only)
+            val trackerHits = mutableSetOf<String>()
+            val trackerRules = mapOf(
+                "Firebase" to listOf("com/google/firebase/", "google-services"),
+                "Google Analytics" to listOf("com/google/analytics/", "google_app_measurement"),
+                "Crashlytics" to listOf("com/crashlytics/", "crashlytics-build.properties"),
+                "Facebook SDK" to listOf("com/facebook/", "facebook_app_id"),
+                "AppsFlyer" to listOf("com/appsflyer/"),
+                "Adjust" to listOf("com/adjust/sdk/"),
+                "Branch.io" to listOf("io/branch/"),
+                "Mixpanel" to listOf("com/mixpanel/"),
+                "Segment" to listOf("com/segment/analytics/"),
+                "OneSignal" to listOf("com/onesignal/"),
+                "Amplitude" to listOf("com/amplitude/"),
+                "Bugsnag" to listOf("com/bugsnag/"),
+                "Sentry" to listOf("io/sentry/"),
+                "Flurry" to listOf("com/flurry/")
+            )
+            for (entry in entries) {
+                if (entry.name.startsWith("META-INF/")) continue
+                val nameLower = entry.name.lowercase()
+                for ((tracker, markers) in trackerRules) {
+                    if (markers.any { nameLower.contains(it.lowercase()) }) {
+                        trackerHits += tracker
+                    }
+                }
+            }
+            if (trackerHits.isNotEmpty()) {
+                overview["Detected SDKs"] = trackerHits.size.toString()
+                metadata["SDK / tracker hints"] = trackerHits.joinToString(", ")
+                risks.add(RiskItem(
+                    id = "apk-trackers",
+                    severity = RiskSeverity.INFO,
+                    category = com.filelens.commander.domain.model.RiskCategory.PRIVACY,
+                    title = "Likely analytics / tracker SDKs",
+                    description = trackerHits.joinToString(", "),
+                    whyItMatters = "Analytics, crash reporting, and ad SDKs typically send event data off-device. Volume and identity of trackers affect the app's privacy profile.",
+                    recommendedAction = "Cross-reference with the app's privacy policy. Heuristic — based on package names only, not behaviour.",
+                    evidence = mapOf("Trackers" to trackerHits.joinToString(", ")),
+                    detector = "ApkInspector"
+                ))
             }
 
             val totalFiles = entries.count { !it.isDirectory }
