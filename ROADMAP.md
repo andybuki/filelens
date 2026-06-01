@@ -262,11 +262,11 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 - [x] Detect HTTP status codes, slow requests, exception names, package/class names
 - [x] Search and filter by level, time range, keyword, exception
 
-### 7.0.8 Search Inside Structured Files
-- [ ] Search inside ZIP/APK/OOXML entries without full extraction
-- [ ] Search inside JSON keys/values, XML tags/attributes/text, CSV cells, SQLite schema/table names, PDF text layer, DOCX/PPTX text, code symbols
-- [ ] Search result grouping by file, entry path, match type, and risk relevance
-- [ ] Support "search selected folder/archive" as a batch operation
+### 7.0.8 Search Inside Structured Files ✅
+- [x] Search inside ZIP/APK/OOXML entries without full extraction
+- [x] Search inside JSON keys/values, XML tags/attributes/text, CSV cells, SQLite schema/table names, PDF text layer, DOCX/PPTX text, code symbols
+- [x] Search result grouping by file, entry path, match type, and risk relevance
+- [x] Support "search selected folder/archive" as a batch operation
 
 ### 7.0.9 Batch Privacy Audit
 - [ ] Folder-level privacy audit: photos with GPS, Office author metadata, hidden Excel sheets, tracked changes, PDF embedded files, secrets in configs/logs, archives with risky entries

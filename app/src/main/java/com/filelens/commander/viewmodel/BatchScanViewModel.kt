@@ -2,6 +2,7 @@ package com.filelens.commander.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.filelens.commander.domain.usecase.BatchCleanShareUseCase
 import com.filelens.commander.domain.usecase.BatchScanUseCase
 import com.filelens.commander.domain.usecase.ScanState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,12 +20,16 @@ data class BatchScanState(
     val currentFile: String = "",
     val results: List<BatchScanUseCase.ScanResult> = emptyList(),
     val error: String? = null,
-    val active: Boolean = false
+    val active: Boolean = false,
+    val isCleaning: Boolean = false,
+    val cleanedZipPath: String? = null,
+    val cleanMessage: String? = null
 )
 
 @HiltViewModel
 class BatchScanViewModel @Inject constructor(
-    private val batchScanUseCase: BatchScanUseCase
+    private val batchScanUseCase: BatchScanUseCase,
+    private val batchCleanShareUseCase: BatchCleanShareUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(BatchScanState())
@@ -54,6 +59,29 @@ class BatchScanViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun cleanAndShareRisky() {
+        val paths = _state.value.results
+            .filter { it.bucket == BatchScanUseCase.Bucket.RISKY }
+            .map { it.path }
+        if (paths.isEmpty()) {
+            _state.value = _state.value.copy(cleanMessage = "No risky files to clean")
+            return
+        }
+        _state.value = _state.value.copy(isCleaning = true, cleanedZipPath = null, cleanMessage = null)
+        viewModelScope.launch {
+            val result = batchCleanShareUseCase.cleanAndPackage(paths)
+            _state.value = _state.value.copy(
+                isCleaning = false,
+                cleanedZipPath = result.zipPath,
+                cleanMessage = result.errorMessage ?: "Packaged ${result.cleanedCount} cleaned file(s)${if (result.skippedCount > 0) ", skipped ${result.skippedCount}" else ""}"
+            )
+        }
+    }
+
+    fun clearCleanedZip() {
+        _state.value = _state.value.copy(cleanedZipPath = null, cleanMessage = null)
     }
 
     fun dismiss() {

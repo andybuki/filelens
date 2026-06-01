@@ -77,7 +77,26 @@ fun MainScreen(
     val snackbarHostState = remember { SnackbarHostState() }
 
     if (batchScanState.active) {
-        BatchScanDialog(state = batchScanState, onDismiss = { batchScanViewModel.dismiss() })
+        BatchScanDialog(
+            state = batchScanState,
+            onCleanAndShareRisky = { batchScanViewModel.cleanAndShareRisky() },
+            onShareCleanedZip = { zipPath ->
+                val zipFile = File(zipPath)
+                val uri = FileProvider.getUriForFile(
+                    context,
+                    "${context.packageName}.fileprovider",
+                    zipFile
+                )
+                val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                    type = "application/zip"
+                    putExtra(Intent.EXTRA_STREAM, uri)
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
+                context.startActivity(Intent.createChooser(shareIntent, "Share cleaned files"))
+            },
+            onClearCleanedZip = { batchScanViewModel.clearCleanedZip() },
+            onDismiss = { batchScanViewModel.dismiss() }
+        )
     }
 
     var showSearchInsideDialog by remember { mutableStateOf(false) }
