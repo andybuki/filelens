@@ -97,7 +97,7 @@ class ReportExportUseCase @Inject constructor(
                     sb.appendLine("Evidence:")
                     r.evidence.forEach { (k, v) -> sb.appendLine("- $k: `$v`") }
                 }
-                r.detector?.let { sb.appendLine().appendLine("_Detector: $it_") }
+                r.detector?.let { sb.appendLine().appendLine("_Detector: ${it}_") }
             }
         }
 

@@ -3,6 +3,7 @@ package com.filelens.commander.inspector
 import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.InspectorResult
 import com.filelens.commander.domain.model.RiskItem
+import com.filelens.commander.domain.model.RiskSeverity
 import com.filelens.commander.domain.model.Risks
 import com.filelens.commander.domain.model.StructureNode
 import kotlinx.coroutines.Dispatchers
