@@ -224,11 +224,11 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 - [x] "Ignore this risk" action per file/session
 - [x] "Learn more" microcopy for common file risks without requiring network access
 
-### 7.0.2 File Trust Score
-- [ ] Local trust score: trusted / low / medium / high risk
-- [ ] Score inputs: magic-vs-extension match, known file type, active content, private metadata, archive nesting, encrypted content, suspicious strings, APK permissions, Office macros, PDF actions
-- [ ] Show top 3 reasons that influenced the score
-- [ ] Keep score heuristic-only: explicitly not antivirus / not malware detection
+### 7.0.2 File Trust Score ✅
+- [x] Local trust score: trusted / low / medium / high risk
+- [x] Score inputs: magic-vs-extension match, known file type, active content, private metadata, archive nesting, encrypted content, suspicious strings, APK permissions, Office macros, PDF actions
+- [x] Show top 3 reasons that influenced the score
+- [x] Keep score heuristic-only: explicitly not antivirus / not malware detection
 
 ### 7.0.3 Open Safely / Open As...
 - [ ] "Open safely" action group: preview only, inspect metadata, browse archive without extracting, extract selected files only, share cleaned copy

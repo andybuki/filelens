@@ -36,7 +36,9 @@ data class InspectorState(
     val result: InspectorResult? = null,
     val detection: DetectionResult? = null,
     val isAnalyzing: Boolean = false,
-    val ignoredRiskKeys: Set<String> = emptySet()
+    val ignoredRiskKeys: Set<String> = emptySet(),
+    val detectedCategory: FileCategory? = null,
+    val forcedCategory: FileCategory? = null
 )
 
 @HiltViewModel
@@ -60,7 +62,7 @@ class InspectorViewModel @Inject constructor(
     private val _state = MutableStateFlow(InspectorState())
     val state: StateFlow<InspectorState> = _state.asStateFlow()
 
-    fun selectFile(item: FileItem) {
+    fun selectFile(item: FileItem, forcedCategory: FileCategory? = null) {
         val mimeType = MimeTypeMap.getSingleton()
             .getMimeTypeFromExtension(item.extension)
 
@@ -80,7 +82,8 @@ class InspectorViewModel @Inject constructor(
             selectedFile = item,
             info = info,
             isAnalyzing = true,
-            ignoredRiskKeys = carriedIgnored
+            ignoredRiskKeys = carriedIgnored,
+            forcedCategory = forcedCategory
         )
 
         viewModelScope.launch {
@@ -92,11 +95,12 @@ class InspectorViewModel @Inject constructor(
 
             val detection = magicBytesDetector.detect(file)
 
-            val effectiveCategory = if (detection.confidence > 0.5f) {
+            val detectedCategory = if (detection.confidence > 0.5f) {
                 detection.category
             } else {
                 item.fileCategory
             }
+            val effectiveCategory = forcedCategory ?: detectedCategory
 
             val updatedInfo = info.copy(
                 category = effectiveCategory,
@@ -109,6 +113,9 @@ class InspectorViewModel @Inject constructor(
                 put("Detected type", detection.detectedType)
                 if (detection.extensionMismatch) {
                     put("Extension mismatch", "Extension .${detection.declaredExtension} doesn't match detected type ${detection.detectedType}")
+                }
+                if (forcedCategory != null && forcedCategory != detectedCategory) {
+                    put("Inspected as", forcedCategory.name + " (user override)")
                 }
                 putAll(result.overview)
             }
@@ -136,7 +143,9 @@ class InspectorViewModel @Inject constructor(
                 result = finalResult,
                 detection = detection,
                 isAnalyzing = false,
-                ignoredRiskKeys = carriedIgnored
+                ignoredRiskKeys = carriedIgnored,
+                detectedCategory = detectedCategory,
+                forcedCategory = forcedCategory
             )
         }
     }
@@ -155,6 +164,16 @@ class InspectorViewModel @Inject constructor(
 
     fun restoreIgnoredRisks() {
         _state.value = _state.value.copy(ignoredRiskKeys = emptySet())
+    }
+
+    fun openAs(category: FileCategory) {
+        val item = _state.value.selectedFile ?: return
+        selectFile(item, forcedCategory = category)
+    }
+
+    fun reinspect() {
+        val item = _state.value.selectedFile ?: return
+        selectFile(item, forcedCategory = _state.value.forcedCategory)
     }
 
     private suspend fun runInspector(file: File, category: FileCategory, extension: String): InspectorResult {

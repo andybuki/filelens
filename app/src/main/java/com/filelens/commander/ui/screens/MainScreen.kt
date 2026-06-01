@@ -326,6 +326,10 @@ private fun CompactLayout(
                         }
                     },
                     onRestoreIgnored = { inspectorViewModel.restoreIgnoredRisks() },
+                    onOpenAs = { cat -> inspectorViewModel.openAs(cat) },
+                    onReinspect = { inspectorViewModel.reinspect() },
+                    forcedCategory = inspectorState.forcedCategory,
+                    detectedCategory = inspectorState.detectedCategory,
                     modifier = Modifier.fillMaxWidth()
                 )
             },
@@ -495,6 +499,10 @@ private fun ExpandedLayout(
                         }
                     },
                     onRestoreIgnored = { inspectorViewModel.restoreIgnoredRisks() },
+                    onOpenAs = { cat -> inspectorViewModel.openAs(cat) },
+                    onReinspect = { inspectorViewModel.reinspect() },
+                    forcedCategory = inspectorState.forcedCategory,
+                    detectedCategory = inspectorState.detectedCategory,
                     modifier = Modifier.weight(1f)
                 )
             }

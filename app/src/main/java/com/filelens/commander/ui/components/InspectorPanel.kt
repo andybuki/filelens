@@ -48,6 +48,9 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.InspectorInfo
 import com.filelens.commander.domain.model.InspectorResult
@@ -83,6 +86,10 @@ fun InspectorPanel(
     ignoredRiskIds: Set<String> = emptySet(),
     onIgnoreRisk: ((RiskItem) -> Unit)? = null,
     onRestoreIgnored: (() -> Unit)? = null,
+    onOpenAs: ((FileCategory) -> Unit)? = null,
+    onReinspect: (() -> Unit)? = null,
+    forcedCategory: FileCategory? = null,
+    detectedCategory: FileCategory? = null,
     modifier: Modifier = Modifier
 ) {
     if (info == null) {
@@ -140,6 +147,9 @@ fun InspectorPanel(
                     }
                 }
             }
+            if (onOpenAs != null) {
+                OpenAsMenu(onOpenAs, onReinspect, forcedCategory, detectedCategory)
+            }
             if (onDismiss != null) {
                 IconButton(onClick = onDismiss) {
                     Icon(Icons.Filled.Close, contentDescription = "Close")
@@ -158,7 +168,14 @@ fun InspectorPanel(
         }
 
         when (tabs[selectedTab]) {
-            InspectorTab.OVERVIEW -> OverviewTab(info, result, onOpenWith, onViewOnMap, onShareCleaned)
+            InspectorTab.OVERVIEW -> OverviewTab(
+                info = info,
+                result = result,
+                onOpenWith = onOpenWith,
+                onViewOnMap = onViewOnMap,
+                onShareCleaned = onShareCleaned,
+                onSwitchTab = { tab -> selectedTab = tabs.indexOf(tab) }
+            )
             InspectorTab.PREVIEW -> PreviewTab(result)
             InspectorTab.STRUCTURE -> StructureTab(result)
             InspectorTab.METADATA -> MetadataTab(result)
@@ -173,7 +190,8 @@ private fun OverviewTab(
     result: InspectorResult?,
     onOpenWith: () -> Unit,
     onViewOnMap: ((Double, Double) -> Unit)? = null,
-    onShareCleaned: (() -> Unit)? = null
+    onShareCleaned: (() -> Unit)? = null,
+    onSwitchTab: ((InspectorTab) -> Unit)? = null
 ) {
     Column(
         modifier = Modifier
@@ -214,18 +232,53 @@ private fun OverviewTab(
             Spacer(modifier = Modifier.height(8.dp))
         }
 
-        Button(
-            onClick = onOpenWith,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Icon(Icons.AutoMirrored.Filled.OpenInNew, contentDescription = null, modifier = Modifier.size(18.dp))
-            Spacer(modifier = Modifier.size(8.dp))
-            Text("Open with...")
+        Text(
+            text = "Safe actions",
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(bottom = 4.dp)
+        )
+
+        if (onSwitchTab != null) {
+            val hasPreview = result?.previewContent != null
+            if (hasPreview) {
+                androidx.compose.material3.OutlinedButton(
+                    onClick = { onSwitchTab(InspectorTab.PREVIEW) },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Preview only")
+                }
+                Spacer(modifier = Modifier.height(6.dp))
+            }
+            val hasMetadata = (result?.metadata?.isNotEmpty() == true)
+            if (hasMetadata) {
+                androidx.compose.material3.OutlinedButton(
+                    onClick = { onSwitchTab(InspectorTab.METADATA) },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Inspect metadata")
+                }
+                Spacer(modifier = Modifier.height(6.dp))
+            }
+            val hasStructure = result?.structure != null
+            if (hasStructure) {
+                androidx.compose.material3.OutlinedButton(
+                    onClick = { onSwitchTab(InspectorTab.STRUCTURE) },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        when (info.category) {
+                            FileCategory.ARCHIVE, FileCategory.APK -> "Browse contents (no extract)"
+                            FileCategory.DOCUMENT, FileCategory.SPREADSHEET, FileCategory.PRESENTATION -> "Inspect document structure"
+                            else -> "Inspect structure"
+                        }
+                    )
+                }
+                Spacer(modifier = Modifier.height(6.dp))
+            }
         }
 
-        val hasRisks = (result?.risks?.size ?: 0) > 0
-        if (hasRisks && onShareCleaned != null) {
-            Spacer(modifier = Modifier.height(8.dp))
+        if (onShareCleaned != null) {
             androidx.compose.material3.OutlinedButton(
                 onClick = onShareCleaned,
                 modifier = Modifier.fillMaxWidth()
@@ -234,6 +287,22 @@ private fun OverviewTab(
                 Spacer(modifier = Modifier.size(8.dp))
                 Text("Share cleaned copy")
             }
+            Spacer(modifier = Modifier.height(12.dp))
+        }
+
+        Text(
+            text = "External",
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(bottom = 4.dp)
+        )
+        Button(
+            onClick = onOpenWith,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Icon(Icons.AutoMirrored.Filled.OpenInNew, contentDescription = null, modifier = Modifier.size(18.dp))
+            Spacer(modifier = Modifier.size(8.dp))
+            Text("Open with...")
         }
     }
 }
@@ -454,6 +523,81 @@ private fun MetadataTab(result: InspectorResult?) {
     ) {
         metadata.forEach { (key, value) ->
             InfoRow(key, value)
+        }
+    }
+}
+
+private val openAsOptions = listOf(
+    "Text" to FileCategory.TEXT,
+    "Binary / Hex" to FileCategory.UNKNOWN,
+    "Archive (ZIP)" to FileCategory.ARCHIVE,
+    "SQLite" to FileCategory.DATABASE,
+    "Image" to FileCategory.IMAGE,
+    "APK" to FileCategory.APK,
+    "Office (ZIP)" to FileCategory.DOCUMENT,
+    "PDF" to FileCategory.PDF,
+    "Code" to FileCategory.CODE,
+    "Font" to FileCategory.FONT,
+    "Audio / Video" to FileCategory.AUDIO
+)
+
+@Composable
+private fun OpenAsMenu(
+    onOpenAs: (FileCategory) -> Unit,
+    onReinspect: (() -> Unit)?,
+    forcedCategory: FileCategory?,
+    detectedCategory: FileCategory?
+) {
+    var expanded by remember { mutableStateOf(false) }
+    Box {
+        IconButton(onClick = { expanded = true }) {
+            Icon(Icons.Filled.MoreVert, contentDescription = "Inspector actions")
+        }
+        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+            Text(
+                text = "Open as…",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+            )
+            openAsOptions.forEach { (label, cat) ->
+                DropdownMenuItem(
+                    text = {
+                        val isCurrent = cat == forcedCategory
+                        Text(
+                            text = if (isCurrent) "$label  ✓" else label,
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    },
+                    onClick = {
+                        expanded = false
+                        onOpenAs(cat)
+                    }
+                )
+            }
+            if (forcedCategory != null && detectedCategory != null) {
+                DropdownMenuItem(
+                    text = {
+                        Text(
+                            text = "Restore detected (${detectedCategory.displayName()})",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    },
+                    onClick = {
+                        expanded = false
+                        onOpenAs(detectedCategory)
+                    }
+                )
+            }
+            if (onReinspect != null) {
+                DropdownMenuItem(
+                    text = { Text(text = "Re-run inspector", style = MaterialTheme.typography.bodySmall) },
+                    onClick = {
+                        expanded = false
+                        onReinspect()
+                    }
+                )
+            }
         }
     }
 }
