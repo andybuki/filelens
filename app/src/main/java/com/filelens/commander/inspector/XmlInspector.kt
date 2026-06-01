@@ -69,16 +69,18 @@ class XmlInspector @Inject constructor() : FileInspector {
                 risks.add(RiskItem(
                     severity = RiskSeverity.WARNING,
                     title = "Contains DTD",
-                    description = "XML documents with DTD declarations may be vulnerable to XXE attacks if processed by an insecure parser."
+                    description = "XML documents with DTD declarations may be vulnerable to XXE attacks if processed by an insecure parser.",
+                    id = "xml-dtd",
+                    category = com.filelens.commander.domain.model.RiskCategory.SECURITY,
+                    whyItMatters = "DTDs let an XML document define entities. If parsed by a permissive XML library, those entities can fetch local files or remote URLs.",
+                    recommendedAction = "Parse only with a hardened XML library that disables DOCTYPE processing.",
+                    detector = "XmlInspector",
+                    learnMoreKey = "xxe"
                 ))
             }
 
             if (stats.hasExternalEntities) {
-                risks.add(RiskItem(
-                    severity = RiskSeverity.DANGER,
-                    title = "External entities detected",
-                    description = "This XML references external entities, which could be used for XXE attacks."
-                ))
+                risks.add(com.filelens.commander.domain.model.Risks.xxeRisk())
             }
 
             val pretty = prettyPrintXml(content)

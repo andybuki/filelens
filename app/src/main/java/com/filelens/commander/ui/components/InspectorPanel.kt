@@ -52,7 +52,9 @@ import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.InspectorInfo
 import com.filelens.commander.domain.model.InspectorResult
 import com.filelens.commander.domain.model.PreviewContent
+import com.filelens.commander.domain.model.RiskCategory
 import com.filelens.commander.domain.model.RiskItem
+import com.filelens.commander.domain.model.RiskLearnMore
 import com.filelens.commander.domain.model.RiskSeverity
 import com.filelens.commander.domain.model.StructureNode
 import com.filelens.commander.ui.theme.RiskDanger
@@ -76,6 +78,9 @@ fun InspectorPanel(
     onViewOnMap: ((Double, Double) -> Unit)? = null,
     onShareCleaned: (() -> Unit)? = null,
     onDismiss: (() -> Unit)? = null,
+    ignoredRiskIds: Set<String> = emptySet(),
+    onIgnoreRisk: ((RiskItem) -> Unit)? = null,
+    onRestoreIgnored: (() -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
     if (info == null) {
@@ -110,10 +115,11 @@ fun InspectorPanel(
                         Spacer(modifier = Modifier.width(8.dp))
                         CircularProgressIndicator(modifier = Modifier.size(12.dp), strokeWidth = 2.dp)
                     }
-                    val riskCount = result?.risks?.size ?: 0
+                    val visibleRisks = result?.risks?.filter { it.id.isEmpty() || it.id !in ignoredRiskIds } ?: emptyList()
+                    val riskCount = visibleRisks.size
                     if (riskCount > 0) {
                         Spacer(modifier = Modifier.width(8.dp))
-                        val hasWarning = result?.risks?.any { it.severity == RiskSeverity.WARNING || it.severity == RiskSeverity.DANGER } == true
+                        val hasWarning = visibleRisks.any { it.severity == RiskSeverity.WARNING || it.severity == RiskSeverity.DANGER }
                         Text(
                             text = "$riskCount risk${if (riskCount > 1) "s" else ""}",
                             style = MaterialTheme.typography.labelSmall,
@@ -150,7 +156,7 @@ fun InspectorPanel(
             InspectorTab.PREVIEW -> PreviewTab(result)
             InspectorTab.STRUCTURE -> StructureTab(result)
             InspectorTab.METADATA -> MetadataTab(result)
-            InspectorTab.RISKS -> RisksTab(result)
+            InspectorTab.RISKS -> RisksTab(result, ignoredRiskIds, onIgnoreRisk, onRestoreIgnored)
         }
     }
 }
@@ -443,9 +449,17 @@ private fun MetadataTab(result: InspectorResult?) {
 }
 
 @Composable
-private fun RisksTab(result: InspectorResult?) {
-    val risks = result?.risks
-    if (risks.isNullOrEmpty()) {
+private fun RisksTab(
+    result: InspectorResult?,
+    ignoredRiskIds: Set<String>,
+    onIgnoreRisk: ((RiskItem) -> Unit)?,
+    onRestoreIgnored: (() -> Unit)?
+) {
+    val allRisks = result?.risks.orEmpty()
+    val visible = allRisks.filter { it.id.isEmpty() || it.id !in ignoredRiskIds }
+    val hiddenCount = allRisks.size - visible.size
+
+    if (allRisks.isEmpty()) {
         Column(
             modifier = Modifier.fillMaxSize().padding(32.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -473,50 +487,203 @@ private fun RisksTab(result: InspectorResult?) {
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
-        risks.forEach { risk ->
-            RiskCard(risk)
-            Spacer(modifier = Modifier.height(8.dp))
+        if (visible.isEmpty()) {
+            Text(
+                "All risks ignored for this session.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        } else {
+            visible.forEach { risk ->
+                RiskCard(risk, onIgnoreRisk)
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+        }
+        if (hiddenCount > 0 && onRestoreIgnored != null) {
+            Spacer(modifier = Modifier.height(4.dp))
+            androidx.compose.material3.TextButton(onClick = onRestoreIgnored) {
+                Text(
+                    "$hiddenCount ignored — show",
+                    style = MaterialTheme.typography.labelMedium
+                )
+            }
         }
     }
 }
 
 @Composable
-private fun RiskCard(risk: RiskItem) {
+private fun RiskCard(
+    risk: RiskItem,
+    onIgnoreRisk: ((RiskItem) -> Unit)? = null
+) {
     val (color, icon) = when (risk.severity) {
         RiskSeverity.DANGER -> RiskDanger to Icons.Filled.Error
         RiskSeverity.WARNING -> RiskWarning to Icons.Filled.Warning
         RiskSeverity.INFO -> RiskInfo to Icons.Filled.Info
     }
 
-    Row(
+    var showEvidence by remember { mutableStateOf(false) }
+    var showLearnMore by remember { mutableStateOf(false) }
+    val learnMore = RiskLearnMore[risk.learnMoreKey]
+
+    Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(
                 color = color.copy(alpha = 0.08f),
                 shape = RoundedCornerShape(8.dp)
             )
-            .padding(12.dp),
-        verticalAlignment = Alignment.Top
+            .padding(12.dp)
     ) {
-        Icon(
-            icon,
-            contentDescription = risk.severity.name,
-            tint = color,
-            modifier = Modifier.size(20.dp)
-        )
-        Spacer(modifier = Modifier.width(12.dp))
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = risk.title,
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onSurface
+        Row(verticalAlignment = Alignment.Top) {
+            Icon(
+                icon,
+                contentDescription = risk.severity.name,
+                tint = color,
+                modifier = Modifier.size(20.dp)
             )
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.width(12.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = risk.title,
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.weight(1f)
+                    )
+                    if (risk.category != RiskCategory.OTHER) {
+                        Text(
+                            text = risk.category.displayName,
+                            style = MaterialTheme.typography.labelSmall,
+                            color = color,
+                            modifier = Modifier
+                                .background(
+                                    color = color.copy(alpha = 0.15f),
+                                    shape = RoundedCornerShape(4.dp)
+                                )
+                                .padding(horizontal = 6.dp, vertical = 2.dp)
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = risk.description,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                if (risk.whyItMatters != null) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Why it matters",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = color
+                    )
+                    Text(
+                        text = risk.whyItMatters,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+                if (risk.recommendedAction != null) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Recommended action",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = color
+                    )
+                    Text(
+                        text = risk.recommendedAction,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+            }
+        }
+
+        if (showEvidence && (risk.evidence.isNotEmpty() || risk.detector != null)) {
+            Spacer(modifier = Modifier.height(8.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.6f),
+                        shape = RoundedCornerShape(6.dp)
+                    )
+                    .padding(8.dp)
+            ) {
+                if (risk.detector != null) {
+                    Text(
+                        text = "Detector: ${risk.detector}",
+                        style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                if (risk.id.isNotEmpty()) {
+                    Text(
+                        text = "Rule: ${risk.id}",
+                        style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                risk.evidence.forEach { (key, value) ->
+                    Text(
+                        text = "$key: $value",
+                        style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+        }
+
+        if (showLearnMore && learnMore != null) {
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = risk.description,
+                text = learnMore,
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.6f),
+                        shape = RoundedCornerShape(6.dp)
+                    )
+                    .padding(8.dp)
             )
+        }
+
+        Spacer(modifier = Modifier.height(4.dp))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            if (risk.evidence.isNotEmpty() || risk.detector != null) {
+                androidx.compose.material3.TextButton(
+                    onClick = { showEvidence = !showEvidence },
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 8.dp, vertical = 0.dp)
+                ) {
+                    Text(
+                        if (showEvidence) "Hide evidence" else "Show evidence",
+                        style = MaterialTheme.typography.labelSmall
+                    )
+                }
+            }
+            if (learnMore != null) {
+                androidx.compose.material3.TextButton(
+                    onClick = { showLearnMore = !showLearnMore },
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 8.dp, vertical = 0.dp)
+                ) {
+                    Text(
+                        if (showLearnMore) "Hide learn more" else "Learn more",
+                        style = MaterialTheme.typography.labelSmall
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.weight(1f))
+            if (onIgnoreRisk != null && risk.id.isNotEmpty()) {
+                androidx.compose.material3.TextButton(
+                    onClick = { onIgnoreRisk(risk) },
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 8.dp, vertical = 0.dp)
+                ) {
+                    Text("Ignore", style = MaterialTheme.typography.labelSmall)
+                }
+            }
         }
     }
 }

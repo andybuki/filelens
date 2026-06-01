@@ -3,7 +3,7 @@ package com.filelens.commander.inspector
 import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.InspectorResult
 import com.filelens.commander.domain.model.RiskItem
-import com.filelens.commander.domain.model.RiskSeverity
+import com.filelens.commander.domain.model.Risks
 import com.filelens.commander.domain.model.StructureNode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -66,18 +66,18 @@ class OfficeInspector @Inject constructor() : FileInspector {
 
             if (hasComments) {
                 overview["Comments"] = "Present"
-                risks.add(RiskItem(RiskSeverity.INFO, "Contains comments", "This document has comments that may contain sensitive discussion."))
+                risks.add(Risks.officeComments())
             }
             if (hasTrackedChanges) {
                 overview["Tracked changes"] = "Present"
-                risks.add(RiskItem(RiskSeverity.WARNING, "Contains tracked changes", "Tracked changes may reveal previous edits and deleted content."))
+                risks.add(Risks.officeTrackedChanges())
             }
             if (hasEmbedded) {
                 overview["Embedded objects"] = entries.count { it.name.startsWith("word/embeddings/") }.toString()
-                risks.add(RiskItem(RiskSeverity.WARNING, "Embedded objects", "This document contains embedded objects which could include macros or external content."))
+                risks.add(Risks.officeEmbeddedObjects())
             }
             if (hasMacros) {
-                risks.add(RiskItem(RiskSeverity.DANGER, "Contains macros", "This document contains VBA macros which could execute code."))
+                risks.add(Risks.officeMacros())
             }
             if (hasMedia.isNotEmpty()) {
                 overview["Media files"] = hasMedia.size.toString()
@@ -116,7 +116,7 @@ class OfficeInspector @Inject constructor() : FileInspector {
                 val hiddenSheets = Regex("""state="hidden".*?name="([^"]+)"""").findAll(workbookXml).map { it.groupValues[1] }.toList()
                 if (hiddenSheets.isNotEmpty()) {
                     overview["Hidden sheets"] = hiddenSheets.size.toString()
-                    risks.add(RiskItem(RiskSeverity.WARNING, "Hidden sheets", "Contains ${hiddenSheets.size} hidden sheet(s): ${hiddenSheets.joinToString(", ")}"))
+                    risks.add(Risks.officeHiddenSheets(hiddenSheets))
                 }
             }
 
@@ -143,10 +143,10 @@ class OfficeInspector @Inject constructor() : FileInspector {
             val hasExternalLinks = entries.any { it.name.startsWith("xl/externalLinks/") }
 
             if (hasMacros) {
-                risks.add(RiskItem(RiskSeverity.DANGER, "Contains macros", "This spreadsheet contains VBA macros."))
+                risks.add(Risks.officeMacros())
             }
             if (hasExternalLinks) {
-                risks.add(RiskItem(RiskSeverity.WARNING, "External links", "This spreadsheet references external data sources."))
+                risks.add(Risks.officeExternalLinks())
             }
 
             val tree = buildOoxmlTree(entries)
@@ -183,17 +183,17 @@ class OfficeInspector @Inject constructor() : FileInspector {
             val hasNotes = entries.any { it.name.startsWith("ppt/notesSlides/") }
             if (hasNotes) {
                 overview["Speaker notes"] = "Present"
-                risks.add(RiskItem(RiskSeverity.INFO, "Contains speaker notes", "Speaker notes may contain information not intended for the audience."))
+                risks.add(Risks.officeSpeakerNotes())
             }
 
             val hasComments = entries.any { it.name.startsWith("ppt/comments/") }
             if (hasComments) {
-                risks.add(RiskItem(RiskSeverity.INFO, "Contains comments", "This presentation has comments."))
+                risks.add(Risks.officeComments())
             }
 
             val hasMacros = entries.any { it.name.endsWith(".bin") && it.name.contains("vba", ignoreCase = true) }
             if (hasMacros) {
-                risks.add(RiskItem(RiskSeverity.DANGER, "Contains macros", "This presentation contains VBA macros."))
+                risks.add(Risks.officeMacros())
             }
 
             val tree = buildOoxmlTree(entries)

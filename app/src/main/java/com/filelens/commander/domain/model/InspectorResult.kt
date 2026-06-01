@@ -11,13 +11,30 @@ data class InspectorResult(
 data class RiskItem(
     val severity: RiskSeverity,
     val title: String,
-    val description: String
+    val description: String,
+    val id: String = "",
+    val category: RiskCategory = RiskCategory.OTHER,
+    val whyItMatters: String? = null,
+    val recommendedAction: String? = null,
+    val evidence: Map<String, String> = emptyMap(),
+    val detector: String? = null,
+    val learnMoreKey: String? = null
 )
 
 enum class RiskSeverity {
     INFO,
     WARNING,
     DANGER
+}
+
+enum class RiskCategory(val displayName: String) {
+    PRIVACY("Privacy"),
+    SECURITY("Security"),
+    ACTIVE_CONTENT("Active content"),
+    INTEGRITY("Integrity"),
+    METADATA("Metadata"),
+    ENCRYPTION("Encryption"),
+    OTHER("Other")
 }
 
 sealed class PreviewContent {

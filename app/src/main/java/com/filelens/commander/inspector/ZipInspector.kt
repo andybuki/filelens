@@ -3,7 +3,7 @@ package com.filelens.commander.inspector
 import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.InspectorResult
 import com.filelens.commander.domain.model.RiskItem
-import com.filelens.commander.domain.model.RiskSeverity
+import com.filelens.commander.domain.model.Risks
 import com.filelens.commander.domain.model.StructureNode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -56,33 +56,17 @@ class ZipInspector @Inject constructor() : FileInspector {
 
             if (executables.isNotEmpty()) {
                 overview["Executables"] = executables.size.toString()
-                risks.add(RiskItem(
-                    severity = RiskSeverity.WARNING,
-                    title = "Contains executables",
-                    description = "This archive contains ${executables.size} executable file(s): ${executables.take(3).joinToString { it.name.substringAfterLast('/') }}"
-                ))
+                risks.add(Risks.zipExecutables(executables.size))
             }
             if (nestedArchives.isNotEmpty()) {
                 overview["Nested archives"] = nestedArchives.size.toString()
-                risks.add(RiskItem(
-                    severity = RiskSeverity.INFO,
-                    title = "Nested archives",
-                    description = "${nestedArchives.size} archive(s) inside: ${nestedArchives.take(3).joinToString { it.name.substringAfterLast('/') }}"
-                ))
+                risks.add(Risks.zipNested())
             }
             if (encrypted) {
-                risks.add(RiskItem(
-                    severity = RiskSeverity.INFO,
-                    title = "Encrypted archive",
-                    description = "Some entries in this archive are encrypted."
-                ))
+                risks.add(Risks.zipEncrypted())
             }
             if (totalUncompressed > 0 && totalUncompressed > file.length() * 100) {
-                risks.add(RiskItem(
-                    severity = RiskSeverity.DANGER,
-                    title = "Possible zip bomb",
-                    description = "Decompression ratio is extremely high (${totalUncompressed / file.length()}x). This could be a zip bomb."
-                ))
+                risks.add(Risks.zipBomb(totalUncompressed / file.length()))
             }
 
             val extCounts = fileEntries.groupBy { it.name.substringAfterLast('.', "unknown").lowercase() }

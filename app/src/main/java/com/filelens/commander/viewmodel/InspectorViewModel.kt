@@ -34,7 +34,8 @@ data class InspectorState(
     val info: InspectorInfo? = null,
     val result: InspectorResult? = null,
     val detection: DetectionResult? = null,
-    val isAnalyzing: Boolean = false
+    val isAnalyzing: Boolean = false,
+    val ignoredRiskKeys: Set<String> = emptySet()
 )
 
 @HiltViewModel
@@ -72,10 +73,12 @@ class InspectorViewModel @Inject constructor(
             mimeType = mimeType
         )
 
+        val carriedIgnored = _state.value.ignoredRiskKeys
         _state.value = InspectorState(
             selectedFile = item,
             info = info,
-            isAnalyzing = true
+            isAnalyzing = true,
+            ignoredRiskKeys = carriedIgnored
         )
 
         viewModelScope.launch {
@@ -110,10 +113,9 @@ class InspectorViewModel @Inject constructor(
 
             val risksWithDetection = buildList {
                 if (detection.extensionMismatch) {
-                    add(com.filelens.commander.domain.model.RiskItem(
-                        severity = com.filelens.commander.domain.model.RiskSeverity.WARNING,
-                        title = "File extension mismatch",
-                        description = "Extension is .${detection.declaredExtension} but content is ${detection.detectedType}. The file may have been renamed to hide its true type."
+                    add(com.filelens.commander.domain.model.Risks.extensionMismatch(
+                        detection.declaredExtension,
+                        detection.detectedType
                     ))
                 }
                 addAll(result.risks)
@@ -129,13 +131,26 @@ class InspectorViewModel @Inject constructor(
                 info = updatedInfo,
                 result = finalResult,
                 detection = detection,
-                isAnalyzing = false
+                isAnalyzing = false,
+                ignoredRiskKeys = carriedIgnored
             )
         }
     }
 
     fun clearSelection() {
         _state.value = InspectorState()
+    }
+
+    fun ignoreRisk(filePath: String, riskId: String) {
+        if (riskId.isEmpty()) return
+        val key = "$filePath::$riskId"
+        _state.value = _state.value.copy(
+            ignoredRiskKeys = _state.value.ignoredRiskKeys + key
+        )
+    }
+
+    fun restoreIgnoredRisks() {
+        _state.value = _state.value.copy(ignoredRiskKeys = emptySet())
     }
 
     private suspend fun runInspector(file: File, category: FileCategory, extension: String): InspectorResult {

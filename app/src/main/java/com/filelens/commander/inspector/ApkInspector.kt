@@ -8,7 +8,7 @@ import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.InspectorResult
 import com.filelens.commander.domain.model.PreviewContent
 import com.filelens.commander.domain.model.RiskItem
-import com.filelens.commander.domain.model.RiskSeverity
+import com.filelens.commander.domain.model.Risks
 import com.filelens.commander.domain.model.StructureNode
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -105,15 +105,14 @@ class ApkInspector @Inject constructor(
                 val isDebuggable = appInfo.flags and android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE != 0
                 overview["Debuggable"] = if (isDebuggable) "Yes" else "No"
                 if (isDebuggable) {
-                    risks.add(RiskItem(
-                        severity = RiskSeverity.WARNING,
-                        title = "Debug build",
-                        description = "This APK has the debuggable flag enabled, which should not be used in production."
-                    ))
+                    risks.add(Risks.apkDebugBuild())
                 }
 
                 val allowBackup = appInfo.flags and android.content.pm.ApplicationInfo.FLAG_ALLOW_BACKUP != 0
                 overview["Allow backup"] = if (allowBackup) "Yes" else "No"
+                if (allowBackup) {
+                    risks.add(Risks.apkBackupFlag())
+                }
             }
 
             val permissions = packageInfo.requestedPermissions ?: emptyArray()
@@ -122,10 +121,9 @@ class ApkInspector @Inject constructor(
             val dangerous = permissions.filter { it in dangerousPermissions }
             if (dangerous.isNotEmpty()) {
                 overview["Dangerous permissions"] = dangerous.size.toString()
-                risks.add(RiskItem(
-                    severity = RiskSeverity.WARNING,
-                    title = "Requests ${dangerous.size} dangerous permission(s)",
-                    description = dangerous.joinToString("\n") { "• ${it.removePrefix("android.permission.")}" }
+                risks.add(Risks.apkDangerousPermissions(
+                    count = dangerous.size,
+                    names = dangerous.map { it.removePrefix("android.permission.") }
                 ))
             }
 
@@ -179,11 +177,7 @@ class ApkInspector @Inject constructor(
                 overview["Total methods"] = "%,d".format(totalMethods)
                 overview["Total classes"] = "%,d".format(totalClasses)
                 if (totalMethods > 65536) {
-                    risks.add(RiskItem(
-                        severity = RiskSeverity.WARNING,
-                        title = "Multidex required",
-                        description = "Total method count (%,d) exceeds the 65,536 DEX method limit. This app requires multidex support.".format(totalMethods)
-                    ))
+                    risks.add(Risks.apkMultidex())
                 }
             }
 

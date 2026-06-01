@@ -4,7 +4,6 @@ import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.InspectorResult
 import com.filelens.commander.domain.model.PreviewContent
 import com.filelens.commander.domain.model.RiskItem
-import com.filelens.commander.domain.model.RiskSeverity
 import com.filelens.commander.domain.model.StructureNode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -415,13 +414,10 @@ class TextInspector @Inject constructor() : FileInspector {
         val found = mutableSetOf<String>()
         for ((pattern, label) in patterns) {
             if (pattern.containsMatchIn(content) && found.add(label)) {
-                risks.add(
-                    RiskItem(
-                        severity = RiskSeverity.DANGER,
-                        title = "Possible $label detected",
-                        description = "This file may contain a $label. Avoid sharing this file without reviewing its contents."
-                    )
-                )
+                risks.add(com.filelens.commander.domain.model.Risks.secretsFound(
+                    count = 1,
+                    kinds = listOf(label)
+                ))
             }
         }
     }

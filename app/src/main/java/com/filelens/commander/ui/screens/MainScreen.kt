@@ -319,6 +319,13 @@ private fun CompactLayout(
                         scope.launch { bottomSheetState.hide() }
                         inspectorViewModel.clearSelection()
                     },
+                    ignoredRiskIds = ignoredIdsFor(inspectorState),
+                    onIgnoreRisk = { risk ->
+                        inspectorState.selectedFile?.path?.let { path ->
+                            inspectorViewModel.ignoreRisk(path, risk.id)
+                        }
+                    },
+                    onRestoreIgnored = { inspectorViewModel.restoreIgnoredRisks() },
                     modifier = Modifier.fillMaxWidth()
                 )
             },
@@ -375,6 +382,16 @@ private fun CompactLayout(
             onRename = { commanderViewModel.showDialog(DialogType.RENAME) }
         )
     }
+}
+
+private fun ignoredIdsFor(state: InspectorState): Set<String> {
+    val path = state.selectedFile?.path ?: return emptySet()
+    val prefix = "$path::"
+    return state.ignoredRiskKeys
+        .asSequence()
+        .filter { it.startsWith(prefix) }
+        .map { it.removePrefix(prefix) }
+        .toSet()
 }
 
 @Composable
@@ -471,6 +488,13 @@ private fun ExpandedLayout(
                     onOpenWith = onOpenWith,
                     onViewOnMap = onViewOnMap,
                     onShareCleaned = onShareCleaned,
+                    ignoredRiskIds = ignoredIdsFor(inspectorState),
+                    onIgnoreRisk = { risk ->
+                        inspectorState.selectedFile?.path?.let { path ->
+                            inspectorViewModel.ignoreRisk(path, risk.id)
+                        }
+                    },
+                    onRestoreIgnored = { inspectorViewModel.restoreIgnoredRisks() },
                     modifier = Modifier.weight(1f)
                 )
             }

@@ -4,6 +4,7 @@ import com.filelens.commander.detector.MagicBytesDetector
 import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.RiskItem
 import com.filelens.commander.domain.model.RiskSeverity
+import com.filelens.commander.domain.model.Risks
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -22,11 +23,7 @@ class RiskScanner @Inject constructor(
         val detection = magicBytesDetector.detect(file)
 
         if (detection.extensionMismatch) {
-            risks.add(RiskItem(
-                severity = RiskSeverity.WARNING,
-                title = "Extension mismatch",
-                description = "File extension .${detection.declaredExtension} doesn't match content type ${detection.detectedType}"
-            ))
+            risks.add(Risks.extensionMismatch(detection.declaredExtension, detection.detectedType))
         }
 
         when (detection.category) {
@@ -62,18 +59,10 @@ class RiskScanner @Inject constructor(
             val exif = androidx.exifinterface.media.ExifInterface(file.absolutePath)
             val latLong = exif.latLong
             if (latLong != null) {
-                risks.add(RiskItem(
-                    severity = RiskSeverity.WARNING,
-                    title = "GPS location embedded",
-                    description = "Location: %.4f, %.4f".format(latLong[0], latLong[1])
-                ))
+                risks.add(Risks.exifGps(latLong[0], latLong[1]))
             }
             exif.getAttribute(androidx.exifinterface.media.ExifInterface.TAG_ARTIST)?.let {
-                risks.add(RiskItem(
-                    severity = RiskSeverity.INFO,
-                    title = "Author metadata",
-                    description = "Artist: $it"
-                ))
+                risks.add(Risks.exifAuthor(it))
             }
         } catch (_: Exception) {}
     }
@@ -85,20 +74,12 @@ class RiskScanner @Inject constructor(
             val execExts = setOf("exe", "dll", "bat", "cmd", "sh", "ps1", "msi", "com", "scr", "vbs", "js")
             val execs = entries.filter { e -> e.name.substringAfterLast('.', "").lowercase() in execExts }
             if (execs.isNotEmpty()) {
-                risks.add(RiskItem(
-                    severity = RiskSeverity.WARNING,
-                    title = "Executables in archive",
-                    description = "${execs.size} executable file(s) found"
-                ))
+                risks.add(Risks.zipExecutables(execs.size))
             }
 
             val totalUncompressed = entries.sumOf { it.size.coerceAtLeast(0) }
             if (totalUncompressed > file.length() * 100 && file.length() > 1024) {
-                risks.add(RiskItem(
-                    severity = RiskSeverity.DANGER,
-                    title = "Possible zip bomb",
-                    description = "Extreme decompression ratio: ${totalUncompressed / file.length()}x"
-                ))
+                risks.add(Risks.zipBomb(totalUncompressed / file.length()))
             }
             zipFile.close()
         } catch (_: Exception) {}
@@ -110,11 +91,7 @@ class RiskScanner @Inject constructor(
             val entries = zipFile.entries().toList()
 
             if (entries.any { it.name.contains("vba", ignoreCase = true) && it.name.endsWith(".bin") }) {
-                risks.add(RiskItem(
-                    severity = RiskSeverity.DANGER,
-                    title = "Contains macros",
-                    description = "VBA macros can execute arbitrary code"
-                ))
+                risks.add(Risks.officeMacros())
             }
 
             val coreXml = zipFile.getEntry("docProps/core.xml")?.let {
@@ -124,9 +101,15 @@ class RiskScanner @Inject constructor(
                 val authorPattern = Regex("<dc:creator>([^<]+)</dc:creator>")
                 authorPattern.find(coreXml)?.groupValues?.get(1)?.let { author ->
                     risks.add(RiskItem(
+                        id = "office-author",
                         severity = RiskSeverity.INFO,
-                        title = "Author metadata",
-                        description = "Author: $author"
+                        category = com.filelens.commander.domain.model.RiskCategory.PRIVACY,
+                        title = "Document contains author metadata",
+                        description = "Author: $author",
+                        whyItMatters = "The dc:creator field identifies the original author and travels with the file.",
+                        recommendedAction = "Strip core properties before sharing.",
+                        evidence = mapOf("Author" to author),
+                        detector = "RiskScanner"
                     ))
                 }
             }
@@ -136,32 +119,24 @@ class RiskScanner @Inject constructor(
             }
             if (docXml != null) {
                 if (docXml.contains("<w:ins ") || docXml.contains("<w:del ")) {
-                    risks.add(RiskItem(
-                        severity = RiskSeverity.WARNING,
-                        title = "Tracked changes visible",
-                        description = "Previous edits and deletions are visible in this document"
-                    ))
+                    risks.add(Risks.officeTrackedChanges())
                 }
             }
 
             if (entries.any { it.name == "word/comments.xml" } ||
                 entries.any { it.name.startsWith("ppt/comments/") }) {
-                risks.add(RiskItem(
-                    severity = RiskSeverity.INFO,
-                    title = "Comments present",
-                    description = "Document contains reviewer comments"
-                ))
+                risks.add(Risks.officeComments())
             }
 
             val workbook = zipFile.getEntry("xl/workbook.xml")?.let {
                 zipFile.getInputStream(it).bufferedReader().readText()
             }
             if (workbook != null && workbook.contains("state=\"hidden\"")) {
-                risks.add(RiskItem(
-                    severity = RiskSeverity.WARNING,
-                    title = "Hidden sheets",
-                    description = "Spreadsheet contains hidden sheets that may contain data"
-                ))
+                val hiddenSheets = Regex("""state="hidden".*?name="([^"]+)"""")
+                    .findAll(workbook)
+                    .map { it.groupValues[1] }
+                    .toList()
+                risks.add(Risks.officeHiddenSheets(hiddenSheets.ifEmpty { listOf("(unknown)") }))
             }
 
             zipFile.close()
@@ -191,11 +166,7 @@ class RiskScanner @Inject constructor(
             val found = mutableSetOf<String>()
             for ((pattern, label) in secretPatterns) {
                 if (pattern.containsMatchIn(content) && found.add(label)) {
-                    risks.add(RiskItem(
-                        severity = RiskSeverity.DANGER,
-                        title = "Possible $label",
-                        description = "File may contain sensitive credentials"
-                    ))
+                    risks.add(Risks.secretsFound(count = 1, kinds = listOf(label)))
                 }
             }
         } catch (_: Exception) {}

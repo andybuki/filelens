@@ -6,7 +6,7 @@ import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.InspectorResult
 import com.filelens.commander.domain.model.PreviewContent
 import com.filelens.commander.domain.model.RiskItem
-import com.filelens.commander.domain.model.RiskSeverity
+import com.filelens.commander.domain.model.Risks
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -74,23 +74,11 @@ class ImageInspector @Inject constructor() : FileInspector {
                 exif.getAttribute(ExifInterface.TAG_GPS_ALTITUDE)?.let { metadata["GPS altitude"] = it }
                 exif.getAttribute(ExifInterface.TAG_GPS_DATESTAMP)?.let { metadata["GPS date"] = it }
 
-                risks.add(
-                    RiskItem(
-                        severity = RiskSeverity.WARNING,
-                        title = "Contains GPS location",
-                        description = "This image contains GPS coordinates (%.4f, %.4f). Consider removing location metadata before sharing.".format(latLong[0], latLong[1])
-                    )
-                )
+                risks.add(Risks.exifGps(latLong[0], latLong[1]))
             }
 
             exif.getAttribute(ExifInterface.TAG_ARTIST)?.let {
-                risks.add(
-                    RiskItem(
-                        severity = RiskSeverity.INFO,
-                        title = "Contains artist info",
-                        description = "Artist: $it"
-                    )
-                )
+                risks.add(Risks.exifAuthor(it))
             }
         } catch (_: Exception) {
             metadata["EXIF"] = "Could not read EXIF data"
