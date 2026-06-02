@@ -116,8 +116,8 @@ private fun iconForCategory(category: FileCategory): Pair<ImageVector, Color> {
         FileCategory.PDF -> Icons.Filled.PictureAsPdf to CategoryPdf
         FileCategory.APK -> Icons.Filled.Android to CategoryApk
         FileCategory.DATABASE -> Icons.Filled.Storage to CategoryDatabase
-        FileCategory.FONT -> Icons.Filled.FontDownload to CategoryDirectory
-        FileCategory.EXECUTABLE -> Icons.Filled.InsertDriveFile to CategoryUnknown
+        FileCategory.FONT -> Icons.Filled.FontDownload to CategoryFont
+        FileCategory.EXECUTABLE -> Icons.Filled.InsertDriveFile to CategoryExecutable
         FileCategory.UNKNOWN -> Icons.Filled.InsertDriveFile to CategoryUnknown
     }
 }

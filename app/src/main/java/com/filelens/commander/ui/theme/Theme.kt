@@ -10,43 +10,61 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
-private val LightColorScheme = lightColorScheme(
-    primary = Primary,
-    onPrimary = OnPrimary,
-    primaryContainer = PrimaryContainer,
-    onPrimaryContainer = OnPrimaryContainer,
-    secondary = Secondary,
-    onSecondary = OnSecondary,
-    secondaryContainer = SecondaryContainer,
-    onSecondaryContainer = OnSecondaryContainer,
-    error = Error,
-    onError = OnError,
-    errorContainer = ErrorContainer,
-    onErrorContainer = OnErrorContainer,
-    background = Background,
-    onBackground = OnBackground,
-    surface = Surface,
-    onSurface = OnSurface,
-    surfaceVariant = SurfaceVariant,
-    onSurfaceVariant = OnSurfaceVariant
+private val FlDarkColorScheme = darkColorScheme(
+    primary = FlAccent,
+    onPrimary = FlOnAccent,
+    primaryContainer = FlAccentPress,
+    onPrimaryContainer = FlInk,
+    secondary = FlAccentBright,
+    onSecondary = FlOnAccent,
+    secondaryContainer = FlSurface3,
+    onSecondaryContainer = FlInk,
+    tertiary = FlInk2,
+    onTertiary = FlBg,
+    background = FlBg,
+    onBackground = FlInk,
+    surface = FlSurface,
+    onSurface = FlInk,
+    surfaceVariant = FlSurface2,
+    onSurfaceVariant = FlInk2,
+    surfaceTint = FlAccent,
+    inverseSurface = FlInk,
+    inverseOnSurface = FlBg,
+    error = RiskDanger,
+    onError = FlOnAccent,
+    errorContainer = FlSurface2,
+    onErrorContainer = RiskDanger,
+    outline = FlBorder,
+    outlineVariant = FlBorder2,
+    scrim = FlBg
 )
 
-private val DarkColorScheme = darkColorScheme(
-    primary = DarkPrimary,
-    onPrimary = DarkOnPrimary,
-    primaryContainer = DarkPrimaryContainer,
-    onPrimaryContainer = DarkOnPrimaryContainer,
-    background = DarkBackground,
-    onBackground = DarkOnBackground,
-    surface = DarkSurface,
-    onSurface = DarkOnSurface,
-    surfaceVariant = DarkSurfaceVariant
+private val FlLightColorScheme = lightColorScheme(
+    primary = FlAccentLight,
+    onPrimary = FlOnAccent,
+    primaryContainer = FlAccentPressLight,
+    onPrimaryContainer = FlInkLight,
+    secondary = FlAccentBrightLight,
+    onSecondary = FlOnAccent,
+    secondaryContainer = FlSurface3Light,
+    onSecondaryContainer = FlInkLight,
+    background = FlBgLight,
+    onBackground = FlInkLight,
+    surface = FlSurfaceLight,
+    onSurface = FlInkLight,
+    surfaceVariant = FlSurface2Light,
+    onSurfaceVariant = FlInk2Light,
+    surfaceTint = FlAccentLight,
+    error = RiskDangerLight,
+    onError = FlOnAccent,
+    outline = FlBorderLight,
+    outlineVariant = FlBorder2Light
 )
 
 @Composable
 fun FileLensTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -54,8 +72,8 @@ fun FileLensTheme(
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        darkTheme -> FlDarkColorScheme
+        else -> FlLightColorScheme
     }
 
     MaterialTheme(

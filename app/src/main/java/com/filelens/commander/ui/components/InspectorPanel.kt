@@ -68,6 +68,10 @@ import com.filelens.commander.domain.model.TrustScore
 import com.filelens.commander.ui.theme.RiskDanger
 import com.filelens.commander.ui.theme.RiskInfo
 import com.filelens.commander.ui.theme.RiskWarning
+import com.filelens.commander.ui.theme.TrustHigh
+import com.filelens.commander.ui.theme.TrustLow
+import com.filelens.commander.ui.theme.TrustMedium
+import com.filelens.commander.ui.theme.TrustTrusted
 
 enum class InspectorTab(val label: String) {
     OVERVIEW("Overview"),
@@ -645,10 +649,10 @@ private fun OpenAsMenu(
 }
 
 private fun trustColor(level: TrustLevel): androidx.compose.ui.graphics.Color = when (level) {
-    TrustLevel.TRUSTED -> androidx.compose.ui.graphics.Color(0xFF1E8E3E)
-    TrustLevel.LOW_RISK -> RiskInfo
-    TrustLevel.MEDIUM_RISK -> RiskWarning
-    TrustLevel.HIGH_RISK -> RiskDanger
+    TrustLevel.TRUSTED -> TrustTrusted
+    TrustLevel.LOW_RISK -> TrustLow
+    TrustLevel.MEDIUM_RISK -> TrustMedium
+    TrustLevel.HIGH_RISK -> TrustHigh
 }
 
 @Composable
