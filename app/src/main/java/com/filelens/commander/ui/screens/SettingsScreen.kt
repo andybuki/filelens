@@ -93,6 +93,13 @@ fun SettingsScreen(
                     onCheckedChange = viewModel::setShowHidden
                 )
                 Divider()
+                SwitchRow(
+                    label = "Hide empty folders",
+                    description = "Don't show folders that contain no visible files.",
+                    checked = settings.hideEmptyFolders,
+                    onCheckedChange = viewModel::setHideEmptyFolders
+                )
+                Divider()
                 ChoiceRow(
                     label = "File size units",
                     value = settings.sizeUnits.displayName,

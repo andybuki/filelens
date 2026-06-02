@@ -23,11 +23,13 @@ import javax.inject.Inject
 
 data class FileListState(
     val currentPath: String = "",
+    val homePath: String = "",
     val files: List<FileItem> = emptyList(),
     val isLoading: Boolean = true,
     val error: String? = null,
     val sortOrder: SortOrder = SortOrder(),
     val showHidden: Boolean = false,
+    val hideEmptyFolders: Boolean = false,
     val isRoot: Boolean = true,
     val isInsideArchive: Boolean = false,
     val searchQuery: String = "",
@@ -47,26 +49,42 @@ class FileListViewModel @Inject constructor(
 
     private val nodeStack = mutableListOf<VirtualFileNode>()
     private var allFiles: List<FileItem> = emptyList()
+    private var homePath: String = ""
 
     init {
         viewModelScope.launch {
             val initial = settingsRepository.settings.first()
             _state.value = _state.value.copy(
                 showHidden = initial.showHidden,
+                hideEmptyFolders = initial.hideEmptyFolders,
                 sortOrder = SortOrder(
                     field = initial.defaultSortField,
                     direction = initial.defaultSortDirection
                 )
             )
             val startPath = Environment.getExternalStorageDirectory().absolutePath
+            homePath = startPath
+            _state.value = _state.value.copy(homePath = startPath)
             val node = LocalFileNode(File(startPath))
             navigateToNode(node, replaceStack = true)
+
+            settingsRepository.settings.collect { s ->
+                val refreshNeeded = _state.value.hideEmptyFolders != s.hideEmptyFolders ||
+                    _state.value.showHidden != s.showHidden
+                _state.value = _state.value.copy(
+                    showHidden = s.showHidden,
+                    hideEmptyFolders = s.hideEmptyFolders
+                )
+                if (refreshNeeded) refreshCurrentDirectory()
+            }
         }
     }
 
     fun navigateTo(path: String) {
         viewModelScope.launch {
-            val node = LocalFileNode(File(path))
+            // Confine navigation to the home root; outside paths get clamped back to home.
+            val target = if (homePath.isNotEmpty() && !isUnderHome(path)) homePath else path
+            val node = LocalFileNode(File(target))
             navigateToNode(node, replaceStack = true)
         }
     }
@@ -78,13 +96,19 @@ class FileListViewModel @Inject constructor(
         }
     }
 
+    private fun isUnderHome(path: String): Boolean {
+        if (homePath.isEmpty()) return true
+        return path == homePath || path.startsWith("$homePath/")
+    }
+
     private suspend fun navigateToNode(node: VirtualFileNode, replaceStack: Boolean = false) {
         _state.value = _state.value.copy(isLoading = true, error = null, searchQuery = "", isSearchActive = false)
         try {
             val files = browseFilesUseCase.listFiles(
                 node = node,
                 sortOrder = _state.value.sortOrder,
-                showHidden = _state.value.showHidden
+                showHidden = _state.value.showHidden,
+                hideEmptyFolders = _state.value.hideEmptyFolders
             )
             if (replaceStack) {
                 nodeStack.clear()
@@ -93,11 +117,12 @@ class FileListViewModel @Inject constructor(
                 nodeStack.add(node)
             }
             allFiles = files
+            val atHome = node !is ZipEntryNode && homePath.isNotEmpty() && node.path == homePath
             _state.value = _state.value.copy(
                 currentPath = node.path,
                 files = files,
                 isLoading = false,
-                isRoot = nodeStack.size <= 1,
+                isRoot = atHome || nodeStack.size <= 1,
                 isInsideArchive = node is ZipEntryNode
             )
             if (node is LocalFileNode) {
@@ -117,6 +142,11 @@ class FileListViewModel @Inject constructor(
     fun navigateUp() {
         if (_state.value.isSearchActive) {
             clearSearch()
+            return
+        }
+        // Never escape the home root, even if we somehow got above it.
+        val current = nodeStack.lastOrNull()
+        if (current is LocalFileNode && homePath.isNotEmpty() && current.path == homePath) {
             return
         }
         if (nodeStack.size > 1) {
