@@ -31,6 +31,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.BookmarkAdd
@@ -241,6 +242,9 @@ fun FileListPanel(
                     Icon(Icons.Filled.Tune, contentDescription = "Settings")
                 }
             },
+            // Scaffold above us already applies the status-bar inset, so disable
+            // the TopAppBar's own to avoid a big empty band above the logo.
+            windowInsets = WindowInsets(0),
             colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = MaterialTheme.colorScheme.background
             )
@@ -400,14 +404,17 @@ private fun Breadcrumb(
 ) {
     if (currentPath.isEmpty()) return
 
+    // The shared/emulated storage root literally lives at ".../0" — surface
+    // it as "Phone" so the label means something to the user.
+    val homeDisplayName = "Phone"
+
     // Render the path relative to the home root so the user can't navigate
-    // above their starting folder. At home, that's a single label like "DCIM".
+    // above their starting folder. At home, that's a single label like "Phone".
     val relativeParts: List<String> = when {
         homePath.isEmpty() -> currentPath.split("/").filter { it.isNotEmpty() }
-        currentPath == homePath -> listOf(homePath.substringAfterLast('/').ifEmpty { "/" })
+        currentPath == homePath -> listOf(homeDisplayName)
         currentPath.startsWith("$homePath/") -> {
-            val homeName = homePath.substringAfterLast('/').ifEmpty { "/" }
-            listOf(homeName) + currentPath.removePrefix("$homePath/").split("/").filter { it.isNotEmpty() }
+            listOf(homeDisplayName) + currentPath.removePrefix("$homePath/").split("/").filter { it.isNotEmpty() }
         }
         else -> currentPath.split("/").filter { it.isNotEmpty() }
     }
@@ -421,7 +428,7 @@ private fun Breadcrumb(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .padding(bottom = 4.dp, top = 2.dp),
+            .padding(bottom = 6.dp, top = 4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (!isRoot) {
@@ -461,7 +468,7 @@ private fun Breadcrumb(
             // Resolve the absolute path for this crumb so navigating to a
             // mid-trail segment stays anchored under homePath.
             val absoluteIndex = relativeParts.size - visible.size + index
-            val targetPath = if (homePath.isNotEmpty() && relativeParts.firstOrNull() == homePath.substringAfterLast('/').ifEmpty { "/" }) {
+            val targetPath = if (homePath.isNotEmpty() && relativeParts.firstOrNull() == homeDisplayName) {
                 val belowHome = relativeParts.subList(1, absoluteIndex + 1).joinToString("/")
                 if (belowHome.isEmpty()) homePath else "$homePath/$belowHome"
             } else {
