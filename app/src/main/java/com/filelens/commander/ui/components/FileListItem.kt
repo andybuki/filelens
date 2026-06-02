@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -24,6 +26,7 @@ import androidx.compose.material.icons.filled.InsertDriveFile
 import androidx.compose.material.icons.filled.PictureAsPdf
 import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.TableChart
+import androidx.compose.material.icons.filled.Terminal
 import androidx.compose.material.icons.filled.VideoFile
 import androidx.compose.material.icons.filled.Slideshow
 import androidx.compose.material3.Icon
@@ -33,12 +36,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.FileItem
+import com.filelens.commander.domain.model.RiskSeverity
 import com.filelens.commander.ui.theme.*
 
 @Composable
@@ -46,59 +51,111 @@ fun FileListItem(
     item: FileItem,
     isSelected: Boolean,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    riskSeverity: RiskSeverity? = null
 ) {
     val (icon, tint) = iconForCategory(item.fileCategory)
-    val alpha = if (item.isHidden) 0.5f else 1f
+    val rowAlpha = if (item.isHidden) 0.55f else 1f
+    val isDir = item.fileCategory == FileCategory.DIRECTORY
+    val showExtBadge = !isDir && item.fileCategory != FileCategory.UNKNOWN && item.extension.isNotEmpty()
 
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 2.dp)
+            .height(androidx.compose.foundation.layout.IntrinsicSize.Min)
+            .clip(RoundedCornerShape(11.dp))
+            .background(if (isSelected) FlAccentTint2 else Color.Transparent)
             .clickable(onClick = onClick)
-            .padding(horizontal = 16.dp, vertical = 12.dp)
-            .alpha(alpha),
+            .alpha(rowAlpha),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Box(contentAlignment = Alignment.Center) {
-            Icon(
-                imageVector = icon,
-                contentDescription = item.fileCategory.name,
-                tint = if (isSelected) MaterialTheme.colorScheme.primary else tint,
-                modifier = Modifier.size(28.dp)
+        if (isSelected) {
+            Box(
+                modifier = Modifier
+                    .width(2.dp)
+                    .fillMaxHeight()
+                    .background(FlAccent)
             )
         }
-        Spacer(modifier = Modifier.width(16.dp))
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = item.name,
-                style = MaterialTheme.typography.bodyLarge,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
-            )
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                if (item.fileCategory != FileCategory.DIRECTORY && item.fileCategory != FileCategory.UNKNOWN) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 11.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(34.dp)
+                    .clip(RoundedCornerShape(9.dp))
+                    .background(tint.copy(alpha = 0.14f)),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = item.fileCategory.name,
+                    tint = tint,
+                    modifier = Modifier.size(19.dp)
+                )
+            }
+            Spacer(modifier = Modifier.width(12.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = item.name,
+                    style = MaterialTheme.typography.titleSmall,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    color = if (isSelected) FlAccentBright else MaterialTheme.colorScheme.onSurface
+                )
+                val subtitle = buildSubtitle(item)
+                if (subtitle.isNotEmpty()) {
                     Text(
-                        text = item.extension.uppercase().ifEmpty { item.fileCategory.name },
-                        style = MaterialTheme.typography.labelSmall,
-                        color = tint,
-                        modifier = Modifier
-                            .background(tint.copy(alpha = 0.1f), RoundedCornerShape(3.dp))
-                            .padding(horizontal = 4.dp, vertical = 1.dp)
-                    )
-                    Spacer(modifier = Modifier.width(6.dp))
-                }
-                if (item.size != null || item.lastModified != null) {
-                    Text(
-                        text = buildSubtitle(item),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 1
+                        text = subtitle,
+                        style = MonoSmall,
+                        color = FlInk3,
+                        maxLines = 1,
+                        modifier = Modifier.padding(top = 2.dp)
                     )
                 }
             }
+            if (showExtBadge) {
+                Spacer(modifier = Modifier.width(8.dp))
+                ExtBadge(extension = item.extension, tint = tint)
+            }
+            if (riskSeverity != null) {
+                Spacer(modifier = Modifier.width(8.dp))
+                SeverityDot(severity = riskSeverity)
+            }
         }
     }
+}
+
+@Composable
+private fun ExtBadge(extension: String, tint: Color) {
+    Text(
+        text = extension.uppercase(),
+        style = MaterialTheme.typography.labelSmall,
+        color = tint,
+        modifier = Modifier
+            .clip(RoundedCornerShape(5.dp))
+            .background(tint.copy(alpha = 0.16f))
+            .padding(horizontal = 5.dp, vertical = 2.dp)
+    )
+}
+
+@Composable
+private fun SeverityDot(severity: RiskSeverity) {
+    val color = when (severity) {
+        RiskSeverity.DANGER -> RiskDanger
+        RiskSeverity.WARNING -> RiskWarning
+        RiskSeverity.INFO -> RiskInfo
+    }
+    Box(
+        modifier = Modifier
+            .size(8.dp)
+            .clip(RoundedCornerShape(50))
+            .background(color)
+    )
 }
 
 private fun iconForCategory(category: FileCategory): Pair<ImageVector, Color> {
@@ -117,12 +174,15 @@ private fun iconForCategory(category: FileCategory): Pair<ImageVector, Color> {
         FileCategory.APK -> Icons.Filled.Android to CategoryApk
         FileCategory.DATABASE -> Icons.Filled.Storage to CategoryDatabase
         FileCategory.FONT -> Icons.Filled.FontDownload to CategoryFont
-        FileCategory.EXECUTABLE -> Icons.Filled.InsertDriveFile to CategoryExecutable
+        FileCategory.EXECUTABLE -> Icons.Filled.Terminal to CategoryExecutable
         FileCategory.UNKNOWN -> Icons.Filled.InsertDriveFile to CategoryUnknown
     }
 }
 
 private fun buildSubtitle(item: FileItem): String {
+    if (item.fileCategory == FileCategory.DIRECTORY) {
+        return item.lastModified?.let { formatDate(it) } ?: ""
+    }
     val parts = mutableListOf<String>()
     item.size?.let { parts.add(formatFileSize(it)) }
     item.lastModified?.let { parts.add(formatDate(it)) }
