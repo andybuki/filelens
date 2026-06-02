@@ -17,6 +17,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Sort
+import androidx.compose.material.icons.filled.BookmarkAdd
+import androidx.compose.material.icons.filled.Bookmarks
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
@@ -80,6 +82,8 @@ fun FileListPanel(
     onBatchScan: () -> Unit = {},
     onFolderDashboard: () -> Unit = {},
     onOpenSettings: () -> Unit = {},
+    onBookmarkFolder: () -> Unit = {},
+    onShowBookmarks: () -> Unit = {},
     isActive: Boolean = true,
     modifier: Modifier = Modifier
 ) {
@@ -173,6 +177,32 @@ fun FileListPanel(
                         },
                         onClick = {
                             onFolderDashboard()
+                            showMenu = false
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Icon(Icons.Filled.BookmarkAdd, contentDescription = null)
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text("Bookmark this folder")
+                            }
+                        },
+                        onClick = {
+                            onBookmarkFolder()
+                            showMenu = false
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Icon(Icons.Filled.Bookmarks, contentDescription = null)
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text("Show bookmarks")
+                            }
+                        },
+                        onClick = {
+                            onShowBookmarks()
                             showMenu = false
                         }
                     )

@@ -71,15 +71,42 @@ fun MainScreen(
     inspectorViewModel: InspectorViewModel = hiltViewModel(),
     commanderViewModel: CommanderViewModel = hiltViewModel(),
     batchScanViewModel: BatchScanViewModel = hiltViewModel(),
-    folderDashboardViewModel: FolderDashboardViewModel = hiltViewModel()
+    folderDashboardViewModel: FolderDashboardViewModel = hiltViewModel(),
+    bookmarksViewModel: com.filelens.commander.viewmodel.BookmarksViewModel = hiltViewModel()
 ) {
     val fileListState by fileListViewModel.state.collectAsStateWithLifecycle()
     val inspectorState by inspectorViewModel.state.collectAsStateWithLifecycle()
     val commanderState by commanderViewModel.state.collectAsStateWithLifecycle()
     val batchScanState by batchScanViewModel.state.collectAsStateWithLifecycle()
     val folderDashboardState by folderDashboardViewModel.state.collectAsStateWithLifecycle()
+    val bookmarks by bookmarksViewModel.bookmarks.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
+    val mainScope = rememberCoroutineScope()
+    var showBookmarksSheet by remember { mutableStateOf(false) }
+
+    val bookmarkCurrentFolder: () -> Unit = {
+        val path = fileListState.currentPath
+        if (path.isNotEmpty()) {
+            bookmarksViewModel.add(
+                path = path,
+                displayName = path.substringAfterLast('/').ifEmpty { "/" }
+            )
+            mainScope.launch { snackbarHostState.showSnackbar("Bookmark added") }
+        }
+    }
+
+    if (showBookmarksSheet) {
+        com.filelens.commander.ui.components.BookmarksSheet(
+            bookmarks = bookmarks,
+            onOpen = { bookmark ->
+                showBookmarksSheet = false
+                fileListViewModel.navigateTo(bookmark.path)
+            },
+            onRemove = { bookmarksViewModel.remove(it.path) },
+            onDismiss = { showBookmarksSheet = false }
+        )
+    }
 
     if (batchScanState.active) {
         BatchScanDialog(
@@ -305,6 +332,8 @@ fun MainScreen(
                 onBatchScan = onBatchScan,
                 onFolderDashboard = onFolderDashboard,
                 onOpenSettings = onOpenSettings,
+                onBookmarkFolder = bookmarkCurrentFolder,
+                onShowBookmarks = { showBookmarksSheet = true },
                 onRefresh = refreshCurrentDir,
                 onSearchInside = { showSearchInsideDialog = true },
                 onExportReport = { isJson -> exportAndShareReport(isJson, inspectorViewModel, context) }
@@ -323,6 +352,8 @@ fun MainScreen(
                 onBatchScan = onBatchScan,
                 onFolderDashboard = onFolderDashboard,
                 onOpenSettings = onOpenSettings,
+                onBookmarkFolder = bookmarkCurrentFolder,
+                onShowBookmarks = { showBookmarksSheet = true },
                 onSearchInside = { showSearchInsideDialog = true },
                 onExportReport = { isJson -> exportAndShareReport(isJson, inspectorViewModel, context) },
                 onRefresh = refreshCurrentDir
@@ -351,6 +382,8 @@ private fun CompactLayout(
     onBatchScan: () -> Unit,
     onFolderDashboard: () -> Unit,
     onOpenSettings: () -> Unit,
+    onBookmarkFolder: () -> Unit,
+    onShowBookmarks: () -> Unit,
     onSearchInside: () -> Unit,
     onExportReport: (Boolean) -> Unit,
     onRefresh: () -> Unit
@@ -429,6 +462,8 @@ private fun CompactLayout(
                 onBatchScan = onBatchScan,
                 onFolderDashboard = onFolderDashboard,
                 onOpenSettings = onOpenSettings,
+                onBookmarkFolder = onBookmarkFolder,
+                onShowBookmarks = onShowBookmarks,
                 modifier = Modifier.fillMaxSize()
             )
         }
@@ -497,6 +532,8 @@ private fun ExpandedLayout(
     onBatchScan: () -> Unit,
     onFolderDashboard: () -> Unit,
     onOpenSettings: () -> Unit,
+    onBookmarkFolder: () -> Unit,
+    onShowBookmarks: () -> Unit,
     onRefresh: () -> Unit,
     onSearchInside: () -> Unit,
     onExportReport: (Boolean) -> Unit
@@ -541,6 +578,8 @@ private fun ExpandedLayout(
                 onBatchScan = onBatchScan,
                 onFolderDashboard = onFolderDashboard,
                 onOpenSettings = onOpenSettings,
+                onBookmarkFolder = onBookmarkFolder,
+                onShowBookmarks = onShowBookmarks,
                 isActive = activeLeft || !dualPanel,
                 modifier = Modifier.weight(1f)
             )
@@ -575,6 +614,8 @@ private fun ExpandedLayout(
                     onSearchRecursive = { rightViewModel.searchRecursive(it) },
                     onRefresh = { rightViewModel.refresh() },
                     onOpenSettings = onOpenSettings,
+                    onBookmarkFolder = onBookmarkFolder,
+                    onShowBookmarks = onShowBookmarks,
                     isActive = !activeLeft,
                     modifier = Modifier.weight(1f)
                 )
