@@ -503,6 +503,7 @@ private fun CompactLayout(
                 onBookmarkFolder = onBookmarkFolder,
                 onShowBookmarks = onShowBookmarks,
                 onShowRecents = onShowRecents,
+                onNavigateToPath = { path -> fileListViewModel.navigateTo(path) },
                 modifier = Modifier.fillMaxSize()
             )
         }
@@ -621,6 +622,7 @@ private fun ExpandedLayout(
                 onBookmarkFolder = onBookmarkFolder,
                 onShowBookmarks = onShowBookmarks,
                 onShowRecents = onShowRecents,
+                onNavigateToPath = { path -> fileListViewModel.navigateTo(path) },
                 isActive = activeLeft || !dualPanel,
                 modifier = Modifier.weight(1f)
             )
@@ -658,6 +660,7 @@ private fun ExpandedLayout(
                     onBookmarkFolder = onBookmarkFolder,
                     onShowBookmarks = onShowBookmarks,
                     onShowRecents = onShowRecents,
+                    onNavigateToPath = { path -> rightViewModel.navigateTo(path) },
                     isActive = !activeLeft,
                     modifier = Modifier.weight(1f)
                 )

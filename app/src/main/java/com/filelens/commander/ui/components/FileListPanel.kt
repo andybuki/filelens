@@ -1,13 +1,22 @@
 package com.filelens.commander.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
+import com.filelens.commander.ui.theme.FlAccent
+import com.filelens.commander.ui.theme.FlInk2
+import com.filelens.commander.ui.theme.FlInk3
+import com.filelens.commander.ui.theme.FlOnAccent
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,20 +24,24 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.BookmarkAdd
 import androidx.compose.material.icons.filled.Bookmarks
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.NorthWest
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material.icons.filled.TravelExplore
+import androidx.compose.material.icons.filled.Upload
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -86,35 +99,40 @@ fun FileListPanel(
     onBookmarkFolder: () -> Unit = {},
     onShowBookmarks: () -> Unit = {},
     onShowRecents: () -> Unit = {},
+    onNavigateToPath: (String) -> Unit = {},
     isActive: Boolean = true,
     modifier: Modifier = Modifier
 ) {
     var showSortMenu by remember { mutableStateOf(false) }
     var showMenu by remember { mutableStateOf(false) }
 
-    Column(modifier = modifier.fillMaxSize()) {
+    Box(modifier = modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
             title = {
-                Column {
-                    Text(
-                        text = currentPath.substringAfterLast('/').ifEmpty { "/" },
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    Text(
-                        text = buildBreadcrumb(currentPath),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 1
-                    )
-                }
-            },
-            navigationIcon = {
-                if (!isRoot || isSearchActive) {
-                    IconButton(onClick = onNavigateUp) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Box(
+                        modifier = Modifier
+                            .size(32.dp)
+                            .clip(RoundedCornerShape(10.dp))
+                            .background(FlAccent),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            Icons.Filled.TravelExplore,
+                            contentDescription = null,
+                            tint = FlOnAccent,
+                            modifier = Modifier.size(19.dp)
+                        )
                     }
+                    Spacer(modifier = Modifier.width(11.dp))
+                    Text(
+                        text = "FileLens",
+                        style = MaterialTheme.typography.titleLarge
+                    )
                 }
             },
+            navigationIcon = {},
             actions = {
                 IconButton(onClick = { onSearchActiveChanged(!isSearchActive) }) {
                     Icon(Icons.Filled.Search, contentDescription = "Search")
@@ -237,9 +255,15 @@ fun FileListPanel(
                 }
             },
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = if (isActive) MaterialTheme.colorScheme.surface
-                    else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                containerColor = MaterialTheme.colorScheme.background
             )
+        )
+
+        Breadcrumb(
+            currentPath = currentPath,
+            isRoot = isRoot,
+            onNavigateUp = onNavigateUp,
+            onNavigateToPath = onNavigateToPath
         )
 
         AnimatedVisibility(visible = isSearchActive) {
@@ -280,10 +304,14 @@ fun FileListPanel(
             }
         }
 
+        // Tablet dual-pane needs a per-panel "active" indicator so it's clear
+        // which side keyboard shortcuts and the inspector act on. On phone the
+        // panel is the only thing on screen, so the colored bar would just be
+        // visual noise — keep a hairline divider there instead.
         if (isActive) {
-            HorizontalDivider(color = MaterialTheme.colorScheme.primary, thickness = 2.dp)
+            HorizontalDivider(color = FlAccent, thickness = 1.5.dp)
         } else {
-            HorizontalDivider()
+            HorizontalDivider(color = MaterialTheme.colorScheme.outline)
         }
 
         when {
@@ -323,17 +351,113 @@ fun FileListPanel(
                                 onClick = { onFileClick(file) }
                             )
                         }
+                        item("fab-spacer") {
+                            Spacer(modifier = Modifier.height(96.dp))
+                        }
                     }
                 }
             }
         }
     }
+
+    // Primary action FAB: scans the current folder for risks. Per the design
+    // system this is the one violet square-rounded FAB, not Material's
+    // default circle.
+    FloatingActionButton(
+        onClick = onBatchScan,
+        containerColor = FlAccent,
+        contentColor = FlOnAccent,
+        shape = RoundedCornerShape(17.dp),
+        modifier = Modifier
+            .align(Alignment.BottomEnd)
+            .padding(end = 18.dp, bottom = 22.dp)
+            .size(54.dp)
+    ) {
+        Icon(Icons.Filled.Upload, contentDescription = "Scan folder")
+    }
+    }
 }
 
-private fun buildBreadcrumb(path: String): String {
-    val parts = path.split("/").filter { it.isNotEmpty() }
-    if (parts.size <= 3) return path
-    return ".../" + parts.takeLast(3).joinToString("/")
+@Composable
+private fun Breadcrumb(
+    currentPath: String,
+    isRoot: Boolean,
+    onNavigateUp: () -> Unit,
+    onNavigateToPath: (String) -> Unit
+) {
+    val parts = currentPath.split("/").filter { it.isNotEmpty() }
+    if (parts.isEmpty()) return
+
+    // Keep the breadcrumb to the last few segments so a deep path still
+    // reads at a glance; the up-arrow handles further escaping.
+    val maxShown = 4
+    val visible = if (parts.size <= maxShown) parts else parts.takeLast(maxShown)
+    val truncated = parts.size > visible.size
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .padding(bottom = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        if (!isRoot) {
+            Box(
+                modifier = Modifier
+                    .size(22.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .clickable(onClick = onNavigateUp),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    Icons.Filled.NorthWest,
+                    contentDescription = "Up",
+                    tint = FlInk3,
+                    modifier = Modifier.size(15.dp)
+                )
+            }
+            Spacer(modifier = Modifier.width(6.dp))
+        }
+        if (truncated) {
+            Text(
+                text = "…",
+                style = MaterialTheme.typography.bodySmall,
+                color = FlInk3
+            )
+            Spacer(modifier = Modifier.width(6.dp))
+            Icon(
+                Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = null,
+                tint = FlInk3,
+                modifier = Modifier.size(13.dp)
+            )
+            Spacer(modifier = Modifier.width(6.dp))
+        }
+        visible.forEachIndexed { index, segment ->
+            val isLast = index == visible.lastIndex
+            val absoluteIndex = parts.size - visible.size + index
+            val targetPath = "/" + parts.take(absoluteIndex + 1).joinToString("/")
+            Text(
+                text = segment,
+                style = if (isLast) MaterialTheme.typography.bodySmall
+                    else MaterialTheme.typography.bodySmall,
+                color = if (isLast) FlInk2 else FlInk3,
+                modifier = if (isLast) Modifier else Modifier.clickable {
+                    onNavigateToPath(targetPath)
+                }
+            )
+            if (!isLast) {
+                Spacer(modifier = Modifier.width(6.dp))
+                Icon(
+                    Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                    contentDescription = null,
+                    tint = FlInk3,
+                    modifier = Modifier.size(13.dp)
+                )
+                Spacer(modifier = Modifier.width(6.dp))
+            }
+        }
+    }
 }
 
 @Composable
