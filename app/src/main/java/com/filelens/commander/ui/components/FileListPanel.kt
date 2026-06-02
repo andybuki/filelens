@@ -23,7 +23,6 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -65,6 +64,7 @@ fun FileListPanel(
     selectedFilePath: String?,
     sortOrder: SortOrder,
     showHidden: Boolean,
+    errorMessage: String? = null,
     isSearchActive: Boolean = false,
     searchQuery: String = "",
     isSearching: Boolean = false,
@@ -227,32 +227,22 @@ fun FileListPanel(
         }
 
         when {
+            errorMessage != null && files.isEmpty() -> {
+                ErrorState(message = errorMessage, onRetry = onRefresh)
+            }
             isLoading || isSearching -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        CircularProgressIndicator()
-                        if (isSearching) {
-                            Text(
-                                text = "Searching...",
-                                style = MaterialTheme.typography.bodyMedium,
-                                modifier = Modifier.padding(top = 8.dp)
-                            )
-                        }
-                    }
-                }
+                LoadingState(label = if (isSearching) "Searching…" else null)
             }
             files.isEmpty() -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = if (isSearchActive && searchQuery.isNotEmpty()) "No results found" else "Empty folder",
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                if (isSearchActive && searchQuery.isNotEmpty()) {
+                    NoResultsState(
+                        query = searchQuery,
+                        onClear = { onSearchQueryChanged("") }
+                    )
+                } else {
+                    EmptyState(
+                        headline = "Empty folder",
+                        subtitle = "Nothing to inspect here."
                     )
                 }
             }

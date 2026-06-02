@@ -1130,24 +1130,12 @@ private fun CenteredMessage(message: String) {
 
 @Composable
 private fun EmptyInspector(modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(
-                text = "Select a file to inspect",
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = "Tap any file to see details",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
-    }
+    EmptyState(
+        modifier = modifier,
+        icon = androidx.compose.material.icons.Icons.Filled.Search,
+        headline = "Select a file to inspect",
+        subtitle = "Tap any file in the list to peek inside before opening."
+    )
 }
 
 private fun formatHex(bytes: ByteArray): String {
