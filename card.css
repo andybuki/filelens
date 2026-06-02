@@ -1,0 +1,27 @@
+/* preview card base — dark canvas, tokens from ../colors_and_type.css */
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--fl-bg);
+  color: var(--fl-ink);
+  font-family: var(--fl-font-sans);
+  padding: 20px 22px;
+  -webkit-font-smoothing: antialiased;
+}
+.row { display: flex; gap: 12px; flex-wrap: wrap; align-items: stretch; }
+.col { display: flex; flex-direction: column; gap: 10px; }
+.eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--fl-ink-3); margin: 0 0 12px; }
+.mono { font-family: var(--fl-font-mono); }
+.muted { color: var(--fl-ink-2); }
+.tert { color: var(--fl-ink-3); }
+
+/* color swatch */
+.sw { border-radius: 12px; border: 1px solid var(--fl-border); overflow: hidden; min-width: 120px; flex: 1; }
+.sw .chip { height: 56px; }
+.sw .lab { padding: 8px 10px; background: var(--fl-surface); }
+.sw .name { font-size: 12.5px; font-weight: 600; }
+.sw .hex { font-family: var(--fl-font-mono); font-size: 11px; color: var(--fl-ink-3); margin-top: 1px; }
+
+.pill { display: inline-flex; align-items: center; gap: 7px; padding: 5px 11px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex: 0 0 auto; }
+[data-lucide] { width: 18px; height: 18px; }

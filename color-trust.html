@@ -1,0 +1,12 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>color-trust</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../colors_and_type.css"><link rel="stylesheet" href="card.css"></head><body><div class="eyebrow">Trust ramp · score 0–100 → tier</div>
+<div style="height:14px;border-radius:999px;background:linear-gradient(90deg,var(--fl-trust-high),var(--fl-trust-medium),var(--fl-trust-low),var(--fl-trust-trusted));margin-bottom:14px"></div>
+<div class="row">
+<div class="sw"><div class="chip" style="background:var(--fl-trust-high)"></div><div class="lab"><div class="name">High risk</div><div class="hex">score < 40</div></div></div>
+<div class="sw"><div class="chip" style="background:var(--fl-trust-medium)"></div><div class="lab"><div class="name">Medium risk</div><div class="hex">≥ 40</div></div></div>
+<div class="sw"><div class="chip" style="background:var(--fl-trust-low)"></div><div class="lab"><div class="name">Low risk</div><div class="hex">≥ 70</div></div></div>
+<div class="sw"><div class="chip" style="background:var(--fl-trust-trusted)"></div><div class="lab"><div class="name">Trusted</div><div class="hex">≥ 90</div></div></div>
+</div><script src="https://unpkg.com/lucide@latest"></script><script>lucide.createIcons();</script></body></html>
