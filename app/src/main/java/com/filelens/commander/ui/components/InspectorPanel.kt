@@ -77,6 +77,7 @@ import com.filelens.commander.ui.theme.TrustHigh
 import com.filelens.commander.ui.theme.TrustLow
 import com.filelens.commander.ui.theme.TrustMedium
 import com.filelens.commander.ui.theme.TrustTrusted
+import androidx.compose.material.icons.filled.Search
 
 enum class InspectorTab(val label: String) {
     OVERVIEW("Overview"),
