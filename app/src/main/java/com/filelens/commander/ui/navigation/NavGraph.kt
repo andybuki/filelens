@@ -6,6 +6,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.filelens.commander.ui.screens.MainScreen
+import com.filelens.commander.ui.screens.SettingsScreen
+
+object Routes {
+    const val MAIN = "main"
+    const val SETTINGS = "settings"
+}
 
 @Composable
 fun FileLensNavGraph(
@@ -14,11 +20,16 @@ fun FileLensNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = "main",
+        startDestination = Routes.MAIN,
         modifier = modifier
     ) {
-        composable("main") {
-            MainScreen()
+        composable(Routes.MAIN) {
+            MainScreen(
+                onOpenSettings = { navController.navigate(Routes.SETTINGS) }
+            )
+        }
+        composable(Routes.SETTINGS) {
+            SettingsScreen(onBack = { navController.popBackStack() })
         }
     }
 }

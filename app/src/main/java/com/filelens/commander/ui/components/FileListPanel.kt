@@ -20,6 +20,7 @@ import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -78,6 +79,7 @@ fun FileListPanel(
     onRefresh: () -> Unit = {},
     onBatchScan: () -> Unit = {},
     onFolderDashboard: () -> Unit = {},
+    onOpenSettings: () -> Unit = {},
     isActive: Boolean = true,
     modifier: Modifier = Modifier
 ) {
@@ -171,6 +173,19 @@ fun FileListPanel(
                         },
                         onClick = {
                             onFolderDashboard()
+                            showMenu = false
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Icon(Icons.Filled.Settings, contentDescription = null)
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text("Settings")
+                            }
+                        },
+                        onClick = {
+                            onOpenSettings()
                             showMenu = false
                         }
                     )

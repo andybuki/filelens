@@ -77,6 +77,8 @@ import com.filelens.commander.ui.theme.TrustHigh
 import com.filelens.commander.ui.theme.TrustLow
 import com.filelens.commander.ui.theme.TrustMedium
 import com.filelens.commander.ui.theme.TrustTrusted
+import com.filelens.commander.ui.util.LocalSizeUnits
+import com.filelens.commander.ui.util.formatFileSize
 
 enum class InspectorTab(val label: String) {
     OVERVIEW("Overview"),
@@ -235,7 +237,7 @@ private fun OverviewTab(
             InfoRow("Extension", ".${info.extension}")
         }
         info.mimeType?.let { InfoRow("MIME", it) }
-        info.size?.let { InfoRow("Size", formatFileSize(it)) }
+        info.size?.let { InfoRow("Size", formatFileSize(it, LocalSizeUnits.current)) }
         info.lastModified?.let { InfoRow("Modified", formatDate(it)) }
 
         result?.overview?.forEach { (key, value) ->
@@ -443,7 +445,7 @@ private fun PreviewTab(result: InspectorResult?) {
                     .padding(12.dp)
             ) {
                 Text(
-                    text = "Hex view (${formatFileSize(preview.totalSize)} total)",
+                    text = "Hex view (${formatFileSize(preview.totalSize, LocalSizeUnits.current)} total)",
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(bottom = 8.dp)

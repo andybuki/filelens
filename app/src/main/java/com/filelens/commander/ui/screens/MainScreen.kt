@@ -66,6 +66,7 @@ import java.io.File
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun MainScreen(
+    onOpenSettings: () -> Unit = {},
     fileListViewModel: FileListViewModel = hiltViewModel(),
     inspectorViewModel: InspectorViewModel = hiltViewModel(),
     commanderViewModel: CommanderViewModel = hiltViewModel(),
@@ -303,6 +304,7 @@ fun MainScreen(
                 onShareCleaned = onShareCleaned,
                 onBatchScan = onBatchScan,
                 onFolderDashboard = onFolderDashboard,
+                onOpenSettings = onOpenSettings,
                 onRefresh = refreshCurrentDir,
                 onSearchInside = { showSearchInsideDialog = true },
                 onExportReport = { isJson -> exportAndShareReport(isJson, inspectorViewModel, context) }
@@ -320,6 +322,7 @@ fun MainScreen(
                 onShareCleaned = onShareCleaned,
                 onBatchScan = onBatchScan,
                 onFolderDashboard = onFolderDashboard,
+                onOpenSettings = onOpenSettings,
                 onSearchInside = { showSearchInsideDialog = true },
                 onExportReport = { isJson -> exportAndShareReport(isJson, inspectorViewModel, context) },
                 onRefresh = refreshCurrentDir
@@ -347,6 +350,7 @@ private fun CompactLayout(
     onShareCleaned: () -> Unit,
     onBatchScan: () -> Unit,
     onFolderDashboard: () -> Unit,
+    onOpenSettings: () -> Unit,
     onSearchInside: () -> Unit,
     onExportReport: (Boolean) -> Unit,
     onRefresh: () -> Unit
@@ -424,6 +428,7 @@ private fun CompactLayout(
                 onRefresh = onRefresh,
                 onBatchScan = onBatchScan,
                 onFolderDashboard = onFolderDashboard,
+                onOpenSettings = onOpenSettings,
                 modifier = Modifier.fillMaxSize()
             )
         }
@@ -491,6 +496,7 @@ private fun ExpandedLayout(
     onShareCleaned: () -> Unit,
     onBatchScan: () -> Unit,
     onFolderDashboard: () -> Unit,
+    onOpenSettings: () -> Unit,
     onRefresh: () -> Unit,
     onSearchInside: () -> Unit,
     onExportReport: (Boolean) -> Unit
@@ -534,6 +540,7 @@ private fun ExpandedLayout(
                 onRefresh = onRefresh,
                 onBatchScan = onBatchScan,
                 onFolderDashboard = onFolderDashboard,
+                onOpenSettings = onOpenSettings,
                 isActive = activeLeft || !dualPanel,
                 modifier = Modifier.weight(1f)
             )
@@ -567,6 +574,7 @@ private fun ExpandedLayout(
                     onSearchQueryChanged = { rightViewModel.onSearchQueryChanged(it) },
                     onSearchRecursive = { rightViewModel.searchRecursive(it) },
                     onRefresh = { rightViewModel.refresh() },
+                    onOpenSettings = onOpenSettings,
                     isActive = !activeLeft,
                     modifier = Modifier.weight(1f)
                 )

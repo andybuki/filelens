@@ -3,10 +3,12 @@ package com.filelens.commander.viewmodel
 import android.os.Environment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.filelens.commander.data.SettingsRepository
 import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.FileItem
 import com.filelens.commander.domain.model.SortOrder
 import com.filelens.commander.domain.usecase.BrowseFilesUseCase
+import kotlinx.coroutines.flow.first
 import com.filelens.commander.vfs.LocalFileNode
 import com.filelens.commander.vfs.NodeType
 import com.filelens.commander.vfs.VirtualFileNode
@@ -35,7 +37,8 @@ data class FileListState(
 
 @HiltViewModel
 class FileListViewModel @Inject constructor(
-    private val browseFilesUseCase: BrowseFilesUseCase
+    private val browseFilesUseCase: BrowseFilesUseCase,
+    private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(FileListState())
@@ -45,8 +48,19 @@ class FileListViewModel @Inject constructor(
     private var allFiles: List<FileItem> = emptyList()
 
     init {
-        val startPath = Environment.getExternalStorageDirectory().absolutePath
-        navigateTo(startPath)
+        viewModelScope.launch {
+            val initial = settingsRepository.settings.first()
+            _state.value = _state.value.copy(
+                showHidden = initial.showHidden,
+                sortOrder = SortOrder(
+                    field = initial.defaultSortField,
+                    direction = initial.defaultSortDirection
+                )
+            )
+            val startPath = Environment.getExternalStorageDirectory().absolutePath
+            val node = LocalFileNode(File(startPath))
+            navigateToNode(node, replaceStack = true)
+        }
     }
 
     fun navigateTo(path: String) {
@@ -132,11 +146,18 @@ class FileListViewModel @Inject constructor(
     fun setSortOrder(sortOrder: SortOrder) {
         _state.value = _state.value.copy(sortOrder = sortOrder)
         refreshCurrentDirectory()
+        viewModelScope.launch {
+            settingsRepository.setDefaultSort(sortOrder.field, sortOrder.direction)
+        }
     }
 
     fun toggleHiddenFiles() {
-        _state.value = _state.value.copy(showHidden = !_state.value.showHidden)
+        val next = !_state.value.showHidden
+        _state.value = _state.value.copy(showHidden = next)
         refreshCurrentDirectory()
+        viewModelScope.launch {
+            settingsRepository.setShowHidden(next)
+        }
     }
 
     fun refresh() {
