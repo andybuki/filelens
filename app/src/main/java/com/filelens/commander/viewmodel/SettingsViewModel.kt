@@ -28,6 +28,7 @@ class SettingsViewModel @Inject constructor(
 
     fun setThemeMode(mode: ThemeMode) = viewModelScope.launch { repo.setThemeMode(mode) }
     fun setShowHidden(value: Boolean) = viewModelScope.launch { repo.setShowHidden(value) }
+    fun setHideEmptyFolders(value: Boolean) = viewModelScope.launch { repo.setHideEmptyFolders(value) }
     fun setSizeUnits(units: SizeUnits) = viewModelScope.launch { repo.setSizeUnits(units) }
     fun setDefaultSort(field: SortField, direction: SortDirection) = viewModelScope.launch {
         repo.setDefaultSort(field, direction)

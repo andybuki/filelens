@@ -1,8 +1,15 @@
 package com.filelens.commander.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,6 +20,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.clip
+import com.filelens.commander.ui.theme.Eyebrow
 import com.filelens.commander.ui.theme.FlAccent
 import com.filelens.commander.ui.theme.FlInk2
 import com.filelens.commander.ui.theme.FlInk3
@@ -25,7 +33,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.BookmarkAdd
 import androidx.compose.material.icons.filled.Bookmarks
 import androidx.compose.material.icons.filled.Close
@@ -33,8 +40,9 @@ import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.NorthWest
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material.icons.filled.SwapVert
+import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material.icons.filled.TravelExplore
 import androidx.compose.material.icons.filled.Upload
 import androidx.compose.material.icons.filled.Visibility
@@ -64,6 +72,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.filelens.commander.domain.model.FileItem
@@ -85,6 +94,7 @@ fun FileListPanel(
     isSearchActive: Boolean = false,
     searchQuery: String = "",
     isSearching: Boolean = false,
+    homePath: String = "",
     onFileClick: (FileItem) -> Unit,
     onNavigateUp: () -> Unit,
     onSortChanged: (SortOrder) -> Unit,
@@ -103,7 +113,6 @@ fun FileListPanel(
     isActive: Boolean = true,
     modifier: Modifier = Modifier
 ) {
-    var showSortMenu by remember { mutableStateOf(false) }
     var showMenu by remember { mutableStateOf(false) }
 
     Box(modifier = modifier.fillMaxSize()) {
@@ -137,19 +146,6 @@ fun FileListPanel(
                 IconButton(onClick = { onSearchActiveChanged(!isSearchActive) }) {
                     Icon(Icons.Filled.Search, contentDescription = "Search")
                 }
-
-                IconButton(onClick = { showSortMenu = true }) {
-                    Icon(Icons.AutoMirrored.Filled.Sort, contentDescription = "Sort")
-                }
-                SortDropdownMenu(
-                    expanded = showSortMenu,
-                    currentSort = sortOrder,
-                    onDismiss = { showSortMenu = false },
-                    onSortSelected = {
-                        onSortChanged(it)
-                        showSortMenu = false
-                    }
-                )
 
                 IconButton(onClick = { showMenu = true }) {
                     Icon(Icons.Filled.MoreVert, contentDescription = "More options")
@@ -239,19 +235,10 @@ fun FileListPanel(
                             showMenu = false
                         }
                     )
-                    DropdownMenuItem(
-                        text = {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(Icons.Filled.Settings, contentDescription = null)
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text("Settings")
-                            }
-                        },
-                        onClick = {
-                            onOpenSettings()
-                            showMenu = false
-                        }
-                    )
+                }
+
+                IconButton(onClick = onOpenSettings) {
+                    Icon(Icons.Filled.Tune, contentDescription = "Settings")
                 }
             },
             colors = TopAppBarDefaults.topAppBarColors(
@@ -259,14 +246,27 @@ fun FileListPanel(
             )
         )
 
+        // Single small-caps current folder name, à la "DCIM" in the design.
+        // Subfolders below the home root render the relative crumb trail.
         Breadcrumb(
             currentPath = currentPath,
+            homePath = homePath,
             isRoot = isRoot,
             onNavigateUp = onNavigateUp,
             onNavigateToPath = onNavigateToPath
         )
 
-        AnimatedVisibility(visible = isSearchActive) {
+        // Search slides down with a spring; matches the snappier feel of the design.
+        AnimatedVisibility(
+            visible = isSearchActive,
+            enter = expandVertically(
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioMediumBouncy,
+                    stiffness = Spring.StiffnessMediumLow
+                )
+            ) + fadeIn(),
+            exit = shrinkVertically() + fadeOut()
+        ) {
             val focusRequester = remember { FocusRequester() }
             LaunchedEffect(isSearchActive) {
                 if (isSearchActive) focusRequester.requestFocus()
@@ -274,7 +274,7 @@ fun FileListPanel(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp, vertical = 4.dp),
+                    .padding(horizontal = 12.dp, vertical = 6.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 OutlinedTextField(
@@ -282,11 +282,15 @@ fun FileListPanel(
                     onValueChange = onSearchQueryChanged,
                     placeholder = { Text("Search files...") },
                     singleLine = true,
+                    shape = RoundedCornerShape(12.dp),
                     modifier = Modifier
                         .weight(1f)
                         .focusRequester(focusRequester),
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                     keyboardActions = KeyboardActions(onSearch = { onSearchRecursive(searchQuery) }),
+                    leadingIcon = {
+                        Icon(Icons.Filled.Search, contentDescription = null, tint = FlInk3)
+                    },
                     trailingIcon = {
                         if (searchQuery.isNotEmpty()) {
                             IconButton(onClick = { onSearchQueryChanged("") }) {
@@ -303,6 +307,14 @@ fun FileListPanel(
                 }
             }
         }
+
+        SortTabs(
+            sortOrder = sortOrder,
+            onSortChanged = onSortChanged,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 8.dp)
+        )
 
         // Tablet dual-pane needs a per-panel "active" indicator so it's clear
         // which side keyboard shortcuts and the inspector act on. On phone the
@@ -332,7 +344,7 @@ fun FileListPanel(
                     )
                 } else {
                     EmptyState(
-                        headline = "Empty folder",
+                        headline = "Folder is empty",
                         subtitle = "Nothing to inspect here."
                     )
                 }
@@ -381,24 +393,35 @@ fun FileListPanel(
 @Composable
 private fun Breadcrumb(
     currentPath: String,
+    homePath: String,
     isRoot: Boolean,
     onNavigateUp: () -> Unit,
     onNavigateToPath: (String) -> Unit
 ) {
-    val parts = currentPath.split("/").filter { it.isNotEmpty() }
-    if (parts.isEmpty()) return
+    if (currentPath.isEmpty()) return
 
-    // Keep the breadcrumb to the last few segments so a deep path still
-    // reads at a glance; the up-arrow handles further escaping.
+    // Render the path relative to the home root so the user can't navigate
+    // above their starting folder. At home, that's a single label like "DCIM".
+    val relativeParts: List<String> = when {
+        homePath.isEmpty() -> currentPath.split("/").filter { it.isNotEmpty() }
+        currentPath == homePath -> listOf(homePath.substringAfterLast('/').ifEmpty { "/" })
+        currentPath.startsWith("$homePath/") -> {
+            val homeName = homePath.substringAfterLast('/').ifEmpty { "/" }
+            listOf(homeName) + currentPath.removePrefix("$homePath/").split("/").filter { it.isNotEmpty() }
+        }
+        else -> currentPath.split("/").filter { it.isNotEmpty() }
+    }
+
+    // Keep the trail short on deep paths.
     val maxShown = 4
-    val visible = if (parts.size <= maxShown) parts else parts.takeLast(maxShown)
-    val truncated = parts.size > visible.size
+    val visible = if (relativeParts.size <= maxShown) relativeParts else relativeParts.takeLast(maxShown)
+    val truncated = relativeParts.size > visible.size
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .padding(bottom = 8.dp),
+            .padding(bottom = 4.dp, top = 2.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (!isRoot) {
@@ -416,7 +439,7 @@ private fun Breadcrumb(
                     modifier = Modifier.size(15.dp)
                 )
             }
-            Spacer(modifier = Modifier.width(6.dp))
+            Spacer(modifier = Modifier.width(8.dp))
         }
         if (truncated) {
             Text(
@@ -435,18 +458,28 @@ private fun Breadcrumb(
         }
         visible.forEachIndexed { index, segment ->
             val isLast = index == visible.lastIndex
-            val absoluteIndex = parts.size - visible.size + index
-            val targetPath = "/" + parts.take(absoluteIndex + 1).joinToString("/")
-            Text(
-                text = segment,
-                style = if (isLast) MaterialTheme.typography.bodySmall
-                    else MaterialTheme.typography.bodySmall,
-                color = if (isLast) FlInk2 else FlInk3,
-                modifier = if (isLast) Modifier else Modifier.clickable {
-                    onNavigateToPath(targetPath)
-                }
-            )
-            if (!isLast) {
+            // Resolve the absolute path for this crumb so navigating to a
+            // mid-trail segment stays anchored under homePath.
+            val absoluteIndex = relativeParts.size - visible.size + index
+            val targetPath = if (homePath.isNotEmpty() && relativeParts.firstOrNull() == homePath.substringAfterLast('/').ifEmpty { "/" }) {
+                val belowHome = relativeParts.subList(1, absoluteIndex + 1).joinToString("/")
+                if (belowHome.isEmpty()) homePath else "$homePath/$belowHome"
+            } else {
+                "/" + relativeParts.take(absoluteIndex + 1).joinToString("/")
+            }
+            if (isLast) {
+                Text(
+                    text = segment.uppercase(),
+                    style = Eyebrow,
+                    color = FlInk2
+                )
+            } else {
+                Text(
+                    text = segment,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = FlInk3,
+                    modifier = Modifier.clickable { onNavigateToPath(targetPath) }
+                )
                 Spacer(modifier = Modifier.width(6.dp))
                 Icon(
                     Icons.AutoMirrored.Filled.KeyboardArrowRight,
@@ -461,13 +494,19 @@ private fun Breadcrumb(
 }
 
 @Composable
-private fun SortDropdownMenu(
-    expanded: Boolean,
-    currentSort: SortOrder,
-    onDismiss: () -> Unit,
-    onSortSelected: (SortOrder) -> Unit
+private fun SortTabs(
+    sortOrder: SortOrder,
+    onSortChanged: (SortOrder) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    DropdownMenu(expanded = expanded, onDismissRequest = onDismiss) {
+    Row(
+        modifier = modifier
+            .clip(RoundedCornerShape(12.dp))
+            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .padding(4.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         SortField.entries.forEach { field ->
             val label = when (field) {
                 SortField.NAME -> "Name"
@@ -475,26 +514,39 @@ private fun SortDropdownMenu(
                 SortField.DATE -> "Date"
                 SortField.TYPE -> "Type"
             }
-            val isActive = currentSort.field == field
-            DropdownMenuItem(
-                text = {
-                    Text(
-                        text = if (isActive) {
-                            val arrow = if (currentSort.direction == SortDirection.ASCENDING) " ↑" else " ↓"
-                            "$label$arrow"
-                        } else label,
-                        color = if (isActive) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
-                    )
-                },
-                onClick = {
-                    val newDirection = if (isActive && currentSort.direction == SortDirection.ASCENDING) {
-                        SortDirection.DESCENDING
-                    } else {
-                        SortDirection.ASCENDING
+            val selected = sortOrder.field == field
+            Row(
+                modifier = Modifier
+                    .weight(1f)
+                    .clip(RoundedCornerShape(9.dp))
+                    .background(if (selected) FlAccent else Color.Transparent)
+                    .clickable {
+                        val newDirection = if (selected && sortOrder.direction == SortDirection.ASCENDING) {
+                            SortDirection.DESCENDING
+                        } else {
+                            SortDirection.ASCENDING
+                        }
+                        onSortChanged(sortOrder.copy(field = field, direction = newDirection))
                     }
-                    onSortSelected(currentSort.copy(field = field, direction = newDirection))
+                    .padding(horizontal = 10.dp, vertical = 7.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = label,
+                    style = MaterialTheme.typography.labelLarge,
+                    color = if (selected) FlOnAccent else FlInk2
+                )
+                if (selected) {
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Icon(
+                        Icons.Filled.SwapVert,
+                        contentDescription = if (sortOrder.direction == SortDirection.ASCENDING) "Ascending" else "Descending",
+                        tint = FlOnAccent,
+                        modifier = Modifier.size(13.dp)
+                    )
                 }
-            )
+            }
         }
     }
 }

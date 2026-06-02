@@ -469,6 +469,7 @@ private fun CompactLayout(
         ) {
             FileListPanel(
                 currentPath = fileListState.currentPath,
+                homePath = fileListState.homePath,
                 files = fileListState.files,
                 isLoading = fileListState.isLoading,
                 isRoot = fileListState.isRoot,
@@ -588,6 +589,7 @@ private fun ExpandedLayout(
         Row(modifier = Modifier.weight(1f)) {
             FileListPanel(
                 currentPath = fileListState.currentPath,
+                homePath = fileListState.homePath,
                 files = fileListState.files,
                 isLoading = fileListState.isLoading,
                 isRoot = fileListState.isRoot,
@@ -632,6 +634,7 @@ private fun ExpandedLayout(
             if (dualPanel) {
                 FileListPanel(
                     currentPath = rightState.currentPath,
+                    homePath = rightState.homePath,
                     files = rightState.files,
                     isLoading = rightState.isLoading,
                     isRoot = rightState.isRoot,

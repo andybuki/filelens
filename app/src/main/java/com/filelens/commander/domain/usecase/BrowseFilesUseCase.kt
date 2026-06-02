@@ -20,14 +20,30 @@ class BrowseFilesUseCase @Inject constructor() {
     suspend fun listFiles(
         node: VirtualFileNode,
         sortOrder: SortOrder = SortOrder(),
-        showHidden: Boolean = false
+        showHidden: Boolean = false,
+        hideEmptyFolders: Boolean = false
     ): List<FileItem> = withContext(Dispatchers.IO) {
         val children = node.children()
 
         children
+            .filter { child ->
+                if (!hideEmptyFolders || child.type != NodeType.DIRECTORY) return@filter true
+                hasVisibleChild(child, showHidden)
+            }
             .map { child -> toFileItem(child) }
             .filter { showHidden || !it.isHidden }
             .let { items -> sortItems(items, sortOrder) }
+    }
+
+    private suspend fun hasVisibleChild(node: VirtualFileNode, showHidden: Boolean): Boolean {
+        return try {
+            node.children().any { child ->
+                val hidden = (child as? LocalFileNode)?.isHidden ?: false
+                showHidden || !hidden
+            }
+        } catch (_: Exception) {
+            true
+        }
     }
 
     private fun toFileItem(node: VirtualFileNode): FileItem {
