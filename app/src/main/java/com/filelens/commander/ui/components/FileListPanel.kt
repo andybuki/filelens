@@ -20,6 +20,7 @@ import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.BookmarkAdd
 import androidx.compose.material.icons.filled.Bookmarks
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
@@ -84,6 +85,7 @@ fun FileListPanel(
     onOpenSettings: () -> Unit = {},
     onBookmarkFolder: () -> Unit = {},
     onShowBookmarks: () -> Unit = {},
+    onShowRecents: () -> Unit = {},
     isActive: Boolean = true,
     modifier: Modifier = Modifier
 ) {
@@ -203,6 +205,19 @@ fun FileListPanel(
                         },
                         onClick = {
                             onShowBookmarks()
+                            showMenu = false
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Icon(Icons.Filled.History, contentDescription = null)
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text("Recent")
+                            }
+                        },
+                        onClick = {
+                            onShowRecents()
                             showMenu = false
                         }
                     )

@@ -38,7 +38,8 @@ data class FileListState(
 @HiltViewModel
 class FileListViewModel @Inject constructor(
     private val browseFilesUseCase: BrowseFilesUseCase,
-    private val settingsRepository: SettingsRepository
+    private val settingsRepository: SettingsRepository,
+    private val recentsRepository: com.filelens.commander.data.RecentsRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(FileListState())
@@ -99,6 +100,12 @@ class FileListViewModel @Inject constructor(
                 isRoot = nodeStack.size <= 1,
                 isInsideArchive = node is ZipEntryNode
             )
+            if (node is LocalFileNode) {
+                recentsRepository.recordFolderVisit(
+                    path = node.path,
+                    displayName = node.path.substringAfterLast('/').ifEmpty { "/" }
+                )
+            }
         } catch (e: Exception) {
             _state.value = _state.value.copy(
                 isLoading = false,
