@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FileLens — Direction Explorations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="explore/explore.css" />
+<style>
+  html, body { margin: 0; height: 100%; background: #0f1012; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="#16171A"/><circle cx="44" cy="44" r="20" fill="none" stroke="#A855F7" stroke-width="6"/><circle cx="44" cy="44" r="7" fill="#A855F7"/><rect x="58" y="58" width="22" height="9" rx="4.5" transform="rotate(45 58 58)" fill="#A855F7"/></svg>
+</template>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="explore/icons.jsx"></script>
+<script type="text/babel" src="explore/pieces.jsx"></script>
+<script type="text/babel" src="explore/screens.jsx"></script>
+<script type="text/babel">
+  const { ScreenA, ScreenB, ScreenC } = window.Screens;
+
+  function Note({ children }) {
+    return <div style={{ fontSize: 12.5, lineHeight: 1.55, color: "#c9ccd3", maxWidth: 300, fontFamily: "Roboto, sans-serif" }}>{children}</div>;
+  }
+
+  function App() {
+    return (
+      <DesignCanvas>
+        <DCSection id="core" title="FileLens — Core Look" subtitle="Three directions · dark-first (Darcula), violet accent, Roboto + Roboto Mono · signature = risk & trust. Same screen (file list + inspector) in each.">
+          <DCArtboard id="a" label="A · Panel — clean Darcula" width={372} height={712}>
+            <div style={{ height: "100%", display: "grid", placeItems: "center", background: "#0f1012" }}><ScreenA /></div>
+          </DCArtboard>
+          <DCArtboard id="b" label="B · Gutter — IDE rail + trust gauge" width={372} height={712}>
+            <div style={{ height: "100%", display: "grid", placeItems: "center", background: "#0f1012" }}><ScreenB /></div>
+          </DCArtboard>
+          <DCArtboard id="c" label="C · Lens — focus reticle + trust ring" width={372} height={712}>
+            <div style={{ height: "100%", display: "grid", placeItems: "center", background: "#0f1012" }}><ScreenC /></div>
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection id="brief" title="Brief & reasoning" subtitle="What I assumed; tell me what to change.">
+          <DCArtboard id="notes" label="Read me" width={760} height={420}>
+            <div style={{ height: "100%", background: "#1b1c20", color: "#e4e6eb", padding: 26, fontFamily: "Roboto, sans-serif", overflow: "hidden" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+                <div style={{ width: 30, height: 30, borderRadius: 9, background: "#A855F7", display: "grid", placeItems: "center" }}><LensMark size={18} /></div>
+                <strong style={{ fontSize: 17 }}>FileLens design system — starting point</strong>
+              </div>
+              <Note>
+                <p style={{ margin: "0 0 10px" }}><b>Context:</b> FileLens is an Android "smart file commander" — browse files, peek inside, inspect metadata, and understand risk <i>before</i> opening. The hero is the file list → tabbed inspector (Overview / Preview / Structure / Metadata / Risks) with a local <b>trust score</b> and explainable <b>risk cards</b>.</p>
+                <p style={{ margin: "0 0 10px" }}><b>Your direction:</b> Android only · dark-first Darcula · violet accent · Roboto + Roboto Mono · comfortable density · a bold, distinctive IDE-flavored take · signature = risk & trust visualization.</p>
+                <p style={{ margin: "0 0 10px" }}><b>The three takes</b> share one token set and differ in how risk/trust is expressed:
+                <br/>· <b>A · Panel</b> — restrained, hairline panels, severity dot + subtle selection gutter. Closest to clean Darcula.
+                <br/>· <b>B · Gutter</b> — bold IDE-style colored left rail per file keyed to risk, plus a semicircular trust gauge. Most distinctive.
+                <br/>· <b>C · Lens</b> — leans into the magnifier metaphor: a focus reticle on the inspected file and a circular trust ring around each file icon.</p>
+                <p style={{ margin: 0, color: "#9aa0aa" }}>Pick one (or mix — e.g. "B's gutter + C's trust ring"). I'll then build the full system: tokens, preview cards, and an Android UI kit.</p>
+              </Note>
+            </div>
+          </DCArtboard>
+        </DCSection>
+      </DesignCanvas>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

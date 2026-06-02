@@ -1,0 +1,170 @@
+/* ============================================================
+   FileLens Design System — Design Tokens
+   Dark-first (Darcula-flavored) · violet accent · Roboto + Roboto Mono
+   Direction A "Panel": clean panels, hairline borders, restrained accent,
+   risk & trust as the signature layer.
+
+   Load Roboto + Roboto Mono before this file:
+   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+   Dark is the default (:root). Light is a secondary theme: set
+   <html data-theme="light"> (or any ancestor) to opt in.
+   ============================================================ */
+
+:root {
+  /* ---------- NEUTRALS (dark / default) ---------- */
+  --fl-bg:        #16171A;  /* app canvas — the deepest surface */
+  --fl-surface:   #1E2024;  /* panels, sheets, list background */
+  --fl-surface-2: #25272D;  /* cards, raised rows */
+  --fl-surface-3: #2E3138;  /* inputs, hover, pressed wash */
+  --fl-border:    #34373E;  /* hairline dividers + borders */
+  --fl-border-2:  #3F434B;  /* stronger border / grab handle */
+
+  --fl-ink:       #E4E6EB;  /* primary text + active icons */
+  --fl-ink-2:     #A4A8B2;  /* secondary text */
+  --fl-ink-3:     #6E727C;  /* tertiary text, captions, inactive icons */
+  --fl-disabled:  #4A4D55;  /* disabled text/controls */
+
+  /* ---------- ACCENT — JetBrains violet ---------- */
+  --fl-accent:        #A855F7;  /* primary actions, active states, links */
+  --fl-accent-bright: #C084FC;  /* on-dark active text / hover */
+  --fl-accent-press:  #8B3FD6;  /* pressed fill */
+  --fl-accent-tint:   rgba(168,85,247,0.16); /* active chip / selected fill */
+  --fl-accent-tint-2: rgba(168,85,247,0.10); /* subtle selection wash */
+  --fl-on-accent:     #FFFFFF;  /* text/icon on accent fill */
+
+  /* ---------- RISK SEMANTICS (only for risk + money-grade signal) ---------- */
+  --fl-danger:  #FF5C6C;
+  --fl-warning: #F5B642;
+  --fl-info:    #4C8DFF;
+  --fl-safe:    #36D399;
+  --fl-danger-tint:  rgba(255,92,108,0.14);
+  --fl-warning-tint: rgba(245,182,66,0.14);
+  --fl-info-tint:    rgba(76,141,255,0.14);
+  --fl-safe-tint:    rgba(54,211,153,0.14);
+
+  /* ---------- TRUST RAMP (gauge / score / chip) ---------- */
+  --fl-trust-trusted: #36D399;  /* score >= 90  */
+  --fl-trust-low:     #8BD64F;  /* score >= 70  (Low risk) */
+  --fl-trust-medium:  #F5B642;  /* score >= 40  (Medium risk) */
+  --fl-trust-high:    #FF5C6C;  /* score <  40  (High risk) */
+
+  /* ---------- CATEGORY SEEDS (file-type icons, badges, slices) ---------- */
+  --cat-dir:      #E3B341;  /* folder */
+  --cat-image:    #4CC38A;
+  --cat-video:    #FF6B6B;
+  --cat-audio:    #FF8A3D;
+  --cat-doc:      #4C8DFF;  /* document / word */
+  --cat-sheet:    #2EB872;  /* spreadsheet */
+  --cat-pres:     #FF7A45;  /* presentation */
+  --cat-archive:  #B07CF6;
+  --cat-code:     #2DD4D4;
+  --cat-text:     #8B98A8;
+  --cat-pdf:      #F0616D;
+  --cat-apk:      #3DDC84;
+  --cat-db:       #C08457;  /* database */
+  --cat-font:     #EC6FA8;
+  --cat-exe:      #9AA0AC;
+  --cat-unknown:  #6E727C;
+
+  /* ---------- TYPE ---------- */
+  --fl-font-sans: "Roboto", system-ui, -apple-system, "Segoe UI", "Noto Sans", sans-serif;
+  --fl-font-mono: "Roboto Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* font sizes (comfortable density) */
+  --fl-fs-display: 30px;  /* screen-level hero (rare) */
+  --fl-fs-h1:      24px;  /* screen title */
+  --fl-fs-h2:      19px;  /* card / sheet title */
+  --fl-fs-h3:      16px;  /* section header */
+  --fl-fs-body:    15px;  /* default body + list item name */
+  --fl-fs-small:   13px;  /* labels, metadata, buttons */
+  --fl-fs-caption: 11px;  /* eyebrow / uppercase caption */
+  --fl-fs-mono:    13px;  /* amounts, hashes, sizes, code */
+  --fl-fs-mono-sm: 11.5px;
+
+  /* line-heights */
+  --fl-lh-tight: 1.15;
+  --fl-lh-snug:  1.35;
+  --fl-lh-normal:1.55;
+
+  /* letter-spacing */
+  --fl-ls-tight:   -0.01em;
+  --fl-ls-eyebrow:  0.08em;  /* uppercase captions */
+
+  /* ---------- SPACING (4-based) ---------- */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px; --s-5: 20px;
+  --s-6: 24px; --s-8: 32px; --s-10: 40px; --s-12: 48px; --s-16: 64px;
+
+  /* ---------- RADII ---------- */
+  --r-xs:  6px;   /* small badges */
+  --r-sm:  8px;   /* chips, tabs, type badges */
+  --r-md:  11px;  /* buttons, inputs, file rows */
+  --r-lg:  14px;  /* cards */
+  --r-xl:  20px;  /* bottom sheets, dialogs */
+  --r-pill:999px;
+
+  /* ---------- SHADOWS (dark: subtle; lean on borders + surface lift) ---------- */
+  --sh-xs: 0 1px 2px rgba(0,0,0,0.30);
+  --sh-sm: 0 4px 12px rgba(0,0,0,0.38);
+  --sh-md: 0 12px 32px rgba(0,0,0,0.48);
+  --sh-accent: 0 6px 20px -6px rgba(168,85,247,0.55); /* primary FAB/button */
+
+  /* ---------- MOTION ---------- */
+  --dur-xs: 120ms;  --dur-sm: 200ms;  --dur-md: 300ms;  --dur-lg: 400ms;
+  --ease-std: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --ease-out: cubic-bezier(0.0, 0.0, 0.2, 1);
+  --ease-in:  cubic-bezier(0.4, 0.0, 1, 1);
+}
+
+/* ============================================================
+   LIGHT THEME (secondary) — set [data-theme="light"]
+   ============================================================ */
+[data-theme="light"] {
+  --fl-bg:        #F4F5F7;
+  --fl-surface:   #FFFFFF;
+  --fl-surface-2: #FFFFFF;
+  --fl-surface-3: #EEF0F3;
+  --fl-border:    #E2E5EA;
+  --fl-border-2:  #CFD3DA;
+
+  --fl-ink:       #1C1E22;
+  --fl-ink-2:     #545863;
+  --fl-ink-3:     #8A8F99;
+  --fl-disabled:  #B9BDC6;
+
+  --fl-accent:        #8B3FD6;
+  --fl-accent-bright: #7C2FCC;
+  --fl-accent-press:  #6D27B8;
+  --fl-accent-tint:   rgba(139,63,214,0.12);
+  --fl-accent-tint-2: rgba(139,63,214,0.07);
+
+  --fl-danger:  #E03548;
+  --fl-warning: #C9870C;
+  --fl-info:    #2D6BE0;
+  --fl-safe:    #169E63;
+  --fl-danger-tint:  rgba(224,53,72,0.10);
+  --fl-warning-tint: rgba(201,135,12,0.12);
+  --fl-info-tint:    rgba(45,107,224,0.10);
+  --fl-safe-tint:    rgba(22,158,99,0.12);
+
+  --fl-trust-trusted: #169E63;
+  --fl-trust-low:     #5FA80F;
+  --fl-trust-medium:  #C9870C;
+  --fl-trust-high:    #E03548;
+
+  --sh-xs: 0 1px 2px rgba(20,24,33,0.05);
+  --sh-sm: 0 2px 8px rgba(20,24,33,0.08);
+  --sh-md: 0 12px 32px rgba(20,24,33,0.14);
+  --sh-accent: 0 6px 18px -6px rgba(139,63,214,0.45);
+}
+
+/* ============================================================
+   SEMANTIC HELPERS — optional convenience classes
+   ============================================================ */
+.fl-h1 { font: 700 var(--fl-fs-h1)/var(--fl-lh-tight) var(--fl-font-sans); letter-spacing: var(--fl-ls-tight); color: var(--fl-ink); }
+.fl-h2 { font: 700 var(--fl-fs-h2)/var(--fl-lh-tight) var(--fl-font-sans); letter-spacing: var(--fl-ls-tight); color: var(--fl-ink); }
+.fl-h3 { font: 600 var(--fl-fs-h3)/var(--fl-lh-snug) var(--fl-font-sans); color: var(--fl-ink); }
+.fl-body { font: 400 var(--fl-fs-body)/var(--fl-lh-normal) var(--fl-font-sans); color: var(--fl-ink); }
+.fl-small { font: 500 var(--fl-fs-small)/var(--fl-lh-snug) var(--fl-font-sans); color: var(--fl-ink-2); }
+.fl-eyebrow { font: 700 var(--fl-fs-caption)/1 var(--fl-font-sans); letter-spacing: var(--fl-ls-eyebrow); text-transform: uppercase; color: var(--fl-ink-3); }
+.fl-mono { font: 500 var(--fl-fs-mono)/var(--fl-lh-snug) var(--fl-font-mono); color: var(--fl-ink); }
