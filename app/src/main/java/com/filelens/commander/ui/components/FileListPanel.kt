@@ -245,8 +245,11 @@ fun FileListPanel(
             errorMessage != null && files.isEmpty() -> {
                 ErrorState(message = errorMessage, onRetry = onRefresh)
             }
-            isLoading || isSearching -> {
-                LoadingState(label = if (isSearching) "Searching…" else null)
+            isSearching -> {
+                LoadingState(label = "Searching…")
+            }
+            isLoading -> {
+                FileListSkeleton()
             }
             files.isEmpty() -> {
                 if (isSearchActive && searchQuery.isNotEmpty()) {
