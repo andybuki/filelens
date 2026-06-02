@@ -1,18 +1,26 @@
 package com.filelens.commander.inspector
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
 import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.InspectorResult
+import com.filelens.commander.domain.model.PreviewContent
 import com.filelens.commander.domain.model.RiskItem
 import com.filelens.commander.domain.model.RiskSeverity
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.io.FileOutputStream
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MediaInspector @Inject constructor() : FileInspector {
+class MediaInspector @Inject constructor(
+    @ApplicationContext private val context: Context
+) : FileInspector {
 
     override val supportedCategories = setOf(FileCategory.AUDIO, FileCategory.VIDEO)
 
@@ -20,6 +28,7 @@ class MediaInspector @Inject constructor() : FileInspector {
         val overview = linkedMapOf<String, String>()
         val metadata = linkedMapOf<String, String>()
         val risks = mutableListOf<RiskItem>()
+        var preview: PreviewContent? = null
 
         overview["File size"] = formatBytes(file.length())
         val ext = file.extension.lowercase()
@@ -54,6 +63,13 @@ class MediaInspector @Inject constructor() : FileInspector {
                 retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION)?.let {
                     metadata["Rotation"] = "$it°"
                 }
+
+                // Grab a representative frame near the start (~1s, falls back to 0).
+                val frameUs = if ((durationMs ?: 0L) > 1500L) 1_000_000L else 0L
+                val frame = runCatching {
+                    retriever.getFrameAtTime(frameUs, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
+                }.getOrNull()
+                preview = frame?.let { saveThumbnail(it, "video_thumb_${file.nameHash()}.png") }
             }
             if (hasAudio) {
                 val channels = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_NUM_TRACKS)
@@ -78,6 +94,19 @@ class MediaInspector @Inject constructor() : FileInspector {
             ).forEach { (label, key) ->
                 retriever.extractMetadata(key)?.takeIf { it.isNotBlank() }?.let {
                     metadata[label] = it
+                }
+            }
+
+            // Embedded album art for audio (and for video files that ship one).
+            if (preview == null) {
+                val artBytes = runCatching { retriever.embeddedPicture }.getOrNull()
+                if (artBytes != null && artBytes.isNotEmpty()) {
+                    val bitmap = runCatching {
+                        BitmapFactory.decodeByteArray(artBytes, 0, artBytes.size)
+                    }.getOrNull()
+                    if (bitmap != null) {
+                        preview = saveThumbnail(bitmap, "audio_art_${file.nameHash()}.png")
+                    }
                 }
             }
 
@@ -108,8 +137,43 @@ class MediaInspector @Inject constructor() : FileInspector {
         InspectorResult(
             overview = overview,
             metadata = metadata,
-            risks = risks
+            risks = risks,
+            previewContent = preview
         )
+    }
+
+    private fun saveThumbnail(source: Bitmap, fileName: String): PreviewContent.ImageContent? {
+        val (target, scaled) = scaleToMaxEdge(source, MAX_EDGE_PX)
+        return runCatching {
+            val out = File(context.cacheDir, fileName)
+            FileOutputStream(out).use { stream ->
+                target.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            }
+            if (scaled) target.recycle()
+            PreviewContent.ImageContent(
+                path = out.absolutePath,
+                width = target.width,
+                height = target.height
+            )
+        }.getOrNull()
+    }
+
+    private fun scaleToMaxEdge(source: Bitmap, maxEdge: Int): Pair<Bitmap, Boolean> {
+        val w = source.width
+        val h = source.height
+        val maxSide = maxOf(w, h)
+        if (maxSide <= maxEdge) return source to false
+        val ratio = maxEdge.toFloat() / maxSide
+        val tw = (w * ratio).toInt().coerceAtLeast(1)
+        val th = (h * ratio).toInt().coerceAtLeast(1)
+        val scaled = Bitmap.createScaledBitmap(source, tw, th, true)
+        return scaled to true
+    }
+
+    private fun File.nameHash(): String {
+        // Stable, short identifier so the cache file name stays predictable
+        // across runs without leaking the full original path.
+        return absolutePath.hashCode().toUInt().toString(16)
     }
 
     private fun formatDuration(ms: Long): String {
@@ -127,5 +191,9 @@ class MediaInspector @Inject constructor() : FileInspector {
         val mb = kb / 1024.0
         if (mb < 1024) return "%.1f MB".format(mb)
         return "%.2f GB".format(mb / 1024.0)
+    }
+
+    private companion object {
+        const val MAX_EDGE_PX = 1024
     }
 }
