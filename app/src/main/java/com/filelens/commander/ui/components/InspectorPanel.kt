@@ -79,6 +79,7 @@ import com.filelens.commander.ui.theme.TrustMedium
 import com.filelens.commander.ui.theme.TrustTrusted
 import com.filelens.commander.ui.util.LocalSizeUnits
 import com.filelens.commander.ui.util.formatFileSize
+import androidx.compose.material.icons.filled.Search
 
 enum class InspectorTab(val label: String) {
     OVERVIEW("Overview"),
