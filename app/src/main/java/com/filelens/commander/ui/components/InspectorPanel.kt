@@ -1,5 +1,11 @@
 package com.filelens.commander.ui.components
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -49,6 +55,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.DropdownMenu
@@ -77,6 +84,8 @@ import com.filelens.commander.ui.theme.TrustHigh
 import com.filelens.commander.ui.theme.TrustLow
 import com.filelens.commander.ui.theme.TrustMedium
 import com.filelens.commander.ui.theme.TrustTrusted
+import com.filelens.commander.ui.util.LocalSizeUnits
+import com.filelens.commander.ui.util.formatFileSize
 import androidx.compose.material.icons.filled.Search
 
 enum class InspectorTab(val label: String) {
@@ -182,21 +191,30 @@ fun InspectorPanel(
             }
         }
 
-        when (tabs[selectedTab]) {
-            InspectorTab.OVERVIEW -> OverviewTab(
-                info = info,
-                result = result,
-                onOpenWith = onOpenWith,
-                onViewOnMap = onViewOnMap,
-                onShareCleaned = onShareCleaned,
-                onSwitchTab = { tab -> selectedTab = tabs.indexOf(tab) },
-                onSearchInside = onSearchInside,
-                onExportReport = onExportReport
-            )
-            InspectorTab.PREVIEW -> PreviewTab(result)
-            InspectorTab.STRUCTURE -> StructureTab(result)
-            InspectorTab.METADATA -> MetadataTab(result)
-            InspectorTab.RISKS -> RisksTab(result, ignoredRiskIds, onIgnoreRisk, onRestoreIgnored)
+        AnimatedContent(
+            targetState = tabs[selectedTab],
+            transitionSpec = {
+                (fadeIn(tween(200)) togetherWith fadeOut(tween(120)))
+                    .using(SizeTransform(clip = false))
+            },
+            label = "inspector-tab"
+        ) { tab ->
+            when (tab) {
+                InspectorTab.OVERVIEW -> OverviewTab(
+                    info = info,
+                    result = result,
+                    onOpenWith = onOpenWith,
+                    onViewOnMap = onViewOnMap,
+                    onShareCleaned = onShareCleaned,
+                    onSwitchTab = { dest -> selectedTab = tabs.indexOf(dest) },
+                    onSearchInside = onSearchInside,
+                    onExportReport = onExportReport
+                )
+                InspectorTab.PREVIEW -> PreviewTab(result)
+                InspectorTab.STRUCTURE -> StructureTab(result)
+                InspectorTab.METADATA -> MetadataTab(result)
+                InspectorTab.RISKS -> RisksTab(result, ignoredRiskIds, onIgnoreRisk, onRestoreIgnored)
+            }
         }
     }
 }
@@ -236,7 +254,7 @@ private fun OverviewTab(
             InfoRow("Extension", ".${info.extension}")
         }
         info.mimeType?.let { InfoRow("MIME", it) }
-        info.size?.let { InfoRow("Size", formatFileSize(it)) }
+        info.size?.let { InfoRow("Size", formatFileSize(it, LocalSizeUnits.current)) }
         info.lastModified?.let { InfoRow("Modified", formatDate(it)) }
 
         result?.overview?.forEach { (key, value) ->
@@ -444,7 +462,7 @@ private fun PreviewTab(result: InspectorResult?) {
                     .padding(12.dp)
             ) {
                 Text(
-                    text = "Hex view (${formatFileSize(preview.totalSize)} total)",
+                    text = "Hex view (${formatFileSize(preview.totalSize, LocalSizeUnits.current)} total)",
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(bottom = 8.dp)
@@ -664,17 +682,32 @@ private fun trustColor(level: TrustLevel): androidx.compose.ui.graphics.Color = 
 @Composable
 private fun TrustChip(score: TrustScore) {
     val color = trustColor(score.level)
-    Text(
-        text = score.level.displayName,
-        style = MaterialTheme.typography.labelSmall,
-        color = color,
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .background(
-                color = color.copy(alpha = 0.12f),
-                shape = RoundedCornerShape(4.dp)
-            )
-            .padding(horizontal = 6.dp, vertical = 2.dp)
-    )
+            .clip(RoundedCornerShape(999.dp))
+            .background(color = color.copy(alpha = 0.14f))
+            .padding(horizontal = 8.dp, vertical = 3.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .size(7.dp)
+                .clip(RoundedCornerShape(999.dp))
+                .background(color)
+        )
+        Spacer(modifier = Modifier.width(6.dp))
+        Text(
+            text = score.level.displayName,
+            style = MaterialTheme.typography.labelMedium,
+            color = color
+        )
+        Spacer(modifier = Modifier.width(6.dp))
+        Text(
+            text = "${score.numericScore}",
+            style = MonoSmall,
+            color = color
+        )
+    }
 }
 
 @Composable
@@ -794,14 +827,32 @@ private fun ProvenanceCard(provenance: Provenance) {
 @Composable
 private fun TrustScoreCard(score: TrustScore) {
     val color = trustColor(score.level)
+    val target = (score.numericScore.coerceIn(0, 100)) / 100f
+
+    // Sweep the meter once on appear (400ms ease-out per design spec).
+    var sweep by remember(score.numericScore) {
+        androidx.compose.runtime.mutableFloatStateOf(0f)
+    }
+    val animatedFraction = androidx.compose.animation.core.animateFloatAsState(
+        targetValue = sweep,
+        animationSpec = androidx.compose.animation.core.tween(
+            durationMillis = 400,
+            easing = androidx.compose.animation.core.FastOutSlowInEasing
+        ),
+        label = "trust-sweep"
+    )
+    androidx.compose.runtime.LaunchedEffect(score.numericScore) {
+        sweep = target
+    }
+
+    val displayedScore = (animatedFraction.value * 100).toInt().coerceIn(0, score.numericScore)
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(
-                color = color.copy(alpha = 0.08f),
-                shape = RoundedCornerShape(8.dp)
-            )
-            .padding(12.dp)
+            .clip(RoundedCornerShape(14.dp))
+            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .padding(14.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
@@ -817,25 +868,50 @@ private fun TrustScoreCard(score: TrustScore) {
                 color = MaterialTheme.colorScheme.onSurface
             )
             Spacer(modifier = Modifier.weight(1f))
-            Text(
-                text = "${score.numericScore}/100",
-                style = MaterialTheme.typography.labelMedium,
-                color = color
+            Row(verticalAlignment = Alignment.Bottom) {
+                Text(
+                    text = "$displayedScore",
+                    style = MonoSmall.copy(fontSize = 18.sp),
+                    color = color
+                )
+                Text(
+                    text = " / 100",
+                    style = MonoSmall,
+                    color = FlInk3
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        // Thin linear meter colored by tier; sweeps in once with the score.
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(4.dp)
+                .clip(RoundedCornerShape(999.dp))
+                .background(MaterialTheme.colorScheme.surface)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(animatedFraction.value)
+                    .clip(RoundedCornerShape(999.dp))
+                    .background(color)
             )
         }
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = "Heuristic trust score. Not antivirus.",
             style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = FlInk3
         )
         if (score.topReasons.isNotEmpty()) {
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Top reasons",
-                style = MaterialTheme.typography.labelSmall,
+                text = "Top reasons".uppercase(),
+                style = Eyebrow,
                 color = color
             )
+            Spacer(modifier = Modifier.height(4.dp))
             score.topReasons.forEach { reason ->
                 Text(
                     text = "• $reason",
@@ -893,8 +969,8 @@ private fun RisksTab(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         } else {
-            visible.forEach { risk ->
-                RiskCard(risk, onIgnoreRisk)
+            visible.forEachIndexed { index, risk ->
+                AnimatedRiskCard(index = index, risk = risk, onIgnoreRisk = onIgnoreRisk)
                 Spacer(modifier = Modifier.height(12.dp))
             }
         }
@@ -907,6 +983,34 @@ private fun RisksTab(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun AnimatedRiskCard(
+    index: Int,
+    risk: RiskItem,
+    onIgnoreRisk: ((RiskItem) -> Unit)? = null
+) {
+    // Entry: fade + small vertical slide. Stagger by index so the cards
+    // settle in sequence rather than all at once.
+    var visible by remember(risk.id, risk.title) {
+        androidx.compose.runtime.mutableStateOf(false)
+    }
+    androidx.compose.runtime.LaunchedEffect(risk.id, risk.title) {
+        kotlinx.coroutines.delay((index * 40L).coerceAtMost(160L))
+        visible = true
+    }
+    androidx.compose.animation.AnimatedVisibility(
+        visible = visible,
+        enter = androidx.compose.animation.fadeIn(tween(200)) +
+            androidx.compose.animation.slideInVertically(
+                animationSpec = tween(200),
+                initialOffsetY = { it / 6 }
+            ),
+        exit = androidx.compose.animation.fadeOut(tween(120))
+    ) {
+        RiskCard(risk = risk, onIgnoreRisk = onIgnoreRisk)
     }
 }
 

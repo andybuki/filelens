@@ -69,13 +69,20 @@ class InspectorViewModel @Inject constructor(
     private val trustScoreUseCase: TrustScoreUseCase,
     private val provenanceDetector: ProvenanceDetector,
     private val structuredSearchUseCase: StructuredSearchUseCase,
-    private val reportExportUseCase: ReportExportUseCase
+    private val reportExportUseCase: ReportExportUseCase,
+    private val recentsRepository: com.filelens.commander.data.RecentsRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(InspectorState())
     val state: StateFlow<InspectorState> = _state.asStateFlow()
 
     fun selectFile(item: FileItem, forcedCategory: FileCategory? = null) {
+        if (item.fileCategory != FileCategory.DIRECTORY) {
+            viewModelScope.launch {
+                recentsRepository.recordFileOpen(item.path, item.name)
+            }
+        }
+
         val mimeType = MimeTypeMap.getSingleton()
             .getMimeTypeFromExtension(item.extension)
 

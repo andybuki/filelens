@@ -44,7 +44,10 @@ import androidx.compose.ui.unit.dp
 import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.FileItem
 import com.filelens.commander.domain.model.RiskSeverity
+import com.filelens.commander.domain.model.SizeUnits
 import com.filelens.commander.ui.theme.*
+import com.filelens.commander.ui.util.LocalSizeUnits
+import com.filelens.commander.ui.util.formatFileSize
 
 @Composable
 fun FileListItem(
@@ -58,6 +61,7 @@ fun FileListItem(
     val rowAlpha = if (item.isHidden) 0.55f else 1f
     val isDir = item.fileCategory == FileCategory.DIRECTORY
     val showExtBadge = !isDir && item.fileCategory != FileCategory.UNKNOWN && item.extension.isNotEmpty()
+    val sizeUnits = LocalSizeUnits.current
 
     Row(
         modifier = modifier
@@ -107,7 +111,7 @@ fun FileListItem(
                     overflow = TextOverflow.Ellipsis,
                     color = if (isSelected) FlAccentBright else MaterialTheme.colorScheme.onSurface
                 )
-                val subtitle = buildSubtitle(item)
+                val subtitle = buildSubtitle(item, sizeUnits)
                 if (subtitle.isNotEmpty()) {
                     Text(
                         text = subtitle,
@@ -179,24 +183,14 @@ private fun iconForCategory(category: FileCategory): Pair<ImageVector, Color> {
     }
 }
 
-private fun buildSubtitle(item: FileItem): String {
+private fun buildSubtitle(item: FileItem, units: SizeUnits): String {
     if (item.fileCategory == FileCategory.DIRECTORY) {
         return item.lastModified?.let { formatDate(it) } ?: ""
     }
     val parts = mutableListOf<String>()
-    item.size?.let { parts.add(formatFileSize(it)) }
+    item.size?.let { parts.add(formatFileSize(it, units)) }
     item.lastModified?.let { parts.add(formatDate(it)) }
     return parts.joinToString(" · ")
-}
-
-fun formatFileSize(bytes: Long): String {
-    if (bytes < 1024) return "$bytes B"
-    val kb = bytes / 1024.0
-    if (kb < 1024) return "%.1f KB".format(kb)
-    val mb = kb / 1024.0
-    if (mb < 1024) return "%.1f MB".format(mb)
-    val gb = mb / 1024.0
-    return "%.1f GB".format(gb)
 }
 
 fun formatDate(timestamp: Long): String {
