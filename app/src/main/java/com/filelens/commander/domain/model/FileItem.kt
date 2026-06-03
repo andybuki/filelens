@@ -38,7 +38,7 @@ fun classifyByExtension(extension: String): FileCategory {
         "jpg", "jpeg", "png", "gif", "bmp", "webp", "svg", "ico", "tiff", "tif", "heic", "heif", "avif" -> FileCategory.IMAGE
         "mp4", "mkv", "avi", "mov", "wmv", "flv", "webm", "m4v", "3gp" -> FileCategory.VIDEO
         "mp3", "wav", "flac", "aac", "ogg", "wma", "m4a", "opus" -> FileCategory.AUDIO
-        "doc", "docx", "odt", "rtf", "tex", "wpd" -> FileCategory.DOCUMENT
+        "doc", "docx", "odt", "rtf", "tex", "wpd", "epub" -> FileCategory.DOCUMENT
         "xls", "xlsx", "ods", "csv", "tsv" -> FileCategory.SPREADSHEET
         "ppt", "pptx", "odp" -> FileCategory.PRESENTATION
         "zip", "rar", "7z", "tar", "gz", "bz2", "xz", "zst", "lz4", "jar", "war", "ear" -> FileCategory.ARCHIVE

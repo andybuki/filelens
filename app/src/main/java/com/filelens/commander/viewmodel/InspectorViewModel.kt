@@ -16,6 +16,7 @@ import com.filelens.commander.domain.usecase.TrustScoreUseCase
 import com.filelens.commander.inspector.ApkInspector
 import com.filelens.commander.inspector.BinaryInspector
 import com.filelens.commander.inspector.ConfigInspector
+import com.filelens.commander.inspector.EpubInspector
 import com.filelens.commander.inspector.ImageInspector
 import com.filelens.commander.inspector.JsonInspector
 import com.filelens.commander.inspector.LogInspector
@@ -66,6 +67,7 @@ class InspectorViewModel @Inject constructor(
     private val fontInspector: FontInspector,
     private val configInspector: ConfigInspector,
     private val logInspector: LogInspector,
+    private val epubInspector: EpubInspector,
     private val trustScoreUseCase: TrustScoreUseCase,
     private val provenanceDetector: ProvenanceDetector,
     private val structuredSearchUseCase: StructuredSearchUseCase,
@@ -241,7 +243,9 @@ class InspectorViewModel @Inject constructor(
                 FileCategory.ARCHIVE -> zipInspector.inspect(file)
                 FileCategory.APK -> apkInspector.inspect(file)
                 FileCategory.DOCUMENT, FileCategory.SPREADSHEET, FileCategory.PRESENTATION -> {
-                    if (extension.lowercase() in setOf("docx", "xlsx", "pptx")) {
+                    if (extension.lowercase() == "epub") {
+                        epubInspector.inspect(file)
+                    } else if (extension.lowercase() in setOf("docx", "xlsx", "pptx")) {
                         officeInspector.inspect(file)
                     } else {
                         textInspector.inspect(file)

@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Compare
+import androidx.compose.material.icons.filled.DriveFileRenameOutline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -35,6 +36,8 @@ fun SelectionBar(
     canCompare: Boolean,
     onClear: () -> Unit,
     onCompare: () -> Unit,
+    canBatchRename: Boolean = false,
+    onBatchRename: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     // Slide-in pill: gives the user a visible action surface the moment they
@@ -64,6 +67,17 @@ fun SelectionBar(
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.weight(1f)
             )
+            if (canBatchRename) {
+                TextButton(onClick = onBatchRename) {
+                    Icon(
+                        Icons.Filled.DriveFileRenameOutline,
+                        contentDescription = null,
+                        tint = FlAccent
+                    )
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text("Rename", color = FlAccent)
+                }
+            }
             if (canCompare) {
                 TextButton(onClick = onCompare) {
                     Icon(
@@ -74,7 +88,7 @@ fun SelectionBar(
                     Spacer(modifier = Modifier.width(6.dp))
                     Text("Compare", color = FlAccent)
                 }
-            } else {
+            } else if (!canBatchRename) {
                 Text(
                     text = "Select 2 to compare",
                     style = MaterialTheme.typography.labelMedium,

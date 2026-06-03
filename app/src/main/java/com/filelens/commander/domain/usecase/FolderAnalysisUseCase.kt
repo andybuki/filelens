@@ -24,6 +24,7 @@ class FolderAnalysisUseCase @Inject constructor() {
         val fileCount: Int,
         val totalSize: Long,
         val categoryCounts: Map<FileCategory, Int>,
+        val categoryBytes: Map<FileCategory, Long>,
         val largest: List<FileEntry>,
         val newest: List<FileEntry>,
         val unknown: List<FileEntry>,
@@ -33,7 +34,7 @@ class FolderAnalysisUseCase @Inject constructor() {
     suspend fun analyze(folderPath: String): FolderSummary = withContext(Dispatchers.IO) {
         val folder = File(folderPath)
         if (!folder.isDirectory) {
-            return@withContext FolderSummary(folderPath, 0, 0, emptyMap(), emptyList(), emptyList(), emptyList(), emptyList())
+            return@withContext FolderSummary(folderPath, 0, 0, emptyMap(), emptyMap(), emptyList(), emptyList(), emptyList(), emptyList())
         }
         val files = folder.listFiles()?.filter { it.isFile } ?: emptyList()
         val entries = files.map { f ->
@@ -47,6 +48,8 @@ class FolderAnalysisUseCase @Inject constructor() {
         }
         val totalSize = entries.sumOf { it.size }
         val categoryCounts = entries.groupingBy { it.category }.eachCount()
+        val categoryBytes = entries.groupBy { it.category }
+            .mapValues { (_, list) -> list.sumOf { it.size } }
         val largest = entries.sortedByDescending { it.size }.take(10)
         val newest = entries.sortedByDescending { it.lastModified }.take(10)
         val unknown = entries.filter { it.category == FileCategory.UNKNOWN }
@@ -61,6 +64,7 @@ class FolderAnalysisUseCase @Inject constructor() {
             fileCount = entries.size,
             totalSize = totalSize,
             categoryCounts = categoryCounts,
+            categoryBytes = categoryBytes,
             largest = largest,
             newest = newest,
             unknown = unknown,

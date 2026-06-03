@@ -98,10 +98,12 @@ fun FileListPanel(
     homePath: String = "",
     selectedPaths: Set<String> = emptySet(),
     canCompareSelection: Boolean = false,
+    canBatchRename: Boolean = false,
     onFileClick: (FileItem) -> Unit,
     onFileLongClick: (FileItem) -> Unit = {},
     onClearSelection: () -> Unit = {},
     onCompareSelection: () -> Unit = {},
+    onBatchRenameSelection: () -> Unit = {},
     onNavigateUp: () -> Unit,
     onSortChanged: (SortOrder) -> Unit,
     onToggleHidden: () -> Unit,
@@ -111,6 +113,7 @@ fun FileListPanel(
     onRefresh: () -> Unit = {},
     onBatchScan: () -> Unit = {},
     onFolderDashboard: () -> Unit = {},
+    onFindDuplicates: () -> Unit = {},
     onOpenSettings: () -> Unit = {},
     onBookmarkFolder: () -> Unit = {},
     onShowBookmarks: () -> Unit = {},
@@ -205,6 +208,19 @@ fun FileListPanel(
                     DropdownMenuItem(
                         text = {
                             Row(verticalAlignment = Alignment.CenterVertically) {
+                                Icon(Icons.Filled.Shield, contentDescription = null)
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text("Find duplicates here")
+                            }
+                        },
+                        onClick = {
+                            onFindDuplicates()
+                            showMenu = false
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
                                 Icon(Icons.Filled.BookmarkAdd, contentDescription = null)
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text("Bookmark this folder")
@@ -259,7 +275,9 @@ fun FileListPanel(
             selectedCount = selectedPaths.size,
             canCompare = canCompareSelection,
             onClear = onClearSelection,
-            onCompare = onCompareSelection
+            onCompare = onCompareSelection,
+            canBatchRename = canBatchRename,
+            onBatchRename = onBatchRenameSelection
         )
 
         // Single small-caps current folder name, à la "DCIM" in the design.

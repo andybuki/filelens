@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.filelens.commander.ui.screens.CompareScreen
+import com.filelens.commander.ui.screens.DuplicateFinderScreen
 import com.filelens.commander.ui.screens.MainScreen
 import com.filelens.commander.ui.screens.SettingsScreen
 
@@ -16,9 +17,12 @@ object Routes {
     const val MAIN = "main"
     const val SETTINGS = "settings"
     const val COMPARE = "compare/{left}/{right}"
+    const val DUPLICATES = "duplicates/{root}"
 
     fun compare(leftPath: String, rightPath: String): String =
         "compare/${Uri.encode(leftPath)}/${Uri.encode(rightPath)}"
+
+    fun duplicates(rootPath: String): String = "duplicates/${Uri.encode(rootPath)}"
 }
 
 @Composable
@@ -36,6 +40,9 @@ fun FileLensNavGraph(
                 onOpenSettings = { navController.navigate(Routes.SETTINGS) },
                 onCompare = { left, right ->
                     navController.navigate(Routes.compare(left, right))
+                },
+                onFindDuplicates = { root ->
+                    navController.navigate(Routes.duplicates(root))
                 }
             )
         }
@@ -54,6 +61,16 @@ fun FileLensNavGraph(
             CompareScreen(
                 leftPath = left,
                 rightPath = right,
+                onBack = { navController.popBackStack() }
+            )
+        }
+        composable(
+            route = Routes.DUPLICATES,
+            arguments = listOf(navArgument("root") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val root = backStackEntry.arguments?.getString("root").orEmpty()
+            DuplicateFinderScreen(
+                rootPath = root,
                 onBack = { navController.popBackStack() }
             )
         }

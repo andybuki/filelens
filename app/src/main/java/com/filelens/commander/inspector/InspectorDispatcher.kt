@@ -21,7 +21,8 @@ class InspectorDispatcher @Inject constructor(
     private val sqliteInspector: SqliteInspector,
     private val fontInspector: FontInspector,
     private val configInspector: ConfigInspector,
-    private val logInspector: LogInspector
+    private val logInspector: LogInspector,
+    private val epubInspector: EpubInspector
 ) {
 
     suspend fun inspect(file: File, category: FileCategory, extension: String): InspectorResult {
@@ -31,10 +32,10 @@ class InspectorDispatcher @Inject constructor(
                 FileCategory.ARCHIVE -> zipInspector.inspect(file)
                 FileCategory.APK -> apkInspector.inspect(file)
                 FileCategory.DOCUMENT, FileCategory.SPREADSHEET, FileCategory.PRESENTATION -> {
-                    if (extension.lowercase() in setOf("docx", "xlsx", "pptx")) {
-                        officeInspector.inspect(file)
-                    } else {
-                        textInspector.inspect(file)
+                    when (extension.lowercase()) {
+                        "epub" -> epubInspector.inspect(file)
+                        "docx", "xlsx", "pptx" -> officeInspector.inspect(file)
+                        else -> textInspector.inspect(file)
                     }
                 }
                 FileCategory.TEXT -> when {
