@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.filelens.commander.domain.model.AppSettings
+import com.filelens.commander.domain.model.PanelMode
 import com.filelens.commander.domain.model.SizeUnits
 import com.filelens.commander.domain.model.SortDirection
 import com.filelens.commander.domain.model.SortField
@@ -33,8 +34,13 @@ class SettingsRepository @Inject constructor(
             hideEmptyFolders = p[KEY_HIDE_EMPTY_FOLDERS] ?: false,
             sizeUnits = p[KEY_SIZE_UNITS]?.let { runCatching { SizeUnits.valueOf(it) }.getOrNull() } ?: SizeUnits.BINARY,
             defaultSortField = p[KEY_SORT_FIELD]?.let { runCatching { SortField.valueOf(it) }.getOrNull() } ?: SortField.NAME,
-            defaultSortDirection = p[KEY_SORT_DIRECTION]?.let { runCatching { SortDirection.valueOf(it) }.getOrNull() } ?: SortDirection.ASCENDING
+            defaultSortDirection = p[KEY_SORT_DIRECTION]?.let { runCatching { SortDirection.valueOf(it) }.getOrNull() } ?: SortDirection.ASCENDING,
+            defaultPanelMode = p[KEY_PANEL_MODE]?.let { runCatching { PanelMode.valueOf(it) }.getOrNull() } ?: PanelMode.INSPECTOR
         )
+    }
+
+    suspend fun setDefaultPanelMode(mode: PanelMode) {
+        store.edit { it[KEY_PANEL_MODE] = mode.name }
     }
 
     suspend fun setThemeMode(mode: ThemeMode) {
@@ -67,5 +73,6 @@ class SettingsRepository @Inject constructor(
         val KEY_SIZE_UNITS = stringPreferencesKey("size_units")
         val KEY_SORT_FIELD = stringPreferencesKey("sort_field")
         val KEY_SORT_DIRECTION = stringPreferencesKey("sort_direction")
+        val KEY_PANEL_MODE = stringPreferencesKey("panel_mode")
     }
 }

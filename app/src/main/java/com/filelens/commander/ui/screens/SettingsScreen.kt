@@ -39,8 +39,10 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -51,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.filelens.commander.domain.model.PanelMode
 import com.filelens.commander.domain.model.SizeUnits
 import com.filelens.commander.domain.model.ThemeMode
 import com.filelens.commander.ui.theme.Eyebrow
@@ -159,6 +162,17 @@ fun SettingsScreen(
                         UnitsPicker(current = settings.sizeUnits, onSelect = viewModel::setSizeUnits)
                     }
                 )
+                Divider()
+                ChoiceRow(
+                    label = "Default panel (tablets)",
+                    value = settings.defaultPanelMode.displayName,
+                    inlinePicker = {
+                        PanelModePicker(
+                            current = settings.defaultPanelMode,
+                            onSelect = viewModel::setDefaultPanelMode
+                        )
+                    }
+                )
             }
 
             SectionHeader("Backup & restore")
@@ -195,6 +209,27 @@ fun SettingsScreen(
                     "Vision",
                     "Browse files, peek inside, understand before opening. Offline, on-device, no accounts."
                 )
+            }
+
+            var showLicenses by remember { mutableStateOf(false) }
+            SectionHeader("Open source licenses")
+            SettingsCard {
+                Column(modifier = Modifier.padding(14.dp)) {
+                    Text(
+                        "FileLens is built on these open source libraries:",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = FlInk3
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    OutlinedButton(
+                        onClick = { showLicenses = !showLicenses },
+                        modifier = Modifier.fillMaxWidth()
+                    ) { Text(if (showLicenses) "Hide licenses" else "Show licenses") }
+                    if (showLicenses) {
+                        Spacer(modifier = Modifier.height(10.dp))
+                        OssLicensesList()
+                    }
+                }
             }
             Spacer(modifier = Modifier.height(32.dp))
         }
@@ -303,6 +338,43 @@ private fun ChoiceRow(
     }
 }
 
+private data class OssLicense(
+    val name: String,
+    val license: String,
+    val url: String
+)
+
+private val ossLicenses = listOf(
+    OssLicense("Kotlin", "Apache License 2.0", "https://github.com/JetBrains/kotlin"),
+    OssLicense("Jetpack Compose", "Apache License 2.0", "https://developer.android.com/jetpack/compose"),
+    OssLicense("Material 3", "Apache License 2.0", "https://m3.material.io"),
+    OssLicense("AndroidX Core, Lifecycle, Navigation, DataStore, ExifInterface", "Apache License 2.0", "https://developer.android.com/jetpack"),
+    OssLicense("Hilt", "Apache License 2.0", "https://github.com/google/dagger"),
+    OssLicense("kotlinx.coroutines", "Apache License 2.0", "https://github.com/Kotlin/kotlinx.coroutines"),
+    OssLicense("Coil", "Apache License 2.0", "https://github.com/coil-kt/coil"),
+    OssLicense("Roboto", "Apache License 2.0", "https://fonts.google.com/specimen/Roboto"),
+    OssLicense("Material Icons", "Apache License 2.0", "https://fonts.google.com/icons")
+)
+
+@Composable
+private fun OssLicensesList() {
+    Column {
+        ossLicenses.forEach { entry ->
+            Column(modifier = Modifier.padding(vertical = 4.dp)) {
+                Text(entry.name, style = MaterialTheme.typography.titleSmall)
+                Text(entry.license, style = MaterialTheme.typography.bodySmall, color = FlInk3)
+                Text(
+                    entry.url,
+                    style = MaterialTheme.typography.labelSmall,
+                    color = FlInk3,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+        }
+    }
+}
+
 @Composable
 private fun StaticRow(label: String, value: String) {
     Column(
@@ -329,6 +401,15 @@ private fun ThemePicker(current: ThemeMode, onSelect: (ThemeMode) -> Unit) {
 private fun UnitsPicker(current: SizeUnits, onSelect: (SizeUnits) -> Unit) {
     SegmentRow(
         options = SizeUnits.entries.map { it to it.displayName },
+        current = current,
+        onSelect = onSelect
+    )
+}
+
+@Composable
+private fun PanelModePicker(current: PanelMode, onSelect: (PanelMode) -> Unit) {
+    SegmentRow(
+        options = PanelMode.entries.map { it to it.displayName },
         current = current,
         onSelect = onSelect
     )

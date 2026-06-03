@@ -31,6 +31,7 @@ import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.Tag
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.icons.filled.Error
@@ -106,6 +107,7 @@ fun InspectorPanel(
     onViewOnMap: ((Double, Double) -> Unit)? = null,
     onShareCleaned: (() -> Unit)? = null,
     onVerifyHash: (() -> Unit)? = null,
+    onBrowseSqlite: (() -> Unit)? = null,
     onDismiss: (() -> Unit)? = null,
     ignoredRiskIds: Set<String> = emptySet(),
     onIgnoreRisk: ((RiskItem) -> Unit)? = null,
@@ -209,6 +211,7 @@ fun InspectorPanel(
                     onViewOnMap = onViewOnMap,
                     onShareCleaned = onShareCleaned,
                     onVerifyHash = onVerifyHash,
+                    onBrowseSqlite = onBrowseSqlite,
                     onSwitchTab = { dest -> selectedTab = tabs.indexOf(dest) },
                     onSearchInside = onSearchInside,
                     onExportReport = onExportReport
@@ -230,6 +233,7 @@ private fun OverviewTab(
     onViewOnMap: ((Double, Double) -> Unit)? = null,
     onShareCleaned: (() -> Unit)? = null,
     onVerifyHash: (() -> Unit)? = null,
+    onBrowseSqlite: (() -> Unit)? = null,
     onSwitchTab: ((InspectorTab) -> Unit)? = null,
     onSearchInside: (() -> Unit)? = null,
     onExportReport: ((isJson: Boolean) -> Unit)? = null
@@ -372,6 +376,18 @@ private fun OverviewTab(
                 Icon(Icons.Filled.Tag, contentDescription = null, modifier = Modifier.size(18.dp))
                 Spacer(modifier = Modifier.size(8.dp))
                 Text("Verify hash")
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+
+        if (onBrowseSqlite != null && info.category == FileCategory.DATABASE) {
+            androidx.compose.material3.OutlinedButton(
+                onClick = onBrowseSqlite,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(Icons.Filled.Storage, contentDescription = null, modifier = Modifier.size(18.dp))
+                Spacer(modifier = Modifier.size(8.dp))
+                Text("Browse rows")
             }
             Spacer(modifier = Modifier.height(12.dp))
         }

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.filelens.commander.data.SettingsRepository
 import com.filelens.commander.domain.model.AppSettings
+import com.filelens.commander.domain.model.PanelMode
 import com.filelens.commander.domain.model.SizeUnits
 import com.filelens.commander.domain.model.SortDirection
 import com.filelens.commander.domain.model.SortField
@@ -45,6 +46,7 @@ class SettingsViewModel @Inject constructor(
     fun setShowHidden(value: Boolean) = viewModelScope.launch { repo.setShowHidden(value) }
     fun setHideEmptyFolders(value: Boolean) = viewModelScope.launch { repo.setHideEmptyFolders(value) }
     fun setSizeUnits(units: SizeUnits) = viewModelScope.launch { repo.setSizeUnits(units) }
+    fun setDefaultPanelMode(mode: PanelMode) = viewModelScope.launch { repo.setDefaultPanelMode(mode) }
     fun setDefaultSort(field: SortField, direction: SortDirection) = viewModelScope.launch {
         repo.setDefaultSort(field, direction)
     }

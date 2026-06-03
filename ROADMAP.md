@@ -190,7 +190,7 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 - [x] Video: resolution, duration, frame count, rotation
 - [x] Location/author risk surfacing
 - [x] Font inspector (TTF/OTF/WOFF format, name table, sample text)
-- [ ] Album art / video thumbnail display in UI
+- [x] Album art / video thumbnail display in UI
 
 **Milestone:** Full inspector coverage for all common file types.
 
@@ -331,15 +331,15 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 
 ### 8.2 Settings & Preferences (Week 21)
 - [x] Theme: light / dark / system
-- [ ] Default panel mode (inspector / dual files)
+- [x] Default panel mode (inspector / dual files)
 - [x] Default sort order
 - [x] Show hidden files toggle
 - [x] File size units (binary / decimal)
 - [ ] Keyboard shortcut customization
-- [ ] About screen with open source licenses
+- [x] About screen with open source licenses
 
 ### 8.3 Testing & Release (Week 22)
-- [ ] Unit tests for detectors, parsers, VFS
+- [x] Unit tests for detectors, parsers, VFS
 - [ ] Integration tests for inspectors
 - [ ] UI tests for critical flows
 - [ ] Performance profiling (large folders, big archives)
@@ -361,9 +361,9 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 - [ ] Plugin system for custom inspectors
 - [ ] Root mode for system files
 - [x] Backup/restore support
-- [ ] RAR, 7Z, TAR.GZ archive navigation
+- [ ] RAR, 7Z archive navigation (TAR/TAR.GZ done)
 - [x] EPUB inspector (TOC, chapters, cover)
-- [ ] Database browser (SQLite tables, queries)
+- [x] Database browser (SQLite tables, queries)
 - [ ] AI-powered file description ("This looks like a bank statement PDF")
 
 ---
