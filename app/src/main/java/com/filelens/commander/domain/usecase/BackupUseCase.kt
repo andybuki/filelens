@@ -3,6 +3,7 @@ package com.filelens.commander.domain.usecase
 import com.filelens.commander.data.BookmarksRepository
 import com.filelens.commander.data.RecentsRepository
 import com.filelens.commander.data.SettingsRepository
+import com.filelens.commander.domain.model.PanelMode
 import com.filelens.commander.domain.model.SizeUnits
 import com.filelens.commander.domain.model.SortDirection
 import com.filelens.commander.domain.model.SortField
@@ -36,6 +37,7 @@ class BackupUseCase @Inject constructor(
                 put("sizeUnits", settings.sizeUnits.name)
                 put("defaultSortField", settings.defaultSortField.name)
                 put("defaultSortDirection", settings.defaultSortDirection.name)
+                put("defaultPanelMode", settings.defaultPanelMode.name)
             })
             put("bookmarks", JSONArray().apply {
                 bookmarks.forEach { bm ->
@@ -97,6 +99,9 @@ class BackupUseCase @Inject constructor(
                 if (field != null && dir != null) {
                     settingsRepository.setDefaultSort(SortField.valueOf(field), SortDirection.valueOf(dir))
                     imported++
+                }
+                s.optString("defaultPanelMode").takeIf { it.isNotEmpty() }?.let {
+                    settingsRepository.setDefaultPanelMode(PanelMode.valueOf(it)); imported++
                 }
             }
         }

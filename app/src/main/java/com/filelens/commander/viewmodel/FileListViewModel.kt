@@ -123,7 +123,7 @@ class FileListViewModel @Inject constructor(
                 files = files,
                 isLoading = false,
                 isRoot = atHome || nodeStack.size <= 1,
-                isInsideArchive = node is ZipEntryNode
+                isInsideArchive = node is ZipEntryNode || node is com.filelens.commander.vfs.TarEntryNode
             )
             if (node is LocalFileNode) {
                 recentsRepository.recordFolderVisit(
@@ -160,19 +160,33 @@ class FileListViewModel @Inject constructor(
     fun onFileClick(item: FileItem): Boolean {
         if (item.fileCategory == FileCategory.DIRECTORY || item.nodeType == NodeType.DIRECTORY) {
             val current = nodeStack.lastOrNull()
-            if (current is ZipEntryNode) {
-                viewModelScope.launch {
+            when (current) {
+                is ZipEntryNode -> viewModelScope.launch {
                     val child = current.children().find { it.name == item.name }
                     if (child != null) navigateToNode(child)
                 }
-            } else {
-                navigateToDirectory(item.path)
+                is com.filelens.commander.vfs.TarEntryNode -> viewModelScope.launch {
+                    val child = current.children().find { it.name == item.name }
+                    if (child != null) navigateToNode(child)
+                }
+                else -> navigateToDirectory(item.path)
             }
             return true
         }
         if (item.fileCategory == FileCategory.ARCHIVE && item.extension.lowercase() in setOf("zip", "jar", "apk", "war", "ear", "aab", "docx", "xlsx", "pptx")) {
             viewModelScope.launch {
                 val archive = ZipEntryNode.fromFile(File(item.path), nodeStack.lastOrNull())
+                if (archive != null) navigateToNode(archive)
+            }
+            return true
+        }
+        val lowerName = item.name.lowercase()
+        val isTar = lowerName.endsWith(".tar") ||
+            lowerName.endsWith(".tar.gz") ||
+            lowerName.endsWith(".tgz")
+        if (isTar) {
+            viewModelScope.launch {
+                val archive = com.filelens.commander.vfs.TarEntryNode.fromFile(File(item.path), nodeStack.lastOrNull())
                 if (archive != null) navigateToNode(archive)
             }
             return true

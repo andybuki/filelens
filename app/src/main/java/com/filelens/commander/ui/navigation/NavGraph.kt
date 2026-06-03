@@ -12,17 +12,21 @@ import com.filelens.commander.ui.screens.CompareScreen
 import com.filelens.commander.ui.screens.DuplicateFinderScreen
 import com.filelens.commander.ui.screens.MainScreen
 import com.filelens.commander.ui.screens.SettingsScreen
+import com.filelens.commander.ui.screens.SqliteBrowserScreen
 
 object Routes {
     const val MAIN = "main"
     const val SETTINGS = "settings"
     const val COMPARE = "compare/{left}/{right}"
     const val DUPLICATES = "duplicates/{root}"
+    const val SQLITE = "sqlite/{db}"
 
     fun compare(leftPath: String, rightPath: String): String =
         "compare/${Uri.encode(leftPath)}/${Uri.encode(rightPath)}"
 
     fun duplicates(rootPath: String): String = "duplicates/${Uri.encode(rootPath)}"
+
+    fun sqlite(dbPath: String): String = "sqlite/${Uri.encode(dbPath)}"
 }
 
 @Composable
@@ -43,6 +47,9 @@ fun FileLensNavGraph(
                 },
                 onFindDuplicates = { root ->
                     navController.navigate(Routes.duplicates(root))
+                },
+                onBrowseSqlite = { db ->
+                    navController.navigate(Routes.sqlite(db))
                 }
             )
         }
@@ -71,6 +78,16 @@ fun FileLensNavGraph(
             val root = backStackEntry.arguments?.getString("root").orEmpty()
             DuplicateFinderScreen(
                 rootPath = root,
+                onBack = { navController.popBackStack() }
+            )
+        }
+        composable(
+            route = Routes.SQLITE,
+            arguments = listOf(navArgument("db") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val db = backStackEntry.arguments?.getString("db").orEmpty()
+            SqliteBrowserScreen(
+                dbPath = db,
                 onBack = { navController.popBackStack() }
             )
         }

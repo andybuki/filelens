@@ -24,11 +24,23 @@ enum class SizeUnits {
         }
 }
 
+enum class PanelMode {
+    INSPECTOR,
+    DUAL_FILES;
+
+    val displayName: String
+        get() = when (this) {
+            INSPECTOR -> "Inspector"
+            DUAL_FILES -> "Dual files"
+        }
+}
+
 data class AppSettings(
     val themeMode: ThemeMode = ThemeMode.SYSTEM,
     val showHidden: Boolean = false,
     val hideEmptyFolders: Boolean = false,
     val sizeUnits: SizeUnits = SizeUnits.BINARY,
     val defaultSortField: SortField = SortField.NAME,
-    val defaultSortDirection: SortDirection = SortDirection.ASCENDING
+    val defaultSortDirection: SortDirection = SortDirection.ASCENDING,
+    val defaultPanelMode: PanelMode = PanelMode.INSPECTOR
 )

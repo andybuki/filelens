@@ -72,6 +72,7 @@ fun MainScreen(
     onOpenSettings: () -> Unit = {},
     onCompare: (String, String) -> Unit = { _, _ -> },
     onFindDuplicates: (String) -> Unit = {},
+    onBrowseSqlite: (String) -> Unit = {},
     fileListViewModel: FileListViewModel = hiltViewModel(),
     inspectorViewModel: InspectorViewModel = hiltViewModel(),
     commanderViewModel: CommanderViewModel = hiltViewModel(),
@@ -383,6 +384,10 @@ fun MainScreen(
                     val info = inspectorState.info
                     if (info != null) hashVerifyTarget = info.path to info.name
                 },
+                onBrowseSqlite = {
+                    val info = inspectorState.info
+                    if (info != null) onBrowseSqlite(info.path)
+                },
                 onBatchScan = onBatchScan,
                 onFolderDashboard = onFolderDashboard,
                 onFindDuplicates = onFindDuplicatesLocal,
@@ -409,6 +414,10 @@ fun MainScreen(
                 onVerifyHash = {
                     val info = inspectorState.info
                     if (info != null) hashVerifyTarget = info.path to info.name
+                },
+                onBrowseSqlite = {
+                    val info = inspectorState.info
+                    if (info != null) onBrowseSqlite(info.path)
                 },
                 onBatchScan = onBatchScan,
                 onFolderDashboard = onFolderDashboard,
@@ -444,6 +453,7 @@ private fun CompactLayout(
     onViewOnMap: (Double, Double) -> Unit,
     onShareCleaned: () -> Unit,
     onVerifyHash: () -> Unit,
+    onBrowseSqlite: () -> Unit,
     onBatchScan: () -> Unit,
     onFolderDashboard: () -> Unit,
     onFindDuplicates: () -> Unit,
@@ -499,6 +509,7 @@ private fun CompactLayout(
                     onViewOnMap = onViewOnMap,
                     onShareCleaned = onShareCleaned,
                     onVerifyHash = onVerifyHash,
+                    onBrowseSqlite = onBrowseSqlite,
                     onDismiss = {
                         scope.launch { bottomSheetState.hide() }
                         inspectorViewModel.clearSelection()
@@ -635,6 +646,7 @@ private fun ExpandedLayout(
     onViewOnMap: (Double, Double) -> Unit,
     onShareCleaned: () -> Unit,
     onVerifyHash: () -> Unit,
+    onBrowseSqlite: () -> Unit,
     onBatchScan: () -> Unit,
     onFolderDashboard: () -> Unit,
     onFindDuplicates: () -> Unit,
@@ -647,7 +659,11 @@ private fun ExpandedLayout(
     onExportReport: (Boolean) -> Unit,
     onCompare: (String, String) -> Unit
 ) {
-    var dualPanel by remember { mutableStateOf(false) }
+    val settingsViewModel: com.filelens.commander.viewmodel.SettingsViewModel = hiltViewModel()
+    val settings by settingsViewModel.settings.collectAsStateWithLifecycle()
+    var dualPanel by remember(settings.defaultPanelMode) {
+        mutableStateOf(settings.defaultPanelMode == com.filelens.commander.domain.model.PanelMode.DUAL_FILES)
+    }
     var activeLeft by remember { mutableStateOf(true) }
     val rightViewModel: FileListViewModel = hiltViewModel(key = "rightPanel")
     val rightState by rightViewModel.state.collectAsStateWithLifecycle()
@@ -786,6 +802,7 @@ private fun ExpandedLayout(
                     onViewOnMap = onViewOnMap,
                     onShareCleaned = onShareCleaned,
                     onVerifyHash = onVerifyHash,
+                    onBrowseSqlite = onBrowseSqlite,
                     ignoredRiskIds = ignoredIdsFor(inspectorState),
                     onIgnoreRisk = { risk ->
                         inspectorState.selectedFile?.path?.let { path ->
@@ -811,7 +828,13 @@ private fun ExpandedLayout(
         ) {
             androidx.compose.material3.FilterChip(
                 selected = dualPanel,
-                onClick = { dualPanel = !dualPanel },
+                onClick = {
+                    dualPanel = !dualPanel
+                    settingsViewModel.setDefaultPanelMode(
+                        if (dualPanel) com.filelens.commander.domain.model.PanelMode.DUAL_FILES
+                        else com.filelens.commander.domain.model.PanelMode.INSPECTOR
+                    )
+                },
                 label = { androidx.compose.material3.Text(if (dualPanel) "Dual panel" else "Inspector") }
             )
         }
