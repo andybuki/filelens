@@ -18,7 +18,8 @@ class CompareFoldersUseCase @Inject constructor(
     suspend fun compare(
         leftPath: String,
         rightPath: String,
-        detectRenames: Boolean = true
+        detectRenames: Boolean = true,
+        deepVerify: Boolean = false
     ): FolderCompareResult? = withContext(Dispatchers.IO) {
         val left = File(leftPath)
         val right = File(rightPath)
@@ -34,17 +35,27 @@ class CompareFoldersUseCase @Inject constructor(
             val l = leftEntries[relPath]
             val r = rightEntries[relPath]
             val isDir = (l?.isDirectory ?: r?.isDirectory) == true
-            val kind = when {
+            val initialKind = when {
                 l == null -> FolderEntryDiffKind.RIGHT_ONLY
                 r == null -> FolderEntryDiffKind.LEFT_ONLY
                 isDir -> FolderEntryDiffKind.BOTH_SAME
-                l.size != r.size || l.lastModified != r.lastModified -> FolderEntryDiffKind.BOTH_CHANGED
+                l.size != r.size -> FolderEntryDiffKind.BOTH_CHANGED
+                // Same size but different mtime — assume changed by default;
+                // deep verify can flip it back to SAME if checksums match.
+                l.lastModified != r.lastModified -> FolderEntryDiffKind.BOTH_CHANGED
                 else -> FolderEntryDiffKind.BOTH_SAME
+            }
+            val finalKind = if (deepVerify && l != null && r != null && !isDir &&
+                l.size == r.size && l.size in 1..MAX_HASH_BYTES
+            ) {
+                verifyByChecksum(l.file, r.file, initialKind)
+            } else {
+                initialKind
             }
             diffs += FolderEntryDiff(
                 relativePath = relPath,
                 isDirectory = isDir,
-                kind = kind,
+                kind = finalKind,
                 leftSize = l?.size,
                 rightSize = r?.size,
                 leftModified = l?.lastModified,
@@ -64,6 +75,21 @@ class CompareFoldersUseCase @Inject constructor(
             entries = diffs,
             renamedCandidates = renamed
         )
+    }
+
+    /**
+     * Used by deep verify: take an initial classification (SAME or CHANGED based on
+     * size+mtime) and override it with a byte-equal checksum check. Files that look
+     * different by mtime but match by hash are downgraded to SAME, and vice versa.
+     */
+    private suspend fun verifyByChecksum(
+        left: java.io.File,
+        right: java.io.File,
+        initialKind: FolderEntryDiffKind
+    ): FolderEntryDiffKind {
+        val leftHash = checksumUseCase.quickSha256(left) ?: return initialKind
+        val rightHash = checksumUseCase.quickSha256(right) ?: return initialKind
+        return if (leftHash == rightHash) FolderEntryDiffKind.BOTH_SAME else FolderEntryDiffKind.BOTH_CHANGED
     }
 
     /**

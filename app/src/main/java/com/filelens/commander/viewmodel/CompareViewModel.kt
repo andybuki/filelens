@@ -28,7 +28,8 @@ data class CompareState(
     val fileResult: FileCompareResult? = null,
     val folderResult: FolderCompareResult? = null,
     val errorMessage: String? = null,
-    val syncInProgress: Boolean = false
+    val syncInProgress: Boolean = false,
+    val deepVerify: Boolean = false
 )
 
 @HiltViewModel
@@ -44,7 +45,7 @@ class CompareViewModel @Inject constructor(
     private val _events = MutableSharedFlow<String>()
     val events: SharedFlow<String> = _events.asSharedFlow()
 
-    fun start(leftPath: String, rightPath: String) {
+    fun start(leftPath: String, rightPath: String, deepVerify: Boolean = _state.value.deepVerify) {
         val left = File(leftPath)
         val right = File(rightPath)
         if (!left.exists() || !right.exists()) {
@@ -71,13 +72,14 @@ class CompareViewModel @Inject constructor(
             leftPath = leftPath,
             rightPath = rightPath,
             isComparing = true,
-            isFolderMode = bothFolders
+            isFolderMode = bothFolders,
+            deepVerify = deepVerify
         )
 
         viewModelScope.launch {
             try {
                 if (bothFolders) {
-                    val result = compareFolders.compare(leftPath, rightPath)
+                    val result = compareFolders.compare(leftPath, rightPath, deepVerify = deepVerify)
                     _state.value = _state.value.copy(
                         isComparing = false,
                         folderResult = result,
@@ -97,6 +99,14 @@ class CompareViewModel @Inject constructor(
                     errorMessage = e.message ?: "Compare failed"
                 )
             }
+        }
+    }
+
+    fun setDeepVerify(value: Boolean) {
+        if (_state.value.isFolderMode && _state.value.deepVerify != value) {
+            start(_state.value.leftPath, _state.value.rightPath, deepVerify = value)
+        } else {
+            _state.value = _state.value.copy(deepVerify = value)
         }
     }
 

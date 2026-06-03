@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -46,6 +47,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.layout.ContentScale
+import coil.compose.AsyncImage
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -145,6 +148,8 @@ fun CompareScreen(
             state.folderResult != null -> FolderCompareView(
                 result = state.folderResult!!,
                 syncInProgress = state.syncInProgress,
+                deepVerify = state.deepVerify,
+                onDeepVerifyChanged = viewModel::setDeepVerify,
                 onCopyMissing = viewModel::copyMissing,
                 onOverwriteChanged = viewModel::overwriteChanged
             )
@@ -249,6 +254,7 @@ private fun OverviewSection(result: com.filelens.commander.domain.model.FileComp
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         if (s.identical) {
@@ -257,6 +263,33 @@ private fun OverviewSection(result: com.filelens.commander.domain.model.FileComp
             Pill(text = "Different content", background = RiskWarningTint, foreground = RiskWarning)
         }
         Spacer(modifier = Modifier.height(12.dp))
+
+        // When both files are images, show them side by side so the metadata diff
+        // below is anchored to what the user actually sees.
+        if (isImage(s.leftName) && isImage(s.rightName)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                AsyncImage(
+                    model = s.leftPath,
+                    contentDescription = "Left image",
+                    modifier = Modifier
+                        .weight(1f)
+                        .clip(RoundedCornerShape(8.dp)),
+                    contentScale = ContentScale.FillWidth
+                )
+                AsyncImage(
+                    model = s.rightPath,
+                    contentDescription = "Right image",
+                    modifier = Modifier
+                        .weight(1f)
+                        .clip(RoundedCornerShape(8.dp)),
+                    contentScale = ContentScale.FillWidth
+                )
+            }
+            Spacer(modifier = Modifier.height(12.dp))
+        }
 
         CompareRow("Name", s.leftName, s.rightName)
         CompareRow("Size", formatFileSize(s.leftSize, units), formatFileSize(s.rightSize, units))
@@ -456,6 +489,11 @@ private fun CompareRow(
     }
 }
 
+private fun isImage(name: String): Boolean {
+    val ext = name.substringAfterLast('.', "").lowercase()
+    return ext in setOf("jpg", "jpeg", "png", "webp", "gif", "bmp", "heic", "heif")
+}
+
 @Composable
 private fun Pill(text: String, background: Color, foreground: Color) {
     Box(
@@ -483,11 +521,50 @@ private enum class FolderFilter(val title: String, val kind: FolderEntryDiffKind
     SAME("Same", FolderEntryDiffKind.BOTH_SAME)
 }
 
+@Composable
+private fun FolderSummaryBanner(
+    counts: Map<FolderEntryDiffKind, Int>,
+    deepVerify: Boolean
+) {
+    val same = counts[FolderEntryDiffKind.BOTH_SAME] ?: 0
+    val changed = counts[FolderEntryDiffKind.BOTH_CHANGED] ?: 0
+    val leftOnly = counts[FolderEntryDiffKind.LEFT_ONLY] ?: 0
+    val rightOnly = counts[FolderEntryDiffKind.RIGHT_ONLY] ?: 0
+    val total = same + changed + leftOnly + rightOnly
+    val matchText = if (total > 0) "$same / $total match" else "Both folders are empty"
+    val suffix = if (deepVerify) " · checksum verified" else ""
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp, vertical = 4.dp)
+            .clip(RoundedCornerShape(10.dp))
+            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .padding(horizontal = 12.dp, vertical = 10.dp)
+    ) {
+        Text(
+            text = matchText + suffix,
+            style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        Spacer(modifier = Modifier.height(2.dp))
+        Text(
+            text = buildString {
+                append("$changed changed · $leftOnly left only · $rightOnly right only")
+            },
+            style = MaterialTheme.typography.labelMedium,
+            color = FlInk3
+        )
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun FolderCompareView(
     result: FolderCompareResult,
     syncInProgress: Boolean,
+    deepVerify: Boolean,
+    onDeepVerifyChanged: (Boolean) -> Unit,
     onCopyMissing: (SyncDirection) -> Unit,
     onOverwriteChanged: (SyncDirection) -> Unit
 ) {
@@ -504,6 +581,30 @@ private fun FolderCompareView(
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
+        FolderSummaryBanner(counts = counts, deepVerify = deepVerify)
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 6.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                "Verify by checksum",
+                style = MaterialTheme.typography.labelMedium,
+                color = FlInk2,
+                modifier = Modifier.weight(1f)
+            )
+            androidx.compose.material3.Switch(
+                checked = deepVerify,
+                onCheckedChange = onDeepVerifyChanged,
+                colors = androidx.compose.material3.SwitchDefaults.colors(
+                    checkedThumbColor = FlOnAccent,
+                    checkedTrackColor = FlAccent
+                )
+            )
+        }
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -531,7 +632,8 @@ private fun FolderCompareView(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 4.dp),
+                .padding(horizontal = 12.dp, vertical = 4.dp)
+                .horizontalScroll(rememberScrollState()),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             TextButton(

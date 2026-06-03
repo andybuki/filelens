@@ -301,19 +301,19 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 ## Phase 7: Compare Mode (Weeks 18–19)
 
 ### 7.1 File Compare (Week 18)
-- [ ] Select two files → compare
-- [ ] Checksum comparison (MD5, SHA-256)
-- [ ] Metadata diff (side by side)
-- [ ] Text diff (line-by-line, colored)
-- [ ] JSON/XML structural diff
-- [ ] Image metadata diff
+- [x] Select two files → compare
+- [x] Checksum comparison (MD5, SHA-256)
+- [x] Metadata diff (side by side)
+- [x] Text diff (line-by-line, colored)
+- [x] JSON/XML structural diff
+- [x] Image metadata diff
 
 ### 7.2 Folder Compare (Week 19)
-- [ ] Compare two folders
-- [ ] Files only in left / only in right / in both
-- [ ] Changed files (by size, date, checksum)
-- [ ] Same content, different names detection
-- [ ] Sync actions: copy missing, overwrite changed
+- [x] Compare two folders
+- [x] Files only in left / only in right / in both
+- [x] Changed files (by size, date, checksum)
+- [x] Same content, different names detection
+- [x] Sync actions: copy missing, overwrite changed
 
 ---
 
