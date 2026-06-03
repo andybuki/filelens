@@ -187,19 +187,6 @@ fun MainScreen(
         )
     }
 
-    var batchRenameTargets by remember { mutableStateOf<List<String>>(emptyList()) }
-    if (batchRenameTargets.isNotEmpty()) {
-        BatchRenameDialog(
-            sourcePaths = batchRenameTargets,
-            onDismiss = { batchRenameTargets = emptyList() },
-            onApplied = {
-                batchRenameTargets = emptyList()
-                fileListViewModel.refresh()
-                commanderViewModel.clearSelection()
-            }
-        )
-    }
-
     var showSearchInsideDialog by remember { mutableStateOf(false) }
     if (showSearchInsideDialog) {
         SearchInsideDialog(
@@ -484,7 +471,20 @@ private fun CompactLayout(
             onCompare(selectedItems[0].path, selectedItems[1].path)
         }
     }
-    val triggerBatchRename = { batchRenameTargets = selectedItems.map { it.path } }
+
+    var batchRenameTargetsCompact by remember { mutableStateOf<List<String>>(emptyList()) }
+    if (batchRenameTargetsCompact.isNotEmpty()) {
+        BatchRenameDialog(
+            sourcePaths = batchRenameTargetsCompact,
+            onDismiss = { batchRenameTargetsCompact = emptyList() },
+            onApplied = {
+                batchRenameTargetsCompact = emptyList()
+                fileListViewModel.refresh()
+                commanderViewModel.clearSelection()
+            }
+        )
+    }
+    val triggerBatchRename = { batchRenameTargetsCompact = selectedItems.map { it.path } }
 
     Column(modifier = Modifier.fillMaxSize()) {
         BottomSheetScaffold(
