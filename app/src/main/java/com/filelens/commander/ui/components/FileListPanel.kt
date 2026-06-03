@@ -96,7 +96,12 @@ fun FileListPanel(
     searchQuery: String = "",
     isSearching: Boolean = false,
     homePath: String = "",
+    selectedPaths: Set<String> = emptySet(),
+    canCompareSelection: Boolean = false,
     onFileClick: (FileItem) -> Unit,
+    onFileLongClick: (FileItem) -> Unit = {},
+    onClearSelection: () -> Unit = {},
+    onCompareSelection: () -> Unit = {},
     onNavigateUp: () -> Unit,
     onSortChanged: (SortOrder) -> Unit,
     onToggleHidden: () -> Unit,
@@ -250,6 +255,13 @@ fun FileListPanel(
             )
         )
 
+        SelectionBar(
+            selectedCount = selectedPaths.size,
+            canCompare = canCompareSelection,
+            onClear = onClearSelection,
+            onCompare = onCompareSelection
+        )
+
         // Single small-caps current folder name, à la "DCIM" in the design.
         // Subfolders below the home root render the relative crumb trail.
         Breadcrumb(
@@ -361,10 +373,12 @@ fun FileListPanel(
                 ) {
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
                         items(files, key = { it.path }) { file ->
+                            val multiSelected = file.path in selectedPaths
                             FileListItem(
                                 item = file,
-                                isSelected = file.path == selectedFilePath,
-                                onClick = { onFileClick(file) }
+                                isSelected = multiSelected || file.path == selectedFilePath,
+                                onClick = { onFileClick(file) },
+                                onLongClick = { onFileLongClick(file) }
                             )
                         }
                         item("fab-spacer") {

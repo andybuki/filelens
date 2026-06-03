@@ -52,6 +52,7 @@ import com.filelens.commander.ui.components.InspectorPanel
 import com.filelens.commander.ui.components.NewFolderDialog
 import com.filelens.commander.ui.components.RenameDialog
 import com.filelens.commander.ui.components.SearchInsideDialog
+import com.filelens.commander.ui.components.SelectionBar
 import com.filelens.commander.viewmodel.BatchScanViewModel
 import com.filelens.commander.viewmodel.FolderDashboardViewModel
 import com.filelens.commander.viewmodel.CommanderViewModel
@@ -437,6 +438,14 @@ private fun CompactLayout(
     )
     val scaffoldState = rememberBottomSheetScaffoldState(bottomSheetState = bottomSheetState)
 
+    val selectedItems = fileListState.files.filter { it.path in commanderState.selectedPaths }
+    val canCompare = selectedItems.size == 2 && selectedItems.map { it.nodeType }.toSet().size == 1
+    val triggerCompare = {
+        if (selectedItems.size == 2) {
+            onCompare(selectedItems[0].path, selectedItems[1].path)
+        }
+    }
+
     Column(modifier = Modifier.fillMaxSize()) {
         BottomSheetScaffold(
             scaffoldState = scaffoldState,
@@ -478,6 +487,7 @@ private fun CompactLayout(
                 isLoading = fileListState.isLoading,
                 isRoot = fileListState.isRoot,
                 selectedFilePath = inspectorState.selectedFile?.path,
+                selectedPaths = commanderState.selectedPaths,
                 sortOrder = fileListState.sortOrder,
                 showHidden = fileListState.showHidden,
                 errorMessage = fileListState.error,
@@ -495,6 +505,10 @@ private fun CompactLayout(
                         }
                     }
                 },
+                onFileLongClick = { item -> commanderViewModel.toggleSelection(item.path) },
+                canCompareSelection = canCompare,
+                onClearSelection = { commanderViewModel.clearSelection() },
+                onCompareSelection = triggerCompare,
                 onNavigateUp = { fileListViewModel.navigateUp() },
                 onSortChanged = { fileListViewModel.setSortOrder(it) },
                 onToggleHidden = { fileListViewModel.toggleHiddenFiles() },
@@ -513,8 +527,6 @@ private fun CompactLayout(
             )
         }
 
-        val selectedItems = fileListState.files.filter { it.path in commanderState.selectedPaths }
-        val canCompare = selectedItems.size == 2 && selectedItems.map { it.nodeType }.toSet().size == 1
         CommanderToolbar(
             hasSelection = commanderState.selectedPaths.isNotEmpty(),
             canCompare = canCompare,
@@ -531,11 +543,7 @@ private fun CompactLayout(
             onNewFolder = { commanderViewModel.showDialog(DialogType.NEW_FOLDER) },
             onDelete = { commanderViewModel.showDialog(DialogType.DELETE) },
             onRename = { commanderViewModel.showDialog(DialogType.RENAME) },
-            onCompare = {
-                if (selectedItems.size == 2) {
-                    onCompare(selectedItems[0].path, selectedItems[1].path)
-                }
-            }
+            onCompare = triggerCompare
         )
     }
 }
@@ -598,6 +606,15 @@ private fun ExpandedLayout(
     val rightViewModel: FileListViewModel = hiltViewModel(key = "rightPanel")
     val rightState by rightViewModel.state.collectAsStateWithLifecycle()
 
+    val activeFiles = if (activeLeft) fileListState.files else rightState.files
+    val selectedItems = activeFiles.filter { it.path in commanderState.selectedPaths }
+    val canCompare = selectedItems.size == 2 && selectedItems.map { it.nodeType }.toSet().size == 1
+    val triggerCompare = {
+        if (selectedItems.size == 2) {
+            onCompare(selectedItems[0].path, selectedItems[1].path)
+        }
+    }
+
     Column(modifier = Modifier.fillMaxSize()) {
         Row(modifier = Modifier.weight(1f)) {
             FileListPanel(
@@ -607,6 +624,7 @@ private fun ExpandedLayout(
                 isLoading = fileListState.isLoading,
                 isRoot = fileListState.isRoot,
                 selectedFilePath = inspectorState.selectedFile?.path,
+                selectedPaths = commanderState.selectedPaths,
                 sortOrder = fileListState.sortOrder,
                 showHidden = fileListState.showHidden,
                 errorMessage = fileListState.error,
@@ -624,6 +642,10 @@ private fun ExpandedLayout(
                         }
                     }
                 },
+                onFileLongClick = { item -> commanderViewModel.toggleSelection(item.path) },
+                canCompareSelection = canCompare && activeLeft,
+                onClearSelection = { commanderViewModel.clearSelection() },
+                onCompareSelection = triggerCompare,
                 onNavigateUp = { fileListViewModel.navigateUp() },
                 onSortChanged = { fileListViewModel.setSortOrder(it) },
                 onToggleHidden = { fileListViewModel.toggleHiddenFiles() },
@@ -652,6 +674,7 @@ private fun ExpandedLayout(
                     isLoading = rightState.isLoading,
                     isRoot = rightState.isRoot,
                     selectedFilePath = inspectorState.selectedFile?.path,
+                    selectedPaths = commanderState.selectedPaths,
                     sortOrder = rightState.sortOrder,
                     showHidden = rightState.showHidden,
                     errorMessage = rightState.error,
@@ -660,11 +683,19 @@ private fun ExpandedLayout(
                     isSearching = rightState.isSearching,
                     onFileClick = { item ->
                         activeLeft = false
-                        val navigated = rightViewModel.onFileClick(item)
-                        if (!navigated) {
-                            inspectorViewModel.selectFile(item)
+                        if (commanderState.selectedPaths.isNotEmpty()) {
+                            commanderViewModel.toggleSelection(item.path)
+                        } else {
+                            val navigated = rightViewModel.onFileClick(item)
+                            if (!navigated) {
+                                inspectorViewModel.selectFile(item)
+                            }
                         }
                     },
+                    onFileLongClick = { item -> commanderViewModel.toggleSelection(item.path) },
+                    canCompareSelection = canCompare && !activeLeft,
+                    onClearSelection = { commanderViewModel.clearSelection() },
+                    onCompareSelection = triggerCompare,
                     onNavigateUp = { rightViewModel.navigateUp() },
                     onSortChanged = { rightViewModel.setSortOrder(it) },
                     onToggleHidden = { rightViewModel.toggleHiddenFiles() },
@@ -718,8 +749,6 @@ private fun ExpandedLayout(
             )
         }
 
-        val selectedItems = fileListState.files.filter { it.path in commanderState.selectedPaths }
-        val canCompare = selectedItems.size == 2 && selectedItems.map { it.nodeType }.toSet().size == 1
         CommanderToolbar(
             hasSelection = commanderState.selectedPaths.isNotEmpty(),
             canCompare = canCompare,
@@ -733,11 +762,7 @@ private fun ExpandedLayout(
             onNewFolder = { commanderViewModel.showDialog(DialogType.NEW_FOLDER) },
             onDelete = { commanderViewModel.showDialog(DialogType.DELETE) },
             onRename = { commanderViewModel.showDialog(DialogType.RENAME) },
-            onCompare = {
-                if (selectedItems.size == 2) {
-                    onCompare(selectedItems[0].path, selectedItems[1].path)
-                }
-            }
+            onCompare = triggerCompare
         )
     }
 }
