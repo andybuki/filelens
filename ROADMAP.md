@@ -354,15 +354,15 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 
 - [ ] Cloud storage browsing (Google Drive, Dropbox via SAF)
 - [ ] FTP/SFTP/SMB remote file browsing
-- [ ] Batch rename with patterns
-- [ ] File hash verification (download integrity)
-- [ ] Duplicate file finder
-- [ ] Disk usage visualization (treemap)
+- [x] Batch rename with patterns
+- [x] File hash verification (download integrity)
+- [x] Duplicate file finder
+- [x] Disk usage visualization (treemap)
 - [ ] Plugin system for custom inspectors
 - [ ] Root mode for system files
-- [ ] Backup/restore support
+- [x] Backup/restore support
 - [ ] RAR, 7Z, TAR.GZ archive navigation
-- [ ] EPUB inspector (TOC, chapters, cover)
+- [x] EPUB inspector (TOC, chapters, cover)
 - [ ] Database browser (SQLite tables, queries)
 - [ ] AI-powered file description ("This looks like a bank statement PDF")
 

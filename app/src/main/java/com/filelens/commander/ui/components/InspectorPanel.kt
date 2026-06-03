@@ -31,6 +31,7 @@ import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material.icons.filled.Tag
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Info
@@ -104,6 +105,7 @@ fun InspectorPanel(
     onOpenWith: () -> Unit,
     onViewOnMap: ((Double, Double) -> Unit)? = null,
     onShareCleaned: (() -> Unit)? = null,
+    onVerifyHash: (() -> Unit)? = null,
     onDismiss: (() -> Unit)? = null,
     ignoredRiskIds: Set<String> = emptySet(),
     onIgnoreRisk: ((RiskItem) -> Unit)? = null,
@@ -206,6 +208,7 @@ fun InspectorPanel(
                     onOpenWith = onOpenWith,
                     onViewOnMap = onViewOnMap,
                     onShareCleaned = onShareCleaned,
+                    onVerifyHash = onVerifyHash,
                     onSwitchTab = { dest -> selectedTab = tabs.indexOf(dest) },
                     onSearchInside = onSearchInside,
                     onExportReport = onExportReport
@@ -226,6 +229,7 @@ private fun OverviewTab(
     onOpenWith: () -> Unit,
     onViewOnMap: ((Double, Double) -> Unit)? = null,
     onShareCleaned: (() -> Unit)? = null,
+    onVerifyHash: (() -> Unit)? = null,
     onSwitchTab: ((InspectorTab) -> Unit)? = null,
     onSearchInside: (() -> Unit)? = null,
     onExportReport: ((isJson: Boolean) -> Unit)? = null
@@ -356,6 +360,18 @@ private fun OverviewTab(
                 Icon(Icons.Filled.Shield, contentDescription = null, modifier = Modifier.size(18.dp))
                 Spacer(modifier = Modifier.size(8.dp))
                 Text("Share cleaned copy")
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+
+        if (onVerifyHash != null) {
+            androidx.compose.material3.OutlinedButton(
+                onClick = onVerifyHash,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(Icons.Filled.Tag, contentDescription = null, modifier = Modifier.size(18.dp))
+                Spacer(modifier = Modifier.size(8.dp))
+                Text("Verify hash")
             }
             Spacer(modifier = Modifier.height(12.dp))
         }

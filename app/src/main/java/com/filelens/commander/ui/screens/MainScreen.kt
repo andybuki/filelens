@@ -51,6 +51,8 @@ import com.filelens.commander.ui.components.FileListPanel
 import com.filelens.commander.ui.components.InspectorPanel
 import com.filelens.commander.ui.components.NewFolderDialog
 import com.filelens.commander.ui.components.RenameDialog
+import com.filelens.commander.ui.components.BatchRenameDialog
+import com.filelens.commander.ui.components.HashVerifyDialog
 import com.filelens.commander.ui.components.SearchInsideDialog
 import com.filelens.commander.ui.components.SelectionBar
 import com.filelens.commander.viewmodel.BatchScanViewModel
@@ -69,6 +71,7 @@ import java.io.File
 fun MainScreen(
     onOpenSettings: () -> Unit = {},
     onCompare: (String, String) -> Unit = { _, _ -> },
+    onFindDuplicates: (String) -> Unit = {},
     fileListViewModel: FileListViewModel = hiltViewModel(),
     inspectorViewModel: InspectorViewModel = hiltViewModel(),
     commanderViewModel: CommanderViewModel = hiltViewModel(),
@@ -175,6 +178,28 @@ fun MainScreen(
         )
     }
 
+    var hashVerifyTarget by remember { mutableStateOf<Pair<String, String>?>(null) }
+    hashVerifyTarget?.let { (path, name) ->
+        HashVerifyDialog(
+            filePath = path,
+            fileName = name,
+            onDismiss = { hashVerifyTarget = null }
+        )
+    }
+
+    var batchRenameTargets by remember { mutableStateOf<List<String>>(emptyList()) }
+    if (batchRenameTargets.isNotEmpty()) {
+        BatchRenameDialog(
+            sourcePaths = batchRenameTargets,
+            onDismiss = { batchRenameTargets = emptyList() },
+            onApplied = {
+                batchRenameTargets = emptyList()
+                fileListViewModel.refresh()
+                commanderViewModel.clearSelection()
+            }
+        )
+    }
+
     var showSearchInsideDialog by remember { mutableStateOf(false) }
     if (showSearchInsideDialog) {
         SearchInsideDialog(
@@ -232,6 +257,7 @@ fun MainScreen(
     val refreshCurrentDir = { fileListViewModel.refresh() }
     val onBatchScan = { batchScanViewModel.startScan(fileListState.currentPath) }
     val onFolderDashboard = { folderDashboardViewModel.analyze(fileListState.currentPath) }
+    val onFindDuplicatesLocal = { onFindDuplicates(fileListState.currentPath) }
 
     val coroutineScope = rememberCoroutineScope()
     val onShareCleaned: () -> Unit = {
@@ -366,8 +392,13 @@ fun MainScreen(
                 onOpenWith = onOpenWith,
                 onViewOnMap = onViewOnMap,
                 onShareCleaned = onShareCleaned,
+                onVerifyHash = {
+                    val info = inspectorState.info
+                    if (info != null) hashVerifyTarget = info.path to info.name
+                },
                 onBatchScan = onBatchScan,
                 onFolderDashboard = onFolderDashboard,
+                onFindDuplicates = onFindDuplicatesLocal,
                 onOpenSettings = onOpenSettings,
                 onBookmarkFolder = bookmarkCurrentFolder,
                 onShowBookmarks = { showBookmarksSheet = true },
@@ -388,8 +419,13 @@ fun MainScreen(
                 onOpenWith = onOpenWith,
                 onViewOnMap = onViewOnMap,
                 onShareCleaned = onShareCleaned,
+                onVerifyHash = {
+                    val info = inspectorState.info
+                    if (info != null) hashVerifyTarget = info.path to info.name
+                },
                 onBatchScan = onBatchScan,
                 onFolderDashboard = onFolderDashboard,
+                onFindDuplicates = onFindDuplicatesLocal,
                 onOpenSettings = onOpenSettings,
                 onBookmarkFolder = bookmarkCurrentFolder,
                 onShowBookmarks = { showBookmarksSheet = true },
@@ -420,8 +456,10 @@ private fun CompactLayout(
     onOpenWith: () -> Unit,
     onViewOnMap: (Double, Double) -> Unit,
     onShareCleaned: () -> Unit,
+    onVerifyHash: () -> Unit,
     onBatchScan: () -> Unit,
     onFolderDashboard: () -> Unit,
+    onFindDuplicates: () -> Unit,
     onOpenSettings: () -> Unit,
     onBookmarkFolder: () -> Unit,
     onShowBookmarks: () -> Unit,
@@ -440,11 +478,13 @@ private fun CompactLayout(
 
     val selectedItems = fileListState.files.filter { it.path in commanderState.selectedPaths }
     val canCompare = selectedItems.size == 2 && selectedItems.map { it.nodeType }.toSet().size == 1
+    val canBatchRename = selectedItems.size >= 2 && selectedItems.all { it.nodeType == com.filelens.commander.vfs.NodeType.FILE }
     val triggerCompare = {
         if (selectedItems.size == 2) {
             onCompare(selectedItems[0].path, selectedItems[1].path)
         }
     }
+    val triggerBatchRename = { batchRenameTargets = selectedItems.map { it.path } }
 
     Column(modifier = Modifier.fillMaxSize()) {
         BottomSheetScaffold(
@@ -458,6 +498,7 @@ private fun CompactLayout(
                     onOpenWith = onOpenWith,
                     onViewOnMap = onViewOnMap,
                     onShareCleaned = onShareCleaned,
+                    onVerifyHash = onVerifyHash,
                     onDismiss = {
                         scope.launch { bottomSheetState.hide() }
                         inspectorViewModel.clearSelection()
@@ -507,8 +548,10 @@ private fun CompactLayout(
                 },
                 onFileLongClick = { item -> commanderViewModel.toggleSelection(item.path) },
                 canCompareSelection = canCompare,
+                canBatchRename = canBatchRename,
                 onClearSelection = { commanderViewModel.clearSelection() },
                 onCompareSelection = triggerCompare,
+                onBatchRenameSelection = triggerBatchRename,
                 onNavigateUp = { fileListViewModel.navigateUp() },
                 onSortChanged = { fileListViewModel.setSortOrder(it) },
                 onToggleHidden = { fileListViewModel.toggleHiddenFiles() },
@@ -518,6 +561,7 @@ private fun CompactLayout(
                 onRefresh = onRefresh,
                 onBatchScan = onBatchScan,
                 onFolderDashboard = onFolderDashboard,
+                onFindDuplicates = onFindDuplicates,
                 onOpenSettings = onOpenSettings,
                 onBookmarkFolder = onBookmarkFolder,
                 onShowBookmarks = onShowBookmarks,
@@ -590,8 +634,10 @@ private fun ExpandedLayout(
     onOpenWith: () -> Unit,
     onViewOnMap: (Double, Double) -> Unit,
     onShareCleaned: () -> Unit,
+    onVerifyHash: () -> Unit,
     onBatchScan: () -> Unit,
     onFolderDashboard: () -> Unit,
+    onFindDuplicates: () -> Unit,
     onOpenSettings: () -> Unit,
     onBookmarkFolder: () -> Unit,
     onShowBookmarks: () -> Unit,
@@ -609,11 +655,26 @@ private fun ExpandedLayout(
     val activeFiles = if (activeLeft) fileListState.files else rightState.files
     val selectedItems = activeFiles.filter { it.path in commanderState.selectedPaths }
     val canCompare = selectedItems.size == 2 && selectedItems.map { it.nodeType }.toSet().size == 1
+    val canBatchRename = selectedItems.size >= 2 && selectedItems.all { it.nodeType == com.filelens.commander.vfs.NodeType.FILE }
     val triggerCompare = {
         if (selectedItems.size == 2) {
             onCompare(selectedItems[0].path, selectedItems[1].path)
         }
     }
+
+    var batchRenameTargetsExpanded by remember { mutableStateOf<List<String>>(emptyList()) }
+    if (batchRenameTargetsExpanded.isNotEmpty()) {
+        BatchRenameDialog(
+            sourcePaths = batchRenameTargetsExpanded,
+            onDismiss = { batchRenameTargetsExpanded = emptyList() },
+            onApplied = {
+                batchRenameTargetsExpanded = emptyList()
+                if (activeLeft) fileListViewModel.refresh() else rightViewModel.refresh()
+                commanderViewModel.clearSelection()
+            }
+        )
+    }
+    val triggerBatchRename = { batchRenameTargetsExpanded = selectedItems.map { it.path } }
 
     Column(modifier = Modifier.fillMaxSize()) {
         Row(modifier = Modifier.weight(1f)) {
@@ -644,8 +705,10 @@ private fun ExpandedLayout(
                 },
                 onFileLongClick = { item -> commanderViewModel.toggleSelection(item.path) },
                 canCompareSelection = canCompare && activeLeft,
+                canBatchRename = canBatchRename && activeLeft,
                 onClearSelection = { commanderViewModel.clearSelection() },
                 onCompareSelection = triggerCompare,
+                onBatchRenameSelection = triggerBatchRename,
                 onNavigateUp = { fileListViewModel.navigateUp() },
                 onSortChanged = { fileListViewModel.setSortOrder(it) },
                 onToggleHidden = { fileListViewModel.toggleHiddenFiles() },
@@ -655,6 +718,7 @@ private fun ExpandedLayout(
                 onRefresh = onRefresh,
                 onBatchScan = onBatchScan,
                 onFolderDashboard = onFolderDashboard,
+                onFindDuplicates = onFindDuplicates,
                 onOpenSettings = onOpenSettings,
                 onBookmarkFolder = onBookmarkFolder,
                 onShowBookmarks = onShowBookmarks,
@@ -694,8 +758,10 @@ private fun ExpandedLayout(
                     },
                     onFileLongClick = { item -> commanderViewModel.toggleSelection(item.path) },
                     canCompareSelection = canCompare && !activeLeft,
+                    canBatchRename = canBatchRename && !activeLeft,
                     onClearSelection = { commanderViewModel.clearSelection() },
                     onCompareSelection = triggerCompare,
+                    onBatchRenameSelection = triggerBatchRename,
                     onNavigateUp = { rightViewModel.navigateUp() },
                     onSortChanged = { rightViewModel.setSortOrder(it) },
                     onToggleHidden = { rightViewModel.toggleHiddenFiles() },
@@ -719,6 +785,7 @@ private fun ExpandedLayout(
                     onOpenWith = onOpenWith,
                     onViewOnMap = onViewOnMap,
                     onShareCleaned = onShareCleaned,
+                    onVerifyHash = onVerifyHash,
                     ignoredRiskIds = ignoredIdsFor(inspectorState),
                     onIgnoreRisk = { risk ->
                         inspectorState.selectedFile?.path?.let { path ->
