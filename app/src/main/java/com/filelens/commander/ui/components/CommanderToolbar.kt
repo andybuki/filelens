@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Compare
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.CreateNewFolder
 import androidx.compose.material.icons.filled.Delete
@@ -41,6 +42,8 @@ fun CommanderToolbar(
     onNewFolder: () -> Unit,
     onDelete: () -> Unit,
     onRename: () -> Unit,
+    canCompare: Boolean = false,
+    onCompare: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val actions = listOf(
@@ -48,6 +51,7 @@ fun CommanderToolbar(
         CommanderAction("Copy", "F5", Icons.Filled.ContentCopy, onCopy, hasSelection),
         CommanderAction("Move", "F6", Icons.AutoMirrored.Filled.DriveFileMove, onMove, hasSelection),
         CommanderAction("Mkdir", "F7", Icons.Filled.CreateNewFolder, onNewFolder, true),
+        CommanderAction("Diff", "F9", Icons.Filled.Compare, onCompare, canCompare),
         CommanderAction("Delete", "F8", Icons.Filled.Delete, onDelete, hasSelection),
         CommanderAction("Rename", "F2", Icons.Filled.Edit, onRename, hasSelection)
     )

@@ -67,6 +67,7 @@ import java.io.File
 @Composable
 fun MainScreen(
     onOpenSettings: () -> Unit = {},
+    onCompare: (String, String) -> Unit = { _, _ -> },
     fileListViewModel: FileListViewModel = hiltViewModel(),
     inspectorViewModel: InspectorViewModel = hiltViewModel(),
     commanderViewModel: CommanderViewModel = hiltViewModel(),
@@ -372,7 +373,8 @@ fun MainScreen(
                 onShowRecents = { showRecentsSheet = true },
                 onRefresh = refreshCurrentDir,
                 onSearchInside = { showSearchInsideDialog = true },
-                onExportReport = { isJson -> exportAndShareReport(isJson, inspectorViewModel, context) }
+                onExportReport = { isJson -> exportAndShareReport(isJson, inspectorViewModel, context) },
+                onCompare = onCompare
             )
         } else {
             CompactLayout(
@@ -393,6 +395,7 @@ fun MainScreen(
                 onShowRecents = { showRecentsSheet = true },
                 onSearchInside = { showSearchInsideDialog = true },
                 onExportReport = { isJson -> exportAndShareReport(isJson, inspectorViewModel, context) },
+                onCompare = onCompare,
                 onRefresh = refreshCurrentDir
             )
         }
@@ -424,6 +427,7 @@ private fun CompactLayout(
     onShowRecents: () -> Unit,
     onSearchInside: () -> Unit,
     onExportReport: (Boolean) -> Unit,
+    onCompare: (String, String) -> Unit,
     onRefresh: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
@@ -509,8 +513,11 @@ private fun CompactLayout(
             )
         }
 
+        val selectedItems = fileListState.files.filter { it.path in commanderState.selectedPaths }
+        val canCompare = selectedItems.size == 2 && selectedItems.map { it.nodeType }.toSet().size == 1
         CommanderToolbar(
             hasSelection = commanderState.selectedPaths.isNotEmpty(),
+            canCompare = canCompare,
             onView = {
                 val firstSelected = commanderState.selectedPaths.firstOrNull()
                 val item = fileListState.files.find { it.path == firstSelected }
@@ -523,7 +530,12 @@ private fun CompactLayout(
             onMove = { commanderViewModel.showDialog(DialogType.MOVE) },
             onNewFolder = { commanderViewModel.showDialog(DialogType.NEW_FOLDER) },
             onDelete = { commanderViewModel.showDialog(DialogType.DELETE) },
-            onRename = { commanderViewModel.showDialog(DialogType.RENAME) }
+            onRename = { commanderViewModel.showDialog(DialogType.RENAME) },
+            onCompare = {
+                if (selectedItems.size == 2) {
+                    onCompare(selectedItems[0].path, selectedItems[1].path)
+                }
+            }
         )
     }
 }
@@ -578,7 +590,8 @@ private fun ExpandedLayout(
     onShowRecents: () -> Unit,
     onRefresh: () -> Unit,
     onSearchInside: () -> Unit,
-    onExportReport: (Boolean) -> Unit
+    onExportReport: (Boolean) -> Unit,
+    onCompare: (String, String) -> Unit
 ) {
     var dualPanel by remember { mutableStateOf(false) }
     var activeLeft by remember { mutableStateOf(true) }
@@ -705,8 +718,11 @@ private fun ExpandedLayout(
             )
         }
 
+        val selectedItems = fileListState.files.filter { it.path in commanderState.selectedPaths }
+        val canCompare = selectedItems.size == 2 && selectedItems.map { it.nodeType }.toSet().size == 1
         CommanderToolbar(
             hasSelection = commanderState.selectedPaths.isNotEmpty(),
+            canCompare = canCompare,
             onView = {
                 val firstSelected = commanderState.selectedPaths.firstOrNull()
                 val item = fileListState.files.find { it.path == firstSelected }
@@ -716,7 +732,12 @@ private fun ExpandedLayout(
             onMove = { commanderViewModel.showDialog(DialogType.MOVE) },
             onNewFolder = { commanderViewModel.showDialog(DialogType.NEW_FOLDER) },
             onDelete = { commanderViewModel.showDialog(DialogType.DELETE) },
-            onRename = { commanderViewModel.showDialog(DialogType.RENAME) }
+            onRename = { commanderViewModel.showDialog(DialogType.RENAME) },
+            onCompare = {
+                if (selectedItems.size == 2) {
+                    onCompare(selectedItems[0].path, selectedItems[1].path)
+                }
+            }
         )
     }
 }

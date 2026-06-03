@@ -320,21 +320,21 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 ## Phase 8: Polish & Release (Weeks 20–22)
 
 ### 8.1 UX Polish (Week 20)
-- [ ] Animations and transitions
-- [ ] Empty states with illustrations
-- [ ] Error handling with friendly messages
-- [ ] Loading skeletons
-- [ ] Search within current folder
-- [ ] Search within file content (text files)
-- [ ] Recent files / frequent folders
-- [ ] Bookmarks / favorites
+- [x] Animations and transitions
+- [x] Empty states with illustrations
+- [x] Error handling with friendly messages
+- [x] Loading skeletons
+- [x] Search within current folder
+- [x] Search within file content (text files)
+- [x] Recent files / frequent folders
+- [x] Bookmarks / favorites
 
 ### 8.2 Settings & Preferences (Week 21)
-- [ ] Theme: light / dark / system
+- [x] Theme: light / dark / system
 - [ ] Default panel mode (inspector / dual files)
-- [ ] Default sort order
-- [ ] Show hidden files toggle
-- [ ] File size units (binary / decimal)
+- [x] Default sort order
+- [x] Show hidden files toggle
+- [x] File size units (binary / decimal)
 - [ ] Keyboard shortcut customization
 - [ ] About screen with open source licenses
 
