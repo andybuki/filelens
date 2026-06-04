@@ -1,0 +1,19 @@
+First public beta of FileLens.
+
+Highlights
+• Inspector panel with overview, preview, structure, metadata, risks tabs.
+• Magic-bytes detection + risk badges for 16 file categories.
+• ZIP / TAR / EPUB / APK / OOXML archive navigation without extracting.
+• Compare files (text diff, JSON/XML structural diff, image preview).
+• Compare folders with sync actions and deep-verify by checksum.
+• Find duplicates by SHA-256.
+• Batch rename with patterns and find/replace.
+• Verify file hash against pasted SHA-256/MD5.
+• SQLite read-only query browser.
+• Customizable keyboard shortcuts.
+• Backup/restore of settings, bookmarks, recent files.
+
+Known limitations
+• RAR and 7Z archives are not yet supported.
+• No cloud/SAF/SMB/FTP backends.
+• AI file description is intentionally not included.
