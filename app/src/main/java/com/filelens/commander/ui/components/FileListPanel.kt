@@ -74,6 +74,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.filelens.commander.domain.model.FileItem
@@ -468,12 +472,16 @@ private fun Breadcrumb(
                 modifier = Modifier
                     .size(22.dp)
                     .clip(RoundedCornerShape(8.dp))
-                    .clickable(onClick = onNavigateUp),
+                    .clickable(onClick = onNavigateUp)
+                    .semantics {
+                        role = androidx.compose.ui.semantics.Role.Button
+                        contentDescription = "Navigate up"
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     Icons.Filled.NorthWest,
-                    contentDescription = "Up",
+                    contentDescription = null,
                     tint = FlInk3,
                     modifier = Modifier.size(15.dp)
                 )
@@ -554,6 +562,7 @@ private fun SortTabs(
                 SortField.TYPE -> "Type"
             }
             val selected = sortOrder.field == field
+            val directionLabel = if (sortOrder.direction == SortDirection.ASCENDING) "ascending" else "descending"
             Row(
                 modifier = Modifier
                     .weight(1f)
@@ -567,7 +576,12 @@ private fun SortTabs(
                         }
                         onSortChanged(sortOrder.copy(field = field, direction = newDirection))
                     }
-                    .padding(horizontal = 10.dp, vertical = 7.dp),
+                    .padding(horizontal = 10.dp, vertical = 7.dp)
+                    .semantics(mergeDescendants = true) {
+                        this.role = androidx.compose.ui.semantics.Role.Tab
+                        this.selected = selected
+                        contentDescription = if (selected) "Sort by $label, $directionLabel" else "Sort by $label"
+                    },
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {

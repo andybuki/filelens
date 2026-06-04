@@ -12,6 +12,7 @@ import com.filelens.commander.ui.screens.CompareScreen
 import com.filelens.commander.ui.screens.DuplicateFinderScreen
 import com.filelens.commander.ui.screens.MainScreen
 import com.filelens.commander.ui.screens.SettingsScreen
+import com.filelens.commander.ui.screens.ShortcutsScreen
 import com.filelens.commander.ui.screens.SqliteBrowserScreen
 
 object Routes {
@@ -20,6 +21,7 @@ object Routes {
     const val COMPARE = "compare/{left}/{right}"
     const val DUPLICATES = "duplicates/{root}"
     const val SQLITE = "sqlite/{db}"
+    const val SHORTCUTS = "shortcuts"
 
     fun compare(leftPath: String, rightPath: String): String =
         "compare/${Uri.encode(leftPath)}/${Uri.encode(rightPath)}"
@@ -54,7 +56,13 @@ fun FileLensNavGraph(
             )
         }
         composable(Routes.SETTINGS) {
-            SettingsScreen(onBack = { navController.popBackStack() })
+            SettingsScreen(
+                onBack = { navController.popBackStack() },
+                onOpenShortcuts = { navController.navigate(Routes.SHORTCUTS) }
+            )
+        }
+        composable(Routes.SHORTCUTS) {
+            ShortcutsScreen(onBack = { navController.popBackStack() })
         }
         composable(
             route = Routes.COMPARE,

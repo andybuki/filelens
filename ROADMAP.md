@@ -335,7 +335,7 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 - [x] Default sort order
 - [x] Show hidden files toggle
 - [x] File size units (binary / decimal)
-- [ ] Keyboard shortcut customization
+- [x] Keyboard shortcut customization
 - [x] About screen with open source licenses
 
 ### 8.3 Testing & Release (Week 22)
@@ -344,7 +344,7 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 - [ ] UI tests for critical flows
 - [ ] Performance profiling (large folders, big archives)
 - [ ] Memory leak testing
-- [ ] Accessibility audit (TalkBack, font scaling)
+- [x] Accessibility audit (TalkBack, font scaling)
 - [ ] Play Store listing: screenshots, description, feature graphic
 - [ ] Beta release
 
