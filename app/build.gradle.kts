@@ -75,6 +75,10 @@ dependencies {
     implementation(libs.androidx.exifinterface)
     implementation(libs.androidx.datastore.preferences)
 
+    implementation(libs.commons.compress)
+    implementation(libs.xz)
+    implementation(libs.junrar)
+
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.leakcanary.android)
 

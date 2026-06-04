@@ -123,7 +123,10 @@ class FileListViewModel @Inject constructor(
                 files = files,
                 isLoading = false,
                 isRoot = atHome || nodeStack.size <= 1,
-                isInsideArchive = node is ZipEntryNode || node is com.filelens.commander.vfs.TarEntryNode
+                isInsideArchive = node is ZipEntryNode ||
+                    node is com.filelens.commander.vfs.TarEntryNode ||
+                    node is com.filelens.commander.vfs.SevenZEntryNode ||
+                    node is com.filelens.commander.vfs.RarEntryNode
             )
             if (node is LocalFileNode) {
                 recentsRepository.recordFolderVisit(
@@ -169,6 +172,14 @@ class FileListViewModel @Inject constructor(
                     val child = current.children().find { it.name == item.name }
                     if (child != null) navigateToNode(child)
                 }
+                is com.filelens.commander.vfs.SevenZEntryNode -> viewModelScope.launch {
+                    val child = current.children().find { it.name == item.name }
+                    if (child != null) navigateToNode(child)
+                }
+                is com.filelens.commander.vfs.RarEntryNode -> viewModelScope.launch {
+                    val child = current.children().find { it.name == item.name }
+                    if (child != null) navigateToNode(child)
+                }
                 else -> navigateToDirectory(item.path)
             }
             return true
@@ -187,6 +198,20 @@ class FileListViewModel @Inject constructor(
         if (isTar) {
             viewModelScope.launch {
                 val archive = com.filelens.commander.vfs.TarEntryNode.fromFile(File(item.path), nodeStack.lastOrNull())
+                if (archive != null) navigateToNode(archive)
+            }
+            return true
+        }
+        if (lowerName.endsWith(".7z")) {
+            viewModelScope.launch {
+                val archive = com.filelens.commander.vfs.SevenZEntryNode.fromFile(File(item.path), nodeStack.lastOrNull())
+                if (archive != null) navigateToNode(archive)
+            }
+            return true
+        }
+        if (lowerName.endsWith(".rar")) {
+            viewModelScope.launch {
+                val archive = com.filelens.commander.vfs.RarEntryNode.fromFile(File(item.path), nodeStack.lastOrNull())
                 if (archive != null) navigateToNode(archive)
             }
             return true
