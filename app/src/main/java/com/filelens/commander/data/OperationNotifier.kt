@@ -49,7 +49,7 @@ class OperationNotifier @Inject constructor(
             .setContentText(if (total > 0) "$progress / $total" else "Working…")
             .setProgress(total.coerceAtLeast(1), progress.coerceAtMost(total), total <= 0)
             .setOngoing(true)
-        NotificationManagerCompat.from(context).notify(id, builder.build())
+        notifySafely(id, builder)
     }
 
     fun showComplete(id: Int, title: String, summary: String) {
@@ -59,11 +59,25 @@ class OperationNotifier @Inject constructor(
             .setProgress(0, 0, false)
             .setOngoing(false)
             .setAutoCancel(true)
-        NotificationManagerCompat.from(context).notify(id, builder.build())
+        notifySafely(id, builder)
     }
 
     fun cancel(id: Int) {
         NotificationManagerCompat.from(context).cancel(id)
+    }
+
+    /**
+     * Wrapped because lint can't tell that hasPermission() already gates this,
+     * and because the user can revoke POST_NOTIFICATIONS between the check and
+     * the call. Either way, swallow the SecurityException — the snackbar still
+     * tells the user what happened.
+     */
+    private fun notifySafely(id: Int, builder: NotificationCompat.Builder) {
+        try {
+            NotificationManagerCompat.from(context).notify(id, builder.build())
+        } catch (_: SecurityException) {
+            // notification denied at runtime; nothing to do.
+        }
     }
 
     private fun baseBuilder(title: String): NotificationCompat.Builder {
