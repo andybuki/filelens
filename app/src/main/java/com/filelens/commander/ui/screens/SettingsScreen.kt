@@ -65,6 +65,7 @@ import com.filelens.commander.viewmodel.SettingsViewModel
 @Composable
 fun SettingsScreen(
     onBack: () -> Unit,
+    onOpenShortcuts: () -> Unit = {},
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val settings by viewModel.settings.collectAsStateWithLifecycle()
@@ -173,6 +174,27 @@ fun SettingsScreen(
                         )
                     }
                 )
+            }
+
+            SectionHeader("Input")
+            SettingsCard {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable(onClick = onOpenShortcuts)
+                        .padding(horizontal = 14.dp, vertical = 14.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text("Keyboard shortcuts", style = MaterialTheme.typography.titleSmall)
+                        Text(
+                            "Customize the F-key and Ctrl combos used in the commander.",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = FlInk3
+                        )
+                    }
+                    Text("›", style = MaterialTheme.typography.titleMedium, color = FlInk3)
+                }
             }
 
             SectionHeader("Backup & restore")
