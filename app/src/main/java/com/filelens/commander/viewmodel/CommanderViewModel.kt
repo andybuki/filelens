@@ -2,6 +2,7 @@ package com.filelens.commander.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.filelens.commander.data.OperationNotifier
 import com.filelens.commander.domain.model.FileItem
 import com.filelens.commander.domain.usecase.CleanCopyUseCase
 import com.filelens.commander.domain.usecase.FileOperationResult
@@ -36,7 +37,8 @@ data class CommanderState(
 class CommanderViewModel @Inject constructor(
     private val fileOperations: FileOperationsUseCase,
     private val trashUseCase: TrashUseCase,
-    private val cleanCopyUseCase: CleanCopyUseCase
+    private val cleanCopyUseCase: CleanCopyUseCase,
+    private val notifier: OperationNotifier
 ) : ViewModel() {
 
     private var lastTrashed: List<TrashUseCase.TrashedItem> = emptyList()
@@ -145,14 +147,28 @@ class CommanderViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = _state.value.copy(isOperationInProgress = true)
             val paths = _state.value.selectedPaths.toList()
+            // Only ping the notification shade for batches; one-offs are noise.
+            if (paths.size >= NOTIFY_THRESHOLD) {
+                notifier.showProgress(OperationNotifier.ID_COPY, "Copying", 0, paths.size)
+            }
             when (val result = fileOperations.copy(paths, targetDir)) {
                 is FileOperationResult.Success -> {
                     _events.emit("${paths.size} item(s) copied")
+                    if (paths.size >= NOTIFY_THRESHOLD) {
+                        notifier.showComplete(
+                            OperationNotifier.ID_COPY,
+                            "Copy complete",
+                            "${paths.size} item(s) copied"
+                        )
+                    }
                     clearSelection()
                     dismissDialog()
                     onDone()
                 }
-                is FileOperationResult.Error -> _events.emit("Error: ${result.message}")
+                is FileOperationResult.Error -> {
+                    _events.emit("Error: ${result.message}")
+                    notifier.cancel(OperationNotifier.ID_COPY)
+                }
             }
             _state.value = _state.value.copy(isOperationInProgress = false)
         }
@@ -162,16 +178,35 @@ class CommanderViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = _state.value.copy(isOperationInProgress = true)
             val paths = _state.value.selectedPaths.toList()
+            if (paths.size >= NOTIFY_THRESHOLD) {
+                notifier.showProgress(OperationNotifier.ID_MOVE, "Moving", 0, paths.size)
+            }
             when (val result = fileOperations.move(paths, targetDir)) {
                 is FileOperationResult.Success -> {
                     _events.emit("${paths.size} item(s) moved")
+                    if (paths.size >= NOTIFY_THRESHOLD) {
+                        notifier.showComplete(
+                            OperationNotifier.ID_MOVE,
+                            "Move complete",
+                            "${paths.size} item(s) moved"
+                        )
+                    }
                     clearSelection()
                     dismissDialog()
                     onDone()
                 }
-                is FileOperationResult.Error -> _events.emit("Error: ${result.message}")
+                is FileOperationResult.Error -> {
+                    _events.emit("Error: ${result.message}")
+                    notifier.cancel(OperationNotifier.ID_MOVE)
+                }
             }
             _state.value = _state.value.copy(isOperationInProgress = false)
         }
+    }
+
+    private companion object {
+        // Batches smaller than this go through the snackbar only — keeps a
+        // routine two-file copy from spawning a notification.
+        const val NOTIFY_THRESHOLD = 5
     }
 }

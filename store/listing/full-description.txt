@@ -1,0 +1,39 @@
+FileLens is a smart file manager for Android that helps you understand what's in a file before you open or share it.
+
+INSPECT BEFORE YOU OPEN
+• Magic-bytes detection catches extension mismatches (that .jpg might actually be an executable).
+• Side-by-side preview, metadata, and structure tabs for every common file type.
+• Risk badges call out things like GPS in photos, JavaScript in PDFs, tracked changes in DOCX, hidden Excel sheets, and active content in archives.
+• Local trust score with the top reasons that influenced it.
+
+DEEP COVERAGE
+• Images: EXIF including GPS, camera, dates, with optional cleaning.
+• Documents: DOCX, XLSX, PPTX revisions, hidden sheets, macros, external links.
+• PDFs: thumbnails, JavaScript, embedded files, encryption status.
+• Archives: ZIP, JAR, APK, OOXML, TAR, TAR.GZ, EPUB. Browse contents without extracting.
+• APKs: permissions, signatures, debug/backup flags, native libraries, trackers.
+• Audio/video: tags, duration, codec, album art, video thumbnails.
+• Code/text/config: syntax highlighted preview, secrets scan across JSON, XML, YAML, TOML, INI, .env, logs.
+• SQLite: schema, table rows, read-only query browser.
+• Binary: hex view, entropy, ELF/DEX/SQLite headers.
+
+COMMANDER MODE
+• Single panel on phone, dual file panels on tablets and DeX.
+• Full-keyboard Norton-style F-key shortcuts. Every binding is customizable.
+• Copy, move, rename, batch rename with patterns ({n}, {name}, {ext}, find/replace, regex).
+• Soft-delete to a recoverable .trash directory with Ctrl+Z undo.
+• Compare two files (text diff, JSON/XML structural diff, image side-by-side, checksums).
+• Compare two folders (left-only, right-only, changed, same-content-different-name) with sync actions.
+• Find duplicates by SHA-256 with one-tap "delete old extras".
+• Verify a download against a pasted hash (SHA-256 or MD5).
+
+PRIVACY-FIRST
+• Strips EXIF, OOXML, PDF metadata for a "share cleaned copy" flow.
+• Batch privacy audit on a folder; pack cleaned copies into a sharable ZIP.
+• Generate inspection reports as Markdown or JSON.
+
+OFFLINE, ON-DEVICE
+• No accounts, no analytics beyond basic crash reporting, no network calls during normal operation.
+• Settings, bookmarks, recent files, and frequent folders are backed up to a JSON file you control.
+
+Designed for tinkerers, security-conscious users, journalists, sysadmins, and anyone who wants to know what's actually inside the files on their phone before sharing them.

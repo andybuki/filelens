@@ -156,7 +156,7 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 - [x] Copy/Move/Delete/Rename/Create folder
 - [x] Undo via TrashUseCase (Ctrl+Z restores last delete)
 - [x] Soft delete to `.trash/` with JSONL index
-- [ ] Long-running progress notification (operations are fast enough)
+- [x] Long-running progress notification
 
 ### 4.3 Keyboard Shortcuts ✅
 - [x] F2 Rename, F3 View, F5 Copy, F6 Move, F7 New folder, F8 Delete
@@ -340,12 +340,12 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 
 ### 8.3 Testing & Release (Week 22)
 - [x] Unit tests for detectors, parsers, VFS
-- [ ] Integration tests for inspectors
+- [x] Integration tests for inspectors
 - [ ] UI tests for critical flows
 - [ ] Performance profiling (large folders, big archives)
-- [ ] Memory leak testing
+- [x] Memory leak testing
 - [x] Accessibility audit (TalkBack, font scaling)
-- [ ] Play Store listing: screenshots, description, feature graphic
+- [x] Play Store listing: screenshots, description, feature graphic
 - [ ] Beta release
 
 ---
