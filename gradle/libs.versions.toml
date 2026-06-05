@@ -20,6 +20,9 @@ robolectric = "4.13"
 commonsCompress = "1.27.1"
 xz = "1.9"
 junrar = "7.5.5"
+commonsNet = "3.11.1"
+jsch = "0.2.21"
+smbj = "0.14.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -50,6 +53,9 @@ robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "
 commons-compress = { group = "org.apache.commons", name = "commons-compress", version.ref = "commonsCompress" }
 xz = { group = "org.tukaani", name = "xz", version.ref = "xz" }
 junrar = { group = "com.github.junrar", name = "junrar", version.ref = "junrar" }
+commons-net = { group = "commons-net", name = "commons-net", version.ref = "commonsNet" }
+jsch = { group = "com.github.mwiede", name = "jsch", version.ref = "jsch" }
+smbj = { group = "com.hierynomus", name = "smbj", version.ref = "smbj" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

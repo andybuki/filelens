@@ -41,7 +41,9 @@ data class FileListState(
 class FileListViewModel @Inject constructor(
     private val browseFilesUseCase: BrowseFilesUseCase,
     private val settingsRepository: SettingsRepository,
-    private val recentsRepository: com.filelens.commander.data.RecentsRepository
+    private val recentsRepository: com.filelens.commander.data.RecentsRepository,
+    private val remoteConnections: com.filelens.commander.data.RemoteConnectionsRepository,
+    private val remoteConnector: com.filelens.commander.vfs.RemoteConnector
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(FileListState())
@@ -93,6 +95,31 @@ class FileListViewModel @Inject constructor(
         viewModelScope.launch {
             val node = LocalFileNode(File(path))
             navigateToNode(node)
+        }
+    }
+
+    /**
+     * Connects to a saved remote server and navigates to its root. Replaces the
+     * current navigation stack — leaving the remote root with [navigateUp] will
+     * walk back through ancestors and stop once the stack is exhausted.
+     */
+    fun openRemoteConnection(id: String) {
+        viewModelScope.launch {
+            _state.value = _state.value.copy(isLoading = true, error = null)
+            val connection = remoteConnections.get(id)
+            if (connection == null) {
+                _state.value = _state.value.copy(isLoading = false, error = "Server not found")
+                return@launch
+            }
+            try {
+                val opened = remoteConnector.open(connection)
+                navigateToNode(opened.rootNode, replaceStack = true)
+            } catch (e: Exception) {
+                _state.value = _state.value.copy(
+                    isLoading = false,
+                    error = "Couldn't connect to ${connection.name.ifBlank { connection.host }}: ${e.message ?: e.javaClass.simpleName}"
+                )
+            }
         }
     }
 
@@ -177,6 +204,12 @@ class FileListViewModel @Inject constructor(
                     if (child != null) navigateToNode(child)
                 }
                 is com.filelens.commander.vfs.RarEntryNode -> viewModelScope.launch {
+                    val child = current.children().find { it.name == item.name }
+                    if (child != null) navigateToNode(child)
+                }
+                is com.filelens.commander.vfs.FtpFileNode,
+                is com.filelens.commander.vfs.SftpFileNode,
+                is com.filelens.commander.vfs.SmbFileNode -> viewModelScope.launch {
                     val child = current.children().find { it.name == item.name }
                     if (child != null) navigateToNode(child)
                 }

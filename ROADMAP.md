@@ -353,7 +353,7 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 ## Post-MVP Ideas (Future)
 
 - [ ] Cloud storage browsing (Google Drive, Dropbox via SAF)
-- [ ] FTP/SFTP/SMB remote file browsing
+- [x] FTP/SFTP/SMB remote file browsing
 - [x] Batch rename with patterns
 - [x] File hash verification (download integrity)
 - [x] Duplicate file finder

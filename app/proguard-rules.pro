@@ -15,5 +15,20 @@
 -keep class com.github.junrar.** { *; }
 -dontwarn com.github.junrar.**
 
-# SLF4J (transitive of junrar) — missing provider is fine
+# SLF4J (transitive of junrar / smbj) — missing provider is fine
 -dontwarn org.slf4j.**
+
+# Apache Commons Net (FTP) — uses reflection-free APIs but keep for safety
+-keep class org.apache.commons.net.** { *; }
+-dontwarn org.apache.commons.net.**
+
+# JSch (SFTP) — reflective lookup of cipher/mac/kex providers
+-keep class com.jcraft.jsch.** { *; }
+-dontwarn com.jcraft.jsch.**
+
+# smbj (SMB2/3) + Bouncy Castle dependency
+-keep class com.hierynomus.** { *; }
+-dontwarn com.hierynomus.**
+-keep class org.bouncycastle.** { *; }
+-dontwarn org.bouncycastle.**
+-dontwarn javax.naming.**
