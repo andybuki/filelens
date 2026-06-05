@@ -30,6 +30,7 @@ import androidx.compose.material.icons.filled.Terminal
 import androidx.compose.material.icons.filled.VideoFile
 import androidx.compose.material.icons.filled.Slideshow
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -185,7 +186,7 @@ private fun iconForCategory(category: FileCategory): Pair<ImageVector, Color> {
         FileCategory.DATABASE -> Icons.Filled.Storage to CategoryDatabase
         FileCategory.FONT -> Icons.Filled.FontDownload to CategoryFont
         FileCategory.EXECUTABLE -> Icons.Filled.Terminal to CategoryExecutable
-        FileCategory.UNKNOWN -> Icons.Filled.InsertDriveFile to CategoryUnknown
+        FileCategory.UNKNOWN -> Icons.AutoMirrored.Filled.InsertDriveFile to CategoryUnknown
     }
 }
 

@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
 import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.InsertDriveFile
@@ -103,7 +104,7 @@ private fun RecentFileRow(file: RecentFile, onOpen: () -> Unit) {
     BaseRow(
         title = file.displayName,
         subtitle = compactPath(file.path),
-        icon = Icons.Filled.InsertDriveFile,
+        icon = Icons.AutoMirrored.Filled.InsertDriveFile,
         iconTint = FlAccent,
         iconBackground = FlAccentTint,
         onClick = onOpen
