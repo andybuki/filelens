@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FileLens — Minimal</title>
+<link rel="stylesheet" href="min/tokens.css" />
+<link rel="stylesheet" href="min/kit.css" />
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #E2E8F0; }
+  #root { position: fixed; inset: 0; display: grid; place-items: center; }
+  /* phone shell */
+  .phone { background: #0F2A44; border-radius: 40px; padding: 11px; box-shadow: 0 30px 70px -20px rgba(15,42,68,.5), 0 0 0 1px rgba(0,0,0,.4); position: relative; }
+  .phone-screen { width: 390px; height: 800px; border-radius: 30px; overflow: hidden; position: relative; background: #fff; }
+  .island { position: absolute; top: 15px; left: 50%; transform: translateX(-50%); width: 88px; height: 26px; border-radius: 999px; background: #000; z-index: 60; }
+  .statusbar { height: 44px; display: flex; align-items: center; justify-content: space-between; padding: 16px 24px 0; font-family: var(--ml-font-sans); font-size: 14px; font-weight: 600; color: #fff; background: #0F2A44; flex: 0 0 auto; }
+  .statusbar .sb-right { display: flex; gap: 6px; align-items: center; }
+  .statusbar svg { display: block; }
+  .stage { width: 100%; height: 100%; display: flex; flex-direction: column; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="#0F2A44"/><circle cx="44" cy="44" r="19" fill="none" stroke="#2563EB" stroke-width="6"/><path d="M58 58 L72 72" stroke="#2563EB" stroke-width="7" stroke-linecap="round"/></svg>
+</template>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="min/icons.jsx"></script>
+<script type="text/babel" src="min/data.jsx"></script>
+<script type="text/babel" src="min/app.jsx"></script>
+<script type="text/babel">
+  const { useState, useEffect } = React;
+  function StatusBar() {
+    return (
+      <div className="statusbar">
+        <span>9:41</span>
+        <span className="sb-right">
+          <svg width="17" height="11" viewBox="0 0 17 11" fill="#fff"><rect x="0" y="7" width="3" height="4" rx=".5"/><rect x="5" y="5" width="3" height="6" rx=".5"/><rect x="10" y="2" width="3" height="9" rx=".5"/><rect x="15" y="0" width="3" height="11" rx=".5"/></svg>
+          <svg width="16" height="11" viewBox="0 0 16 11" fill="#fff"><path d="M8 2a10 10 0 0 1 7 2.8l-1.4 1.4A8 8 0 0 0 8 4 8 8 0 0 0 2.4 6.2L1 4.8A10 10 0 0 1 8 2Zm0 4a6 6 0 0 1 4.2 1.7L11 9A4 4 0 0 0 8 8a4 4 0 0 0-3 1L3.8 7.7A6 6 0 0 1 8 6Z"/></svg>
+          <svg width="25" height="11" viewBox="0 0 25 11"><rect x=".5" y=".5" width="22" height="10" rx="2.3" fill="none" stroke="#fff" strokeWidth="1" opacity=".5"/><rect x="23" y="3.5" width="1.5" height="4" rx=".5" fill="#fff" opacity=".5"/><rect x="2" y="2" width="18" height="7" rx="1.3" fill="#fff"/></svg>
+        </span>
+      </div>
+    );
+  }
+
+  function Mount() {
+    const [scale, setScale] = useState(1);
+    useEffect(() => {
+      const fit = () => setScale(Math.min((window.innerWidth - 28) / 412, (window.innerHeight - 28) / 822, 1.05));
+      fit(); window.addEventListener("resize", fit); return () => window.removeEventListener("resize", fit);
+    }, []);
+    return (
+      <div style={{ transform: "scale(" + scale + ")" }}>
+        <div className="phone">
+          <div className="island" />
+          <div className="phone-screen">
+            <div className="stage">
+              <StatusBar />
+              <window.FileLensMin />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById("root")).render(<Mount />);
+</script>
+</body>
+</html>
