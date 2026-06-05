@@ -24,7 +24,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -35,6 +34,7 @@ import com.filelens.commander.ui.theme.RiskDanger
 import com.filelens.commander.ui.theme.RiskDangerTint
 import com.filelens.commander.ui.theme.RiskSafe
 import com.filelens.commander.viewmodel.BatchRenameViewModel
+import com.filelens.commander.ui.theme.RobotoMono
 
 @Composable
 fun BatchRenameDialog(
@@ -133,7 +133,7 @@ fun BatchRenameDialog(
                             Text(
                                 text = item.originalName,
                                 style = MaterialTheme.typography.bodySmall,
-                                fontFamily = FontFamily.Monospace,
+                                fontFamily = RobotoMono,
                                 color = FlInk3,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis
@@ -141,7 +141,7 @@ fun BatchRenameDialog(
                             Text(
                                 text = "→ ${item.newName}",
                                 style = MaterialTheme.typography.bodySmall,
-                                fontFamily = FontFamily.Monospace,
+                                fontFamily = RobotoMono,
                                 color = when {
                                     !item.isValid -> RiskDanger
                                     changed -> MaterialTheme.colorScheme.onSurface

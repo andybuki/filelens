@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.filelens.commander.domain.model.FileCategory
+import com.filelens.commander.ui.theme.Roboto
 
 // Solid cartoon-style folder and file tiles used in the browser list. The
 // shapes are drawn with Canvas so they stay crisp at any size and we can
@@ -127,7 +128,8 @@ fun FileExtensionTile(
         var style = TextStyle(
             color = Color.White,
             fontWeight = FontWeight.Black,
-            fontSize = fontSizeSp.sp
+            fontSize = fontSizeSp.sp,
+            fontFamily = Roboto
         )
         var measured = textMeasurer.measure(label, style)
         var guard = 0

@@ -34,7 +34,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -47,6 +46,7 @@ import com.filelens.commander.ui.theme.RiskSafe
 import com.filelens.commander.ui.theme.RiskSafeTint
 import com.filelens.commander.viewmodel.HashVerifyViewModel
 import com.filelens.commander.viewmodel.Match
+import com.filelens.commander.ui.theme.RobotoMono
 
 @Composable
 fun HashVerifyDialog(
@@ -126,7 +126,7 @@ private fun HashRow(label: String, value: String, onCopy: () -> Unit) {
             Text(
                 value,
                 style = MaterialTheme.typography.bodySmall,
-                fontFamily = FontFamily.Monospace,
+                fontFamily = RobotoMono,
                 color = MaterialTheme.colorScheme.onSurface
             )
         }

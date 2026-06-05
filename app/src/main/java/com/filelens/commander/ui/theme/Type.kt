@@ -4,12 +4,56 @@ import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.googlefonts.Font
+import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
+import com.filelens.commander.R
 
-// Roboto ships with Android natively; FontFamily.Default resolves to it.
-private val Sans = FontFamily.Default
-private val Mono = FontFamily.Monospace
+// =============================================================================
+// Fonts
+// The minimal design tokens (min/tokens.css) call for Roboto + Roboto Mono so
+// the Android build matches the web preview. Stock Android resolves
+// FontFamily.Default to Roboto, but OEM skins (Samsung One UI, Xiaomi MIUI…)
+// substitute their own house font — same goes for FontFamily.Monospace which
+// is almost never Roboto Mono. To avoid that drift we pull both families from
+// Google Fonts' downloadable provider so every device renders identically.
+// =============================================================================
+
+private val GoogleFontsProvider = GoogleFont.Provider(
+    providerAuthority = "com.google.android.gms.fonts",
+    providerPackage = "com.google.android.gms",
+    certificates = R.array.com_google_android_gms_fonts_certs
+)
+
+private fun robotoFont(weight: FontWeight) = Font(
+    googleFont = GoogleFont("Roboto"),
+    fontProvider = GoogleFontsProvider,
+    weight = weight
+)
+
+private fun robotoMonoFont(weight: FontWeight) = Font(
+    googleFont = GoogleFont("Roboto Mono"),
+    fontProvider = GoogleFontsProvider,
+    weight = weight
+)
+
+val Roboto: FontFamily = FontFamily(
+    robotoFont(FontWeight.Normal),
+    robotoFont(FontWeight.Medium),
+    robotoFont(FontWeight.SemiBold),
+    robotoFont(FontWeight.Bold),
+    robotoFont(FontWeight.Black)
+)
+
+val RobotoMono: FontFamily = FontFamily(
+    robotoMonoFont(FontWeight.Normal),
+    robotoMonoFont(FontWeight.Medium),
+    robotoMonoFont(FontWeight.SemiBold)
+)
+
+private val Sans = Roboto
+private val Mono = RobotoMono
 
 // Reusable mono styles for data-dense surfaces (sizes, hashes, hex, scores).
 val MonoBody = TextStyle(
@@ -35,7 +79,6 @@ val Eyebrow = TextStyle(
 )
 
 val Typography = Typography(
-    // Display 30/700 — screen-level hero (rare)
     displaySmall = TextStyle(
         fontFamily = Sans,
         fontWeight = FontWeight.Bold,
@@ -43,7 +86,6 @@ val Typography = Typography(
         lineHeight = 34.sp,
         letterSpacing = (-0.01).em
     ),
-    // H1 24/700 — screen title
     headlineMedium = TextStyle(
         fontFamily = Sans,
         fontWeight = FontWeight.Bold,
@@ -57,7 +99,6 @@ val Typography = Typography(
         fontSize = 22.sp,
         lineHeight = 26.sp
     ),
-    // H2 19/700 — card / sheet title
     titleLarge = TextStyle(
         fontFamily = Sans,
         fontWeight = FontWeight.Bold,
@@ -65,7 +106,6 @@ val Typography = Typography(
         lineHeight = 22.sp,
         letterSpacing = (-0.01).em
     ),
-    // H3 16/600 — section header
     titleMedium = TextStyle(
         fontFamily = Sans,
         fontWeight = FontWeight.SemiBold,
@@ -78,7 +118,6 @@ val Typography = Typography(
         fontSize = 14.sp,
         lineHeight = 20.sp
     ),
-    // Body 15/400 — default body + list item name
     bodyLarge = TextStyle(
         fontFamily = Sans,
         fontWeight = FontWeight.Normal,
@@ -91,7 +130,6 @@ val Typography = Typography(
         fontSize = 14.sp,
         lineHeight = 20.sp
     ),
-    // Small 13/500 — labels, buttons, metadata
     bodySmall = TextStyle(
         fontFamily = Sans,
         fontWeight = FontWeight.Medium,
@@ -110,7 +148,8 @@ val Typography = Typography(
         fontSize = 12.sp,
         lineHeight = 16.sp
     ),
-    // Caption / mono-sm — uppercase ext badges and dense data labels use the mono family
+    // Caption / mono-sm — uppercase ext badges and dense data labels use the
+    // mono family so digits and short codes stay column-aligned.
     labelSmall = TextStyle(
         fontFamily = Mono,
         fontWeight = FontWeight.Medium,
@@ -119,3 +158,4 @@ val Typography = Typography(
         letterSpacing = 0.04.em
     )
 )
+

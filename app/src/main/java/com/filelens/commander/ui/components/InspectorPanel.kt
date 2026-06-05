@@ -54,7 +54,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -88,6 +87,7 @@ import com.filelens.commander.ui.theme.TrustMedium
 import com.filelens.commander.ui.theme.TrustTrusted
 import com.filelens.commander.ui.util.LocalSizeUnits
 import com.filelens.commander.ui.util.formatFileSize
+import com.filelens.commander.ui.theme.RobotoMono
 import androidx.compose.material.icons.filled.Search
 
 enum class InspectorTab(val label: String) {
@@ -453,7 +453,7 @@ private fun PreviewTab(result: InspectorResult?) {
                 ) {
                     Text(
                         text = highlighted,
-                        style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                        style = MaterialTheme.typography.bodySmall.copy(fontFamily = RobotoMono),
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 }
@@ -501,7 +501,7 @@ private fun PreviewTab(result: InspectorResult?) {
                 )
                 Text(
                     text = formatHex(preview.bytes),
-                    style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                    style = MaterialTheme.typography.bodySmall.copy(fontFamily = RobotoMono),
                     color = MaterialTheme.colorScheme.onSurface
                 )
             }
@@ -548,7 +548,7 @@ private fun StructureNodeItem(node: StructureNode, depth: Int) {
             ) {
                 Text(
                     text = node.name,
-                    style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                    style = MaterialTheme.typography.bodySmall.copy(fontFamily = RobotoMono),
                     modifier = Modifier.weight(1f),
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
@@ -557,7 +557,7 @@ private fun StructureNodeItem(node: StructureNode, depth: Int) {
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = node.value,
-                        style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                        style = MaterialTheme.typography.bodySmall.copy(fontFamily = RobotoMono),
                         color = MaterialTheme.colorScheme.primary,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
@@ -587,7 +587,7 @@ private fun StructureNodeItem(node: StructureNode, depth: Int) {
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
                     text = node.name,
-                    style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                    style = MaterialTheme.typography.bodySmall.copy(fontFamily = RobotoMono),
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 if (node.details != null) {
@@ -794,7 +794,7 @@ private fun SecretsCard(secrets: List<SecretMatch>) {
                     }
                     Text(
                         text = sub,
-                        style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                        style = MaterialTheme.typography.bodySmall.copy(fontFamily = RobotoMono),
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }

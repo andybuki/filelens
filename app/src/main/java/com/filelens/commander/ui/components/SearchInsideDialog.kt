@@ -30,10 +30,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import com.filelens.commander.domain.model.SearchHit
 import com.filelens.commander.domain.model.SearchHitKind
+import com.filelens.commander.ui.theme.RobotoMono
 
 @Composable
 fun SearchInsideDialog(
@@ -141,7 +141,7 @@ private fun HitRow(hit: SearchHit) {
         )
         Text(
             text = hit.snippet,
-            style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+            style = MaterialTheme.typography.bodySmall.copy(fontFamily = RobotoMono),
             color = MaterialTheme.colorScheme.onSurface
         )
     }
