@@ -34,7 +34,10 @@ data class FileListState(
     val isInsideArchive: Boolean = false,
     val searchQuery: String = "",
     val isSearchActive: Boolean = false,
-    val isSearching: Boolean = false
+    val isSearching: Boolean = false,
+    val isRemote: Boolean = false,
+    val remoteServerLabel: String? = null,
+    val remoteNotice: String? = null
 )
 
 @HiltViewModel
@@ -52,6 +55,12 @@ class FileListViewModel @Inject constructor(
     private val nodeStack = mutableListOf<VirtualFileNode>()
     private var allFiles: List<FileItem> = emptyList()
     private var homePath: String = ""
+    private var currentRemoteLabel: String? = null
+
+    private fun isRemoteNode(node: VirtualFileNode): Boolean =
+        node is com.filelens.commander.vfs.FtpFileNode ||
+            node is com.filelens.commander.vfs.SftpFileNode ||
+            node is com.filelens.commander.vfs.SmbFileNode
 
     init {
         viewModelScope.launch {
@@ -105,7 +114,7 @@ class FileListViewModel @Inject constructor(
      */
     fun openRemoteConnection(id: String) {
         viewModelScope.launch {
-            _state.value = _state.value.copy(isLoading = true, error = null)
+            _state.value = _state.value.copy(isLoading = true, error = null, remoteNotice = null)
             val connection = remoteConnections.get(id)
             if (connection == null) {
                 _state.value = _state.value.copy(isLoading = false, error = "Server not found")
@@ -113,7 +122,22 @@ class FileListViewModel @Inject constructor(
             }
             try {
                 val opened = remoteConnector.open(connection)
+                val label = connection.name.ifBlank { "${connection.protocol.displayName} · ${connection.host}" }
+                currentRemoteLabel = label
                 navigateToNode(opened.rootNode, replaceStack = true)
+                val notice = opened.capturedHostKeyFingerprint?.let {
+                    "Pinned host key for ${connection.host} ($it). FileLens will warn you if it ever changes."
+                }
+                if (notice != null) {
+                    _state.value = _state.value.copy(remoteNotice = notice)
+                }
+            } catch (e: com.filelens.commander.vfs.HostKeyMismatchException) {
+                _state.value = _state.value.copy(
+                    isLoading = false,
+                    error = "Host key for ${connection.host} does not match the one FileLens has pinned" +
+                        (e.fingerprint?.let { " (server now offers $it)" } ?: "") +
+                        ". Refusing to connect — verify the server, then edit the saved entry to clear the pin if you trust the new key."
+                )
             } catch (e: Exception) {
                 _state.value = _state.value.copy(
                     isLoading = false,
@@ -123,12 +147,19 @@ class FileListViewModel @Inject constructor(
         }
     }
 
+    fun clearRemoteNotice() {
+        if (_state.value.remoteNotice != null) {
+            _state.value = _state.value.copy(remoteNotice = null)
+        }
+    }
+
     private fun isUnderHome(path: String): Boolean {
         if (homePath.isEmpty()) return true
         return path == homePath || path.startsWith("$homePath/")
     }
 
     private suspend fun navigateToNode(node: VirtualFileNode, replaceStack: Boolean = false) {
+        if (replaceStack && !isRemoteNode(node)) currentRemoteLabel = null
         _state.value = _state.value.copy(isLoading = true, error = null, searchQuery = "", isSearchActive = false)
         try {
             val files = browseFilesUseCase.listFiles(
@@ -153,7 +184,9 @@ class FileListViewModel @Inject constructor(
                 isInsideArchive = node is ZipEntryNode ||
                     node is com.filelens.commander.vfs.TarEntryNode ||
                     node is com.filelens.commander.vfs.SevenZEntryNode ||
-                    node is com.filelens.commander.vfs.RarEntryNode
+                    node is com.filelens.commander.vfs.RarEntryNode,
+                isRemote = isRemoteNode(node),
+                remoteServerLabel = if (isRemoteNode(node)) currentRemoteLabel ?: node.path else null
             )
             if (node is LocalFileNode) {
                 recentsRepository.recordFolderVisit(

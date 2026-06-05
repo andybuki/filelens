@@ -23,6 +23,7 @@ junrar = "7.5.5"
 commonsNet = "3.11.1"
 jsch = "0.2.21"
 smbj = "0.14.0"
+securityCrypto = "1.1.0-alpha06"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -56,6 +57,7 @@ junrar = { group = "com.github.junrar", name = "junrar", version.ref = "junrar" 
 commons-net = { group = "commons-net", name = "commons-net", version.ref = "commonsNet" }
 jsch = { group = "com.github.mwiede", name = "jsch", version.ref = "jsch" }
 smbj = { group = "com.hierynomus", name = "smbj", version.ref = "smbj" }
+androidx-security-crypto = { group = "androidx.security", name = "security-crypto", version.ref = "securityCrypto" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
