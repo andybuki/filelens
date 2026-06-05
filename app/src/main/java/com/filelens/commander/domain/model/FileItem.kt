@@ -11,7 +11,8 @@ data class FileItem(
     val isReadable: Boolean,
     val isHidden: Boolean = false,
     val fileCategory: FileCategory = FileCategory.UNKNOWN,
-    val extension: String = ""
+    val extension: String = "",
+    val childCount: Int? = null
 )
 
 enum class FileCategory {

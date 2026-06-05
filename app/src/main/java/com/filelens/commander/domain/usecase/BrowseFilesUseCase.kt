@@ -54,6 +54,11 @@ class BrowseFilesUseCase @Inject constructor() {
         } else {
             classifyByExtension(extension)
         }
+        // Cheap shallow probe so the row can tell empty vs populated folders
+        // without listing recursively. Remote / archive nodes leave it null.
+        val childCount = if (node.type == NodeType.DIRECTORY && node is LocalFileNode) {
+            runCatching { node.absoluteFile.list()?.size }.getOrNull()
+        } else null
 
         return FileItem(
             name = node.name,
@@ -64,7 +69,8 @@ class BrowseFilesUseCase @Inject constructor() {
             isReadable = node.isReadable,
             isHidden = isHidden,
             fileCategory = category,
-            extension = extension
+            extension = extension,
+            childCount = childCount
         )
     }
 

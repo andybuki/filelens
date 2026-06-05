@@ -13,22 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.Android
-import androidx.compose.material.icons.filled.Archive
-import androidx.compose.material.icons.filled.AudioFile
-import androidx.compose.material.icons.filled.Code
-import androidx.compose.material.icons.filled.Description
-import androidx.compose.material.icons.filled.Folder
-import androidx.compose.material.icons.filled.FontDownload
-import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.filled.PictureAsPdf
-import androidx.compose.material.icons.filled.Slideshow
-import androidx.compose.material.icons.filled.Storage
-import androidx.compose.material.icons.filled.TableChart
-import androidx.compose.material.icons.filled.Terminal
-import androidx.compose.material.icons.filled.VideoFile
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -39,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
@@ -50,13 +34,10 @@ import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.FileItem
 import com.filelens.commander.domain.model.RiskSeverity
 import com.filelens.commander.domain.model.SizeUnits
-import com.filelens.commander.ui.theme.FlBlue
 import com.filelens.commander.ui.theme.FlBlue50
 import com.filelens.commander.ui.theme.FlBorder
 import com.filelens.commander.ui.theme.FlInk
 import com.filelens.commander.ui.theme.FlMuted
-import com.filelens.commander.ui.theme.FlSurface3
-import com.filelens.commander.ui.theme.FlText2
 import com.filelens.commander.ui.theme.MonoSmall
 import com.filelens.commander.ui.theme.RiskDanger
 import com.filelens.commander.ui.theme.RiskInfo
@@ -75,9 +56,6 @@ fun FileListItem(
     riskSeverity: RiskSeverity? = null
 ) {
     val isDir = item.fileCategory == FileCategory.DIRECTORY
-    val icon = iconForCategory(item.fileCategory)
-    val tileBg = if (isDir) FlBlue50 else FlSurface3
-    val tileTint = if (isDir) FlBlue else FlText2
     val rowAlpha = if (item.isHidden) 0.55f else 1f
     val sizeUnits = LocalSizeUnits.current
 
@@ -102,20 +80,11 @@ fun FileListItem(
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp, vertical = 12.dp)
         ) {
-            Box(
-                modifier = Modifier
-                    .size(42.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(tileBg),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = item.fileCategory.name,
-                    tint = tileTint,
-                    modifier = Modifier.size(22.dp)
-                )
-            }
+            CategoryTile(
+                category = item.fileCategory,
+                extension = item.extension,
+                childCount = item.childCount
+            )
             Spacer(modifier = Modifier.width(14.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
@@ -178,27 +147,6 @@ private fun SeverityDot(severity: RiskSeverity) {
     )
 }
 
-private fun iconForCategory(category: FileCategory): ImageVector {
-    return when (category) {
-        FileCategory.DIRECTORY -> Icons.Filled.Folder
-        FileCategory.IMAGE -> Icons.Filled.Image
-        FileCategory.VIDEO -> Icons.Filled.VideoFile
-        FileCategory.AUDIO -> Icons.Filled.AudioFile
-        FileCategory.DOCUMENT -> Icons.Filled.Description
-        FileCategory.SPREADSHEET -> Icons.Filled.TableChart
-        FileCategory.PRESENTATION -> Icons.Filled.Slideshow
-        FileCategory.ARCHIVE -> Icons.Filled.Archive
-        FileCategory.CODE -> Icons.Filled.Code
-        FileCategory.TEXT -> Icons.Filled.Description
-        FileCategory.PDF -> Icons.Filled.PictureAsPdf
-        FileCategory.APK -> Icons.Filled.Android
-        FileCategory.DATABASE -> Icons.Filled.Storage
-        FileCategory.FONT -> Icons.Filled.FontDownload
-        FileCategory.EXECUTABLE -> Icons.Filled.Terminal
-        FileCategory.UNKNOWN -> Icons.AutoMirrored.Filled.InsertDriveFile
-    }
-}
-
 private fun buildA11yDescription(
     item: FileItem,
     units: SizeUnits,
@@ -208,7 +156,15 @@ private fun buildA11yDescription(
     val parts = mutableListOf<String>()
     val kind = if (item.fileCategory == FileCategory.DIRECTORY) "Folder" else "File"
     parts += "$kind ${item.name}"
-    if (item.fileCategory != FileCategory.DIRECTORY) {
+    if (item.fileCategory == FileCategory.DIRECTORY) {
+        item.childCount?.let { count ->
+            parts += when (count) {
+                0 -> "empty"
+                1 -> "1 item"
+                else -> "$count items"
+            }
+        }
+    } else {
         item.size?.let { parts += formatFileSize(it, units) }
     }
     item.lastModified?.let { parts += "modified ${formatDate(it)}" }
@@ -228,7 +184,12 @@ private fun buildA11yDescription(
 
 private fun buildSubtitle(item: FileItem, units: SizeUnits): String {
     if (item.fileCategory == FileCategory.DIRECTORY) {
-        return item.lastModified?.let { formatDate(it) } ?: ""
+        return when (val count = item.childCount) {
+            null -> item.lastModified?.let { formatDate(it) } ?: ""
+            0 -> "Empty"
+            1 -> "1 item"
+            else -> "$count items"
+        }
     }
     val parts = mutableListOf<String>()
     item.size?.let { parts.add(formatFileSize(it, units)) }
