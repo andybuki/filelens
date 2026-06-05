@@ -28,6 +28,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -259,16 +261,14 @@ private fun SolidArt(icon: ImageVector) {
     }
 }
 
-private fun Modifier.drawDashedBorder(): Modifier = this.then(
-    androidx.compose.ui.draw.drawBehind {
-        val stroke = Stroke(
-            width = 2.dp.toPx(),
-            pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
-        )
-        drawRoundRect(
-            color = FlBorder2,
-            style = stroke,
-            cornerRadius = androidx.compose.ui.geometry.CornerRadius(24.dp.toPx(), 24.dp.toPx())
-        )
-    }
-)
+private fun Modifier.drawDashedBorder(): Modifier = this.drawBehind {
+    val stroke = Stroke(
+        width = 2.dp.toPx(),
+        pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
+    )
+    drawRoundRect(
+        color = FlBorder2,
+        style = stroke,
+        cornerRadius = CornerRadius(24.dp.toPx(), 24.dp.toPx())
+    )
+}
