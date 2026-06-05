@@ -26,7 +26,12 @@ data class RemoteConnection(
     val shareName: String,
     val anonymous: Boolean,
     val ftpPassive: Boolean,
-    val createdAt: Long
+    val createdAt: Long,
+    /**
+     * Pinned SFTP host key in `keyType base64key` form. Empty means the next
+     * connect runs in trust-on-first-use mode and will save whatever it sees.
+     */
+    val expectedHostKey: String = ""
 ) {
     val effectivePort: Int get() = if (port > 0) port else protocol.defaultPort
 

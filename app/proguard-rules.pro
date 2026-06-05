@@ -32,3 +32,5 @@
 -keep class org.bouncycastle.** { *; }
 -dontwarn org.bouncycastle.**
 -dontwarn javax.naming.**
+-dontwarn javax.el.**
+-dontwarn net.engio.**

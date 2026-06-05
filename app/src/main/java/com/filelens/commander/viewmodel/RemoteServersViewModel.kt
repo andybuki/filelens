@@ -25,8 +25,11 @@ class RemoteServersViewModel @Inject constructor(
         initialValue = emptyList()
     )
 
-    fun save(draft: RemoteConnection) {
-        viewModelScope.launch { repository.upsert(draft) }
+    fun save(draft: RemoteConnection, clearHostKey: Boolean = false) {
+        viewModelScope.launch {
+            val saved = repository.upsert(draft)
+            if (clearHostKey) repository.clearHostKey(saved.id)
+        }
     }
 
     fun remove(id: String) {
