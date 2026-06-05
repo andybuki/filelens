@@ -8,7 +8,7 @@ import androidx.compose.ui.text.googlefonts.Font
 import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
-import com.filelens.commander.R
+import app.com.filelens.R
 
 // =============================================================================
 // Fonts
