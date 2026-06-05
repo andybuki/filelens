@@ -1,19 +1,20 @@
 package com.filelens.commander.ui.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.Archive
 import androidx.compose.material.icons.filled.AudioFile
@@ -22,15 +23,13 @@ import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.FontDownload
 import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.filled.InsertDriveFile
 import androidx.compose.material.icons.filled.PictureAsPdf
+import androidx.compose.material.icons.filled.Slideshow
 import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.TableChart
 import androidx.compose.material.icons.filled.Terminal
 import androidx.compose.material.icons.filled.VideoFile
-import androidx.compose.material.icons.filled.Slideshow
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -51,7 +50,17 @@ import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.FileItem
 import com.filelens.commander.domain.model.RiskSeverity
 import com.filelens.commander.domain.model.SizeUnits
-import com.filelens.commander.ui.theme.*
+import com.filelens.commander.ui.theme.FlBlue
+import com.filelens.commander.ui.theme.FlBlue50
+import com.filelens.commander.ui.theme.FlBorder
+import com.filelens.commander.ui.theme.FlInk
+import com.filelens.commander.ui.theme.FlMuted
+import com.filelens.commander.ui.theme.FlSurface3
+import com.filelens.commander.ui.theme.FlText2
+import com.filelens.commander.ui.theme.MonoSmall
+import com.filelens.commander.ui.theme.RiskDanger
+import com.filelens.commander.ui.theme.RiskInfo
+import com.filelens.commander.ui.theme.RiskWarning
 import com.filelens.commander.ui.util.LocalSizeUnits
 import com.filelens.commander.ui.util.formatFileSize
 
@@ -65,104 +74,92 @@ fun FileListItem(
     onLongClick: (() -> Unit)? = null,
     riskSeverity: RiskSeverity? = null
 ) {
-    val (icon, tint) = iconForCategory(item.fileCategory)
-    val rowAlpha = if (item.isHidden) 0.55f else 1f
     val isDir = item.fileCategory == FileCategory.DIRECTORY
-    val showExtBadge = !isDir && item.fileCategory != FileCategory.UNKNOWN && item.extension.isNotEmpty()
+    val icon = iconForCategory(item.fileCategory)
+    val tileBg = if (isDir) FlBlue50 else FlSurface3
+    val tileTint = if (isDir) FlBlue else FlText2
+    val rowAlpha = if (item.isHidden) 0.55f else 1f
     val sizeUnits = LocalSizeUnits.current
 
     val a11y = buildA11yDescription(item, sizeUnits, riskSeverity, isSelected)
-    Row(
+
+    Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 2.dp)
-            .height(androidx.compose.foundation.layout.IntrinsicSize.Min)
-            .clip(RoundedCornerShape(11.dp))
-            .background(if (isSelected) FlAccentTint2 else Color.Transparent)
-            .combinedClickable(
-                onClick = onClick,
-                onLongClick = onLongClick
-            )
+            .padding(horizontal = 8.dp, vertical = 1.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .background(if (isSelected) FlBlue50 else Color.Transparent)
+            .combinedClickable(onClick = onClick, onLongClick = onLongClick)
             .alpha(rowAlpha)
-            // Merge child Text/Icon descendants so TalkBack reads one row at a
-            // time instead of stepping through name, size, badge, dot.
             .semantics(mergeDescendants = true) {
                 contentDescription = a11y
                 role = Role.Button
-            },
-        verticalAlignment = Alignment.CenterVertically
+            }
     ) {
-        if (isSelected) {
-            Box(
-                modifier = Modifier
-                    .width(2.dp)
-                    .fillMaxHeight()
-                    .background(FlAccent)
-            )
-        }
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 11.dp)
+                .padding(horizontal = 12.dp, vertical = 12.dp)
         ) {
             Box(
                 modifier = Modifier
-                    .size(34.dp)
-                    .clip(RoundedCornerShape(9.dp))
-                    .background(tint.copy(alpha = 0.14f)),
+                    .size(42.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(tileBg),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = icon,
                     contentDescription = item.fileCategory.name,
-                    tint = tint,
-                    modifier = Modifier.size(19.dp)
+                    tint = tileTint,
+                    modifier = Modifier.size(22.dp)
                 )
             }
-            Spacer(modifier = Modifier.width(12.dp))
+            Spacer(modifier = Modifier.width(14.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = item.name,
-                    style = MaterialTheme.typography.titleSmall,
+                    style = MaterialTheme.typography.titleSmall.copy(color = FlInk),
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    color = if (isSelected) FlAccentBright else MaterialTheme.colorScheme.onSurface
+                    overflow = TextOverflow.Ellipsis
                 )
                 val subtitle = buildSubtitle(item, sizeUnits)
                 if (subtitle.isNotEmpty()) {
+                    val subtitleStyle = if (isDir) {
+                        MaterialTheme.typography.bodySmall.copy(color = FlMuted)
+                    } else {
+                        MonoSmall.copy(color = FlMuted)
+                    }
                     Text(
                         text = subtitle,
-                        style = MonoSmall,
-                        color = FlInk3,
+                        style = subtitleStyle,
                         maxLines = 1,
                         modifier = Modifier.padding(top = 2.dp)
                     )
                 }
             }
-            if (showExtBadge) {
-                Spacer(modifier = Modifier.width(8.dp))
-                ExtBadge(extension = item.extension, tint = tint)
-            }
             if (riskSeverity != null) {
                 Spacer(modifier = Modifier.width(8.dp))
                 SeverityDot(severity = riskSeverity)
             }
+            if (isDir) {
+                Spacer(modifier = Modifier.width(8.dp))
+                Icon(
+                    Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                    contentDescription = null,
+                    tint = FlMuted,
+                    modifier = Modifier.size(18.dp)
+                )
+            }
+        }
+        if (!isSelected) {
+            HorizontalDivider(
+                color = FlBorder,
+                modifier = Modifier.padding(start = 68.dp, end = 12.dp)
+            )
         }
     }
-}
-
-@Composable
-private fun ExtBadge(extension: String, tint: Color) {
-    Text(
-        text = extension.uppercase(),
-        style = MaterialTheme.typography.labelSmall,
-        color = tint,
-        modifier = Modifier
-            .clip(RoundedCornerShape(5.dp))
-            .background(tint.copy(alpha = 0.16f))
-            .padding(horizontal = 5.dp, vertical = 2.dp)
-    )
 }
 
 @Composable
@@ -174,31 +171,31 @@ private fun SeverityDot(severity: RiskSeverity) {
     }
     Box(
         modifier = Modifier
-            .size(8.dp)
+            .size(9.dp)
             .clip(RoundedCornerShape(50))
             .background(color)
             .semantics { contentDescription = label }
     )
 }
 
-private fun iconForCategory(category: FileCategory): Pair<ImageVector, Color> {
+private fun iconForCategory(category: FileCategory): ImageVector {
     return when (category) {
-        FileCategory.DIRECTORY -> Icons.Filled.Folder to CategoryDirectory
-        FileCategory.IMAGE -> Icons.Filled.Image to CategoryImage
-        FileCategory.VIDEO -> Icons.Filled.VideoFile to CategoryVideo
-        FileCategory.AUDIO -> Icons.Filled.AudioFile to CategoryAudio
-        FileCategory.DOCUMENT -> Icons.Filled.Description to CategoryDocument
-        FileCategory.SPREADSHEET -> Icons.Filled.TableChart to CategorySpreadsheet
-        FileCategory.PRESENTATION -> Icons.Filled.Slideshow to CategoryPresentation
-        FileCategory.ARCHIVE -> Icons.Filled.Archive to CategoryArchive
-        FileCategory.CODE -> Icons.Filled.Code to CategoryCode
-        FileCategory.TEXT -> Icons.Filled.Description to CategoryText
-        FileCategory.PDF -> Icons.Filled.PictureAsPdf to CategoryPdf
-        FileCategory.APK -> Icons.Filled.Android to CategoryApk
-        FileCategory.DATABASE -> Icons.Filled.Storage to CategoryDatabase
-        FileCategory.FONT -> Icons.Filled.FontDownload to CategoryFont
-        FileCategory.EXECUTABLE -> Icons.Filled.Terminal to CategoryExecutable
-        FileCategory.UNKNOWN -> Icons.AutoMirrored.Filled.InsertDriveFile to CategoryUnknown
+        FileCategory.DIRECTORY -> Icons.Filled.Folder
+        FileCategory.IMAGE -> Icons.Filled.Image
+        FileCategory.VIDEO -> Icons.Filled.VideoFile
+        FileCategory.AUDIO -> Icons.Filled.AudioFile
+        FileCategory.DOCUMENT -> Icons.Filled.Description
+        FileCategory.SPREADSHEET -> Icons.Filled.TableChart
+        FileCategory.PRESENTATION -> Icons.Filled.Slideshow
+        FileCategory.ARCHIVE -> Icons.Filled.Archive
+        FileCategory.CODE -> Icons.Filled.Code
+        FileCategory.TEXT -> Icons.Filled.Description
+        FileCategory.PDF -> Icons.Filled.PictureAsPdf
+        FileCategory.APK -> Icons.Filled.Android
+        FileCategory.DATABASE -> Icons.Filled.Storage
+        FileCategory.FONT -> Icons.Filled.FontDownload
+        FileCategory.EXECUTABLE -> Icons.Filled.Terminal
+        FileCategory.UNKNOWN -> Icons.AutoMirrored.Filled.InsertDriveFile
     }
 }
 

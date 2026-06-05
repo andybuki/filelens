@@ -10,55 +10,61 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
-private val FlDarkColorScheme = darkColorScheme(
-    primary = FlAccent,
+// Minimal light scheme: navy header lives outside the Material color roles, so
+// the scheme itself is anchored on white surfaces + the blue primary accent.
+private val FlLightColorScheme = lightColorScheme(
+    primary = FlBlue,
     onPrimary = FlOnAccent,
-    primaryContainer = FlAccentPress,
-    onPrimaryContainer = FlInk,
-    secondary = FlAccentBright,
+    primaryContainer = FlBlue50,
+    onPrimaryContainer = FlBlue900,
+    secondary = FlBlueDark,
     onSecondary = FlOnAccent,
     secondaryContainer = FlSurface3,
     onSecondaryContainer = FlInk,
-    tertiary = FlInk2,
-    onTertiary = FlBg,
-    background = FlBg,
+    tertiary = FlNavy,
+    onTertiary = FlOnAccent,
+    background = FlSurface,
     onBackground = FlInk,
     surface = FlSurface,
     onSurface = FlInk,
-    surfaceVariant = FlSurface2,
-    onSurfaceVariant = FlInk2,
-    surfaceTint = FlAccent,
-    inverseSurface = FlInk,
-    inverseOnSurface = FlBg,
+    surfaceVariant = FlSurface3,
+    onSurfaceVariant = FlText,
+    surfaceTint = FlBlue,
     error = RiskDanger,
     onError = FlOnAccent,
-    errorContainer = FlSurface2,
+    errorContainer = RiskDangerTint,
     onErrorContainer = RiskDanger,
     outline = FlBorder,
-    outlineVariant = FlBorder2,
-    scrim = FlBg
+    outlineVariant = FlBorder2
 )
 
-private val FlLightColorScheme = lightColorScheme(
-    primary = FlAccentLight,
+private val FlDarkColorScheme = darkColorScheme(
+    primary = FlAccentDark,
     onPrimary = FlOnAccent,
-    primaryContainer = FlAccentPressLight,
-    onPrimaryContainer = FlInkLight,
-    secondary = FlAccentBrightLight,
+    primaryContainer = FlAccentPressDark,
+    onPrimaryContainer = FlInkDark,
+    secondary = FlAccentBrightDark,
     onSecondary = FlOnAccent,
-    secondaryContainer = FlSurface3Light,
-    onSecondaryContainer = FlInkLight,
-    background = FlBgLight,
-    onBackground = FlInkLight,
-    surface = FlSurfaceLight,
-    onSurface = FlInkLight,
-    surfaceVariant = FlSurface2Light,
-    onSurfaceVariant = FlInk2Light,
-    surfaceTint = FlAccentLight,
-    error = RiskDangerLight,
+    secondaryContainer = FlSurface3Dark,
+    onSecondaryContainer = FlInkDark,
+    tertiary = FlInk2Dark,
+    onTertiary = FlBgDark,
+    background = FlBgDark,
+    onBackground = FlInkDark,
+    surface = FlSurfaceDark,
+    onSurface = FlInkDark,
+    surfaceVariant = FlSurface2Dark,
+    onSurfaceVariant = FlInk2Dark,
+    surfaceTint = FlAccentDark,
+    inverseSurface = FlInkDark,
+    inverseOnSurface = FlBgDark,
+    error = RiskDanger,
     onError = FlOnAccent,
-    outline = FlBorderLight,
-    outlineVariant = FlBorder2Light
+    errorContainer = FlSurface2Dark,
+    onErrorContainer = RiskDanger,
+    outline = FlBorderDark,
+    outlineVariant = FlBorder2Dark,
+    scrim = FlBgDark
 )
 
 @Composable

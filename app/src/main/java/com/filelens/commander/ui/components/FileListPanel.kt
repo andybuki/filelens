@@ -1,8 +1,8 @@
 package com.filelens.commander.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -18,20 +18,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.ui.draw.clip
-import com.filelens.commander.ui.theme.Eyebrow
-import com.filelens.commander.ui.theme.FlAccent
-import com.filelens.commander.ui.theme.FlInk2
-import com.filelens.commander.ui.theme.FlInk3
-import com.filelens.commander.ui.theme.FlOnAccent
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.BookmarkAdd
@@ -43,15 +36,15 @@ import androidx.compose.material.icons.filled.NorthWest
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.SwapVert
-import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material.icons.filled.TravelExplore
+import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material.icons.filled.Upload
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -60,8 +53,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -71,9 +62,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.selected
@@ -84,6 +77,16 @@ import com.filelens.commander.domain.model.FileItem
 import com.filelens.commander.domain.model.SortDirection
 import com.filelens.commander.domain.model.SortField
 import com.filelens.commander.domain.model.SortOrder
+import com.filelens.commander.ui.theme.FlMuted
+import com.filelens.commander.ui.theme.FlNavy
+import com.filelens.commander.ui.theme.FlOnAccent
+import com.filelens.commander.ui.theme.FlSurface
+import com.filelens.commander.ui.theme.FlSurface3
+import com.filelens.commander.ui.theme.FlText
+import com.filelens.commander.ui.theme.FlText2
+
+private val HeaderInk = FlOnAccent
+private val HeaderInk2 = Color(0xFFE5E7EB)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -128,322 +131,323 @@ fun FileListPanel(
     remoteServerLabel: String? = null,
     modifier: Modifier = Modifier
 ) {
+    Box(modifier = modifier.fillMaxSize().background(FlSurface)) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            MinimalHeader(
+                showHidden = showHidden,
+                isSearchActive = isSearchActive,
+                isRoot = isRoot,
+                currentPath = currentPath,
+                homePath = homePath,
+                isRemote = isRemote,
+                remoteServerLabel = remoteServerLabel,
+                onToggleSearch = { onSearchActiveChanged(!isSearchActive) },
+                onToggleHidden = onToggleHidden,
+                onBatchScan = onBatchScan,
+                onFolderDashboard = onFolderDashboard,
+                onFindDuplicates = onFindDuplicates,
+                onBookmarkFolder = onBookmarkFolder,
+                onShowBookmarks = onShowBookmarks,
+                onShowRecents = onShowRecents,
+                onOpenSettings = onOpenSettings,
+                onNavigateUp = onNavigateUp,
+                onNavigateToPath = onNavigateToPath
+            )
+
+            SelectionBar(
+                selectedCount = selectedPaths.size,
+                canCompare = canCompareSelection,
+                onClear = onClearSelection,
+                onCompare = onCompareSelection,
+                canBatchRename = canBatchRename,
+                onBatchRename = onBatchRenameSelection
+            )
+
+            AnimatedVisibility(
+                visible = isSearchActive,
+                enter = expandVertically(
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioMediumBouncy,
+                        stiffness = Spring.StiffnessMediumLow
+                    )
+                ) + fadeIn(),
+                exit = shrinkVertically() + fadeOut()
+            ) {
+                MinimalSearchBar(
+                    query = searchQuery,
+                    onQueryChange = onSearchQueryChanged,
+                    onDeepSearch = { onSearchRecursive(searchQuery) }
+                )
+            }
+
+            SortTabs(
+                sortOrder = sortOrder,
+                onSortChanged = onSortChanged,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+            )
+
+            // Active-panel indicator (dual-pane only). Minimal design is single
+            // pane, so on phone this stays a hairline divider.
+            if (isActive) {
+                HorizontalDivider(color = MaterialTheme.colorScheme.primary, thickness = 1.5.dp)
+            } else {
+                HorizontalDivider(color = MaterialTheme.colorScheme.outline)
+            }
+
+            when {
+                errorMessage != null && files.isEmpty() -> {
+                    ErrorState(message = errorMessage, onRetry = onRefresh)
+                }
+                isSearching -> {
+                    LoadingState(label = "Searching…")
+                }
+                isLoading -> {
+                    FileListSkeleton()
+                }
+                files.isEmpty() -> {
+                    if (isSearchActive && searchQuery.isNotEmpty()) {
+                        NoResultsState(
+                            query = searchQuery,
+                            onClear = { onSearchQueryChanged("") }
+                        )
+                    } else {
+                        EmptyState(
+                            headline = "This folder is empty",
+                            subtitle = "Nothing here yet. Add files, or import a statement to inspect it before opening.",
+                            actionLabel = "Import a file",
+                            actionIcon = Icons.Filled.Upload,
+                            onAction = onBatchScan
+                        )
+                    }
+                }
+                else -> {
+                    PullToRefreshBox(
+                        isRefreshing = false,
+                        onRefresh = onRefresh,
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        LazyColumn(modifier = Modifier.fillMaxSize()) {
+                            items(files, key = { it.path }) { file ->
+                                val multiSelected = file.path in selectedPaths
+                                FileListItem(
+                                    item = file,
+                                    isSelected = multiSelected || file.path == selectedFilePath,
+                                    onClick = { onFileClick(file) },
+                                    onLongClick = { onFileLongClick(file) }
+                                )
+                            }
+                            item("fab-spacer") {
+                                Spacer(modifier = Modifier.height(96.dp))
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Circular blue FAB — primary import/scan action.
+        if (files.isNotEmpty()) {
+            FloatingActionButton(
+                onClick = onBatchScan,
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = FlOnAccent,
+                shape = RoundedCornerShape(percent = 50),
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(end = 18.dp, bottom = 22.dp)
+                    .size(56.dp)
+            ) {
+                Icon(Icons.Filled.Upload, contentDescription = "Scan folder")
+            }
+        }
+    }
+}
+
+@Composable
+private fun MinimalHeader(
+    showHidden: Boolean,
+    isSearchActive: Boolean,
+    isRoot: Boolean,
+    currentPath: String,
+    homePath: String,
+    isRemote: Boolean,
+    remoteServerLabel: String?,
+    onToggleSearch: () -> Unit,
+    onToggleHidden: () -> Unit,
+    onBatchScan: () -> Unit,
+    onFolderDashboard: () -> Unit,
+    onFindDuplicates: () -> Unit,
+    onBookmarkFolder: () -> Unit,
+    onShowBookmarks: () -> Unit,
+    onShowRecents: () -> Unit,
+    onOpenSettings: () -> Unit,
+    onNavigateUp: () -> Unit,
+    onNavigateToPath: (String) -> Unit
+) {
     var showMenu by remember { mutableStateOf(false) }
 
-    Box(modifier = modifier.fillMaxSize()) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        TopAppBar(
-            title = {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(
-                        modifier = Modifier
-                            .size(32.dp)
-                            .clip(RoundedCornerShape(10.dp))
-                            .background(FlAccent),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            Icons.Filled.TravelExplore,
-                            contentDescription = null,
-                            tint = FlOnAccent,
-                            modifier = Modifier.size(19.dp)
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(11.dp))
-                    Column {
-                        Text(
-                            text = "FileLens",
-                            style = MaterialTheme.typography.titleLarge
-                        )
-                        if (isRemote && !remoteServerLabel.isNullOrBlank()) {
-                            Text(
-                                text = "Remote · $remoteServerLabel",
-                                style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.primary,
-                                maxLines = 1
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(FlNavy)
+            .padding(start = 16.dp, end = 8.dp, top = 6.dp, bottom = 12.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(
+                modifier = Modifier
+                    .size(30.dp)
+                    .clip(RoundedCornerShape(9.dp))
+                    .background(MaterialTheme.colorScheme.primary),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    Icons.Filled.TravelExplore,
+                    contentDescription = null,
+                    tint = HeaderInk,
+                    modifier = Modifier.size(18.dp)
+                )
+            }
+            Spacer(modifier = Modifier.width(12.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = "FileLens",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = HeaderInk
+                )
+                if (isRemote && !remoteServerLabel.isNullOrBlank()) {
+                    Text(
+                        text = "Remote · $remoteServerLabel",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.primary,
+                        maxLines = 1
+                    )
+                }
+            }
+            HeaderIconButton(onClick = onToggleSearch) {
+                Icon(
+                    if (isSearchActive) Icons.Filled.Close else Icons.Filled.Search,
+                    contentDescription = if (isSearchActive) "Close search" else "Search",
+                    tint = HeaderInk2
+                )
+            }
+            HeaderIconButton(onClick = { showMenu = true }) {
+                Icon(Icons.Filled.MoreVert, contentDescription = "More options", tint = HeaderInk2)
+            }
+            DropdownMenu(
+                expanded = showMenu,
+                onDismissRequest = { showMenu = false }
+            ) {
+                DropdownMenuItem(
+                    text = {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                if (showHidden) Icons.Filled.VisibilityOff else Icons.Filled.Visibility,
+                                contentDescription = null
                             )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(if (showHidden) "Hide hidden files" else "Show hidden files")
                         }
-                    }
-                }
-            },
-            navigationIcon = {},
-            actions = {
-                IconButton(onClick = { onSearchActiveChanged(!isSearchActive) }) {
-                    Icon(Icons.Filled.Search, contentDescription = "Search")
-                }
+                    },
+                    onClick = { onToggleHidden(); showMenu = false }
+                )
+                DropdownMenuItem(
+                    text = {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Filled.Shield, contentDescription = null)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("Scan folder for risks")
+                        }
+                    },
+                    onClick = { onBatchScan(); showMenu = false }
+                )
+                DropdownMenuItem(
+                    text = {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Filled.Shield, contentDescription = null)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("Analyze folder")
+                        }
+                    },
+                    onClick = { onFolderDashboard(); showMenu = false }
+                )
+                DropdownMenuItem(
+                    text = {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Filled.Shield, contentDescription = null)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("Find duplicates here")
+                        }
+                    },
+                    onClick = { onFindDuplicates(); showMenu = false }
+                )
+                DropdownMenuItem(
+                    text = {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Filled.BookmarkAdd, contentDescription = null)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("Bookmark this folder")
+                        }
+                    },
+                    onClick = { onBookmarkFolder(); showMenu = false }
+                )
+                DropdownMenuItem(
+                    text = {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Filled.Bookmarks, contentDescription = null)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("Show bookmarks")
+                        }
+                    },
+                    onClick = { onShowBookmarks(); showMenu = false }
+                )
+                DropdownMenuItem(
+                    text = {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Filled.History, contentDescription = null)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("Recent")
+                        }
+                    },
+                    onClick = { onShowRecents(); showMenu = false }
+                )
+            }
+            HeaderIconButton(onClick = onOpenSettings) {
+                Icon(Icons.Filled.Tune, contentDescription = "Settings", tint = HeaderInk2)
+            }
+        }
 
-                IconButton(onClick = { showMenu = true }) {
-                    Icon(Icons.Filled.MoreVert, contentDescription = "More options")
-                }
-                DropdownMenu(
-                    expanded = showMenu,
-                    onDismissRequest = { showMenu = false }
-                ) {
-                    DropdownMenuItem(
-                        text = {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(
-                                    if (showHidden) Icons.Filled.VisibilityOff else Icons.Filled.Visibility,
-                                    contentDescription = null
-                                )
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text(if (showHidden) "Hide hidden files" else "Show hidden files")
-                            }
-                        },
-                        onClick = {
-                            onToggleHidden()
-                            showMenu = false
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(Icons.Filled.Shield, contentDescription = null)
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text("Scan folder for risks")
-                            }
-                        },
-                        onClick = {
-                            onBatchScan()
-                            showMenu = false
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(Icons.Filled.Shield, contentDescription = null)
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text("Analyze folder")
-                            }
-                        },
-                        onClick = {
-                            onFolderDashboard()
-                            showMenu = false
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(Icons.Filled.Shield, contentDescription = null)
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text("Find duplicates here")
-                            }
-                        },
-                        onClick = {
-                            onFindDuplicates()
-                            showMenu = false
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(Icons.Filled.BookmarkAdd, contentDescription = null)
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text("Bookmark this folder")
-                            }
-                        },
-                        onClick = {
-                            onBookmarkFolder()
-                            showMenu = false
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(Icons.Filled.Bookmarks, contentDescription = null)
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text("Show bookmarks")
-                            }
-                        },
-                        onClick = {
-                            onShowBookmarks()
-                            showMenu = false
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(Icons.Filled.History, contentDescription = null)
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text("Recent")
-                            }
-                        },
-                        onClick = {
-                            onShowRecents()
-                            showMenu = false
-                        }
-                    )
-                }
+        Spacer(modifier = Modifier.height(10.dp))
 
-                IconButton(onClick = onOpenSettings) {
-                    Icon(Icons.Filled.Tune, contentDescription = "Settings")
-                }
-            },
-            // Scaffold above us already applies the status-bar inset, so disable
-            // the TopAppBar's own to avoid a big empty band above the logo.
-            windowInsets = WindowInsets(0),
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.background
-            )
-        )
-
-        SelectionBar(
-            selectedCount = selectedPaths.size,
-            canCompare = canCompareSelection,
-            onClear = onClearSelection,
-            onCompare = onCompareSelection,
-            canBatchRename = canBatchRename,
-            onBatchRename = onBatchRenameSelection
-        )
-
-        // Single small-caps current folder name, à la "DCIM" in the design.
-        // Subfolders below the home root render the relative crumb trail.
-        Breadcrumb(
+        MinimalBreadcrumb(
             currentPath = currentPath,
             homePath = homePath,
             isRoot = isRoot,
             onNavigateUp = onNavigateUp,
             onNavigateToPath = onNavigateToPath
         )
-
-        // Search slides down with a spring; matches the snappier feel of the design.
-        AnimatedVisibility(
-            visible = isSearchActive,
-            enter = expandVertically(
-                animationSpec = spring(
-                    dampingRatio = Spring.DampingRatioMediumBouncy,
-                    stiffness = Spring.StiffnessMediumLow
-                )
-            ) + fadeIn(),
-            exit = shrinkVertically() + fadeOut()
-        ) {
-            val focusRequester = remember { FocusRequester() }
-            LaunchedEffect(isSearchActive) {
-                if (isSearchActive) focusRequester.requestFocus()
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 12.dp, vertical = 6.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                OutlinedTextField(
-                    value = searchQuery,
-                    onValueChange = onSearchQueryChanged,
-                    placeholder = { Text("Search files...") },
-                    singleLine = true,
-                    shape = RoundedCornerShape(12.dp),
-                    modifier = Modifier
-                        .weight(1f)
-                        .focusRequester(focusRequester),
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                    keyboardActions = KeyboardActions(onSearch = { onSearchRecursive(searchQuery) }),
-                    leadingIcon = {
-                        Icon(Icons.Filled.Search, contentDescription = null, tint = FlInk3)
-                    },
-                    trailingIcon = {
-                        if (searchQuery.isNotEmpty()) {
-                            IconButton(onClick = { onSearchQueryChanged("") }) {
-                                Icon(Icons.Filled.Close, contentDescription = "Clear")
-                            }
-                        }
-                    },
-                    colors = OutlinedTextFieldDefaults.colors(),
-                    textStyle = MaterialTheme.typography.bodyMedium
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                TextButton(onClick = { onSearchRecursive(searchQuery) }, enabled = searchQuery.isNotEmpty()) {
-                    Text("Deep")
-                }
-            }
-        }
-
-        SortTabs(
-            sortOrder = sortOrder,
-            onSortChanged = onSortChanged,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 8.dp)
-        )
-
-        // Tablet dual-pane needs a per-panel "active" indicator so it's clear
-        // which side keyboard shortcuts and the inspector act on. On phone the
-        // panel is the only thing on screen, so the colored bar would just be
-        // visual noise — keep a hairline divider there instead.
-        if (isActive) {
-            HorizontalDivider(color = FlAccent, thickness = 1.5.dp)
-        } else {
-            HorizontalDivider(color = MaterialTheme.colorScheme.outline)
-        }
-
-        when {
-            errorMessage != null && files.isEmpty() -> {
-                ErrorState(message = errorMessage, onRetry = onRefresh)
-            }
-            isSearching -> {
-                LoadingState(label = "Searching…")
-            }
-            isLoading -> {
-                FileListSkeleton()
-            }
-            files.isEmpty() -> {
-                if (isSearchActive && searchQuery.isNotEmpty()) {
-                    NoResultsState(
-                        query = searchQuery,
-                        onClear = { onSearchQueryChanged("") }
-                    )
-                } else {
-                    EmptyState(
-                        headline = "Folder is empty",
-                        subtitle = "Nothing to inspect here."
-                    )
-                }
-            }
-            else -> {
-                PullToRefreshBox(
-                    isRefreshing = false,
-                    onRefresh = onRefresh,
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    LazyColumn(modifier = Modifier.fillMaxSize()) {
-                        items(files, key = { it.path }) { file ->
-                            val multiSelected = file.path in selectedPaths
-                            FileListItem(
-                                item = file,
-                                isSelected = multiSelected || file.path == selectedFilePath,
-                                onClick = { onFileClick(file) },
-                                onLongClick = { onFileLongClick(file) }
-                            )
-                        }
-                        item("fab-spacer") {
-                            Spacer(modifier = Modifier.height(96.dp))
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    // Primary action FAB: scans the current folder for risks. Per the design
-    // system this is the one violet square-rounded FAB, not Material's
-    // default circle.
-    FloatingActionButton(
-        onClick = onBatchScan,
-        containerColor = FlAccent,
-        contentColor = FlOnAccent,
-        shape = RoundedCornerShape(17.dp),
-        modifier = Modifier
-            .align(Alignment.BottomEnd)
-            .padding(end = 18.dp, bottom = 22.dp)
-            .size(54.dp)
-    ) {
-        Icon(Icons.Filled.Upload, contentDescription = "Scan folder")
-    }
     }
 }
 
 @Composable
-private fun Breadcrumb(
+private fun HeaderIconButton(
+    onClick: () -> Unit,
+    content: @Composable () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .size(38.dp)
+            .clip(RoundedCornerShape(10.dp))
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center
+    ) {
+        content()
+    }
+}
+
+@Composable
+private fun MinimalBreadcrumb(
     currentPath: String,
     homePath: String,
     isRoot: Boolean,
@@ -451,13 +455,8 @@ private fun Breadcrumb(
     onNavigateToPath: (String) -> Unit
 ) {
     if (currentPath.isEmpty()) return
-
-    // The shared/emulated storage root literally lives at ".../0" — surface
-    // it as "Phone" so the label means something to the user.
     val homeDisplayName = "Phone"
 
-    // Render the path relative to the home root so the user can't navigate
-    // above their starting folder. At home, that's a single label like "Phone".
     val relativeParts: List<String> = when {
         homePath.isEmpty() -> currentPath.split("/").filter { it.isNotEmpty() }
         currentPath == homePath -> listOf(homeDisplayName)
@@ -467,26 +466,19 @@ private fun Breadcrumb(
         else -> currentPath.split("/").filter { it.isNotEmpty() }
     }
 
-    // Keep the trail short on deep paths.
     val maxShown = 4
     val visible = if (relativeParts.size <= maxShown) relativeParts else relativeParts.takeLast(maxShown)
     val truncated = relativeParts.size > visible.size
 
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .padding(bottom = 6.dp, top = 4.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
         if (!isRoot) {
             Box(
                 modifier = Modifier
-                    .size(22.dp)
-                    .clip(RoundedCornerShape(8.dp))
+                    .size(26.dp)
+                    .clip(RoundedCornerShape(7.dp))
                     .clickable(onClick = onNavigateUp)
                     .semantics {
-                        role = androidx.compose.ui.semantics.Role.Button
+                        role = Role.Button
                         contentDescription = "Navigate up"
                     },
                 contentAlignment = Alignment.Center
@@ -494,31 +486,25 @@ private fun Breadcrumb(
                 Icon(
                     Icons.Filled.NorthWest,
                     contentDescription = null,
-                    tint = FlInk3,
+                    tint = HeaderInk2,
                     modifier = Modifier.size(15.dp)
                 )
             }
             Spacer(modifier = Modifier.width(8.dp))
         }
         if (truncated) {
-            Text(
-                text = "…",
-                style = MaterialTheme.typography.bodySmall,
-                color = FlInk3
-            )
+            Text("…", style = MaterialTheme.typography.bodySmall, color = FlMuted)
             Spacer(modifier = Modifier.width(6.dp))
             Icon(
                 Icons.AutoMirrored.Filled.KeyboardArrowRight,
                 contentDescription = null,
-                tint = FlInk3,
+                tint = FlMuted,
                 modifier = Modifier.size(13.dp)
             )
             Spacer(modifier = Modifier.width(6.dp))
         }
         visible.forEachIndexed { index, segment ->
             val isLast = index == visible.lastIndex
-            // Resolve the absolute path for this crumb so navigating to a
-            // mid-trail segment stays anchored under homePath.
             val absoluteIndex = relativeParts.size - visible.size + index
             val targetPath = if (homePath.isNotEmpty() && relativeParts.firstOrNull() == homeDisplayName) {
                 val belowHome = relativeParts.subList(1, absoluteIndex + 1).joinToString("/")
@@ -528,26 +514,85 @@ private fun Breadcrumb(
             }
             if (isLast) {
                 Text(
-                    text = segment.uppercase(),
-                    style = Eyebrow,
-                    color = FlInk2
+                    text = segment,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = HeaderInk2
                 )
             } else {
                 Text(
                     text = segment,
                     style = MaterialTheme.typography.bodySmall,
-                    color = FlInk3,
+                    color = FlMuted,
                     modifier = Modifier.clickable { onNavigateToPath(targetPath) }
                 )
                 Spacer(modifier = Modifier.width(6.dp))
                 Icon(
                     Icons.AutoMirrored.Filled.KeyboardArrowRight,
                     contentDescription = null,
-                    tint = FlInk3,
+                    tint = FlMuted,
                     modifier = Modifier.size(13.dp)
                 )
                 Spacer(modifier = Modifier.width(6.dp))
             }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun MinimalSearchBar(
+    query: String,
+    onQueryChange: (String) -> Unit,
+    onDeepSearch: () -> Unit
+) {
+    val focusRequester = remember { FocusRequester() }
+    LaunchedEffect(Unit) { focusRequester.requestFocus() }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .weight(1f)
+                .clip(RoundedCornerShape(12.dp))
+                .background(FlSurface3)
+                .padding(horizontal = 14.dp, vertical = 4.dp)
+        ) {
+            Icon(Icons.Filled.Search, contentDescription = null, tint = FlText2)
+            Spacer(modifier = Modifier.width(10.dp))
+            OutlinedTextField(
+                value = query,
+                onValueChange = onQueryChange,
+                placeholder = { Text("Search this folder…", color = FlText2) },
+                singleLine = true,
+                modifier = Modifier
+                    .weight(1f)
+                    .focusRequester(focusRequester),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                keyboardActions = KeyboardActions(onSearch = { onDeepSearch() }),
+                trailingIcon = {
+                    if (query.isNotEmpty()) {
+                        IconButton(onClick = { onQueryChange("") }) {
+                            Icon(Icons.Filled.Close, contentDescription = "Clear", tint = FlText2)
+                        }
+                    }
+                },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color.Transparent,
+                    unfocusedBorderColor = Color.Transparent,
+                    disabledBorderColor = Color.Transparent,
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent
+                ),
+                textStyle = MaterialTheme.typography.bodyMedium
+            )
+        }
+        Spacer(modifier = Modifier.width(8.dp))
+        TextButton(onClick = onDeepSearch, enabled = query.isNotEmpty()) {
+            Text("Deep")
         }
     }
 }
@@ -561,7 +606,7 @@ private fun SortTabs(
     Row(
         modifier = modifier
             .clip(RoundedCornerShape(12.dp))
-            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .background(FlSurface3)
             .padding(4.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -579,7 +624,7 @@ private fun SortTabs(
                 modifier = Modifier
                     .weight(1f)
                     .clip(RoundedCornerShape(9.dp))
-                    .background(if (selected) FlAccent else Color.Transparent)
+                    .background(if (selected) MaterialTheme.colorScheme.primary else Color.Transparent)
                     .clickable {
                         val newDirection = if (selected && sortOrder.direction == SortDirection.ASCENDING) {
                             SortDirection.DESCENDING
@@ -590,7 +635,7 @@ private fun SortTabs(
                     }
                     .padding(horizontal = 10.dp, vertical = 7.dp)
                     .semantics(mergeDescendants = true) {
-                        this.role = androidx.compose.ui.semantics.Role.Tab
+                        this.role = Role.Tab
                         this.selected = selected
                         contentDescription = if (selected) "Sort by $label, $directionLabel" else "Sort by $label"
                     },
@@ -600,7 +645,7 @@ private fun SortTabs(
                 Text(
                     text = label,
                     style = MaterialTheme.typography.labelLarge,
-                    color = if (selected) FlOnAccent else FlInk2
+                    color = if (selected) FlOnAccent else FlText
                 )
                 if (selected) {
                     Spacer(modifier = Modifier.width(4.dp))
