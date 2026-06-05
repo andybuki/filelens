@@ -41,6 +41,10 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.filelens.commander.domain.model.FileCategory
@@ -67,6 +71,7 @@ fun FileListItem(
     val showExtBadge = !isDir && item.fileCategory != FileCategory.UNKNOWN && item.extension.isNotEmpty()
     val sizeUnits = LocalSizeUnits.current
 
+    val a11y = buildA11yDescription(item, sizeUnits, riskSeverity, isSelected)
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -78,7 +83,13 @@ fun FileListItem(
                 onClick = onClick,
                 onLongClick = onLongClick
             )
-            .alpha(rowAlpha),
+            .alpha(rowAlpha)
+            // Merge child Text/Icon descendants so TalkBack reads one row at a
+            // time instead of stepping through name, size, badge, dot.
+            .semantics(mergeDescendants = true) {
+                contentDescription = a11y
+                role = Role.Button
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (isSelected) {
@@ -156,16 +167,17 @@ private fun ExtBadge(extension: String, tint: Color) {
 
 @Composable
 private fun SeverityDot(severity: RiskSeverity) {
-    val color = when (severity) {
-        RiskSeverity.DANGER -> RiskDanger
-        RiskSeverity.WARNING -> RiskWarning
-        RiskSeverity.INFO -> RiskInfo
+    val (color, label) = when (severity) {
+        RiskSeverity.DANGER -> RiskDanger to "Danger risk"
+        RiskSeverity.WARNING -> RiskWarning to "Warning risk"
+        RiskSeverity.INFO -> RiskInfo to "Info notice"
     }
     Box(
         modifier = Modifier
             .size(8.dp)
             .clip(RoundedCornerShape(50))
             .background(color)
+            .semantics { contentDescription = label }
     )
 }
 
@@ -188,6 +200,33 @@ private fun iconForCategory(category: FileCategory): Pair<ImageVector, Color> {
         FileCategory.EXECUTABLE -> Icons.Filled.Terminal to CategoryExecutable
         FileCategory.UNKNOWN -> Icons.AutoMirrored.Filled.InsertDriveFile to CategoryUnknown
     }
+}
+
+private fun buildA11yDescription(
+    item: FileItem,
+    units: SizeUnits,
+    severity: RiskSeverity?,
+    isSelected: Boolean
+): String {
+    val parts = mutableListOf<String>()
+    val kind = if (item.fileCategory == FileCategory.DIRECTORY) "Folder" else "File"
+    parts += "$kind ${item.name}"
+    if (item.fileCategory != FileCategory.DIRECTORY) {
+        item.size?.let { parts += formatFileSize(it, units) }
+    }
+    item.lastModified?.let { parts += "modified ${formatDate(it)}" }
+    if (item.extension.isNotEmpty() && item.fileCategory != FileCategory.DIRECTORY) {
+        parts += "${item.extension.uppercase()} file"
+    }
+    severity?.let {
+        parts += when (it) {
+            RiskSeverity.DANGER -> "danger risk"
+            RiskSeverity.WARNING -> "warning risk"
+            RiskSeverity.INFO -> "info notice"
+        }
+    }
+    if (isSelected) parts += "selected"
+    return parts.joinToString(", ")
 }
 
 private fun buildSubtitle(item: FileItem, units: SizeUnits): String {

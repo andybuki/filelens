@@ -32,8 +32,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.isAltPressed
 import androidx.compose.ui.input.key.isCtrlPressed
+import androidx.compose.ui.input.key.isShiftPressed
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
@@ -79,7 +82,8 @@ fun MainScreen(
     batchScanViewModel: BatchScanViewModel = hiltViewModel(),
     folderDashboardViewModel: FolderDashboardViewModel = hiltViewModel(),
     bookmarksViewModel: com.filelens.commander.viewmodel.BookmarksViewModel = hiltViewModel(),
-    recentsViewModel: com.filelens.commander.viewmodel.RecentsViewModel = hiltViewModel()
+    recentsViewModel: com.filelens.commander.viewmodel.RecentsViewModel = hiltViewModel(),
+    remoteOpenBus: com.filelens.commander.data.RemoteOpenBus = androidx.hilt.navigation.compose.hiltViewModel<com.filelens.commander.viewmodel.RemoteOpenBusHolder>().bus
 ) {
     val fileListState by fileListViewModel.state.collectAsStateWithLifecycle()
     val inspectorState by inspectorViewModel.state.collectAsStateWithLifecycle()
@@ -94,6 +98,10 @@ fun MainScreen(
     val mainScope = rememberCoroutineScope()
     var showBookmarksSheet by remember { mutableStateOf(false) }
     var showRecentsSheet by remember { mutableStateOf(false) }
+
+    LaunchedEffect(remoteOpenBus) {
+        remoteOpenBus.events.collect { id -> fileListViewModel.openRemoteConnection(id) }
+    }
 
     val bookmarkCurrentFolder: () -> Unit = {
         val path = fileListState.currentPath
@@ -277,6 +285,9 @@ fun MainScreen(
     val focusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) { focusRequester.requestFocus() }
 
+    val shortcutsViewModel: com.filelens.commander.viewmodel.ShortcutsViewModel = hiltViewModel()
+    val shortcuts by shortcutsViewModel.shortcuts.collectAsStateWithLifecycle()
+
     val selectedNames = fileListState.files
         .filter { it.path in commanderState.selectedPaths }
         .map { it.name }
@@ -336,37 +347,52 @@ fun MainScreen(
             .focusable()
             .onPreviewKeyEvent { event ->
                 if (event.type != KeyEventType.KeyDown) return@onPreviewKeyEvent false
-                when {
-                    event.key == Key.F3 -> {
+                // Delete and Tab stay hardcoded — Delete is a universal "remove"
+                // alias for the configurable delete binding, Tab is reserved
+                // by the focus system.
+                if (event.key == Key.Tab) return@onPreviewKeyEvent true
+                val triggered = matchShortcut(event, shortcuts)
+                if (triggered == null) {
+                    // F8 explicitly aliases the delete key in the default map,
+                    // but if the user remapped Delete somewhere else we still
+                    // want the hardware key to remove the selection.
+                    if (event.key == Key.Delete && commanderState.selectedPaths.isNotEmpty()) {
+                        commanderViewModel.showDialog(DialogType.DELETE)
+                        return@onPreviewKeyEvent true
+                    }
+                    return@onPreviewKeyEvent false
+                }
+                when (triggered) {
+                    com.filelens.commander.domain.model.ShortcutAction.VIEW -> {
                         val first = commanderState.selectedPaths.firstOrNull()
                         val item = fileListState.files.find { it.path == first }
                         if (item != null) inspectorViewModel.selectFile(item)
-                        true
                     }
-                    event.key == Key.F5 -> { commanderViewModel.showDialog(DialogType.COPY); true }
-                    event.key == Key.F6 -> { commanderViewModel.showDialog(DialogType.MOVE); true }
-                    event.key == Key.F7 -> { commanderViewModel.showDialog(DialogType.NEW_FOLDER); true }
-                    event.key == Key.F8 || event.key == Key.Delete -> {
+                    com.filelens.commander.domain.model.ShortcutAction.COPY ->
+                        commanderViewModel.showDialog(DialogType.COPY)
+                    com.filelens.commander.domain.model.ShortcutAction.MOVE ->
+                        commanderViewModel.showDialog(DialogType.MOVE)
+                    com.filelens.commander.domain.model.ShortcutAction.NEW_FOLDER ->
+                        commanderViewModel.showDialog(DialogType.NEW_FOLDER)
+                    com.filelens.commander.domain.model.ShortcutAction.DELETE -> {
                         if (commanderState.selectedPaths.isNotEmpty()) {
                             commanderViewModel.showDialog(DialogType.DELETE)
                         }
-                        true
                     }
-                    event.key == Key.F2 -> { commanderViewModel.showDialog(DialogType.RENAME); true }
-                    event.key == Key.Backspace -> { fileListViewModel.navigateUp(); true }
-                    event.isCtrlPressed && event.key == Key.A -> {
+                    com.filelens.commander.domain.model.ShortcutAction.RENAME ->
+                        commanderViewModel.showDialog(DialogType.RENAME)
+                    com.filelens.commander.domain.model.ShortcutAction.NAVIGATE_UP ->
+                        fileListViewModel.navigateUp()
+                    com.filelens.commander.domain.model.ShortcutAction.SELECT_ALL ->
                         commanderViewModel.selectAll(fileListState.files)
-                        true
-                    }
-                    event.isCtrlPressed && event.key == Key.R -> { refreshCurrentDir(); true }
-                    event.isCtrlPressed && event.key == Key.Z -> {
+                    com.filelens.commander.domain.model.ShortcutAction.REFRESH ->
+                        refreshCurrentDir()
+                    com.filelens.commander.domain.model.ShortcutAction.UNDO -> {
                         commanderViewModel.restoreLast()
                         refreshCurrentDir()
-                        true
                     }
-                    event.key == Key.Tab -> { true }
-                    else -> false
                 }
+                true
             }
     ) {
         if (isExpandedScreen) {
@@ -855,4 +881,23 @@ private fun ExpandedLayout(
             onCompare = triggerCompare
         )
     }
+}
+
+/**
+ * Translate a KeyDown event into a ShortcutAction by walking the binding map.
+ * Returns null when nothing matches so the caller can fall through to its
+ * default handling (e.g. the Delete hardware key alias).
+ */
+private fun matchShortcut(
+    event: KeyEvent,
+    shortcuts: com.filelens.commander.domain.model.ShortcutMap
+): com.filelens.commander.domain.model.ShortcutAction? {
+    val eventKeyName = event.key.toString().substringAfter(':').substringBefore('(').trim()
+    for ((action, binding) in shortcuts) {
+        if (binding.ctrl != event.isCtrlPressed) continue
+        if (binding.shift != event.isShiftPressed) continue
+        if (binding.alt != event.isAltPressed) continue
+        if (binding.key.equals(eventKeyName, ignoreCase = true)) return action
+    }
+    return null
 }

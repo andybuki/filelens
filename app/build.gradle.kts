@@ -41,6 +41,36 @@ android {
     buildFeatures {
         compose = true
     }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
+
+    packaging {
+        resources {
+            // smbj's Bouncy Castle and jsch both ship duplicate META-INF entries;
+            // pick first / drop signing manifests so the merge step succeeds.
+            excludes += setOf(
+                "META-INF/versions/**/OSGI-INF/MANIFEST.MF",
+                "META-INF/DEPENDENCIES",
+                "META-INF/LICENSE",
+                "META-INF/LICENSE.txt",
+                "META-INF/license.txt",
+                "META-INF/NOTICE",
+                "META-INF/NOTICE.txt",
+                "META-INF/notice.txt",
+                "META-INF/ASL2.0",
+                "META-INF/*.kotlin_module",
+                "META-INF/INDEX.LIST",
+                "META-INF/io.netty.versions.properties"
+            )
+            pickFirsts += setOf(
+                "META-INF/services/**"
+            )
+        }
+    }
 }
 
 dependencies {
@@ -69,8 +99,18 @@ dependencies {
     implementation(libs.androidx.exifinterface)
     implementation(libs.androidx.datastore.preferences)
 
+    implementation(libs.commons.compress)
+    implementation(libs.xz)
+    implementation(libs.junrar)
+
+    implementation(libs.commons.net)
+    implementation(libs.jsch)
+    implementation(libs.smbj)
+
     debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.leakcanary.android)
 
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.robolectric)
 }
