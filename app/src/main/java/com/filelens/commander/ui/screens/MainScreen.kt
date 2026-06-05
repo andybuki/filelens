@@ -103,6 +103,14 @@ fun MainScreen(
         remoteOpenBus.events.collect { id -> fileListViewModel.openRemoteConnection(id) }
     }
 
+    LaunchedEffect(fileListState.remoteNotice) {
+        val notice = fileListState.remoteNotice
+        if (!notice.isNullOrBlank()) {
+            mainScope.launch { snackbarHostState.showSnackbar(notice) }
+            fileListViewModel.clearRemoteNotice()
+        }
+    }
+
     val bookmarkCurrentFolder: () -> Unit = {
         val path = fileListState.currentPath
         if (path.isNotEmpty()) {
@@ -604,6 +612,8 @@ private fun CompactLayout(
                 onShowBookmarks = onShowBookmarks,
                 onShowRecents = onShowRecents,
                 onNavigateToPath = { path -> fileListViewModel.navigateTo(path) },
+                isRemote = fileListState.isRemote,
+                remoteServerLabel = fileListState.remoteServerLabel,
                 modifier = Modifier.fillMaxSize()
             )
         }

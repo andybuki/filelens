@@ -106,6 +106,7 @@ dependencies {
     implementation(libs.commons.net)
     implementation(libs.jsch)
     implementation(libs.smbj)
+    implementation(libs.androidx.security.crypto)
 
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.leakcanary.android)

@@ -145,8 +145,8 @@ fun RemoteServersScreen(
         ServerEditorDialog(
             initial = draft,
             onDismiss = { editing = null },
-            onSave = {
-                viewModel.save(it)
+            onSave = { saved, clearHostKey ->
+                viewModel.save(saved, clearHostKey)
                 editing = null
             }
         )
@@ -221,18 +221,20 @@ private fun ServerRow(
 private fun ServerEditorDialog(
     initial: RemoteConnection,
     onDismiss: () -> Unit,
-    onSave: (RemoteConnection) -> Unit
+    onSave: (RemoteConnection, Boolean) -> Unit
 ) {
+    val isEdit = initial.id.isNotBlank()
     var protocol by remember { mutableStateOf(initial.protocol) }
     var name by remember { mutableStateOf(initial.name) }
     var host by remember { mutableStateOf(initial.host) }
     var port by remember { mutableStateOf(initial.port.toString()) }
     var username by remember { mutableStateOf(initial.username) }
-    var password by remember { mutableStateOf(initial.password) }
+    var password by remember { mutableStateOf("") }
     var basePath by remember { mutableStateOf(initial.basePath) }
     var shareName by remember { mutableStateOf(initial.shareName) }
     var anonymous by remember { mutableStateOf(initial.anonymous) }
     var ftpPassive by remember { mutableStateOf(initial.ftpPassive) }
+    var clearPinnedHostKey by remember { mutableStateOf(false) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -297,10 +299,22 @@ private fun ServerEditorDialog(
                     OutlinedTextField(
                         value = password,
                         onValueChange = { password = it },
-                        label = { Text("Password") },
+                        label = { Text(if (isEdit) "Password (leave blank to keep saved)" else "Password") },
                         visualTransformation = PasswordVisualTransformation(),
                         modifier = Modifier.fillMaxWidth()
                     )
+                }
+                if (isEdit && protocol == RemoteProtocol.SFTP) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Checkbox(
+                            checked = clearPinnedHostKey,
+                            onCheckedChange = { clearPinnedHostKey = it }
+                        )
+                        Text(
+                            "Clear pinned host key (next connect re-pins on trust)",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
                 }
                 if (protocol == RemoteProtocol.SMB) {
                     OutlinedTextField(
@@ -335,7 +349,8 @@ private fun ServerEditorDialog(
                             shareName = shareName.trim(),
                             anonymous = anonymous,
                             ftpPassive = ftpPassive
-                        )
+                        ),
+                        clearPinnedHostKey
                     )
                 }
             ) { Text("Save") }

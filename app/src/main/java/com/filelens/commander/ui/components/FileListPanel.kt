@@ -124,6 +124,8 @@ fun FileListPanel(
     onShowRecents: () -> Unit = {},
     onNavigateToPath: (String) -> Unit = {},
     isActive: Boolean = true,
+    isRemote: Boolean = false,
+    remoteServerLabel: String? = null,
     modifier: Modifier = Modifier
 ) {
     var showMenu by remember { mutableStateOf(false) }
@@ -148,10 +150,20 @@ fun FileListPanel(
                         )
                     }
                     Spacer(modifier = Modifier.width(11.dp))
-                    Text(
-                        text = "FileLens",
-                        style = MaterialTheme.typography.titleLarge
-                    )
+                    Column {
+                        Text(
+                            text = "FileLens",
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                        if (isRemote && !remoteServerLabel.isNullOrBlank()) {
+                            Text(
+                                text = "Remote · $remoteServerLabel",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.primary,
+                                maxLines = 1
+                            )
+                        }
+                    }
                 }
             },
             navigationIcon = {},
