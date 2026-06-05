@@ -1,5 +1,6 @@
 package com.filelens.commander.inspector
 
+import android.app.Application
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -15,7 +16,7 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [34])
+@Config(sdk = [34], application = Application::class)
 class EpubInspectorTest {
 
     @Rule @JvmField val tmp = TemporaryFolder()
