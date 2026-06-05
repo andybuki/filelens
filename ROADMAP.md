@@ -353,7 +353,7 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 ## Post-MVP Ideas (Future)
 
 - [ ] Cloud storage browsing (Google Drive, Dropbox via SAF)
-- [ ] FTP/SFTP/SMB remote file browsing
+- [x] FTP/SFTP/SMB remote file browsing
 - [x] Batch rename with patterns
 - [x] File hash verification (download integrity)
 - [x] Duplicate file finder
@@ -361,7 +361,7 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 - [ ] Plugin system for custom inspectors
 - [ ] Root mode for system files
 - [x] Backup/restore support
-- [ ] RAR, 7Z archive navigation (TAR/TAR.GZ done)
+- [x] RAR, 7Z archive navigation (TAR/TAR.GZ done)
 - [x] EPUB inspector (TOC, chapters, cover)
 - [x] Database browser (SQLite tables, queries)
 - [ ] AI-powered file description ("This looks like a bank statement PDF")

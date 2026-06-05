@@ -11,6 +11,7 @@ import androidx.navigation.navArgument
 import com.filelens.commander.ui.screens.CompareScreen
 import com.filelens.commander.ui.screens.DuplicateFinderScreen
 import com.filelens.commander.ui.screens.MainScreen
+import com.filelens.commander.ui.screens.RemoteServersScreen
 import com.filelens.commander.ui.screens.SettingsScreen
 import com.filelens.commander.ui.screens.ShortcutsScreen
 import com.filelens.commander.ui.screens.SqliteBrowserScreen
@@ -22,6 +23,7 @@ object Routes {
     const val DUPLICATES = "duplicates/{root}"
     const val SQLITE = "sqlite/{db}"
     const val SHORTCUTS = "shortcuts"
+    const val REMOTE_SERVERS = "remote_servers"
 
     fun compare(leftPath: String, rightPath: String): String =
         "compare/${Uri.encode(leftPath)}/${Uri.encode(rightPath)}"
@@ -58,11 +60,15 @@ fun FileLensNavGraph(
         composable(Routes.SETTINGS) {
             SettingsScreen(
                 onBack = { navController.popBackStack() },
-                onOpenShortcuts = { navController.navigate(Routes.SHORTCUTS) }
+                onOpenShortcuts = { navController.navigate(Routes.SHORTCUTS) },
+                onOpenRemoteServers = { navController.navigate(Routes.REMOTE_SERVERS) }
             )
         }
         composable(Routes.SHORTCUTS) {
             ShortcutsScreen(onBack = { navController.popBackStack() })
+        }
+        composable(Routes.REMOTE_SERVERS) {
+            RemoteServersScreen(onBack = { navController.popBackStack() })
         }
         composable(
             route = Routes.COMPARE,

@@ -82,7 +82,8 @@ fun MainScreen(
     batchScanViewModel: BatchScanViewModel = hiltViewModel(),
     folderDashboardViewModel: FolderDashboardViewModel = hiltViewModel(),
     bookmarksViewModel: com.filelens.commander.viewmodel.BookmarksViewModel = hiltViewModel(),
-    recentsViewModel: com.filelens.commander.viewmodel.RecentsViewModel = hiltViewModel()
+    recentsViewModel: com.filelens.commander.viewmodel.RecentsViewModel = hiltViewModel(),
+    remoteOpenBus: com.filelens.commander.data.RemoteOpenBus = androidx.hilt.navigation.compose.hiltViewModel<com.filelens.commander.viewmodel.RemoteOpenBusHolder>().bus
 ) {
     val fileListState by fileListViewModel.state.collectAsStateWithLifecycle()
     val inspectorState by inspectorViewModel.state.collectAsStateWithLifecycle()
@@ -97,6 +98,10 @@ fun MainScreen(
     val mainScope = rememberCoroutineScope()
     var showBookmarksSheet by remember { mutableStateOf(false) }
     var showRecentsSheet by remember { mutableStateOf(false) }
+
+    LaunchedEffect(remoteOpenBus) {
+        remoteOpenBus.events.collect { id -> fileListViewModel.openRemoteConnection(id) }
+    }
 
     val bookmarkCurrentFolder: () -> Unit = {
         val path = fileListState.currentPath

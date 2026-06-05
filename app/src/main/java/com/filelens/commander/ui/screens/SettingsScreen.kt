@@ -66,6 +66,7 @@ import com.filelens.commander.viewmodel.SettingsViewModel
 fun SettingsScreen(
     onBack: () -> Unit,
     onOpenShortcuts: () -> Unit = {},
+    onOpenRemoteServers: () -> Unit = {},
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val settings by viewModel.settings.collectAsStateWithLifecycle()
@@ -189,6 +190,27 @@ fun SettingsScreen(
                         Text("Keyboard shortcuts", style = MaterialTheme.typography.titleSmall)
                         Text(
                             "Customize the F-key and Ctrl combos used in the commander.",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = FlInk3
+                        )
+                    }
+                    Text("›", style = MaterialTheme.typography.titleMedium, color = FlInk3)
+                }
+            }
+
+            SectionHeader("Remote")
+            SettingsCard {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable(onClick = onOpenRemoteServers)
+                        .padding(horizontal = 14.dp, vertical = 14.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text("Remote servers", style = MaterialTheme.typography.titleSmall)
+                        Text(
+                            "Browse FTP, SFTP, and SMB shares like local folders.",
                             style = MaterialTheme.typography.bodySmall,
                             color = FlInk3
                         )
