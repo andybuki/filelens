@@ -45,7 +45,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.AsyncImage
@@ -79,6 +78,8 @@ import com.filelens.commander.ui.util.LocalSizeUnits
 import com.filelens.commander.ui.util.formatFileSize
 import com.filelens.commander.viewmodel.CompareViewModel
 import com.filelens.commander.viewmodel.SyncDirection
+import com.filelens.commander.ui.theme.Roboto
+import com.filelens.commander.ui.theme.RobotoMono
 import java.text.DateFormat
 import java.util.Date
 
@@ -417,14 +418,14 @@ private fun DiffLineRow(line: TextDiffLine) {
         Text(
             text = (line.leftLineNumber?.toString() ?: "").padStart(4),
             style = MaterialTheme.typography.labelSmall,
-            fontFamily = FontFamily.Monospace,
+            fontFamily = RobotoMono,
             color = FlInk3,
             modifier = Modifier.width(36.dp)
         )
         Text(
             text = (line.rightLineNumber?.toString() ?: "").padStart(4),
             style = MaterialTheme.typography.labelSmall,
-            fontFamily = FontFamily.Monospace,
+            fontFamily = RobotoMono,
             color = FlInk3,
             modifier = Modifier.width(36.dp)
         )
@@ -432,14 +433,14 @@ private fun DiffLineRow(line: TextDiffLine) {
         Text(
             text = prefix,
             style = MaterialTheme.typography.labelSmall,
-            fontFamily = FontFamily.Monospace,
+            fontFamily = RobotoMono,
             color = fg
         )
         Spacer(modifier = Modifier.width(4.dp))
         Text(
             text = line.content,
             style = MaterialTheme.typography.bodySmall,
-            fontFamily = FontFamily.Monospace,
+            fontFamily = RobotoMono,
             fontSize = 12.sp,
             color = if (line.kind == DiffKind.UNCHANGED) FlInk2 else MaterialTheme.colorScheme.onSurface
         )
@@ -473,7 +474,7 @@ private fun CompareRow(
             Text(
                 text = left,
                 style = MaterialTheme.typography.bodySmall,
-                fontFamily = if (mono) FontFamily.Monospace else FontFamily.Default,
+                fontFamily = if (mono) RobotoMono else Roboto,
                 color = FlInk2,
                 modifier = Modifier.weight(1f)
             )
@@ -481,7 +482,7 @@ private fun CompareRow(
             Text(
                 text = right,
                 style = MaterialTheme.typography.bodySmall,
-                fontFamily = if (mono) FontFamily.Monospace else FontFamily.Default,
+                fontFamily = if (mono) RobotoMono else Roboto,
                 color = FlInk2,
                 modifier = Modifier.weight(1f)
             )
@@ -666,7 +667,7 @@ private fun FolderCompareView(
                         "${pair.leftRelativePath}  ↔  ${pair.rightRelativePath}",
                         style = MaterialTheme.typography.bodySmall,
                         color = FlInk2,
-                        fontFamily = FontFamily.Monospace,
+                        fontFamily = RobotoMono,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -721,7 +722,7 @@ private fun FolderEntryRow(entry: FolderEntryDiff) {
                 text = entry.relativePath.ifEmpty { "(root)" },
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface,
-                fontFamily = FontFamily.Monospace,
+                fontFamily = RobotoMono,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )

@@ -38,7 +38,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -50,6 +49,7 @@ import com.filelens.commander.ui.theme.FlInk3
 import com.filelens.commander.ui.util.LocalSizeUnits
 import com.filelens.commander.ui.util.formatFileSize
 import com.filelens.commander.viewmodel.DuplicateFinderViewModel
+import com.filelens.commander.ui.theme.RobotoMono
 import java.text.DateFormat
 import java.util.Date
 
@@ -254,7 +254,7 @@ private fun DuplicateGroupCard(
                     Text(
                         text = f.path,
                         style = MaterialTheme.typography.bodySmall,
-                        fontFamily = FontFamily.Monospace,
+                        fontFamily = RobotoMono,
                         color = MaterialTheme.colorScheme.onSurface,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis
