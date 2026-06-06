@@ -33,8 +33,10 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.filelens.commander.R
 import com.filelens.commander.ui.theme.FlBorder
 import com.filelens.commander.ui.theme.FlBorder2
 import com.filelens.commander.ui.theme.FlInk
@@ -150,13 +152,13 @@ fun NoResultsState(
             SolidArt(icon = Icons.Filled.SearchOff)
             Spacer(modifier = Modifier.height(24.dp))
             Text(
-                text = "No matches",
+                text = stringResource(R.string.state_no_matches_headline),
                 style = MaterialTheme.typography.titleMedium.copy(color = FlInk),
                 textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = if (query.isNotEmpty()) "Nothing in this folder matches “$query”." else "Try a different query.",
+                text = if (query.isNotEmpty()) stringResource(R.string.state_no_matches_subtitle, query) else stringResource(R.string.state_no_matches_no_query),
                 style = MaterialTheme.typography.bodyMedium,
                 color = FlText,
                 textAlign = TextAlign.Center
@@ -164,7 +166,7 @@ fun NoResultsState(
             if (onClear != null) {
                 Spacer(modifier = Modifier.height(16.dp))
                 TextButton(onClick = onClear) {
-                    Text("Clear search", style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(R.string.action_clear_search), style = MaterialTheme.typography.labelLarge)
                 }
             }
         }
@@ -202,7 +204,7 @@ fun ErrorState(
             }
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "Something went wrong",
+                text = stringResource(R.string.state_error_headline),
                 style = MaterialTheme.typography.titleMedium.copy(color = FlInk),
                 textAlign = TextAlign.Center
             )
@@ -216,7 +218,7 @@ fun ErrorState(
             if (onRetry != null) {
                 Spacer(modifier = Modifier.height(16.dp))
                 TextButton(onClick = onRetry) {
-                    Text("Try again", style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(R.string.action_retry), style = MaterialTheme.typography.labelLarge)
                 }
             }
         }

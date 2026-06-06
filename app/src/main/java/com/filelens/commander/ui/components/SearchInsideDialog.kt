@@ -30,7 +30,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.filelens.commander.R
 import com.filelens.commander.domain.model.SearchHit
 import com.filelens.commander.domain.model.SearchHitKind
 import com.filelens.commander.ui.theme.RobotoMono
@@ -47,7 +50,7 @@ fun SearchInsideDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Search inside file") },
+        title = { Text(stringResource(R.string.search_inside_title)) },
         text = {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -56,12 +59,12 @@ fun SearchInsideDialog(
                         onValueChange = { query = it },
                         modifier = Modifier.weight(1f),
                         singleLine = true,
-                        placeholder = { Text("Find in entries, keys, content…") },
+                        placeholder = { Text(stringResource(R.string.search_inside_hint)) },
                         leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) }
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     TextButton(onClick = { if (query.isNotBlank()) onSearch(query) }) {
-                        Text("Find")
+                        Text(stringResource(R.string.action_find))
                     }
                 }
 
@@ -71,11 +74,11 @@ fun SearchInsideDialog(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         CircularProgressIndicator(modifier = Modifier.size(14.dp), strokeWidth = 2.dp)
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Searching…", style = MaterialTheme.typography.bodySmall)
+                        Text(stringResource(R.string.search_inside_searching), style = MaterialTheme.typography.bodySmall)
                     }
                 } else if (hits.isEmpty() && initialQuery.isNotBlank()) {
                     Text(
-                        "No matches.",
+                        stringResource(R.string.search_inside_no_matches),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -83,7 +86,7 @@ fun SearchInsideDialog(
 
                 if (hits.isNotEmpty()) {
                     Text(
-                        text = "${hits.size} match${if (hits.size > 1) "es" else ""}",
+                        text = pluralStringResource(R.plurals.plural_match_count, hits.size, hits.size),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -106,7 +109,7 @@ fun SearchInsideDialog(
                             }
                             if (group.size > 50) {
                                 Text(
-                                    "… ${group.size - 50} more",
+                                    stringResource(R.string.search_inside_more, group.size - 50),
                                     style = MaterialTheme.typography.labelSmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
@@ -117,7 +120,7 @@ fun SearchInsideDialog(
             }
         },
         confirmButton = {
-            TextButton(onClick = onDismiss) { Text("Close") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_close)) }
         }
     )
 }

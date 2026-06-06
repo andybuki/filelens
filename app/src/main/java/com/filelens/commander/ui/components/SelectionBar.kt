@@ -25,7 +25,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.filelens.commander.R
 import com.filelens.commander.ui.theme.FlAccent
 import com.filelens.commander.ui.theme.FlAccentTint
 import com.filelens.commander.ui.theme.FlInk2
@@ -59,10 +62,10 @@ fun SelectionBar(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = onClear) {
-                Icon(Icons.Filled.Close, contentDescription = "Clear selection", tint = FlAccent)
+                Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.cd_clear_selection), tint = FlAccent)
             }
             Text(
-                text = "$selectedCount selected",
+                text = pluralStringResource(R.plurals.plural_selected_count, selectedCount, selectedCount),
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.weight(1f)
@@ -75,7 +78,7 @@ fun SelectionBar(
                         tint = FlAccent
                     )
                     Spacer(modifier = Modifier.width(6.dp))
-                    Text("Rename", color = FlAccent)
+                    Text(stringResource(R.string.action_rename), color = FlAccent)
                 }
             }
             if (canCompare) {
@@ -86,11 +89,11 @@ fun SelectionBar(
                         tint = FlAccent
                     )
                     Spacer(modifier = Modifier.width(6.dp))
-                    Text("Compare", color = FlAccent)
+                    Text(stringResource(R.string.action_compare), color = FlAccent)
                 }
             } else if (!canBatchRename) {
                 Text(
-                    text = "Select 2 to compare",
+                    text = stringResource(R.string.selection_hint_select_two),
                     style = MaterialTheme.typography.labelMedium,
                     color = FlInk2
                 )

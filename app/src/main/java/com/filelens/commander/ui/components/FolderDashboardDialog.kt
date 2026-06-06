@@ -140,7 +140,7 @@ private fun SummaryBody(summary: com.filelens.commander.domain.usecase.FolderAna
 
         if (summary.duplicateCandidates.isNotEmpty()) {
             Spacer(modifier = Modifier.height(8.dp))
-            SectionTitle("Possible duplicates (same size)")
+            SectionTitle(stringResource(R.string.folder_dashboard_section_duplicates))
             summary.duplicateCandidates.take(5).forEach { group ->
                 BulletRow("${group.size}× ${formatSize(group.first().size)}: ${group.joinToString(", ") { it.name }.take(160)}")
             }

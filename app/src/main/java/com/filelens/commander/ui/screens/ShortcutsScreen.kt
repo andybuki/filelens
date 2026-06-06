@@ -35,8 +35,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.filelens.commander.R
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.filelens.commander.domain.model.ShortcutAction
 import com.filelens.commander.ui.components.ShortcutRecorderDialog
@@ -73,14 +75,14 @@ fun ShortcutsScreen(
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
-            title = { Text("Keyboard shortcuts", style = MaterialTheme.typography.titleLarge) },
+            title = { Text(stringResource(R.string.shortcuts_title), style = MaterialTheme.typography.titleLarge) },
             navigationIcon = {
                 IconButton(onClick = onBack) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.cd_back))
                 }
             },
             actions = {
-                TextButton(onClick = { viewModel.resetDefaults() }) { Text("Reset") }
+                TextButton(onClick = { viewModel.resetDefaults() }) { Text(stringResource(R.string.shortcuts_action_reset)) }
             },
             windowInsets = WindowInsets(0),
             colors = TopAppBarDefaults.topAppBarColors(
@@ -89,7 +91,7 @@ fun ShortcutsScreen(
         )
 
         Text(
-            text = "Tap a row to record a new key combination. If the new combo is already in use, the existing shortcut swaps with the one you're editing.",
+            text = stringResource(R.string.shortcuts_hint),
             style = MaterialTheme.typography.bodySmall,
             color = FlInk3,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
@@ -112,7 +114,7 @@ fun ShortcutsScreen(
                         Text(action.label, style = MaterialTheme.typography.titleSmall)
                         if (binding != action.default) {
                             Text(
-                                "Default: ${action.default.displayString()}",
+                                stringResource(R.string.shortcut_default, action.default.displayString()),
                                 style = MaterialTheme.typography.labelSmall,
                                 color = FlInk3
                             )

@@ -48,9 +48,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.AsyncImage
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.filelens.commander.R
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.filelens.commander.domain.model.DiffKind
 import com.filelens.commander.domain.model.FileCompareContent
@@ -108,10 +110,10 @@ fun CompareScreen(
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
-            title = { Text("Compare", style = MaterialTheme.typography.titleLarge) },
+            title = { Text(stringResource(R.string.compare_title), style = MaterialTheme.typography.titleLarge) },
             navigationIcon = {
                 IconButton(onClick = onBack) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.cd_back))
                 }
             },
             windowInsets = WindowInsets(0),
@@ -138,7 +140,7 @@ fun CompareScreen(
                         CircularProgressIndicator(color = FlAccent, strokeWidth = 2.5.dp)
                         Spacer(modifier = Modifier.height(12.dp))
                         Text(
-                            text = if (state.isFolderMode) "Walking folders…" else "Diffing files…",
+                            text = if (state.isFolderMode) stringResource(R.string.compare_progress_folders) else stringResource(R.string.compare_progress_files),
                             style = MaterialTheme.typography.bodyMedium,
                             color = FlInk2
                         )

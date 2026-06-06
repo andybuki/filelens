@@ -33,8 +33,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
+import com.filelens.commander.R
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.filelens.commander.ui.theme.FlAccent
@@ -63,11 +65,11 @@ fun HashVerifyDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         confirmButton = {
-            TextButton(onClick = { viewModel.reset(); onDismiss() }) { Text("Close") }
+            TextButton(onClick = { viewModel.reset(); onDismiss() }) { Text(stringResource(R.string.action_close)) }
         },
         title = {
             Column {
-                Text("Verify hash", style = MaterialTheme.typography.titleLarge)
+                Text(stringResource(R.string.hash_verify_title), style = MaterialTheme.typography.titleLarge)
                 Text(
                     fileName,
                     style = MaterialTheme.typography.bodySmall,
@@ -82,7 +84,7 @@ fun HashVerifyDialog(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         CircularProgressIndicator(strokeWidth = 2.dp, modifier = Modifier.size(16.dp))
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Hashing…", style = MaterialTheme.typography.bodyMedium, color = FlInk2)
+                        Text(stringResource(R.string.hash_verify_hashing), style = MaterialTheme.typography.bodyMedium, color = FlInk2)
                     }
                 } else {
                     HashRow(
@@ -100,14 +102,14 @@ fun HashVerifyDialog(
 
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    "Compare with",
+                    stringResource(R.string.hash_verify_compare_label),
                     style = MaterialTheme.typography.labelMedium,
                     color = FlInk3
                 )
                 OutlinedTextField(
                     value = state.expected,
                     onValueChange = viewModel::setExpected,
-                    placeholder = { Text("Paste SHA-256 or MD5 to verify") },
+                    placeholder = { Text(stringResource(R.string.hash_verify_paste_hint)) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -131,7 +133,7 @@ private fun HashRow(label: String, value: String, onCopy: () -> Unit) {
             )
         }
         IconButton(onClick = onCopy) {
-            Icon(Icons.Filled.ContentCopy, contentDescription = "Copy", tint = FlInk2)
+            Icon(Icons.Filled.ContentCopy, contentDescription = stringResource(R.string.cd_copy), tint = FlInk2)
         }
     }
 }
@@ -140,9 +142,9 @@ private fun HashRow(label: String, value: String, onCopy: () -> Unit) {
 private fun MatchBadge(match: Match, hasInput: Boolean) {
     if (!hasInput) return
     val (bg, fg, label, icon) = when (match) {
-        Match.MATCH -> Quad(RiskSafeTint, RiskSafe, "Match", Icons.Filled.Check)
-        Match.MISMATCH -> Quad(RiskDangerTint, RiskDanger, "No match", Icons.Filled.Close)
-        Match.UNKNOWN -> Quad(MaterialTheme.colorScheme.surfaceVariant, FlInk2, "Paste a 32 or 64 char hash", Icons.Filled.Check)
+        Match.MATCH -> Quad(RiskSafeTint, RiskSafe, stringResource(R.string.hash_verify_match), Icons.Filled.Check)
+        Match.MISMATCH -> Quad(RiskDangerTint, RiskDanger, stringResource(R.string.hash_verify_no_match), Icons.Filled.Close)
+        Match.UNKNOWN -> Quad(MaterialTheme.colorScheme.surfaceVariant, FlInk2, stringResource(R.string.hash_verify_unknown), Icons.Filled.Check)
     }
     Row(
         modifier = Modifier

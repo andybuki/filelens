@@ -26,7 +26,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.filelens.commander.R
 import com.filelens.commander.domain.model.RiskItem
 import com.filelens.commander.domain.model.RiskSeverity
 import com.filelens.commander.ui.theme.RiskDanger
@@ -57,7 +59,7 @@ fun SafeShareSheet(
             )
             Spacer(modifier = Modifier.width(12.dp))
             Text(
-                text = "Check before sharing",
+                text = stringResource(R.string.safe_share_title),
                 style = MaterialTheme.typography.titleLarge
             )
         }
@@ -83,13 +85,13 @@ fun SafeShareSheet(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    "No risks detected. Safe to share.",
+                    stringResource(R.string.safe_share_no_risks),
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
         } else {
             Text(
-                "This file may reveal:",
+                stringResource(R.string.safe_share_risks_intro),
                 style = MaterialTheme.typography.titleSmall
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -126,7 +128,7 @@ fun SafeShareSheet(
         ) {
             Icon(Icons.Filled.Share, contentDescription = null, modifier = Modifier.size(18.dp))
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Share original")
+            Text(stringResource(R.string.safe_share_action_original))
         }
 
         if (onShareCleaned != null && risks.isNotEmpty()) {
@@ -137,7 +139,7 @@ fun SafeShareSheet(
             ) {
                 Icon(Icons.Filled.Shield, contentDescription = null, modifier = Modifier.size(18.dp))
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Create cleaned copy")
+                Text(stringResource(R.string.safe_share_action_cleaned))
             }
         }
     }

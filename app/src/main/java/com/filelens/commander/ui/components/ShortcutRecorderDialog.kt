@@ -26,7 +26,9 @@ import androidx.compose.ui.input.key.isShiftPressed
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.filelens.commander.R
 import com.filelens.commander.domain.model.ShortcutAction
 import com.filelens.commander.domain.model.ShortcutBinding
 import com.filelens.commander.ui.theme.FlInk3
@@ -44,7 +46,7 @@ fun ShortcutRecorderDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Bind ${action.label}") },
+        title = { Text(stringResource(R.string.shortcut_bind_title, action.label)) },
         text = {
             Column(
                 modifier = Modifier
@@ -68,13 +70,13 @@ fun ShortcutRecorderDialog(
                     }
             ) {
                 Text(
-                    "Press the new combination, then tap Save.",
+                    stringResource(R.string.shortcut_press_hint),
                     style = MaterialTheme.typography.bodySmall,
                     color = FlInk3
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
-                    text = captured?.displayString() ?: "Current: ${currentBinding.displayString()}",
+                    text = captured?.displayString() ?: stringResource(R.string.shortcut_current, currentBinding.displayString()),
                     style = MaterialTheme.typography.titleMedium
                 )
             }
@@ -83,10 +85,10 @@ fun ShortcutRecorderDialog(
             TextButton(
                 onClick = { captured?.let(onConfirm) },
                 enabled = captured != null
-            ) { Text("Save") }
+            ) { Text(stringResource(R.string.action_save)) }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_cancel)) }
         }
     )
 }

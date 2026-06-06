@@ -71,8 +71,10 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import com.filelens.commander.R
 import com.filelens.commander.domain.model.FileItem
 import com.filelens.commander.domain.model.SortDirection
 import com.filelens.commander.domain.model.SortField
@@ -201,7 +203,7 @@ fun FileListPanel(
                     ErrorState(message = errorMessage, onRetry = onRefresh)
                 }
                 isSearching -> {
-                    LoadingState(label = "Searching…")
+                    LoadingState(label = stringResource(R.string.searching_label))
                 }
                 isLoading -> {
                     FileListSkeleton()
@@ -214,9 +216,9 @@ fun FileListPanel(
                         )
                     } else {
                         EmptyState(
-                            headline = "This folder is empty",
-                            subtitle = "Nothing here yet. Add files, or import a statement to inspect it before opening.",
-                            actionLabel = "Import a file",
+                            headline = stringResource(R.string.empty_folder_headline),
+                            subtitle = stringResource(R.string.empty_folder_subtitle),
+                            actionLabel = stringResource(R.string.empty_folder_action),
                             actionIcon = Icons.Filled.Upload,
                             onAction = onBatchScan
                         )
@@ -312,7 +314,7 @@ private fun MinimalHeader(
             Spacer(modifier = Modifier.width(12.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "FileLens",
+                    text = stringResource(R.string.brand_name),
                     style = MaterialTheme.typography.titleLarge,
                     color = HeaderInk
                 )
@@ -328,12 +330,12 @@ private fun MinimalHeader(
             HeaderIconButton(onClick = onToggleSearch) {
                 Icon(
                     if (isSearchActive) Icons.Filled.Close else Icons.Filled.Search,
-                    contentDescription = if (isSearchActive) "Close search" else "Search",
+                    contentDescription = if (isSearchActive) stringResource(R.string.cd_close_search) else stringResource(R.string.cd_search),
                     tint = HeaderInk2
                 )
             }
             HeaderIconButton(onClick = { showMenu = true }) {
-                Icon(Icons.Filled.MoreVert, contentDescription = "More options", tint = HeaderInk2)
+                Icon(Icons.Filled.MoreVert, contentDescription = stringResource(R.string.cd_more_options), tint = HeaderInk2)
             }
             DropdownMenu(
                 expanded = showMenu,
@@ -347,7 +349,7 @@ private fun MinimalHeader(
                                 contentDescription = null
                             )
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text(if (showHidden) "Hide hidden files" else "Show hidden files")
+                            Text(if (showHidden) stringResource(R.string.menu_hide_hidden_files) else stringResource(R.string.menu_show_hidden_files))
                         }
                     },
                     onClick = { onToggleHidden(); showMenu = false }
@@ -357,7 +359,7 @@ private fun MinimalHeader(
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(Icons.Filled.Shield, contentDescription = null)
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text("Scan folder for risks")
+                            Text(stringResource(R.string.menu_scan_folder))
                         }
                     },
                     onClick = { onBatchScan(); showMenu = false }
@@ -367,7 +369,7 @@ private fun MinimalHeader(
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(Icons.Filled.Shield, contentDescription = null)
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text("Analyze folder")
+                            Text(stringResource(R.string.menu_analyze_folder))
                         }
                     },
                     onClick = { onFolderDashboard(); showMenu = false }
@@ -377,7 +379,7 @@ private fun MinimalHeader(
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(Icons.Filled.Shield, contentDescription = null)
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text("Find duplicates here")
+                            Text(stringResource(R.string.menu_find_duplicates))
                         }
                     },
                     onClick = { onFindDuplicates(); showMenu = false }
@@ -387,7 +389,7 @@ private fun MinimalHeader(
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(Icons.Filled.BookmarkAdd, contentDescription = null)
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text("Bookmark this folder")
+                            Text(stringResource(R.string.menu_bookmark_folder))
                         }
                     },
                     onClick = { onBookmarkFolder(); showMenu = false }
@@ -397,7 +399,7 @@ private fun MinimalHeader(
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(Icons.Filled.Bookmarks, contentDescription = null)
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text("Show bookmarks")
+                            Text(stringResource(R.string.menu_show_bookmarks))
                         }
                     },
                     onClick = { onShowBookmarks(); showMenu = false }
@@ -407,14 +409,14 @@ private fun MinimalHeader(
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(Icons.Filled.History, contentDescription = null)
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text("Recent")
+                            Text(stringResource(R.string.menu_recents))
                         }
                     },
                     onClick = { onShowRecents(); showMenu = false }
                 )
             }
             HeaderIconButton(onClick = onOpenSettings) {
-                Icon(Icons.Filled.Tune, contentDescription = "Settings", tint = HeaderInk2)
+                Icon(Icons.Filled.Tune, contentDescription = stringResource(R.string.cd_settings), tint = HeaderInk2)
             }
         }
 
@@ -455,7 +457,8 @@ private fun MinimalBreadcrumb(
     onNavigateToPath: (String) -> Unit
 ) {
     if (currentPath.isEmpty()) return
-    val homeDisplayName = "Phone"
+    val homeDisplayName = stringResource(R.string.home_folder_label)
+    val navigateUpDesc = stringResource(R.string.cd_navigate_up)
 
     val relativeParts: List<String> = when {
         homePath.isEmpty() -> currentPath.split("/").filter { it.isNotEmpty() }
@@ -479,7 +482,7 @@ private fun MinimalBreadcrumb(
                     .clickable(onClick = onNavigateUp)
                     .semantics {
                         role = Role.Button
-                        contentDescription = "Navigate up"
+                        contentDescription = navigateUpDesc
                     },
                 contentAlignment = Alignment.Center
             ) {
@@ -566,7 +569,7 @@ private fun MinimalSearchBar(
             OutlinedTextField(
                 value = query,
                 onValueChange = onQueryChange,
-                placeholder = { Text("Search this folder…", color = FlText2) },
+                placeholder = { Text(stringResource(R.string.search_hint), color = FlText2) },
                 singleLine = true,
                 modifier = Modifier
                     .weight(1f)
@@ -576,7 +579,7 @@ private fun MinimalSearchBar(
                 trailingIcon = {
                     if (query.isNotEmpty()) {
                         IconButton(onClick = { onQueryChange("") }) {
-                            Icon(Icons.Filled.Close, contentDescription = "Clear", tint = FlText2)
+                            Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.action_clear_search), tint = FlText2)
                         }
                     }
                 },
@@ -613,10 +616,10 @@ private fun SortTabs(
     ) {
         SortField.entries.forEach { field ->
             val label = when (field) {
-                SortField.NAME -> "Name"
-                SortField.SIZE -> "Size"
-                SortField.DATE -> "Date"
-                SortField.TYPE -> "Type"
+                SortField.NAME -> stringResource(R.string.sort_name)
+                SortField.SIZE -> stringResource(R.string.sort_size)
+                SortField.DATE -> stringResource(R.string.sort_date)
+                SortField.TYPE -> stringResource(R.string.sort_type)
             }
             val selected = sortOrder.field == field
             val directionLabel = if (sortOrder.direction == SortDirection.ASCENDING) "ascending" else "descending"

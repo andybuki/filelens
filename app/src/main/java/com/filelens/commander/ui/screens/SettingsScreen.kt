@@ -48,8 +48,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.filelens.commander.R
 import kotlinx.coroutines.launch
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -85,9 +87,9 @@ fun SettingsScreen(
                 val json = viewModel.exportToString()
                 try {
                     context.contentResolver.openOutputStream(uri)?.use { it.write(json.toByteArray()) }
-                    snackbar.showSnackbar("Backup saved")
+                    snackbar.showSnackbar(context.getString(R.string.settings_backup_saved))
                 } catch (e: Exception) {
-                    snackbar.showSnackbar("Export failed: ${e.message}")
+                    snackbar.showSnackbar(context.getString(R.string.settings_export_failed, e.message))
                 }
             }
         }
@@ -103,7 +105,7 @@ fun SettingsScreen(
                     } ?: return@launch
                     viewModel.importFromJson(json)
                 } catch (e: Exception) {
-                    snackbar.showSnackbar("Import failed: ${e.message}")
+                    snackbar.showSnackbar(context.getString(R.string.settings_import_failed, e.message))
                 }
             }
         }
@@ -111,10 +113,10 @@ fun SettingsScreen(
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
-            title = { Text("Settings", style = MaterialTheme.typography.titleLarge) },
+            title = { Text(stringResource(R.string.settings_title), style = MaterialTheme.typography.titleLarge) },
             navigationIcon = {
                 IconButton(onClick = onBack) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.cd_back))
                 }
             },
             colors = TopAppBarDefaults.topAppBarColors(
@@ -127,24 +129,24 @@ fun SettingsScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
-            SectionHeader("Browsing")
+            SectionHeader(stringResource(R.string.settings_section_browsing))
             SettingsCard {
                 SwitchRow(
-                    label = "Show hidden files",
-                    description = "Display dotfiles and folders that start with a period.",
+                    label = stringResource(R.string.settings_show_hidden_files),
+                    description = stringResource(R.string.settings_show_hidden_files_desc),
                     checked = settings.showHidden,
                     onCheckedChange = viewModel::setShowHidden
                 )
                 Divider()
                 SwitchRow(
-                    label = "Hide empty folders",
-                    description = "Don't show folders that contain no visible files.",
+                    label = stringResource(R.string.settings_hide_empty_folders),
+                    description = stringResource(R.string.settings_hide_empty_folders_desc),
                     checked = settings.hideEmptyFolders,
                     onCheckedChange = viewModel::setHideEmptyFolders
                 )
                 Divider()
                 ChoiceRow(
-                    label = "File size units",
+                    label = stringResource(R.string.settings_size_units),
                     value = settings.sizeUnits.displayName,
                     inlinePicker = {
                         UnitsPicker(current = settings.sizeUnits, onSelect = viewModel::setSizeUnits)
@@ -152,7 +154,7 @@ fun SettingsScreen(
                 )
                 Divider()
                 ChoiceRow(
-                    label = "Default panel (tablets)",
+                    label = stringResource(R.string.settings_default_panel),
                     value = settings.defaultPanelMode.displayName,
                     inlinePicker = {
                         PanelModePicker(
@@ -163,7 +165,7 @@ fun SettingsScreen(
                 )
             }
 
-            SectionHeader("Input")
+            SectionHeader(stringResource(R.string.settings_section_input))
             SettingsCard {
                 Row(
                     modifier = Modifier
@@ -173,9 +175,9 @@ fun SettingsScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
-                        Text("Keyboard shortcuts", style = MaterialTheme.typography.titleSmall)
+                        Text(stringResource(R.string.settings_keyboard_shortcuts), style = MaterialTheme.typography.titleSmall)
                         Text(
-                            "Customize the F-key and Ctrl combos used in the commander.",
+                            stringResource(R.string.settings_keyboard_shortcuts_desc),
                             style = MaterialTheme.typography.bodySmall,
                             color = FlInk3
                         )
@@ -184,7 +186,7 @@ fun SettingsScreen(
                 }
             }
 
-            SectionHeader("Remote")
+            SectionHeader(stringResource(R.string.settings_section_remote))
             SettingsCard {
                 Row(
                     modifier = Modifier
@@ -194,9 +196,9 @@ fun SettingsScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
-                        Text("Remote servers", style = MaterialTheme.typography.titleSmall)
+                        Text(stringResource(R.string.settings_remote_servers), style = MaterialTheme.typography.titleSmall)
                         Text(
-                            "Browse FTP, SFTP, and SMB shares like local folders.",
+                            stringResource(R.string.settings_remote_servers_desc),
                             style = MaterialTheme.typography.bodySmall,
                             color = FlInk3
                         )
@@ -205,11 +207,11 @@ fun SettingsScreen(
                 }
             }
 
-            SectionHeader("Backup & restore")
+            SectionHeader(stringResource(R.string.settings_section_backup))
             SettingsCard {
                 Column(modifier = Modifier.padding(14.dp)) {
                     Text(
-                        "Save your settings, bookmarks, recent files, and frequent folders to a JSON file you can restore later.",
+                        stringResource(R.string.settings_backup_desc),
                         style = MaterialTheme.typography.bodySmall,
                         color = FlInk3
                     )
@@ -220,33 +222,33 @@ fun SettingsScreen(
                                 exportLauncher.launch("filelens-backup.json")
                             },
                             modifier = Modifier.weight(1f)
-                        ) { Text("Export") }
+                        ) { Text(stringResource(R.string.action_export)) }
                         OutlinedButton(
                             onClick = {
                                 importLauncher.launch(arrayOf("application/json", "text/plain", "*/*"))
                             },
                             modifier = Modifier.weight(1f)
-                        ) { Text("Import") }
+                        ) { Text(stringResource(R.string.action_import)) }
                     }
                 }
             }
 
-            SectionHeader("About")
+            SectionHeader(stringResource(R.string.settings_section_about))
             SettingsCard {
-                StaticRow("FileLens Commander", "Version 0.4.4")
+                StaticRow(stringResource(R.string.settings_about_app_name), stringResource(R.string.settings_about_version))
                 Divider()
                 StaticRow(
-                    "Vision",
-                    "Browse files, peek inside, understand before opening. Offline, on-device, no accounts."
+                    stringResource(R.string.settings_about_vision_label),
+                    stringResource(R.string.settings_about_vision_text)
                 )
             }
 
             var showLicenses by remember { mutableStateOf(false) }
-            SectionHeader("Open source licenses")
+            SectionHeader(stringResource(R.string.settings_section_licenses))
             SettingsCard {
                 Column(modifier = Modifier.padding(14.dp)) {
                     Text(
-                        "FileLens is built on these open source libraries:",
+                        stringResource(R.string.settings_licenses_intro),
                         style = MaterialTheme.typography.bodySmall,
                         color = FlInk3
                     )
@@ -254,7 +256,7 @@ fun SettingsScreen(
                     OutlinedButton(
                         onClick = { showLicenses = !showLicenses },
                         modifier = Modifier.fillMaxWidth()
-                    ) { Text(if (showLicenses) "Hide licenses" else "Show licenses") }
+                    ) { Text(if (showLicenses) stringResource(R.string.settings_licenses_hide) else stringResource(R.string.settings_licenses_show)) }
                     if (showLicenses) {
                         Spacer(modifier = Modifier.height(10.dp))
                         OssLicensesList()
