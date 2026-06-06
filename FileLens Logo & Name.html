@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FileLens — Logo & Name</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="min/tokens.css" />
+<style>
+  html, body { margin: 0; height: 100%; background: #0c1623; }
+  :root { --sans: "Roboto", system-ui, sans-serif; --mono: "Roboto Mono", monospace; }
+  .lbl { font-family: var(--sans); }
+  .note { font-family: var(--sans); color: #cdd6e2; font-size: 13.5px; line-height: 1.6; }
+  .note b { color: #fff; font-weight: 700; }
+  .note .blue { color: #6BA4FF; font-weight: 700; }
+  .eyebrow { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #6BA4FF; }
+  .cap { font-family: var(--sans); font-size: 12px; color: #8B98A8; text-align: center; margin-top: 8px; font-weight: 500; display: flex; flex-direction: column; gap: 3px; }
+  .cap b { color: #E4E9F0; font-weight: 700; font-size: 13px; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px; border-radius: 999px; font-family: var(--sans); font-size: 11px; font-weight: 700; }
+  .good { background: rgba(34,197,94,.16); color: #4ADE80; }
+  .bad { background: rgba(220,38,38,.18); color: #F87171; }
+  .meh { background: rgba(245,158,11,.16); color: #FBBF24; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" rx="22" fill="#0F2A44"/><circle cx="45" cy="45" r="18" fill="none" stroke="#3B82F6" stroke-width="6"/><circle cx="45" cy="45" r="7" fill="#2563EB"/><line x1="59" y1="59" x2="76" y2="76" stroke="#3B82F6" stroke-width="8" stroke-linecap="round"/></svg>
+</template>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="logos/marks.jsx"></script>
+<script type="text/babel">
+const { Squircle, Comp, Dirs } = window;
+
+function Cap({ title, sub }) { return <div className="cap"><b>{title}</b><span>{sub}</span></div>; }
+
+// ---- competitor cell ----
+function CompCell({ render, name, note }) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: 132 }}>
+      {render(78)}
+      <Cap title={name} sub={note} />
+    </div>
+  );
+}
+
+// ---- logo direction cell ----
+function DirCell({ id, fn, name, sub, variants }) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14, width: 200, padding: "8px 0" }}>
+      {fn(120)}
+      <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+        {fn(40)}
+        {fn(28)}
+        {variants && variants.map((v, i) => <span key={i}>{fn(40, v)}</span>)}
+      </div>
+      <div style={{ textAlign: "center" }}>
+        <div className="lbl" style={{ color: "#fff", fontWeight: 700, fontSize: 15 }}>{id} · {name}</div>
+        <div className="note" style={{ fontSize: 12.5, color: "#9aa6b4", maxWidth: 188, marginTop: 4 }}>{sub}</div>
+      </div>
+    </div>
+  );
+}
+
+// ---- home screen mock ----
+function HomeScreen() {
+  const apps = [
+    { c: "#EF4444" }, { c: "#22C55E" }, { c: "#F59E0B" },
+    { c: "#8B5CF6" }, { c: "#06B6D4" }, { c: "#EC4899" }, { c: "#0F172A" },
+  ];
+  const Label = ({ children }) => <div style={{ fontFamily: "var(--sans)", color: "#fff", fontSize: 10.5, fontWeight: 500, textAlign: "center", textShadow: "0 1px 2px rgba(0,0,0,.4)" }}>{children}</div>;
+  return (
+    <div style={{ width: 300, height: 420, borderRadius: 34, background: "linear-gradient(160deg,#1e3a5f,#0f2a44)", padding: 22, boxShadow: "0 20px 50px -16px rgba(0,0,0,.6)", position: "relative", boxSizing: "border-box" }}>
+      <div style={{ color: "#fff", fontFamily: "var(--sans)", textAlign: "center", marginTop: 6 }}>
+        <div style={{ fontSize: 44, fontWeight: 300, letterSpacing: "-.02em" }}>9:41</div>
+        <div style={{ fontSize: 12, opacity: .8 }}>Friday, June 6</div>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "16px 14px", marginTop: 30 }}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}>
+          {Dirs.A(52)}<Label>FileLens</Label>
+        </div>
+        {apps.map((a, i) => (
+          <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}>
+            <div style={{ width: 52, height: 52, borderRadius: 13, background: a.c, opacity: .9 }} />
+            <Label>&nbsp;</Label>
+          </div>
+        ))}
+      </div>
+      <div style={{ position: "absolute", left: 22, right: 22, bottom: 18, display: "flex", justifyContent: "space-around", background: "rgba(255,255,255,.12)", borderRadius: 22, padding: "12px 0", backdropFilter: "blur(8px)" }}>
+        {[0, 1, 2, 3].map((i) => <div key={i} style={{ width: 40, height: 40, borderRadius: 11, background: "rgba(255,255,255,.18)" }} />)}
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <DesignCanvas>
+      {/* ---------------- 1 · COMPETITIVE ANALYSIS ---------------- */}
+      <DCSection id="market" title="1 · The competitive landscape" subtitle="What every file-manager icon looks like today — and the gap FileLens can own.">
+        <DCArtboard id="comp" label="Competitor icon patterns (schematic)" width={900} height={360}>
+          <div style={{ height: "100%", background: "#11202F", padding: "26px 30px", display: "flex", flexDirection: "column", gap: 18 }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 18, justifyContent: "center" }}>
+              <CompCell render={Comp.google} name="Files by Google" note="Blue · folder + page" />
+              <CompCell render={Comp.cx} name="Cx Explorer" note="Teal · folder" />
+              <CompCell render={Comp.solid} name="Solid Explorer" note="Dual panels" />
+              <CompCell render={Comp.mix} name="MiXplorer" note="Blue · ‘M’" />
+              <CompCell render={Comp.fossify} name="Fossify / Material" note="Pink·purple folder" />
+              <CompCell render={Comp.total} name="Total Commander" note="Yellow · dated" />
+            </div>
+            <div style={{ display: "flex", gap: 22, marginTop: 4 }}>
+              <div className="note" style={{ flex: 1 }}><span className="eyebrow">The clichés</span><br/>
+                <b>Folders, and blue.</b> The category is a sea of folder glyphs — and most of them are blue. Files by Google sets the default everyone imitates (it even shipped a green variant of the same folder). Icons blur together in the store grid; none signal what the app actually <i>does</i> differently.</div>
+              <div className="note" style={{ flex: 1 }}><span className="eyebrow">The opening for FileLens</span><br/>
+                FileLens's whole pitch is <span className="blue">look inside &amp; understand a file before you open it</span> — risk, trust, what's inside. <b>So the icon shouldn't be a folder.</b> A <b>lens</b> is ownable, on-message, instantly different in a grid of folders, and ties to the <b>MoneyLupe “lupe”</b> family from the same maker.</div>
+            </div>
+          </div>
+        </DCArtboard>
+      </DCSection>
+
+      {/* ---------------- 2 · DIRECTIONS ---------------- */}
+      <DCSection id="dirs" title="2 · Six logo directions" subtitle="Flat, MoneyLupe palette (navy / blue / white). Each shown large + at 40px & 28px to prove it survives the launcher. No gradients.">
+        <DCArtboard id="opts" label="Directions A–F" width={1320} height={760}>
+          <div style={{ height: "100%", background: "#11202F", padding: "24px 20px", display: "flex", flexWrap: "wrap", gap: 8, alignContent: "flex-start", justifyContent: "center" }}>
+            <DirCell id="A" fn={Dirs.A} name="Lens on a page" sub="Literal & clear: a magnifier inspecting a file. Reads as ‘files’ + ‘look closely’ at any size. Safe, legible, on-message." variants={[{ bg: "#2563EB" }]} />
+            <DirCell id="B" fn={Dirs.B} name="Scan reticle" sub="A focus frame + lens = ‘scan / x-ray before opening’. Techy, distinctive, very flat. Leans into risk & trust." variants={[{ bg: "#0F2A44", fg: "#fff" }]} />
+            <DirCell id="C" fn={Dirs.C} name="F-monogram lens" sub="A bold ‘F’ whose lower bowl becomes a lens. Brandable wordmark tie-in; a touch more abstract." variants={[{ bg: "#2563EB" }]} />
+            <DirCell id="D" fn={Dirs.D} name="Iris lens (owl nod)" sub="Lens iris with multicolor spokes — a direct sibling to the MoneyLupe owl eye. Strongest family link; busiest at 28px." />
+            <DirCell id="E" fn={Dirs.E} name="Folder × lens" sub="Keeps a folder cue so the store still reads ‘files’, with a lens cut in. Familiar + differentiated — but still part-folder." variants={[{ bg: "#0F2A44" }]} />
+            <DirCell id="F" fn={Dirs.F} name="Focus rings" sub="Ultra-minimal concentric ‘focus’. Iconic and bold, but abstract — loses the ‘files’ read on its own." variants={[{ bg: "#0F2A44" }]} />
+          </div>
+        </DCArtboard>
+      </DCSection>
+
+      {/* ---------------- 3 · RECOMMENDATION ---------------- */}
+      <DCSection id="rec" title="3 · Recommendation — Direction A, ‘Lens on a page’" subtitle="The most downloadable: unmistakably about files, unmistakably about looking closely, and bold enough to pop in a folder-filled grid.">
+        <DCArtboard id="hero" label="The mark" width={560} height={620}>
+          <div style={{ height: "100%", background: "#11202F", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 30, padding: 30 }}>
+            {Dirs.A(220)}
+            <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+              <div style={{ width: 56, height: 56, borderRadius: 14, overflow: "hidden", flex: "0 0 auto" }}>{Dirs.A(56)}</div>
+              <span style={{ fontFamily: "var(--sans)", fontSize: 44, fontWeight: 700, color: "#fff", letterSpacing: "-.02em" }}>File<span style={{ color: "#6BA4FF" }}>Lens</span></span>
+            </div>
+            <div className="note" style={{ textAlign: "center", maxWidth: 380 }}>Navy ground (the MoneyLupe signature), a clean page, a confident blue lens with a solid pupil. The handle breaks the frame edge for energy.</div>
+          </div>
+        </DCArtboard>
+
+        <DCArtboard id="sizes" label="Survives every size" width={560} height={620}>
+          <div style={{ height: "100%", background: "#11202F", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 26, padding: 30 }}>
+            <div style={{ display: "flex", alignItems: "flex-end", gap: 20 }}>
+              {Dirs.A(128)}{Dirs.A(64)}{Dirs.A(40)}{Dirs.A(24)}
+            </div>
+            <Cap title="128 · 64 · 40 · 24 px" sub="Legible down to the Play-Store list size" />
+            <div style={{ display: "flex", gap: 20, marginTop: 6 }}>
+              <div style={{ textAlign: "center" }}>
+                <div style={{ width: 100, height: 100, borderRadius: 22, background: "#0F2A44", display: "grid", placeItems: "center" }}>
+                  <svg width="100" height="100" viewBox="0 0 100 100"><circle cx="44" cy="44" r="15" fill="none" stroke="#fff" strokeWidth="6"/><circle cx="44" cy="44" r="6.5" fill="#fff"/><line x1="56" y1="56" x2="68" y2="68" stroke="#fff" strokeWidth="7" strokeLinecap="round"/></svg>
+                </div>
+                <Cap title="Monochrome" sub="Themed-icon / notification" />
+              </div>
+              <div style={{ textAlign: "center" }}>
+                <div style={{ width: 100, height: 100, borderRadius: "50%", overflow: "hidden" }}>{Dirs.A(100)}</div>
+                <Cap title="Circle mask" sub="Adaptive-icon safe" />
+              </div>
+            </div>
+          </div>
+        </DCArtboard>
+
+        <DCArtboard id="context" label="On a home screen" width={420} height={620}>
+          <div style={{ height: "100%", background: "#11202F", display: "grid", placeItems: "center" }}>
+            <HomeScreen />
+          </div>
+        </DCArtboard>
+      </DCSection>
+
+      {/* ---------------- 4 · NAME ---------------- */}
+      <DCSection id="name" title="4 · Is “FileLens” still the best name?" subtitle="My honest take + alternatives.">
+        <DCArtboard id="verdict" label="Name analysis" width={900} height={560}>
+          <div style={{ height: "100%", background: "#11202F", padding: "26px 30px", overflow: "hidden" }}>
+            <div style={{ display: "flex", gap: 24 }}>
+              <div style={{ flex: 1 }}>
+                <span className="eyebrow">Verdict</span>
+                <div className="note" style={{ marginTop: 8 }}>
+                  <b style={{ fontSize: 16 }}>Keep <span className="blue">FileLens</span> — it's strong.</b><br/>
+                  It says exactly what the app is (files) and its one differentiator (a lens = look closely). It's short, pronounceable, brandable, and pairs beautifully with the icon and with the maker's other app, MoneyLupe.
+                </div>
+                <div className="note" style={{ marginTop: 14 }}>
+                  <span className="pill good">＋</span> Clear category + benefit in one word<br/>
+                  <span className="pill good">＋</span> Verb-able: “lens a file”, lens/scan/inspect<br/>
+                  <span className="pill good">＋</span> Family with MoneyLupe (lupe = lens)<br/>
+                  <span className="pill meh">～</span> “Lens” evokes Google Lens / camera lenses<br/>
+                  <span className="pill meh">～</span> “File-” prefix is a crowded shelf (File Manager+, FX…)
+                </div>
+              </div>
+              <div style={{ flex: 1 }}>
+                <span className="eyebrow">If you want to explore alternatives</span>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 10 }}>
+                  {[
+                    ["Peek", "The core action — peek inside before opening. Short, friendly, ownable.", "good"],
+                    ["Lupe", "Ties hard to MoneyLupe as a family brand. Less obvious in English.", "meh"],
+                    ["Looking Glass", "Evocative, premium. Longer; two words.", "meh"],
+                    ["Insight Files", "Descriptive, ‘understand your files’. A bit corporate.", "meh"],
+                    ["FileLens", "The incumbent. Best balance of clear + brandable.", "good"],
+                  ].map(([n, d, t]) => (
+                    <div key={n} style={{ display: "flex", gap: 12, alignItems: "flex-start", background: "#16283a", borderRadius: 12, padding: "11px 13px" }}>
+                      <span className={"pill " + t} style={{ marginTop: 2 }}>{t === "good" ? "★" : "○"}</span>
+                      <div className="note" style={{ fontSize: 12.5 }}><b>{n}</b> — {d}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="note" style={{ marginTop: 18, paddingTop: 14, borderTop: "1px solid #25384a", color: "#9aa6b4", fontSize: 12.5 }}>
+              <b>One thing to check before you commit:</b> search “FileLens” on the Play Store &amp; App Store and a quick trademark lookup — the name is good enough that someone may already use it. If it's taken, <span className="blue">Peek</span> is my favorite fallback.
+            </div>
+          </div>
+        </DCArtboard>
+      </DCSection>
+    </DesignCanvas>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
