@@ -110,7 +110,6 @@ dependencies {
     implementation(libs.androidx.security.crypto)
 
     debugImplementation(libs.androidx.compose.ui.tooling)
-    debugImplementation(libs.leakcanary.android)
 
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
