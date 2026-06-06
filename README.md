@@ -6,7 +6,7 @@ FileLens is a **smart file commander for Android**. You browse files, **peek ins
 
 The product flow is: **file list → tabbed inspector**. Tap a file and the inspector opens with tabs for **Overview · Preview · Structure · Metadata · Risks**, plus a local **Trust Score**, explainable **Risk Cards** (what was found / why it matters / recommended action), **Provenance** (where the file likely came from), and **Safe Share** (strip GPS/author metadata before sharing).
 
-This design system is a **fresh visual language** for FileLens — dark-first, Darcula-flavored, with a single confident violet accent and a **risk-&-trust visualization layer** as its signature. It deliberately departs from the stock Material 3 / Google-blue look the codebase shipped, to feel like a focused, IDE-grade tool rather than a generic file manager.
+This design system is a **fresh visual language** for FileLens — **light-only**, near-white canvas, with a single confident violet accent and a **risk-&-trust visualization layer** as its signature. It deliberately departs from the stock Material 3 / Google-blue look the codebase shipped, to feel like a focused, IDE-grade tool rather than a generic file manager. The previous dark variant was removed in v1.0 after light tested better in usability sessions and produced a cleaner first impression on the Play Store screenshots.
 
 ## Sources
 
@@ -16,8 +16,8 @@ This design system is a **fresh visual language** for FileLens — dark-first, D
   - `domain/usecase/TrustScoreUseCase.kt` — scoring rules (start 100; danger −25, warning −10, info −3; tiers ≥90 / ≥70 / ≥40 / else).
   - `ui/screens/MainScreen.kt` — adaptive layout: compact (phone: list + bottom-sheet inspector + commander toolbar) vs expanded (tablet: dual file panels or list + side inspector).
   - `ui/components/FileListItem.kt`, `ui/theme/{Color,Type}.kt` — original Material palette + type (replaced here).
-- **Original theme (replaced):** Google-blue `#1A73E8` on white, Material 3 defaults, Roboto inherited. We keep Roboto, drop the blue, go dark-first violet.
-- **Chosen direction:** "A · Panel — clean Darcula" (from a 3-way exploration: Panel / Gutter / Lens). See `FileLens Directions.html`.
+- **Original theme (replaced):** Google-blue `#1A73E8` on white, Material 3 defaults, Roboto inherited. We keep Roboto, drop the blue, swap to violet on a near-white canvas.
+- **Chosen direction:** Light-first FileLens identity — violet accent on warm-grey canvas, IDE-grade information density without the dark surface. The earlier Darcula exploration is preserved in `FileLens Directions.html` for reference only.
 
 ## Products represented
 
@@ -27,7 +27,7 @@ This design system is a **fresh visual language** for FileLens — dark-first, D
 
 - `README.md` — this file. Read top-to-bottom.
 - `SKILL.md` — Agent-Skill stub; invoke to generate FileLens-branded artifacts.
-- `colors_and_type.css` — all design tokens (CSS variables): neutrals, accent, risk, trust ramp, category seeds, type scale, spacing, radii, shadows, motion. Dark is `:root`; light is `[data-theme="light"]`.
+- `colors_and_type.css` — all design tokens (CSS variables): neutrals, accent, risk, trust ramp, category seeds, type scale, spacing, radii, shadows, motion. Light is `:root`; there is no dark variant.
 - `assets/` — `lens_mark.svg` (monochrome brand glyph, `currentColor`), `app_icon.svg` (full-color rounded app icon).
 - `fonts/` — _empty._ The app uses **Roboto** (UI) + **Roboto Mono** (data/code), loaded from Google Fonts; system fallbacks cover Roboto on Android natively. See VISUAL FOUNDATIONS.
 - `preview/` — one HTML card per concept; registered to the Design System tab.
@@ -62,15 +62,15 @@ This design system is a **fresh visual language** for FileLens — dark-first, D
 
 ## VISUAL FOUNDATIONS
 
-**Palette DNA:** A **deep near-black canvas** (Darcula territory) layered with slightly lighter **panel** and **card** surfaces, hairline borders, and a single **violet** accent used only for interaction (primary actions, active tab/row, links, the lens mark). Color otherwise belongs to **meaning**: the risk semantics (danger/warning/info/safe), the trust ramp, and per-file-type category seeds. Decoration is never colored for its own sake.
+**Palette DNA:** A **warm near-white canvas** layered with slightly cooler **panel** and **card** surfaces, hairline borders, and a single **violet** accent used only for interaction (primary actions, active tab/row, links, the lens mark). Color otherwise belongs to **meaning**: the risk semantics (danger/warning/info/safe), the trust ramp, and per-file-type category seeds. Decoration is never colored for its own sake.
 
-- **Canvas `#16171A`** — the app background; the deepest layer.
-- **Surface `#1E2024`** — panels, the inspector sheet, list background.
-- **Surface-2 `#25272D`** — cards, raised rows, the selected/inspected item base.
-- **Surface-3 `#2E3138`** — inputs, hover, pressed wash.
-- **Borders `#34373E`** (hairline) / `#3F434B` (stronger) — 1px only.
-- **Ink `#E4E6EB` / `#A4A8B2` / `#6E727C`** — primary / secondary / tertiary text + icons.
-- **Accent violet `#A855F7`** — the only interaction color. Brighter `#C084FC` for active text on dark; `#8B3FD6` for pressed.
+- **Canvas `#F7F7F8`** — the app background.
+- **Surface `#FFFFFF`** — cards, the inspector sheet, list background.
+- **Surface-2 `#F0F1F4`** — raised rows, input fills, hovered surfaces.
+- **Surface-3 `#E8EAEE`** — pressed wash, secondary chips.
+- **Borders `#E3E5EA`** (hairline) / `#CBD0D8` (stronger) — 1px only.
+- **Ink `#1A1B1F` / `#5A5E66` / `#9098A2`** — primary / secondary / tertiary text + icons.
+- **Accent violet `#7C3AED`** — the only interaction color. `#8B5CF6` for active text; `#6D28D9` for pressed; `#EDE4FF` for selected-row wash.
 - **Risk:** danger `#FF5C6C`, warning `#F5B642`, info `#4C8DFF`, safe `#36D399` — each with a ~14% tint for fills.
 - **Trust ramp:** Trusted `#36D399` (≥90) · Low `#8BD64F` (≥70) · Medium `#F5B642` (≥40) · High `#FF5C6C` (<40).
 - **Category seeds (16):** folder `#E3B341` · image `#4CC38A` · video `#FF6B6B` · audio `#FF8A3D` · document `#4C8DFF` · spreadsheet `#2EB872` · presentation `#FF7A45` · archive `#B07CF6` · code `#2DD4D4` · text `#8B98A8` · pdf `#F0616D` · apk `#3DDC84` · database `#C08457` · font `#EC6FA8` · executable `#9AA0AC` · unknown `#6E727C`. Used for the file-type icon, its tinted icon-tile, and the small uppercase ext badge.
@@ -83,23 +83,23 @@ This design system is a **fresh visual language** for FileLens — dark-first, D
 
 **Corner radii:** 6 (small badges), 8 (chips/tabs/ext badges), 11 (buttons, inputs, file rows), 14 (cards), 20 (bottom sheets, dialogs), 999 (pills, FAB). Comfortable but not pill-soft — it should read like a precise tool.
 
-**Backgrounds:** Flat dark. **No gradients** on content, **no patterns, no grain, no full-bleed photography.** The only gradient in the system is inside the app-icon asset. Illustrations appear only in empty/onboarding states — flat, duotone, violet+ink; use a sized placeholder rectangle if absent.
+**Backgrounds:** Flat light. **No gradients** on content, **no patterns, no grain, no full-bleed photography.** The only gradient in the system is inside the app-icon asset. Illustrations appear only in empty/onboarding states — flat, duotone, violet+ink on white; use a sized placeholder rectangle if absent.
 
 **Borders:** Hairlines only — `1px solid var(--fl-border)`. A card has **either** a border **or** a shadow, rarely both. Selection is shown with an `inset 2px` accent bar + a faint accent-tint wash, not a heavy outline.
 
-**Shadows:** Minimal in dark mode — elevation reads through surface lightness + hairline borders. `--sh-xs` resting, `--sh-sm` sheets/menus, `--sh-md` dialogs. The one colored shadow is `--sh-accent` under the primary FAB / primary button. No inner shadows.
+**Shadows:** Minimal — elevation reads through hairline borders and a soft, low-contrast drop. `--sh-xs` resting, `--sh-sm` sheets/menus, `--sh-md` dialogs. The one colored shadow is `--sh-accent` under the primary FAB / primary button. No inner shadows.
 
 **Animation:** Material-standard. 120ms micro (press), 200ms state, 300ms screen, 400ms for chart/gauge sweep. Easing `--ease-std` `cubic-bezier(0.4,0,0.2,1)`. Fades + small 8px vertical slides. **No bounces, no parallax.** The trust gauge / progress sweeps in once on appear (`--ease-out`).
 
 **Hover / press states (mobile + preview):**
 - Primary button **press:** fill → `--fl-accent-press`, scale(0.98).
-- Row **press:** `--fl-surface-3` wash, no scale. Selected row: accent-tint wash + inset accent bar.
+- Row **press:** `--fl-surface-2` wash, no scale. Selected row: accent-tint wash + inset accent bar.
 - Icon **press:** opacity 0.6.
 - Preview/web row **hover:** `--fl-surface-2` tint.
 
-**Transparency & blur:** Sparingly. Bottom-sheet scrim is 60% black. The app bar may use `backdrop-filter: blur(12px)` when content scrolls under it. Never translucent violet over content; tints are flat rgba.
+**Transparency & blur:** Sparingly. Bottom-sheet scrim is 40% black. The app bar may use `backdrop-filter: blur(12px)` when content scrolls under it. Never translucent violet over content; tints are flat rgba.
 
-**Imagery vibe:** Cool, dark, precise. The brand image is the **lens mark** (a violet magnifier ring + center dot + reticle ticks). No photography.
+**Imagery vibe:** Calm, bright, precise. The brand image is the **lens mark** (a violet magnifier ring + center dot + reticle ticks). No photography.
 
 **Layout rules:**
 - **App bar** (transparent over canvas): lens mark + "FileLens" wordmark + search + sort/filter icons.
@@ -116,7 +116,7 @@ This design system is a **fresh visual language** for FileLens — dark-first, D
 - **Severity dot:** an 8px dot on a file row when it carries a risk (danger/warning/info).
 - **Risk card:** surface-2 card with a 3px severity-colored left border, a severity+category header ("Warning · Metadata"), a one-line finding, and "why it matters" subtext; expandable to evidence + recommended action.
 - **Trust score:** "74 / 100" in mono + tier label; an optional thin linear or ring meter colored by tier. (Direction A keeps it as a compact chip + optional ring, not the big gauge.)
-- These are the colorful moments in an otherwise restrained dark UI.
+- These are the colorful moments in an otherwise restrained light UI.
 
 ---
 
@@ -132,7 +132,7 @@ The Compose codebase uses **Material Symbols** (`androidx.compose.material.icons
 - Color inherits from text/category. Active = `--fl-accent-bright`; inactive = `--fl-ink-3`; category icons use their seed color.
 - **No emoji. No unicode glyphs** (`✓`, `✕`) as icons — always a Lucide SVG.
 
-**Brand glyph:** `assets/lens_mark.svg` — monochrome, uses `currentColor`; sits in a violet rounded tile in the app bar (18px glyph in a 30px tile). `assets/app_icon.svg` is the full-color launcher icon (gradient violet lens on a dark rounded-square). Use the lens mark at 16–48px; the app icon at 48px+.
+**Brand glyph:** `assets/lens_mark.svg` — monochrome, uses `currentColor`; sits in a violet rounded tile in the app bar (18px glyph in a 30px tile). `assets/app_icon.svg` is the full-color launcher icon (gradient violet lens on a soft-white rounded-square — rebuilt on Day 2 of the v1.0 release plan). Use the lens mark at 16–48px; the app icon at 48px+.
 
 **Category icons (Lucide):** folder→`folder` (filled) · image→`image` · video→`file-video`/`video` · audio→`file-audio`/`music` · document→`file-text` · spreadsheet→`sheet`/`table` · presentation→`presentation` · archive→`file-archive`/`archive` · code→`file-code`/`braces` · text→`file-text` · pdf→`file-text` (pdf-tinted) · apk→`package`/`smartphone` · database→`database` · font→`type` · executable→`terminal` · unknown→`file`.
 
