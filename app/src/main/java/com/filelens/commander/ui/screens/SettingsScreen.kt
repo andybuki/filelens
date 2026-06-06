@@ -55,7 +55,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.filelens.commander.domain.model.PanelMode
 import com.filelens.commander.domain.model.SizeUnits
-import com.filelens.commander.domain.model.ThemeMode
 import com.filelens.commander.ui.theme.Eyebrow
 import com.filelens.commander.ui.theme.FlAccent
 import com.filelens.commander.ui.theme.FlInk3
@@ -128,19 +127,6 @@ fun SettingsScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
-            SectionHeader("Appearance")
-            SettingsCard {
-                ChoiceRow(
-                    label = "Theme",
-                    value = settings.themeMode.displayName,
-                    onClick = { /* handled by inline picker */ },
-                    trailing = null,
-                    inlinePicker = {
-                        ThemePicker(current = settings.themeMode, onSelect = viewModel::setThemeMode)
-                    }
-                )
-            }
-
             SectionHeader("Browsing")
             SettingsCard {
                 SwitchRow(
@@ -430,15 +416,6 @@ private fun StaticRow(label: String, value: String) {
         Spacer(modifier = Modifier.height(2.dp))
         Text(value, style = MaterialTheme.typography.bodySmall, color = FlInk3)
     }
-}
-
-@Composable
-private fun ThemePicker(current: ThemeMode, onSelect: (ThemeMode) -> Unit) {
-    SegmentRow(
-        options = ThemeMode.entries.map { it to it.displayName },
-        current = current,
-        onSelect = onSelect
-    )
 }
 
 @Composable

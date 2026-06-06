@@ -8,7 +8,6 @@ import com.filelens.commander.domain.model.PanelMode
 import com.filelens.commander.domain.model.SizeUnits
 import com.filelens.commander.domain.model.SortDirection
 import com.filelens.commander.domain.model.SortField
-import com.filelens.commander.domain.model.ThemeMode
 import com.filelens.commander.domain.usecase.BackupUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -42,7 +41,6 @@ class SettingsViewModel @Inject constructor(
         initialValue = AppSettings()
     )
 
-    fun setThemeMode(mode: ThemeMode) = viewModelScope.launch { repo.setThemeMode(mode) }
     fun setShowHidden(value: Boolean) = viewModelScope.launch { repo.setShowHidden(value) }
     fun setHideEmptyFolders(value: Boolean) = viewModelScope.launch { repo.setHideEmptyFolders(value) }
     fun setSizeUnits(units: SizeUnits) = viewModelScope.launch { repo.setSizeUnits(units) }

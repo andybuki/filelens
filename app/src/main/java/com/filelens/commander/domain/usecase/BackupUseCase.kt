@@ -7,7 +7,6 @@ import com.filelens.commander.domain.model.PanelMode
 import com.filelens.commander.domain.model.SizeUnits
 import com.filelens.commander.domain.model.SortDirection
 import com.filelens.commander.domain.model.SortField
-import com.filelens.commander.domain.model.ThemeMode
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -31,7 +30,6 @@ class BackupUseCase @Inject constructor(
             put("version", VERSION)
             put("exportedAt", System.currentTimeMillis())
             put("settings", JSONObject().apply {
-                put("themeMode", settings.themeMode.name)
                 put("showHidden", settings.showHidden)
                 put("hideEmptyFolders", settings.hideEmptyFolders)
                 put("sizeUnits", settings.sizeUnits.name)
@@ -82,9 +80,8 @@ class BackupUseCase @Inject constructor(
 
         root.optJSONObject("settings")?.let { s ->
             runCatching {
-                s.optString("themeMode").takeIf { it.isNotEmpty() }?.let {
-                    settingsRepository.setThemeMode(ThemeMode.valueOf(it)); imported++
-                }
+                // themeMode is intentionally ignored: FileLens is light-only as
+                // of v1.0. Old backups that include it import cleanly.
                 if (s.has("showHidden")) {
                     settingsRepository.setShowHidden(s.getBoolean("showHidden")); imported++
                 }
