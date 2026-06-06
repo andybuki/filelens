@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Machine-translated first pass — review by a native speaker before final release. -->
+<resources>
+    <!-- ====================================================================
+         App
+         ==================================================================== -->
+    <string name="app_name">FileLens</string>
+
+    <!-- ====================================================================
+         Common actions / buttons
+         ==================================================================== -->
+    <string name="action_cancel">إلغاء</string>
+    <string name="action_close">إغلاق</string>
+    <string name="action_save">حفظ</string>
+    <string name="action_create">إنشاء</string>
+    <string name="action_delete">حذف</string>
+    <string name="action_rename">إعادة التسمية</string>
+    <string name="action_copy">نسخ</string>
+    <string name="action_move">نقل</string>
+    <string name="action_export">تصدير</string>
+    <string name="action_import">استيراد</string>
+    <string name="action_find">بحث</string>
+    <string name="action_reset">إعادة تعيين</string>
+    <string name="action_retry">حاول مرة أخرى</string>
+    <string name="action_clear">مسح</string>
+    <string name="action_clear_search">مسح البحث</string>
+    <string name="action_back">رجوع</string>
+    <string name="action_compare">مقارنة</string>
+    <string name="action_ignore">تجاهل</string>
+
+    <!-- ====================================================================
+         Content descriptions (accessibility)
+         ==================================================================== -->
+    <string name="cd_back">رجوع</string>
+    <string name="cd_close">إغلاق</string>
+    <string name="cd_close_search">إغلاق البحث</string>
+    <string name="cd_search">بحث</string>
+    <string name="cd_more_options">المزيد من الخيارات</string>
+    <string name="cd_settings">الإعدادات</string>
+    <string name="cd_navigate_up">التنقل لأعلى</string>
+    <string name="cd_copy">نسخ</string>
+    <string name="cd_expand">توسيع</string>
+    <string name="cd_collapse">طي</string>
+    <string name="cd_clear_selection">مسح التحديد</string>
+    <string name="cd_remove_bookmark">إزالة الإشارة المرجعية</string>
+    <string name="cd_connect">اتصال</string>
+    <string name="cd_edit">تعديل</string>
+    <string name="cd_delete">حذف</string>
+    <string name="cd_add_server">إضافة خادم</string>
+    <string name="cd_image_preview_left">الصورة اليسرى</string>
+    <string name="cd_image_preview_right">الصورة اليمنى</string>
+    <string name="cd_inspector_actions">إجراءات المفتش</string>
+    <string name="cd_severity_danger">خطر شديد</string>
+    <string name="cd_severity_warning">خطر تحذيري</string>
+    <string name="cd_severity_info">إشعار معلوماتي</string>
+
+    <!-- ====================================================================
+         File list panel
+         ==================================================================== -->
+    <string name="brand_name">FileLens</string>
+    <string name="home_folder_label">الهاتف</string>
+    <string name="menu_show_hidden_files">إظهار الملفات المخفية</string>
+    <string name="menu_hide_hidden_files">إخفاء الملفات المخفية</string>
+    <string name="menu_scan_folder">فحص المجلد بحثاً عن مخاطر</string>
+    <string name="menu_analyze_folder">تحليل المجلد</string>
+    <string name="menu_find_duplicates">البحث عن التكرارات هنا</string>
+    <string name="menu_bookmark_folder">وضع إشارة مرجعية لهذا المجلد</string>
+    <string name="menu_show_bookmarks">إظهار الإشارات المرجعية</string>
+    <string name="menu_recents">الأخيرة</string>
+    <string name="search_hint">البحث في الملفات…</string>
+    <string name="searching_label">جارٍ البحث…</string>
+    <string name="search_in_folder">البحث في المجلدات الفرعية</string>
+    <string name="empty_folder_headline">هذا المجلد فارغ</string>
+    <string name="empty_folder_subtitle">لا يوجد شيء هنا بعد. أضف ملفات، أو استورد كشفاً لفحصه قبل فتحه.</string>
+    <string name="empty_folder_action">استيراد ملف</string>
+    <string name="active_panel_indicator">اللوحة النشطة</string>
+
+    <!-- ====================================================================
+         File list item (accessibility)
+         ==================================================================== -->
+    <string name="a11y_kind_folder">مجلد</string>
+    <string name="a11y_kind_file">ملف</string>
+    <string name="a11y_folder_empty">فارغ</string>
+    <string name="a11y_item_selected">محدد</string>
+    <string name="a11y_modified">تم التعديل %1$s</string>
+    <string name="a11y_file_type">ملف %1$s</string>
+
+    <!-- ====================================================================
+         Sort
+         ==================================================================== -->
+    <string name="sort_name">الاسم</string>
+    <string name="sort_size">الحجم</string>
+    <string name="sort_date">التاريخ</string>
+    <string name="sort_type">النوع</string>
+
+    <!-- ====================================================================
+         Inspector panel — header
+         ==================================================================== -->
+    <string name="inspector_tab_overview">نظرة عامة</string>
+    <string name="inspector_tab_preview">معاينة</string>
+    <string name="inspector_tab_structure">البنية</string>
+    <string name="inspector_tab_metadata">البيانات الوصفية</string>
+    <string name="inspector_tab_risks">المخاطر</string>
+
+    <!-- ====================================================================
+         Inspector panel — overview tab
+         ==================================================================== -->
+    <string name="row_label_file">الملف</string>
+    <string name="row_label_type">النوع</string>
+    <string name="row_label_extension">الامتداد</string>
+    <string name="row_label_mime">MIME</string>
+    <string name="row_label_size">الحجم</string>
+    <string name="row_label_modified">تاريخ التعديل</string>
+
+    <string name="section_safe_actions">الإجراءات الآمنة</string>
+    <string name="section_external">خارجي</string>
+
+    <string name="action_preview_only">معاينة فقط</string>
+    <string name="action_inspect_metadata">فحص البيانات الوصفية</string>
+    <string name="action_browse_archive">تصفح المحتويات (بدون استخراج)</string>
+    <string name="action_inspect_doc_structure">فحص بنية المستند</string>
+    <string name="action_inspect_structure">فحص البنية</string>
+    <string name="action_search_inside">البحث بالداخل…</string>
+    <string name="action_export_markdown">تصدير Markdown</string>
+    <string name="action_export_json">تصدير JSON</string>
+    <string name="action_share_cleaned">مشاركة النسخة المنظفة</string>
+    <string name="action_verify_hash">التحقق من الهاش</string>
+    <string name="action_browse_rows">تصفح الصفوف</string>
+    <string name="action_open_with">فتح باستخدام…</string>
+    <string name="action_view_on_map">عرض على الخريطة</string>
+
+    <!-- Open as menu -->
+    <string name="open_as_title">فتح كـ…</string>
+    <string name="open_as_restore_detected">تم اكتشاف استعادة (%1$s)</string>
+    <string name="open_as_reinspect">إعادة تشغيل المفتش</string>
+
+    <!-- Trust score card -->
+    <string name="trust_score_disclaimer">درجة ثقة استدلالية. ليست برنامج مكافحة فيروسات.</string>
+    <string name="trust_top_reasons">أهم الأسباب</string>
+
+    <!-- Risks tab -->
+    <string name="risks_none_detected">لم يتم اكتشاف أي مخاطر</string>
+    <string name="risks_all_ignored">تم تجاهل جميع المخاطر لهذه الجلسة.</string>
+    <string name="risk_show_evidence">إظهار الأدلة</string>
+    <string name="risk_hide_evidence">إخفاء الأدلة</string>
+    <string name="risk_learn_more">معرفة المزيد</string>
+    <string name="risk_hide_learn_more">إخفاء معرفة المزيد</string>
+    <string name="risk_severity_danger">خطر</string>
+    <string name="risk_severity_warning">تحذير</string>
+    <string name="risk_severity_info">معلومات</string>
+
+    <!-- Preview tab -->
+    <string name="preview_none_available">لا تتوفر معاينة</string>
+    <string name="preview_raw">خام</string>
+    <string name="preview_pretty">منسق</string>
+    <string name="preview_hex_header">عرض سداسي عشري (الإجمالي %1$s)</string>
+
+    <!-- Structure tab -->
+    <string name="structure_none_available">لا تتوفر بنية</string>
+
+    <!-- Metadata tab -->
+    <string name="metadata_none_available">لا توجد بيانات وصفية إضافية</string>
+
+    <!-- Secrets card -->
+    <string name="secrets_redaction_notice">القيم محجوبة. عامل أي بيانات اعتماد مسربة باعتبارها مخترقة — قم بتدويرها أولاً، ثم احذفها من الملف.</string>
+    <string name="secrets_copy_name">نسخ الاسم</string>
+
+    <!-- Provenance -->
+    <string name="provenance_high_confidence">المصدر المرجح</string>
+    <string name="provenance_medium_confidence">المصدر المحتمل</string>
+    <string name="provenance_low_confidence">المصدر الممكن</string>
+
+    <!-- Empty inspector -->
+    <string name="inspector_empty_headline">حدد ملفاً للفحص</string>
+    <string name="inspector_empty_subtitle">انقر على أي ملف في القائمة للاطلاع على محتواه قبل فتحه.</string>
+
+    <!-- ====================================================================
+         Selection bar
+         ==================================================================== -->
+    <string name="selection_compare">مقارنة</string>
+    <string name="selection_hint_select_two">حدد 2 للمقارنة</string>
+
+    <!-- ====================================================================
+         Commander toolbar actions
+         ==================================================================== -->
+    <string name="cmd_view">عرض</string>
+    <string name="cmd_copy">نسخ</string>
+    <string name="cmd_move">نقل</string>
+    <string name="cmd_mkdir">إنشاء مجلد</string>
+    <string name="cmd_diff">الفروق</string>
+    <string name="cmd_delete">حذف</string>
+    <string name="cmd_rename">إعادة التسمية</string>
+
+    <!-- ====================================================================
+         File operation dialogs
+         ==================================================================== -->
+    <string name="dialog_new_folder_title">مجلد جديد</string>
+    <string name="dialog_new_folder_label">اسم المجلد</string>
+    <string name="dialog_rename_title">إعادة التسمية</string>
+    <string name="dialog_rename_label">الاسم الجديد</string>
+    <string name="dialog_delete_title">حذف</string>
+    <string name="dialog_delete_message">هل أنت متأكد أنك تريد الحذف؟</string>
+    <string name="dialog_copy_move_target_label">%1$s %2$d ملف(ات) إلى:</string>
+    <string name="dialog_and_more">… و%1$d أخرى</string>
+    <string name="dialog_operation_title">%1$s ملفات</string>
+
+    <!-- ====================================================================
+         Batch rename dialog
+         ==================================================================== -->
+    <string name="batch_rename_title">إعادة تسمية دفعية</string>
+    <string name="batch_rename_tokens_hint">الرموز: {name}، {ext}، {n}، {n:03}</string>
+    <string name="batch_rename_label_pattern">النمط</string>
+    <string name="batch_rename_label_find">بحث</string>
+    <string name="batch_rename_label_replace">استبدال</string>
+    <string name="batch_rename_use_regex">بحث/استبدال بالتعبيرات النمطية</string>
+    <string name="batch_rename_start_index">البداية: %1$d</string>
+    <string name="batch_rename_banner_invalid">بعض أسماء الهدف غير صالحة</string>
+    <string name="batch_rename_banner_ready">جاهز لإعادة التسمية</string>
+    <string name="batch_rename_applying">جارٍ إعادة التسمية…</string>
+    <string name="batch_rename_arrow">← %1$s</string>
+
+    <!-- ====================================================================
+         Hash verify dialog
+         ==================================================================== -->
+    <string name="hash_verify_title">التحقق من الهاش</string>
+    <string name="hash_verify_hashing">جارٍ الهاش…</string>
+    <string name="hash_verify_compare_label">مقارنة مع</string>
+    <string name="hash_verify_paste_hint">الصق SHA-256 أو MD5 للتحقق</string>
+    <string name="hash_verify_match">تطابق</string>
+    <string name="hash_verify_no_match">لا يوجد تطابق</string>
+    <string name="hash_verify_unknown">الصق هاشاً مكوناً من 32 أو 64 حرفاً</string>
+
+    <!-- ====================================================================
+         Batch scan / privacy audit dialog
+         ==================================================================== -->
+    <string name="batch_scan_title_scanning">جارٍ فحص المجلد…</string>
+    <string name="batch_scan_title_done">مراجعة الخصوصية</string>
+    <string name="batch_scan_progress">%1$d / %2$d</string>
+    <string name="batch_scan_result_count">تم فحص %1$d ملف(ات)</string>
+    <string name="batch_scan_bucket_empty">لا يوجد شيء في هذا القسم.</string>
+    <string name="batch_scan_creating_copies">جارٍ إنشاء نسخ منظفة…</string>
+    <string name="batch_scan_action_batch_clean">تنظيف دفعي</string>
+    <string name="batch_scan_bucket_risky">محفوف بالمخاطر (%1$d)</string>
+    <string name="batch_scan_bucket_safe">آمن (%1$d)</string>
+    <string name="batch_scan_bucket_unsupported">غير مدعوم (%1$d)</string>
+
+    <!-- ====================================================================
+         Safe share sheet
+         ==================================================================== -->
+    <string name="safe_share_title">التحقق قبل المشاركة</string>
+    <string name="safe_share_no_risks">لم يتم اكتشاف أي مخاطر. آمن للمشاركة.</string>
+    <string name="safe_share_risks_intro">قد يكشف هذا الملف عن:</string>
+    <string name="safe_share_action_original">مشاركة الأصل</string>
+    <string name="safe_share_action_cleaned">إنشاء نسخة منظفة</string>
+
+    <!-- ====================================================================
+         Search inside dialog
+         ==================================================================== -->
+    <string name="search_inside_title">البحث داخل الملف</string>
+    <string name="search_inside_hint">البحث في الإدخالات والمفاتيح والمحتوى…</string>
+    <string name="search_inside_searching">جارٍ البحث…</string>
+    <string name="search_inside_no_matches">لا توجد تطابقات.</string>
+    <string name="search_inside_more">… %1$d أخرى</string>
+
+    <!-- ====================================================================
+         Bookmarks sheet
+         ==================================================================== -->
+    <string name="bookmarks_section_title">الإشارات المرجعية</string>
+    <string name="bookmarks_empty_headline">لا توجد إشارات مرجعية بعد</string>
+    <string name="bookmarks_empty_subtitle">أضف المجلد الحالي من قائمة اللوحة.</string>
+
+    <!-- ====================================================================
+         Recents sheet
+         ==================================================================== -->
+    <string name="recents_section_frequent">المجلدات المتكررة</string>
+    <string name="recents_section_recent">الملفات الأخيرة</string>
+    <string name="recents_clear_history">مسح السجل</string>
+    <string name="recents_empty_headline">لا يوجد نشاط حديث</string>
+    <string name="recents_empty_subtitle">ستظهر هنا الملفات التي تفحصها والمجلدات التي تزورها.</string>
+    <string name="recents_one_visit">زيارة واحدة</string>
+    <string name="recents_visits_format">%1$d زيارة</string>
+
+    <!-- ====================================================================
+         Shortcut recorder dialog
+         ==================================================================== -->
+    <string name="shortcut_bind_title">ربط %1$s</string>
+    <string name="shortcut_press_hint">اضغط على التوليفة الجديدة، ثم انقر على حفظ.</string>
+    <string name="shortcut_current">الحالي: %1$s</string>
+    <string name="shortcut_default">الافتراضي: %1$s</string>
+
+    <!-- ====================================================================
+         Shortcuts screen
+         ==================================================================== -->
+    <string name="shortcuts_title">اختصارات لوحة المفاتيح</string>
+    <string name="shortcuts_hint">انقر على صف لتسجيل توليفة مفاتيح جديدة. إذا كانت التوليفة الجديدة مستخدمة بالفعل، فسيتم تبديل الاختصار الموجود مع الاختصار الذي تعدله.</string>
+    <string name="shortcuts_action_reset">إعادة تعيين</string>
+
+    <!-- ====================================================================
+         Settings screen
+         ==================================================================== -->
+    <string name="settings_title">الإعدادات</string>
+    <string name="settings_section_browsing">التصفح</string>
+    <string name="settings_section_input">الإدخال</string>
+    <string name="settings_section_remote">بعيد</string>
+    <string name="settings_section_backup">النسخ الاحتياطي &amp; الاستعادة</string>
+    <string name="settings_section_about">حول</string>
+    <string name="settings_section_licenses">تراخيص المصدر المفتوح</string>
+
+    <string name="settings_show_hidden_files">إظهار الملفات المخفية</string>
+    <string name="settings_show_hidden_files_desc">عرض الملفات والمجلدات المخفية التي تبدأ بنقطة.</string>
+    <string name="settings_hide_empty_folders">إخفاء المجلدات الفارغة</string>
+    <string name="settings_hide_empty_folders_desc">لا تعرض المجلدات التي لا تحتوي على ملفات مرئية.</string>
+    <string name="settings_size_units">وحدات حجم الملف</string>
+    <string name="settings_default_panel">اللوحة الافتراضية (الأجهزة اللوحية)</string>
+
+    <string name="settings_keyboard_shortcuts">اختصارات لوحة المفاتيح</string>
+    <string name="settings_keyboard_shortcuts_desc">تخصيص مفاتيح F وتوليفات Ctrl المستخدمة في القائد.</string>
+
+    <string name="settings_remote_servers">الخوادم البعيدة</string>
+    <string name="settings_remote_servers_desc">تصفح مشاركات FTP وSFTP وSMB مثل المجلدات المحلية.</string>
+
+    <string name="settings_backup_desc">احفظ إعداداتك وإشاراتك المرجعية والملفات الأخيرة والمجلدات المتكررة في ملف JSON يمكنك استعادته لاحقاً.</string>
+
+    <string name="settings_about_app_name">FileLens Commander</string>
+    <string name="settings_about_version">الإصدار 0.4.4</string>
+    <string name="settings_about_vision_label">الرؤية</string>
+    <string name="settings_about_vision_text">تصفح الملفات، اطلع على محتواها، افهمها قبل الفتح. غير متصل بالإنترنت، على الجهاز، بدون حسابات.</string>
+    <string name="settings_licenses_intro">FileLens مبني على هذه المكتبات مفتوحة المصدر:</string>
+    <string name="settings_licenses_show">إظهار التراخيص</string>
+    <string name="settings_licenses_hide">إخفاء التراخيص</string>
+
+    <string name="settings_backup_saved">تم حفظ النسخة الاحتياطية</string>
+    <string name="settings_export_failed">فشل التصدير: %1$s</string>
+    <string name="settings_import_failed">فشل الاستيراد: %1$s</string>
+
+    <!-- ====================================================================
+         Remote servers screen
+         ==================================================================== -->
+    <string name="remote_servers_title">الخوادم البعيدة</string>
+    <string name="remote_servers_empty_headline">لا توجد خوادم بعيدة بعد</string>
+    <string name="remote_servers_empty_subtitle">أضف خادم FTP أو SFTP أو SMB لتصفحه مثل مجلد محلي.</string>
+    <string name="remote_dialog_delete_title">حذف الخادم؟</string>
+    <string name="remote_dialog_delete_message">إزالة &#8220;%1$s&#8221;؟ يحذف هذا الإدخال المحفوظ فقط؛ لا يُمس شيء على الخادم.</string>
+    <string name="remote_dialog_add_title">إضافة خادم</string>
+    <string name="remote_dialog_edit_title">تعديل الخادم</string>
+    <string name="remote_field_display_name">اسم العرض</string>
+    <string name="remote_field_host">المضيف</string>
+    <string name="remote_field_port">المنفذ</string>
+    <string name="remote_field_username">اسم المستخدم</string>
+    <string name="remote_field_password">كلمة المرور</string>
+    <string name="remote_field_password_edit">كلمة المرور (اتركها فارغة للاحتفاظ بالمحفوظة)</string>
+    <string name="remote_field_share_name">اسم المشاركة</string>
+    <string name="remote_field_base_path">المسار الأساسي (اختياري)</string>
+    <string name="remote_option_anonymous">مجهول</string>
+    <string name="remote_option_passive_mode">الوضع السلبي</string>
+    <string name="remote_option_clear_host_key">مسح مفتاح المضيف المثبت (الاتصال التالي سيعيد التثبيت عند الثقة)</string>
+
+    <!-- ====================================================================
+         Compare screen
+         ==================================================================== -->
+    <string name="compare_title">مقارنة</string>
+    <string name="compare_panel_left">يسار</string>
+    <string name="compare_panel_right">يمين</string>
+    <string name="compare_tab_overview">نظرة عامة</string>
+    <string name="compare_tab_metadata">البيانات الوصفية</string>
+    <string name="compare_tab_content">المحتوى</string>
+    <string name="compare_progress_folders">جارٍ تصفح المجلدات…</string>
+    <string name="compare_progress_files">جارٍ مقارنة الملفات…</string>
+    <string name="compare_identical">محتوى متطابق</string>
+    <string name="compare_different">محتوى مختلف</string>
+    <string name="compare_section_checksums">المجاميع الاختبارية</string>
+    <string name="compare_metadata_empty">لم يتم استخراج بيانات وصفية</string>
+    <string name="compare_metadata_identical">البيانات الوصفية متطابقة</string>
+    <string name="compare_content_empty">لا يوجد محتوى متاح</string>
+    <string name="compare_structurally_identical">%1$s متطابق هيكلياً</string>
+    <string name="compare_diff_truncated">تم اقتطاع الفروق — عرض أول 5,000 سطر</string>
+    <string name="compare_renamed_candidates">محتوى متطابق، مسارات مختلفة (%1$d)</string>
+    <string name="compare_and_more">…و%1$d أخرى</string>
+    <string name="compare_sizes_lr">يسار: %1$s · يمين: %2$s</string>
+    <string name="compare_no_entries">لا توجد إدخالات تطابق هذا الفلتر</string>
+
+    <string name="compare_filter_all">الكل</string>
+    <string name="compare_filter_left_only">اليسار فقط</string>
+    <string name="compare_filter_right_only">اليمين فقط</string>
+    <string name="compare_filter_changed">تغير</string>
+    <string name="compare_filter_same">متطابق</string>
+
+    <string name="compare_folder_copy_to_right">نسخ ← يمين</string>
+    <string name="compare_folder_copy_to_left">يسار → نسخ</string>
+    <string name="compare_folder_overwrite_right">الكتابة فوق ← يمين</string>
+    <string name="compare_folder_overwrite_left">يسار → الكتابة فوق</string>
+    <string name="compare_folder_verify_checksum">التحقق بالمجموع الاختباري</string>
+    <string name="compare_folder_match_count">%1$d / %2$d تطابق</string>
+    <string name="compare_folder_both_empty">كلا المجلدين فارغان</string>
+    <string name="compare_folder_diff_summary">%1$d تغير · %2$d يسار فقط · %3$d يمين فقط</string>
+    <string name="compare_folder_checksum_verified"> · تم التحقق بالمجموع الاختباري</string>
+
+    <string name="compare_diff_label_left_only">اليسار فقط</string>
+    <string name="compare_diff_label_right_only">اليمين فقط</string>
+    <string name="compare_diff_label_changed">تغير</string>
+    <string name="compare_diff_label_same">متطابق</string>
+
+    <!-- ====================================================================
+         Duplicate finder screen
+         ==================================================================== -->
+    <string name="duplicates_title">البحث عن التكرارات</string>
+    <string name="duplicates_none_found">لم يتم العثور على تكرارات</string>
+    <string name="duplicates_hashing">جارٍ الهاش لـ %1$d من %2$d…</string>
+    <string name="duplicates_scanning">جارٍ الفحص… %1$d ملف</string>
+    <string name="duplicates_group_count">%1$d مجموعة تكرار</string>
+    <string name="duplicates_wasted_summary">%1$s مهدرة عبر %2$d ملف تم فحصه</string>
+    <string name="duplicates_action_select_old">تحديد النسخ القديمة</string>
+    <string name="duplicates_copies_each">%1$d نسخة · %2$s لكل منها</string>
+    <string name="duplicates_wasted">%1$s مهدرة</string>
+    <string name="duplicates_modified">تم التعديل %1$s</string>
+
+    <!-- ====================================================================
+         Folder dashboard dialog
+         ==================================================================== -->
+    <string name="folder_dashboard_title">لوحة تحكم المجلد</string>
+    <string name="folder_dashboard_analyzing">جارٍ تحليل المجلد…</string>
+    <string name="folder_dashboard_no_data">لا توجد بيانات</string>
+    <string name="folder_dashboard_folder_label">المجلد</string>
+    <string name="folder_dashboard_file_count">%1$d ملف(ات) · الإجمالي %2$s</string>
+    <string name="folder_dashboard_section_disk_usage">استخدام القرص حسب النوع</string>
+    <string name="folder_dashboard_section_largest">أكبر الملفات</string>
+    <string name="folder_dashboard_section_newest">أحدث الملفات</string>
+    <string name="folder_dashboard_section_unknown">غير معروف / غير مصنف (%1$d)</string>
+    <string name="folder_dashboard_section_duplicates">تكرارات محتملة (نفس الحجم)</string>
+
+    <!-- ====================================================================
+         Main screen
+         ==================================================================== -->
+    <string name="main_bookmark_added">تمت إضافة الإشارة المرجعية</string>
+    <string name="main_panel_dual">لوحة مزدوجة</string>
+    <string name="main_panel_inspector">المفتش</string>
+    <string name="main_chooser_open_with">فتح باستخدام</string>
+    <string name="main_chooser_share_cleaned">مشاركة النسخة المنظفة</string>
+    <string name="main_chooser_share_report">مشاركة التقرير</string>
+    <string name="main_chooser_share_cleaned_files">مشاركة الملفات المنظفة</string>
+
+    <!-- ====================================================================
+         State views
+         ==================================================================== -->
+    <string name="state_no_matches_headline">لا توجد تطابقات</string>
+    <string name="state_no_matches_subtitle">لا يوجد شيء في هذا المجلد يطابق &#8220;%1$s&#8221;.</string>
+    <string name="state_no_matches_no_query">جرب استعلاماً مختلفاً.</string>
+    <string name="state_error_headline">حدث خطأ ما</string>
+
+    <!-- ====================================================================
+         Plurals
+         ==================================================================== -->
+    <plurals name="plural_file_count">
+        <item quantity="zero">لا ملفات</item>
+        <item quantity="one">ملف واحد</item>
+        <item quantity="two">ملفان</item>
+        <item quantity="few">%1$d ملفات</item>
+        <item quantity="many">%1$d ملفاً</item>
+        <item quantity="other">%1$d ملف</item>
+    </plurals>
+
+    <plurals name="plural_item_count">
+        <item quantity="zero">لا عناصر</item>
+        <item quantity="one">عنصر واحد</item>
+        <item quantity="two">عنصران</item>
+        <item quantity="few">%1$d عناصر</item>
+        <item quantity="many">%1$d عنصراً</item>
+        <item quantity="other">%1$d عنصر</item>
+    </plurals>
+
+    <plurals name="plural_risk_count">
+        <item quantity="zero">لا مخاطر</item>
+        <item quantity="one">خطر واحد</item>
+        <item quantity="two">خطران</item>
+        <item quantity="few">%1$d مخاطر</item>
+        <item quantity="many">%1$d خطراً</item>
+        <item quantity="other">%1$d خطر</item>
+    </plurals>
+
+    <plurals name="plural_match_count">
+        <item quantity="zero">لا تطابقات</item>
+        <item quantity="one">تطابق واحد</item>
+        <item quantity="two">تطابقان</item>
+        <item quantity="few">%1$d تطابقات</item>
+        <item quantity="many">%1$d تطابقاً</item>
+        <item quantity="other">%1$d تطابق</item>
+    </plurals>
+
+    <plurals name="plural_secret_count">
+        <item quantity="zero">لا أسرار محتملة</item>
+        <item quantity="one">سر محتمل واحد (%1$d)</item>
+        <item quantity="two">سران محتملان (%1$d)</item>
+        <item quantity="few">أسرار محتملة (%1$d)</item>
+        <item quantity="many">%1$d سراً محتملاً</item>
+        <item quantity="other">أسرار محتملة (%1$d)</item>
+    </plurals>
+
+    <plurals name="plural_ignored_count">
+        <item quantity="zero">لا شيء مُتجاهَل — إظهار</item>
+        <item quantity="one">%1$d مُتجاهَل — إظهار</item>
+        <item quantity="two">%1$d مُتجاهَلان — إظهار</item>
+        <item quantity="few">%1$d مُتجاهَلة — إظهار</item>
+        <item quantity="many">%1$d مُتجاهَلاً — إظهار</item>
+        <item quantity="other">%1$d مُتجاهَل — إظهار</item>
+    </plurals>
+
+    <plurals name="plural_selected_count">
+        <item quantity="zero">لا شيء محدد</item>
+        <item quantity="one">%1$d محدد</item>
+        <item quantity="two">%1$d محددان</item>
+        <item quantity="few">%1$d محددة</item>
+        <item quantity="many">%1$d محدداً</item>
+        <item quantity="other">%1$d محدد</item>
+    </plurals>
+
+    <plurals name="plural_collision_count">
+        <item quantity="zero">لا تعارضات في الأسماء</item>
+        <item quantity="one">تعارض اسم واحد</item>
+        <item quantity="two">تعارضا اسمين</item>
+        <item quantity="few">%1$d تعارضات أسماء</item>
+        <item quantity="many">%1$d تعارضاً في الأسماء</item>
+        <item quantity="other">%1$d تعارض أسماء</item>
+    </plurals>
+
+    <plurals name="plural_rename_action">
+        <item quantity="zero">إعادة تسمية 0</item>
+        <item quantity="one">إعادة تسمية %1$d</item>
+        <item quantity="two">إعادة تسمية %1$d</item>
+        <item quantity="few">إعادة تسمية %1$d</item>
+        <item quantity="many">إعادة تسمية %1$d</item>
+        <item quantity="other">إعادة تسمية %1$d</item>
+    </plurals>
+
+    <plurals name="plural_delete_action">
+        <item quantity="zero">حذف 0</item>
+        <item quantity="one">حذف %1$d</item>
+        <item quantity="two">حذف %1$d</item>
+        <item quantity="few">حذف %1$d</item>
+        <item quantity="many">حذف %1$d</item>
+        <item quantity="other">حذف %1$d</item>
+    </plurals>
+
+    <plurals name="plural_visit_count">
+        <item quantity="zero">لا زيارات</item>
+        <item quantity="one">زيارة واحدة</item>
+        <item quantity="two">زيارتان</item>
+        <item quantity="few">%1$d زيارات</item>
+        <item quantity="many">%1$d زيارةً</item>
+        <item quantity="other">%1$d زيارة</item>
+    </plurals>
+
+</resources>
