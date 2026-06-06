@@ -483,11 +483,11 @@ Prioritised so heavy / high-token tasks land early and risk is front-loaded; fin
   - [x] Risk cards, trust chip, severity dots, category badges — verify contrast on light.
   - [x] Compare mode, batch scan dialog, safe-share sheet, batch privacy audit review.
   - [x] Hex view, code view, tree view — re-tune syntax colors for light background.
-- [ ] **Day 5 — Localization framework**
-  - [ ] Migrate all hardcoded UI strings to `strings.xml`.
-  - [ ] Extract risk-card copy, provenance hints, trust tier labels, error messages.
-  - [ ] Set up `values-<lang>/` structure and lint rule for hardcoded strings.
-  - [ ] Plural / quantity strings via `<plurals>` for counts ("3 files", "%d risks").
+- [x] **Day 5 — Localization framework**
+  - [x] Migrate all hardcoded UI strings to `strings.xml`.
+  - [x] Extract risk-card copy, provenance hints, trust tier labels, error messages.
+  - [x] Set up `values-<lang>/` structure and lint rule for hardcoded strings.
+  - [x] Plural / quantity strings via `<plurals>` for counts ("3 files", "%d risks").
 - [ ] **Day 6 — Translate to 12 launch languages**
   - [ ] Languages: **en, es, pt-BR, fr, de, it, ru, uk, tr, pl, ja, ko, zh-CN, hi, ar (RTL)**.
   - [ ] Use a single translation pass per language; review locale-sensitive items (units, dates, RTL layouts).

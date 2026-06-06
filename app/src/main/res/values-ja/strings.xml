@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Machine-translated first pass — review by a native speaker before final release. -->
+<resources>
+    <!-- ====================================================================
+         App
+         ==================================================================== -->
+    <string name="app_name">FileLens</string>
+
+    <!-- ====================================================================
+         Common actions / buttons
+         ==================================================================== -->
+    <string name="action_cancel">キャンセル</string>
+    <string name="action_close">閉じる</string>
+    <string name="action_save">保存</string>
+    <string name="action_create">作成</string>
+    <string name="action_delete">削除</string>
+    <string name="action_rename">名前を変更</string>
+    <string name="action_copy">コピー</string>
+    <string name="action_move">移動</string>
+    <string name="action_export">エクスポート</string>
+    <string name="action_import">インポート</string>
+    <string name="action_find">検索</string>
+    <string name="action_reset">リセット</string>
+    <string name="action_retry">再試行</string>
+    <string name="action_clear">クリア</string>
+    <string name="action_clear_search">検索をクリア</string>
+    <string name="action_back">戻る</string>
+    <string name="action_compare">比較</string>
+    <string name="action_ignore">無視</string>
+
+    <!-- ====================================================================
+         Content descriptions (accessibility)
+         ==================================================================== -->
+    <string name="cd_back">戻る</string>
+    <string name="cd_close">閉じる</string>
+    <string name="cd_close_search">検索を閉じる</string>
+    <string name="cd_search">検索</string>
+    <string name="cd_more_options">その他のオプション</string>
+    <string name="cd_settings">設定</string>
+    <string name="cd_navigate_up">上へ移動</string>
+    <string name="cd_copy">コピー</string>
+    <string name="cd_expand">展開</string>
+    <string name="cd_collapse">折りたたむ</string>
+    <string name="cd_clear_selection">選択を解除</string>
+    <string name="cd_remove_bookmark">ブックマークを削除</string>
+    <string name="cd_connect">接続</string>
+    <string name="cd_edit">編集</string>
+    <string name="cd_delete">削除</string>
+    <string name="cd_add_server">サーバーを追加</string>
+    <string name="cd_image_preview_left">左の画像</string>
+    <string name="cd_image_preview_right">右の画像</string>
+    <string name="cd_inspector_actions">インスペクターの操作</string>
+    <string name="cd_severity_danger">危険リスク</string>
+    <string name="cd_severity_warning">警告リスク</string>
+    <string name="cd_severity_info">情報通知</string>
+
+    <!-- ====================================================================
+         File list panel
+         ==================================================================== -->
+    <string name="brand_name">FileLens</string>
+    <string name="home_folder_label">端末</string>
+    <string name="menu_show_hidden_files">隠しファイルを表示</string>
+    <string name="menu_hide_hidden_files">隠しファイルを非表示</string>
+    <string name="menu_scan_folder">フォルダーのリスクをスキャン</string>
+    <string name="menu_analyze_folder">フォルダーを分析</string>
+    <string name="menu_find_duplicates">ここで重複を検索</string>
+    <string name="menu_bookmark_folder">このフォルダーをブックマーク</string>
+    <string name="menu_show_bookmarks">ブックマークを表示</string>
+    <string name="menu_recents">最近</string>
+    <string name="search_hint">ファイルを検索…</string>
+    <string name="searching_label">検索中…</string>
+    <string name="search_in_folder">サブフォルダー内を検索</string>
+    <string name="empty_folder_headline">このフォルダーは空です</string>
+    <string name="empty_folder_subtitle">まだここには何もありません。ファイルを追加するか、開く前に確認するためにファイルをインポートしてください。</string>
+    <string name="empty_folder_action">ファイルをインポート</string>
+    <string name="active_panel_indicator">アクティブパネル</string>
+
+    <!-- ====================================================================
+         File list item (accessibility)
+         ==================================================================== -->
+    <string name="a11y_kind_folder">フォルダー</string>
+    <string name="a11y_kind_file">ファイル</string>
+    <string name="a11y_folder_empty">空</string>
+    <string name="a11y_item_selected">選択済み</string>
+    <string name="a11y_modified">%1$s に更新</string>
+    <string name="a11y_file_type">%1$s ファイル</string>
+
+    <!-- ====================================================================
+         Sort
+         ==================================================================== -->
+    <string name="sort_name">名前</string>
+    <string name="sort_size">サイズ</string>
+    <string name="sort_date">日付</string>
+    <string name="sort_type">種類</string>
+
+    <!-- ====================================================================
+         Inspector panel — header
+         ==================================================================== -->
+    <string name="inspector_tab_overview">概要</string>
+    <string name="inspector_tab_preview">プレビュー</string>
+    <string name="inspector_tab_structure">構造</string>
+    <string name="inspector_tab_metadata">メタデータ</string>
+    <string name="inspector_tab_risks">リスク</string>
+
+    <!-- ====================================================================
+         Inspector panel — overview tab
+         ==================================================================== -->
+    <string name="row_label_file">ファイル</string>
+    <string name="row_label_type">種類</string>
+    <string name="row_label_extension">拡張子</string>
+    <string name="row_label_mime">MIME</string>
+    <string name="row_label_size">サイズ</string>
+    <string name="row_label_modified">更新日時</string>
+
+    <string name="section_safe_actions">安全な操作</string>
+    <string name="section_external">外部</string>
+
+    <string name="action_preview_only">プレビューのみ</string>
+    <string name="action_inspect_metadata">メタデータを確認</string>
+    <string name="action_browse_archive">内容を参照（解凍なし）</string>
+    <string name="action_inspect_doc_structure">ドキュメント構造を確認</string>
+    <string name="action_inspect_structure">構造を確認</string>
+    <string name="action_search_inside">内部を検索…</string>
+    <string name="action_export_markdown">Markdown でエクスポート</string>
+    <string name="action_export_json">JSON でエクスポート</string>
+    <string name="action_share_cleaned">クリーン済みコピーを共有</string>
+    <string name="action_verify_hash">ハッシュを検証</string>
+    <string name="action_browse_rows">行を参照</string>
+    <string name="action_open_with">アプリで開く…</string>
+    <string name="action_view_on_map">地図で表示</string>
+
+    <!-- Open as menu -->
+    <string name="open_as_title">次として開く…</string>
+    <string name="open_as_restore_detected">検出された形式で復元 (%1$s)</string>
+    <string name="open_as_reinspect">インスペクターを再実行</string>
+
+    <!-- Trust score card -->
+    <string name="trust_score_disclaimer">ヒューリスティックな信頼スコアです。ウイルス対策ではありません。</string>
+    <string name="trust_top_reasons">主な理由</string>
+
+    <!-- Risks tab -->
+    <string name="risks_none_detected">リスクは検出されませんでした</string>
+    <string name="risks_all_ignored">このセッションのすべてのリスクが無視されています。</string>
+    <string name="risk_show_evidence">証拠を表示</string>
+    <string name="risk_hide_evidence">証拠を非表示</string>
+    <string name="risk_learn_more">詳細を見る</string>
+    <string name="risk_hide_learn_more">詳細を非表示</string>
+    <string name="risk_severity_danger">危険</string>
+    <string name="risk_severity_warning">警告</string>
+    <string name="risk_severity_info">情報</string>
+
+    <!-- Preview tab -->
+    <string name="preview_none_available">プレビューを利用できません</string>
+    <string name="preview_raw">生データ</string>
+    <string name="preview_pretty">整形済み</string>
+    <string name="preview_hex_header">16進数ビュー（合計 %1$s）</string>
+
+    <!-- Structure tab -->
+    <string name="structure_none_available">構造を利用できません</string>
+
+    <!-- Metadata tab -->
+    <string name="metadata_none_available">追加のメタデータはありません</string>
+
+    <!-- Secrets card -->
+    <string name="secrets_redaction_notice">値は秘匿されています。漏洩した認証情報は侵害されたものとして扱い、まずローテーションしてからファイルから削除してください。</string>
+    <string name="secrets_copy_name">名前をコピー</string>
+
+    <!-- Provenance -->
+    <string name="provenance_high_confidence">推定ソース</string>
+    <string name="provenance_medium_confidence">可能性の高いソース</string>
+    <string name="provenance_low_confidence">可能性のあるソース</string>
+
+    <!-- Empty inspector -->
+    <string name="inspector_empty_headline">検査するファイルを選択</string>
+    <string name="inspector_empty_subtitle">開く前に中身を確認するには、リスト内のファイルをタップしてください。</string>
+
+    <!-- ====================================================================
+         Selection bar
+         ==================================================================== -->
+    <string name="selection_compare">比較</string>
+    <string name="selection_hint_select_two">比較するには2つ選択</string>
+
+    <!-- ====================================================================
+         Commander toolbar actions
+         ==================================================================== -->
+    <string name="cmd_view">表示</string>
+    <string name="cmd_copy">コピー</string>
+    <string name="cmd_move">移動</string>
+    <string name="cmd_mkdir">フォルダー作成</string>
+    <string name="cmd_diff">差分</string>
+    <string name="cmd_delete">削除</string>
+    <string name="cmd_rename">名前を変更</string>
+
+    <!-- ====================================================================
+         File operation dialogs
+         ==================================================================== -->
+    <string name="dialog_new_folder_title">新規フォルダー</string>
+    <string name="dialog_new_folder_label">フォルダー名</string>
+    <string name="dialog_rename_title">名前を変更</string>
+    <string name="dialog_rename_label">新しい名前</string>
+    <string name="dialog_delete_title">削除</string>
+    <string name="dialog_delete_message">削除してもよろしいですか？</string>
+    <string name="dialog_copy_move_target_label">%2$d ファイルを %1$s 先:</string>
+    <string name="dialog_and_more">… さらに %1$d 件</string>
+    <string name="dialog_operation_title">%1$s ファイル</string>
+
+    <!-- ====================================================================
+         Batch rename dialog
+         ==================================================================== -->
+    <string name="batch_rename_title">一括名前変更</string>
+    <string name="batch_rename_tokens_hint">トークン: {name}, {ext}, {n}, {n:03}</string>
+    <string name="batch_rename_label_pattern">パターン</string>
+    <string name="batch_rename_label_find">検索</string>
+    <string name="batch_rename_label_replace">置換</string>
+    <string name="batch_rename_use_regex">正規表現で検索/置換</string>
+    <string name="batch_rename_start_index">開始: %1$d</string>
+    <string name="batch_rename_banner_invalid">一部のファイル名が無効です</string>
+    <string name="batch_rename_banner_ready">名前変更の準備完了</string>
+    <string name="batch_rename_applying">名前変更中…</string>
+    <string name="batch_rename_arrow">→ %1$s</string>
+
+    <!-- ====================================================================
+         Hash verify dialog
+         ==================================================================== -->
+    <string name="hash_verify_title">ハッシュを検証</string>
+    <string name="hash_verify_hashing">ハッシュ計算中…</string>
+    <string name="hash_verify_compare_label">比較対象</string>
+    <string name="hash_verify_paste_hint">SHA-256 または MD5 を貼り付けて検証</string>
+    <string name="hash_verify_match">一致</string>
+    <string name="hash_verify_no_match">不一致</string>
+    <string name="hash_verify_unknown">32 文字または 64 文字のハッシュを貼り付けてください</string>
+
+    <!-- ====================================================================
+         Batch scan / privacy audit dialog
+         ==================================================================== -->
+    <string name="batch_scan_title_scanning">フォルダーをスキャン中…</string>
+    <string name="batch_scan_title_done">プライバシー監査</string>
+    <string name="batch_scan_progress">%1$d / %2$d</string>
+    <string name="batch_scan_result_count">%1$d ファイルをスキャンしました</string>
+    <string name="batch_scan_bucket_empty">このカテゴリには何もありません。</string>
+    <string name="batch_scan_creating_copies">クリーン済みコピーを作成中…</string>
+    <string name="batch_scan_action_batch_clean">一括クリーン</string>
+    <string name="batch_scan_bucket_risky">リスクあり (%1$d)</string>
+    <string name="batch_scan_bucket_safe">安全 (%1$d)</string>
+    <string name="batch_scan_bucket_unsupported">未対応 (%1$d)</string>
+
+    <!-- ====================================================================
+         Safe share sheet
+         ==================================================================== -->
+    <string name="safe_share_title">共有前に確認</string>
+    <string name="safe_share_no_risks">リスクは検出されませんでした。共有しても安全です。</string>
+    <string name="safe_share_risks_intro">このファイルには以下の情報が含まれている可能性があります:</string>
+    <string name="safe_share_action_original">オリジナルを共有</string>
+    <string name="safe_share_action_cleaned">クリーン済みコピーを作成</string>
+
+    <!-- ====================================================================
+         Search inside dialog
+         ==================================================================== -->
+    <string name="search_inside_title">ファイル内を検索</string>
+    <string name="search_inside_hint">エントリ、キー、コンテンツを検索…</string>
+    <string name="search_inside_searching">検索中…</string>
+    <string name="search_inside_no_matches">一致する結果がありません。</string>
+    <string name="search_inside_more">… さらに %1$d 件</string>
+
+    <!-- ====================================================================
+         Bookmarks sheet
+         ==================================================================== -->
+    <string name="bookmarks_section_title">ブックマーク</string>
+    <string name="bookmarks_empty_headline">ブックマークはまだありません</string>
+    <string name="bookmarks_empty_subtitle">パネルメニューから現在のフォルダーを追加してください。</string>
+
+    <!-- ====================================================================
+         Recents sheet
+         ==================================================================== -->
+    <string name="recents_section_frequent">よく使うフォルダー</string>
+    <string name="recents_section_recent">最近のファイル</string>
+    <string name="recents_clear_history">履歴を消去</string>
+    <string name="recents_empty_headline">最近のアクティビティはありません</string>
+    <string name="recents_empty_subtitle">検査したファイルや訪れたフォルダーがここに表示されます。</string>
+    <string name="recents_one_visit">1 回訪問</string>
+    <string name="recents_visits_format">%1$d 回訪問</string>
+
+    <!-- ====================================================================
+         Shortcut recorder dialog
+         ==================================================================== -->
+    <string name="shortcut_bind_title">%1$s を割り当て</string>
+    <string name="shortcut_press_hint">新しいキー組み合わせを押してから、「保存」をタップしてください。</string>
+    <string name="shortcut_current">現在: %1$s</string>
+    <string name="shortcut_default">デフォルト: %1$s</string>
+
+    <!-- ====================================================================
+         Shortcuts screen
+         ==================================================================== -->
+    <string name="shortcuts_title">キーボードショートカット</string>
+    <string name="shortcuts_hint">新しいキー組み合わせを記録するには行をタップしてください。新しい組み合わせがすでに使用中の場合、既存のショートカットと編集中のショートカットが入れ替わります。</string>
+    <string name="shortcuts_action_reset">リセット</string>
+
+    <!-- ====================================================================
+         Settings screen
+         ==================================================================== -->
+    <string name="settings_title">設定</string>
+    <string name="settings_section_browsing">ブラウジング</string>
+    <string name="settings_section_input">入力</string>
+    <string name="settings_section_remote">リモート</string>
+    <string name="settings_section_backup">バックアップ &amp; 復元</string>
+    <string name="settings_section_about">このアプリについて</string>
+    <string name="settings_section_licenses">オープンソースライセンス</string>
+
+    <string name="settings_show_hidden_files">隠しファイルを表示</string>
+    <string name="settings_show_hidden_files_desc">ドット始まりのファイルやフォルダーを表示します。</string>
+    <string name="settings_hide_empty_folders">空のフォルダーを非表示</string>
+    <string name="settings_hide_empty_folders_desc">表示可能なファイルが含まれないフォルダーを表示しません。</string>
+    <string name="settings_size_units">ファイルサイズの単位</string>
+    <string name="settings_default_panel">デフォルトパネル（タブレット）</string>
+
+    <string name="settings_keyboard_shortcuts">キーボードショートカット</string>
+    <string name="settings_keyboard_shortcuts_desc">コマンダーで使用するFキーとCtrl組み合わせをカスタマイズします。</string>
+
+    <string name="settings_remote_servers">リモートサーバー</string>
+    <string name="settings_remote_servers_desc">FTP、SFTP、SMB共有をローカルフォルダーのように参照します。</string>
+
+    <string name="settings_backup_desc">設定、ブックマーク、最近のファイル、よく使うフォルダーをJSONファイルに保存して後で復元できます。</string>
+
+    <string name="settings_about_app_name">FileLens Commander</string>
+    <string name="settings_about_version">バージョン 0.4.4</string>
+    <string name="settings_about_vision_label">ビジョン</string>
+    <string name="settings_about_vision_text">ファイルを参照し、中身をのぞき、開く前に理解する。オフライン、デバイス上、アカウント不要。</string>
+    <string name="settings_licenses_intro">FileLens は以下のオープンソースライブラリを使用しています:</string>
+    <string name="settings_licenses_show">ライセンスを表示</string>
+    <string name="settings_licenses_hide">ライセンスを非表示</string>
+
+    <string name="settings_backup_saved">バックアップを保存しました</string>
+    <string name="settings_export_failed">エクスポートに失敗しました: %1$s</string>
+    <string name="settings_import_failed">インポートに失敗しました: %1$s</string>
+
+    <!-- ====================================================================
+         Remote servers screen
+         ==================================================================== -->
+    <string name="remote_servers_title">リモートサーバー</string>
+    <string name="remote_servers_empty_headline">リモートサーバーはまだありません</string>
+    <string name="remote_servers_empty_subtitle">FTP、SFTP、またはSMBサーバーを追加してローカルフォルダーのように参照します。</string>
+    <string name="remote_dialog_delete_title">サーバーを削除しますか？</string>
+    <string name="remote_dialog_delete_message">&#8220;%1$s&#8221; を削除しますか？保存済みのエントリが削除されるだけで、サーバー上のデータは変更されません。</string>
+    <string name="remote_dialog_add_title">サーバーを追加</string>
+    <string name="remote_dialog_edit_title">サーバーを編集</string>
+    <string name="remote_field_display_name">表示名</string>
+    <string name="remote_field_host">ホスト</string>
+    <string name="remote_field_port">ポート</string>
+    <string name="remote_field_username">ユーザー名</string>
+    <string name="remote_field_password">パスワード</string>
+    <string name="remote_field_password_edit">パスワード（保存済みを維持する場合は空欄）</string>
+    <string name="remote_field_share_name">共有名</string>
+    <string name="remote_field_base_path">ベースパス（任意）</string>
+    <string name="remote_option_anonymous">匿名</string>
+    <string name="remote_option_passive_mode">パッシブモード</string>
+    <string name="remote_option_clear_host_key">固定ホストキーをクリア（次回接続時に信頼に基づき再固定）</string>
+
+    <!-- ====================================================================
+         Compare screen
+         ==================================================================== -->
+    <string name="compare_title">比較</string>
+    <string name="compare_panel_left">左</string>
+    <string name="compare_panel_right">右</string>
+    <string name="compare_tab_overview">概要</string>
+    <string name="compare_tab_metadata">メタデータ</string>
+    <string name="compare_tab_content">内容</string>
+    <string name="compare_progress_folders">フォルダーを走査中…</string>
+    <string name="compare_progress_files">ファイルを差分比較中…</string>
+    <string name="compare_identical">内容が同一</string>
+    <string name="compare_different">内容が異なる</string>
+    <string name="compare_section_checksums">チェックサム</string>
+    <string name="compare_metadata_empty">メタデータが抽出されていません</string>
+    <string name="compare_metadata_identical">メタデータが同一</string>
+    <string name="compare_content_empty">内容がありません</string>
+    <string name="compare_structurally_identical">%1$s の構造が同一</string>
+    <string name="compare_diff_truncated">差分を切り詰めました — 最初の5,000行を表示</string>
+    <string name="compare_renamed_candidates">同一内容、異なるパス (%1$d)</string>
+    <string name="compare_and_more">…さらに %1$d 件</string>
+    <string name="compare_sizes_lr">左: %1$s · 右: %2$s</string>
+    <string name="compare_no_entries">このフィルターに一致するエントリがありません</string>
+
+    <string name="compare_filter_all">すべて</string>
+    <string name="compare_filter_left_only">左のみ</string>
+    <string name="compare_filter_right_only">右のみ</string>
+    <string name="compare_filter_changed">変更済み</string>
+    <string name="compare_filter_same">同一</string>
+
+    <string name="compare_folder_copy_to_right">右へコピー →</string>
+    <string name="compare_folder_copy_to_left">← 左へコピー</string>
+    <string name="compare_folder_overwrite_right">右へ上書き →</string>
+    <string name="compare_folder_overwrite_left">← 左へ上書き</string>
+    <string name="compare_folder_verify_checksum">チェックサムで検証</string>
+    <string name="compare_folder_match_count">%1$d / %2$d 一致</string>
+    <string name="compare_folder_both_empty">両方のフォルダーが空です</string>
+    <string name="compare_folder_diff_summary">%1$d 変更 · %2$d 左のみ · %3$d 右のみ</string>
+    <string name="compare_folder_checksum_verified"> · チェックサム検証済み</string>
+
+    <string name="compare_diff_label_left_only">左のみ</string>
+    <string name="compare_diff_label_right_only">右のみ</string>
+    <string name="compare_diff_label_changed">変更済み</string>
+    <string name="compare_diff_label_same">同一</string>
+
+    <!-- ====================================================================
+         Duplicate finder screen
+         ==================================================================== -->
+    <string name="duplicates_title">重複を検索</string>
+    <string name="duplicates_none_found">重複は見つかりませんでした</string>
+    <string name="duplicates_hashing">%2$d 件中 %1$d 件のハッシュを計算中…</string>
+    <string name="duplicates_scanning">スキャン中… %1$d ファイル</string>
+    <string name="duplicates_group_count">%1$d グループの重複</string>
+    <string name="duplicates_wasted_summary">%2$d ファイルをスキャンして %1$s を無駄に使用</string>
+    <string name="duplicates_action_select_old">古いコピーを選択</string>
+    <string name="duplicates_copies_each">%1$d 個 · それぞれ %2$s</string>
+    <string name="duplicates_wasted">%1$s を無駄に使用</string>
+    <string name="duplicates_modified">%1$s に更新</string>
+
+    <!-- ====================================================================
+         Folder dashboard dialog
+         ==================================================================== -->
+    <string name="folder_dashboard_title">フォルダーダッシュボード</string>
+    <string name="folder_dashboard_analyzing">フォルダーを分析中…</string>
+    <string name="folder_dashboard_no_data">データなし</string>
+    <string name="folder_dashboard_folder_label">フォルダー</string>
+    <string name="folder_dashboard_file_count">%1$d ファイル · 合計 %2$s</string>
+    <string name="folder_dashboard_section_disk_usage">種類別ディスク使用量</string>
+    <string name="folder_dashboard_section_largest">最大ファイル</string>
+    <string name="folder_dashboard_section_newest">最新ファイル</string>
+    <string name="folder_dashboard_section_unknown">不明 / 未分類 (%1$d)</string>
+    <string name="folder_dashboard_section_duplicates">重複の可能性あり（同じサイズ）</string>
+
+    <!-- ====================================================================
+         Main screen
+         ==================================================================== -->
+    <string name="main_bookmark_added">ブックマークに追加しました</string>
+    <string name="main_panel_dual">デュアルパネル</string>
+    <string name="main_panel_inspector">インスペクター</string>
+    <string name="main_chooser_open_with">アプリで開く</string>
+    <string name="main_chooser_share_cleaned">クリーン済みコピーを共有</string>
+    <string name="main_chooser_share_report">レポートを共有</string>
+    <string name="main_chooser_share_cleaned_files">クリーン済みファイルを共有</string>
+
+    <!-- ====================================================================
+         State views
+         ==================================================================== -->
+    <string name="state_no_matches_headline">一致する結果なし</string>
+    <string name="state_no_matches_subtitle">このフォルダーには &#8220;%1$s&#8221; に一致するものがありません。</string>
+    <string name="state_no_matches_no_query">別のキーワードでお試しください。</string>
+    <string name="state_error_headline">問題が発生しました</string>
+
+    <!-- ====================================================================
+         Plurals
+         ==================================================================== -->
+    <plurals name="plural_file_count">
+        <item quantity="other">%1$d 件のファイル</item>
+    </plurals>
+
+    <plurals name="plural_item_count">
+        <item quantity="other">%1$d 件のアイテム</item>
+    </plurals>
+
+    <plurals name="plural_risk_count">
+        <item quantity="other">%1$d 件のリスク</item>
+    </plurals>
+
+    <plurals name="plural_match_count">
+        <item quantity="other">%1$d 件の一致</item>
+    </plurals>
+
+    <plurals name="plural_secret_count">
+        <item quantity="other">シークレットの可能性 (%1$d)</item>
+    </plurals>
+
+    <plurals name="plural_ignored_count">
+        <item quantity="other">%1$d 件を無視 — 表示</item>
+    </plurals>
+
+    <plurals name="plural_selected_count">
+        <item quantity="other">%1$d 件を選択</item>
+    </plurals>
+
+    <plurals name="plural_collision_count">
+        <item quantity="other">%1$d 件の名前の競合</item>
+    </plurals>
+
+    <plurals name="plural_rename_action">
+        <item quantity="other">%1$d 件の名前を変更</item>
+    </plurals>
+
+    <plurals name="plural_delete_action">
+        <item quantity="other">%1$d 件を削除</item>
+    </plurals>
+
+    <plurals name="plural_visit_count">
+        <item quantity="other">%1$d 回訪問</item>
+    </plurals>
+
+</resources>

@@ -28,8 +28,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.filelens.commander.R
 import com.filelens.commander.domain.model.FrequentFolder
 import com.filelens.commander.domain.model.RecentFile
 import com.filelens.commander.ui.theme.CategoryDirectory
@@ -60,7 +63,7 @@ fun RecentsSheet(
                 EmptyRecents()
             } else {
                 if (frequentFolders.isNotEmpty()) {
-                    SectionHeader("Frequent folders")
+                    SectionHeader(stringResource(R.string.recents_section_frequent))
                     frequentFolders.take(10).forEach { folder ->
                         FrequentFolderRow(folder = folder, onOpen = { onOpenFolder(folder) })
                         Spacer(modifier = Modifier.height(8.dp))
@@ -68,7 +71,7 @@ fun RecentsSheet(
                     Spacer(modifier = Modifier.height(8.dp))
                 }
                 if (recentFiles.isNotEmpty()) {
-                    SectionHeader("Recent files")
+                    SectionHeader(stringResource(R.string.recents_section_recent))
                     recentFiles.take(10).forEach { file ->
                         RecentFileRow(file = file, onOpen = { onOpenFile(file) })
                         Spacer(modifier = Modifier.height(8.dp))
@@ -80,7 +83,7 @@ fun RecentsSheet(
                     horizontalArrangement = androidx.compose.foundation.layout.Arrangement.End
                 ) {
                     TextButton(onClick = onClearAll) {
-                        Text("Clear history", style = MaterialTheme.typography.labelLarge)
+                        Text(stringResource(R.string.recents_clear_history), style = MaterialTheme.typography.labelLarge)
                     }
                 }
             }
@@ -114,7 +117,7 @@ private fun RecentFileRow(file: RecentFile, onOpen: () -> Unit) {
 @Composable
 private fun FrequentFolderRow(folder: FrequentFolder, onOpen: () -> Unit) {
     val visits = folder.visitCount
-    val visitsLabel = if (visits == 1) "1 visit" else "$visits visits"
+    val visitsLabel = pluralStringResource(R.plurals.plural_visit_count, visits, visits)
     BaseRow(
         title = folder.displayName,
         subtitle = "${compactPath(folder.path)} · $visitsLabel",
@@ -201,10 +204,10 @@ private fun EmptyRecents() {
                 )
             }
             Spacer(modifier = Modifier.height(12.dp))
-            Text("No recent activity", style = MaterialTheme.typography.titleSmall)
+            Text(stringResource(R.string.recents_empty_headline), style = MaterialTheme.typography.titleSmall)
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                "Files you inspect and folders you visit will show up here.",
+                stringResource(R.string.recents_empty_subtitle),
                 style = MaterialTheme.typography.bodySmall,
                 color = FlInk3
             )

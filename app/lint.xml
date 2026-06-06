@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Lint configuration for FileLens Commander.
+
+    HardcodedText is set to error so that new hardcoded UI strings fail the build.
+    All existing violations were extracted to strings.xml as part of the Day 5
+    localization pass; this rule prevents regression.
+-->
+<lint>
+    <!-- Hardcoded string literals in XML layouts or Compose text parameters -->
+    <issue id="HardcodedText" severity="error" />
+
+    <!-- Suppress lint on generated / third-party code that we can't change -->
+    <issue id="all">
+        <ignore path="**/build/**" />
+    </issue>
+</lint>

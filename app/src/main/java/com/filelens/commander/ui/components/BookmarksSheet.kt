@@ -26,8 +26,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.filelens.commander.R
 import com.filelens.commander.domain.model.Bookmark
 import com.filelens.commander.ui.theme.Eyebrow
 import com.filelens.commander.ui.theme.FlAccent
@@ -51,7 +53,7 @@ fun BookmarksSheet(
     ) {
         Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
             Text(
-                text = "Bookmarks".uppercase(),
+                text = stringResource(R.string.bookmarks_section_title).uppercase(),
                 style = Eyebrow,
                 color = FlInk3,
                 modifier = Modifier.padding(start = 4.dp, bottom = 12.dp)
@@ -81,12 +83,12 @@ fun BookmarksSheet(
                         }
                         Spacer(modifier = Modifier.height(12.dp))
                         Text(
-                            "No bookmarks yet",
+                            stringResource(R.string.bookmarks_empty_headline),
                             style = MaterialTheme.typography.titleSmall
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            "Add the current folder from the panel menu.",
+                            stringResource(R.string.bookmarks_empty_subtitle),
                             style = MaterialTheme.typography.bodySmall,
                             color = FlInk3
                         )
@@ -156,7 +158,7 @@ private fun BookmarkRow(
         IconButton(onClick = onRemove) {
             Icon(
                 Icons.Filled.Close,
-                contentDescription = "Remove bookmark",
+                contentDescription = stringResource(R.string.cd_remove_bookmark),
                 tint = FlInk3
             )
         }

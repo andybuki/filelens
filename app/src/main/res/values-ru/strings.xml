@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Machine-translated first pass — review by a native speaker before final release. -->
+<resources>
+    <!-- ====================================================================
+         App
+         ==================================================================== -->
+    <string name="app_name">FileLens</string>
+
+    <!-- ====================================================================
+         Common actions / buttons
+         ==================================================================== -->
+    <string name="action_cancel">Отмена</string>
+    <string name="action_close">Закрыть</string>
+    <string name="action_save">Сохранить</string>
+    <string name="action_create">Создать</string>
+    <string name="action_delete">Удалить</string>
+    <string name="action_rename">Переименовать</string>
+    <string name="action_copy">Копировать</string>
+    <string name="action_move">Переместить</string>
+    <string name="action_export">Экспорт</string>
+    <string name="action_import">Импорт</string>
+    <string name="action_find">Найти</string>
+    <string name="action_reset">Сбросить</string>
+    <string name="action_retry">Попробовать снова</string>
+    <string name="action_clear">Очистить</string>
+    <string name="action_clear_search">Очистить поиск</string>
+    <string name="action_back">Назад</string>
+    <string name="action_compare">Сравнить</string>
+    <string name="action_ignore">Игнорировать</string>
+
+    <!-- ====================================================================
+         Content descriptions (accessibility)
+         ==================================================================== -->
+    <string name="cd_back">Назад</string>
+    <string name="cd_close">Закрыть</string>
+    <string name="cd_close_search">Закрыть поиск</string>
+    <string name="cd_search">Поиск</string>
+    <string name="cd_more_options">Дополнительные параметры</string>
+    <string name="cd_settings">Настройки</string>
+    <string name="cd_navigate_up">Перейти вверх</string>
+    <string name="cd_copy">Копировать</string>
+    <string name="cd_expand">Развернуть</string>
+    <string name="cd_collapse">Свернуть</string>
+    <string name="cd_clear_selection">Снять выделение</string>
+    <string name="cd_remove_bookmark">Удалить закладку</string>
+    <string name="cd_connect">Подключиться</string>
+    <string name="cd_edit">Редактировать</string>
+    <string name="cd_delete">Удалить</string>
+    <string name="cd_add_server">Добавить сервер</string>
+    <string name="cd_image_preview_left">Левое изображение</string>
+    <string name="cd_image_preview_right">Правое изображение</string>
+    <string name="cd_inspector_actions">Действия инспектора</string>
+    <string name="cd_severity_danger">Высокий риск</string>
+    <string name="cd_severity_warning">Предупреждающий риск</string>
+    <string name="cd_severity_info">Информационное уведомление</string>
+
+    <!-- ====================================================================
+         File list panel
+         ==================================================================== -->
+    <string name="brand_name">FileLens</string>
+    <string name="home_folder_label">Телефон</string>
+    <string name="menu_show_hidden_files">Показать скрытые файлы</string>
+    <string name="menu_hide_hidden_files">Скрыть скрытые файлы</string>
+    <string name="menu_scan_folder">Проверить папку на риски</string>
+    <string name="menu_analyze_folder">Анализировать папку</string>
+    <string name="menu_find_duplicates">Найти дубликаты здесь</string>
+    <string name="menu_bookmark_folder">Добавить папку в закладки</string>
+    <string name="menu_show_bookmarks">Показать закладки</string>
+    <string name="menu_recents">Недавние</string>
+    <string name="search_hint">Поиск файлов…</string>
+    <string name="searching_label">Поиск…</string>
+    <string name="search_in_folder">Поиск в подпапках</string>
+    <string name="empty_folder_headline">Эта папка пуста</string>
+    <string name="empty_folder_subtitle">Здесь ничего нет. Добавьте файлы или импортируйте файл для проверки перед открытием.</string>
+    <string name="empty_folder_action">Импортировать файл</string>
+    <string name="active_panel_indicator">Активная панель</string>
+
+    <!-- ====================================================================
+         File list item (accessibility)
+         ==================================================================== -->
+    <string name="a11y_kind_folder">Папка</string>
+    <string name="a11y_kind_file">Файл</string>
+    <string name="a11y_folder_empty">пустая</string>
+    <string name="a11y_item_selected">выбрано</string>
+    <string name="a11y_modified">изменено %1$s</string>
+    <string name="a11y_file_type">файл %1$s</string>
+
+    <!-- ====================================================================
+         Sort
+         ==================================================================== -->
+    <string name="sort_name">Имя</string>
+    <string name="sort_size">Размер</string>
+    <string name="sort_date">Дата</string>
+    <string name="sort_type">Тип</string>
+
+    <!-- ====================================================================
+         Inspector panel — header
+         ==================================================================== -->
+    <string name="inspector_tab_overview">Обзор</string>
+    <string name="inspector_tab_preview">Предпросмотр</string>
+    <string name="inspector_tab_structure">Структура</string>
+    <string name="inspector_tab_metadata">Метаданные</string>
+    <string name="inspector_tab_risks">Риски</string>
+
+    <!-- ====================================================================
+         Inspector panel — overview tab
+         ==================================================================== -->
+    <string name="row_label_file">Файл</string>
+    <string name="row_label_type">Тип</string>
+    <string name="row_label_extension">Расширение</string>
+    <string name="row_label_mime">MIME</string>
+    <string name="row_label_size">Размер</string>
+    <string name="row_label_modified">Изменён</string>
+
+    <string name="section_safe_actions">Безопасные действия</string>
+    <string name="section_external">Внешний</string>
+
+    <string name="action_preview_only">Только предпросмотр</string>
+    <string name="action_inspect_metadata">Просмотр метаданных</string>
+    <string name="action_browse_archive">Просмотр содержимого (без извлечения)</string>
+    <string name="action_inspect_doc_structure">Просмотр структуры документа</string>
+    <string name="action_inspect_structure">Просмотр структуры</string>
+    <string name="action_search_inside">Поиск внутри…</string>
+    <string name="action_export_markdown">Экспорт в Markdown</string>
+    <string name="action_export_json">Экспорт в JSON</string>
+    <string name="action_share_cleaned">Поделиться очищенной копией</string>
+    <string name="action_verify_hash">Проверить хеш</string>
+    <string name="action_browse_rows">Просмотр строк</string>
+    <string name="action_open_with">Открыть с помощью…</string>
+    <string name="action_view_on_map">Показать на карте</string>
+
+    <!-- Open as menu -->
+    <string name="open_as_title">Открыть как…</string>
+    <string name="open_as_restore_detected">Обнаружено восстановление (%1$s)</string>
+    <string name="open_as_reinspect">Запустить инспектор заново</string>
+
+    <!-- Trust score card -->
+    <string name="trust_score_disclaimer">Эвристический показатель доверия. Не является антивирусом.</string>
+    <string name="trust_top_reasons">Основные причины</string>
+
+    <!-- Risks tab -->
+    <string name="risks_none_detected">Риски не обнаружены</string>
+    <string name="risks_all_ignored">Все риски проигнорированы для этого сеанса.</string>
+    <string name="risk_show_evidence">Показать доказательства</string>
+    <string name="risk_hide_evidence">Скрыть доказательства</string>
+    <string name="risk_learn_more">Подробнее</string>
+    <string name="risk_hide_learn_more">Скрыть подробности</string>
+    <string name="risk_severity_danger">Опасность</string>
+    <string name="risk_severity_warning">Предупреждение</string>
+    <string name="risk_severity_info">Информация</string>
+
+    <!-- Preview tab -->
+    <string name="preview_none_available">Предпросмотр недоступен</string>
+    <string name="preview_raw">Необработанный</string>
+    <string name="preview_pretty">Форматированный</string>
+    <string name="preview_hex_header">Hex-представление (%1$s всего)</string>
+
+    <!-- Structure tab -->
+    <string name="structure_none_available">Структура недоступна</string>
+
+    <!-- Metadata tab -->
+    <string name="metadata_none_available">Дополнительных метаданных нет</string>
+
+    <!-- Secrets card -->
+    <string name="secrets_redaction_notice">Значения скрыты. Считайте любые утечённые учётные данные скомпрометированными — сначала смените их, затем удалите из файла.</string>
+    <string name="secrets_copy_name">Копировать имя</string>
+
+    <!-- Provenance -->
+    <string name="provenance_high_confidence">Вероятный источник</string>
+    <string name="provenance_medium_confidence">Возможный источник</string>
+    <string name="provenance_low_confidence">Потенциальный источник</string>
+
+    <!-- Empty inspector -->
+    <string name="inspector_empty_headline">Выберите файл для проверки</string>
+    <string name="inspector_empty_subtitle">Нажмите на любой файл в списке, чтобы заглянуть внутрь перед открытием.</string>
+
+    <!-- ====================================================================
+         Selection bar
+         ==================================================================== -->
+    <string name="selection_compare">Сравнить</string>
+    <string name="selection_hint_select_two">Выберите 2 для сравнения</string>
+
+    <!-- ====================================================================
+         Commander toolbar actions
+         ==================================================================== -->
+    <string name="cmd_view">Просмотр</string>
+    <string name="cmd_copy">Копировать</string>
+    <string name="cmd_move">Переместить</string>
+    <string name="cmd_mkdir">Mkdir</string>
+    <string name="cmd_diff">Diff</string>
+    <string name="cmd_delete">Удалить</string>
+    <string name="cmd_rename">Переименовать</string>
+
+    <!-- ====================================================================
+         File operation dialogs
+         ==================================================================== -->
+    <string name="dialog_new_folder_title">Новая папка</string>
+    <string name="dialog_new_folder_label">Имя папки</string>
+    <string name="dialog_rename_title">Переименовать</string>
+    <string name="dialog_rename_label">Новое имя</string>
+    <string name="dialog_delete_title">Удалить</string>
+    <string name="dialog_delete_message">Вы уверены, что хотите удалить?</string>
+    <string name="dialog_copy_move_target_label">%1$s %2$d файл(ов) в:</string>
+    <string name="dialog_and_more">… и ещё %1$d</string>
+    <string name="dialog_operation_title">%1$s файлы</string>
+
+    <!-- ====================================================================
+         Batch rename dialog
+         ==================================================================== -->
+    <string name="batch_rename_title">Пакетное переименование</string>
+    <string name="batch_rename_tokens_hint">Токены: {name}, {ext}, {n}, {n:03}</string>
+    <string name="batch_rename_label_pattern">Шаблон</string>
+    <string name="batch_rename_label_find">Найти</string>
+    <string name="batch_rename_label_replace">Заменить</string>
+    <string name="batch_rename_use_regex">Поиск/замена с помощью регулярных выражений</string>
+    <string name="batch_rename_start_index">Начало: %1$d</string>
+    <string name="batch_rename_banner_invalid">Некоторые целевые имена недопустимы</string>
+    <string name="batch_rename_banner_ready">Готово к переименованию</string>
+    <string name="batch_rename_applying">Переименование…</string>
+    <string name="batch_rename_arrow">→ %1$s</string>
+
+    <!-- ====================================================================
+         Hash verify dialog
+         ==================================================================== -->
+    <string name="hash_verify_title">Проверить хеш</string>
+    <string name="hash_verify_hashing">Вычисление хеша…</string>
+    <string name="hash_verify_compare_label">Сравнить с</string>
+    <string name="hash_verify_paste_hint">Вставьте SHA-256 или MD5 для проверки</string>
+    <string name="hash_verify_match">Совпадает</string>
+    <string name="hash_verify_no_match">Не совпадает</string>
+    <string name="hash_verify_unknown">Вставьте хеш из 32 или 64 символов</string>
+
+    <!-- ====================================================================
+         Batch scan / privacy audit dialog
+         ==================================================================== -->
+    <string name="batch_scan_title_scanning">Сканирование папки…</string>
+    <string name="batch_scan_title_done">Аудит конфиденциальности</string>
+    <string name="batch_scan_progress">%1$d / %2$d</string>
+    <string name="batch_scan_result_count">%1$d файл(ов) проверено</string>
+    <string name="batch_scan_bucket_empty">В этом разделе ничего нет.</string>
+    <string name="batch_scan_creating_copies">Создание очищенных копий…</string>
+    <string name="batch_scan_action_batch_clean">Пакетная очистка</string>
+    <string name="batch_scan_bucket_risky">Рискованные (%1$d)</string>
+    <string name="batch_scan_bucket_safe">Безопасные (%1$d)</string>
+    <string name="batch_scan_bucket_unsupported">Неподдерживаемые (%1$d)</string>
+
+    <!-- ====================================================================
+         Safe share sheet
+         ==================================================================== -->
+    <string name="safe_share_title">Проверьте перед отправкой</string>
+    <string name="safe_share_no_risks">Риски не обнаружены. Безопасно для отправки.</string>
+    <string name="safe_share_risks_intro">Этот файл может раскрыть:</string>
+    <string name="safe_share_action_original">Поделиться оригиналом</string>
+    <string name="safe_share_action_cleaned">Создать очищенную копию</string>
+
+    <!-- ====================================================================
+         Search inside dialog
+         ==================================================================== -->
+    <string name="search_inside_title">Поиск внутри файла</string>
+    <string name="search_inside_hint">Поиск в записях, ключах, содержимом…</string>
+    <string name="search_inside_searching">Поиск…</string>
+    <string name="search_inside_no_matches">Совпадений нет.</string>
+    <string name="search_inside_more">… ещё %1$d</string>
+
+    <!-- ====================================================================
+         Bookmarks sheet
+         ==================================================================== -->
+    <string name="bookmarks_section_title">Закладки</string>
+    <string name="bookmarks_empty_headline">Закладок пока нет</string>
+    <string name="bookmarks_empty_subtitle">Добавьте текущую папку через меню панели.</string>
+
+    <!-- ====================================================================
+         Recents sheet
+         ==================================================================== -->
+    <string name="recents_section_frequent">Частые папки</string>
+    <string name="recents_section_recent">Недавние файлы</string>
+    <string name="recents_clear_history">Очистить историю</string>
+    <string name="recents_empty_headline">Недавних действий нет</string>
+    <string name="recents_empty_subtitle">Проверенные файлы и посещённые папки будут отображаться здесь.</string>
+    <string name="recents_one_visit">1 посещение</string>
+    <string name="recents_visits_format">%1$d посещений</string>
+
+    <!-- ====================================================================
+         Shortcut recorder dialog
+         ==================================================================== -->
+    <string name="shortcut_bind_title">Назначить %1$s</string>
+    <string name="shortcut_press_hint">Нажмите новую комбинацию, затем нажмите «Сохранить».</string>
+    <string name="shortcut_current">Текущий: %1$s</string>
+    <string name="shortcut_default">По умолчанию: %1$s</string>
+
+    <!-- ====================================================================
+         Shortcuts screen
+         ==================================================================== -->
+    <string name="shortcuts_title">Сочетания клавиш</string>
+    <string name="shortcuts_hint">Нажмите на строку, чтобы записать новое сочетание клавиш. Если новая комбинация уже используется, существующее сочетание поменяется местами с редактируемым.</string>
+    <string name="shortcuts_action_reset">Сбросить</string>
+
+    <!-- ====================================================================
+         Settings screen
+         ==================================================================== -->
+    <string name="settings_title">Настройки</string>
+    <string name="settings_section_browsing">Обзор</string>
+    <string name="settings_section_input">Ввод</string>
+    <string name="settings_section_remote">Удалённый</string>
+    <string name="settings_section_backup">Резервное копирование &amp; восстановление</string>
+    <string name="settings_section_about">О приложении</string>
+    <string name="settings_section_licenses">Лицензии с открытым исходным кодом</string>
+
+    <string name="settings_show_hidden_files">Показать скрытые файлы</string>
+    <string name="settings_show_hidden_files_desc">Отображать точечные файлы и папки, начинающиеся с точки.</string>
+    <string name="settings_hide_empty_folders">Скрыть пустые папки</string>
+    <string name="settings_hide_empty_folders_desc">Не показывать папки, не содержащие видимых файлов.</string>
+    <string name="settings_size_units">Единицы размера файла</string>
+    <string name="settings_default_panel">Панель по умолчанию (планшеты)</string>
+
+    <string name="settings_keyboard_shortcuts">Сочетания клавиш</string>
+    <string name="settings_keyboard_shortcuts_desc">Настройте функциональные клавиши и комбинации Ctrl, используемые в командере.</string>
+
+    <string name="settings_remote_servers">Удалённые серверы</string>
+    <string name="settings_remote_servers_desc">Просматривайте FTP-, SFTP- и SMB-папки как локальные.</string>
+
+    <string name="settings_backup_desc">Сохраните настройки, закладки, недавние файлы и частые папки в файл JSON, который можно восстановить позже.</string>
+
+    <string name="settings_about_app_name">FileLens Commander</string>
+    <string name="settings_about_version">Версия 0.4.4</string>
+    <string name="settings_about_vision_label">Концепция</string>
+    <string name="settings_about_vision_text">Просматривайте файлы, заглядывайте внутрь, понимайте перед открытием. Офлайн, на устройстве, без учётных записей.</string>
+    <string name="settings_licenses_intro">FileLens создан на основе следующих библиотек с открытым исходным кодом:</string>
+    <string name="settings_licenses_show">Показать лицензии</string>
+    <string name="settings_licenses_hide">Скрыть лицензии</string>
+
+    <string name="settings_backup_saved">Резервная копия сохранена</string>
+    <string name="settings_export_failed">Ошибка экспорта: %1$s</string>
+    <string name="settings_import_failed">Ошибка импорта: %1$s</string>
+
+    <!-- ====================================================================
+         Remote servers screen
+         ==================================================================== -->
+    <string name="remote_servers_title">Удалённые серверы</string>
+    <string name="remote_servers_empty_headline">Удалённых серверов пока нет</string>
+    <string name="remote_servers_empty_subtitle">Добавьте FTP-, SFTP- или SMB-сервер, чтобы просматривать его как локальную папку.</string>
+    <string name="remote_dialog_delete_title">Удалить сервер?</string>
+    <string name="remote_dialog_delete_message">Удалить &#8220;%1$s&#8221;? Это удалит только сохранённую запись; данные на сервере не будут затронуты.</string>
+    <string name="remote_dialog_add_title">Добавить сервер</string>
+    <string name="remote_dialog_edit_title">Редактировать сервер</string>
+    <string name="remote_field_display_name">Отображаемое имя</string>
+    <string name="remote_field_host">Хост</string>
+    <string name="remote_field_port">Порт</string>
+    <string name="remote_field_username">Имя пользователя</string>
+    <string name="remote_field_password">Пароль</string>
+    <string name="remote_field_password_edit">Пароль (оставьте пустым, чтобы сохранить текущий)</string>
+    <string name="remote_field_share_name">Имя общего ресурса</string>
+    <string name="remote_field_base_path">Базовый путь (необязательно)</string>
+    <string name="remote_option_anonymous">Анонимно</string>
+    <string name="remote_option_passive_mode">Пассивный режим</string>
+    <string name="remote_option_clear_host_key">Очистить закреплённый ключ хоста (при следующем подключении ключ будет перезакреплён)</string>
+
+    <!-- ====================================================================
+         Compare screen
+         ==================================================================== -->
+    <string name="compare_title">Сравнить</string>
+    <string name="compare_panel_left">Левая</string>
+    <string name="compare_panel_right">Правая</string>
+    <string name="compare_tab_overview">Обзор</string>
+    <string name="compare_tab_metadata">Метаданные</string>
+    <string name="compare_tab_content">Содержимое</string>
+    <string name="compare_progress_folders">Обход папок…</string>
+    <string name="compare_progress_files">Сравнение файлов…</string>
+    <string name="compare_identical">Содержимое идентично</string>
+    <string name="compare_different">Содержимое различается</string>
+    <string name="compare_section_checksums">Контрольные суммы</string>
+    <string name="compare_metadata_empty">Метаданные не извлечены</string>
+    <string name="compare_metadata_identical">Метаданные идентичны</string>
+    <string name="compare_content_empty">Содержимое недоступно</string>
+    <string name="compare_structurally_identical">%1$s структурно идентичен</string>
+    <string name="compare_diff_truncated">Diff усечён — показаны первые 5 000 строк</string>
+    <string name="compare_renamed_candidates">Одинаковое содержимое, разные пути (%1$d)</string>
+    <string name="compare_and_more">…и ещё %1$d</string>
+    <string name="compare_sizes_lr">Л: %1$s · П: %2$s</string>
+    <string name="compare_no_entries">Нет записей, соответствующих этому фильтру</string>
+
+    <string name="compare_filter_all">Все</string>
+    <string name="compare_filter_left_only">Только левая</string>
+    <string name="compare_filter_right_only">Только правая</string>
+    <string name="compare_filter_changed">Изменено</string>
+    <string name="compare_filter_same">Одинаковые</string>
+
+    <string name="compare_folder_copy_to_right">Копировать → вправо</string>
+    <string name="compare_folder_copy_to_left">Копировать ← влево</string>
+    <string name="compare_folder_overwrite_right">Перезаписать →</string>
+    <string name="compare_folder_overwrite_left">← Перезаписать</string>
+    <string name="compare_folder_verify_checksum">Проверить по контрольной сумме</string>
+    <string name="compare_folder_match_count">%1$d / %2$d совпадают</string>
+    <string name="compare_folder_both_empty">Обе папки пусты</string>
+    <string name="compare_folder_diff_summary">%1$d изменено · %2$d только слева · %3$d только справа</string>
+    <string name="compare_folder_checksum_verified"> · контрольная сумма проверена</string>
+
+    <string name="compare_diff_label_left_only">Только левая</string>
+    <string name="compare_diff_label_right_only">Только правая</string>
+    <string name="compare_diff_label_changed">Изменено</string>
+    <string name="compare_diff_label_same">Одинаковые</string>
+
+    <!-- ====================================================================
+         Duplicate finder screen
+         ==================================================================== -->
+    <string name="duplicates_title">Найти дубликаты</string>
+    <string name="duplicates_none_found">Дубликаты не найдены</string>
+    <string name="duplicates_hashing">Вычисление хеша %1$d из %2$d…</string>
+    <string name="duplicates_scanning">Сканирование… %1$d файлов</string>
+    <string name="duplicates_group_count">%1$d группа(групп) дубликатов</string>
+    <string name="duplicates_wasted_summary">%1$s занято %2$d проверенными файлами</string>
+    <string name="duplicates_action_select_old">Выбрать старые копии</string>
+    <string name="duplicates_copies_each">%1$d копии · %2$s каждая</string>
+    <string name="duplicates_wasted">%1$s занято</string>
+    <string name="duplicates_modified">Изменено %1$s</string>
+
+    <!-- ====================================================================
+         Folder dashboard dialog
+         ==================================================================== -->
+    <string name="folder_dashboard_title">Панель папки</string>
+    <string name="folder_dashboard_analyzing">Анализ папки…</string>
+    <string name="folder_dashboard_no_data">Нет данных</string>
+    <string name="folder_dashboard_folder_label">Папка</string>
+    <string name="folder_dashboard_file_count">%1$d файл(ов) · %2$s всего</string>
+    <string name="folder_dashboard_section_disk_usage">Использование диска по типу</string>
+    <string name="folder_dashboard_section_largest">Наибольшие файлы</string>
+    <string name="folder_dashboard_section_newest">Новейшие файлы</string>
+    <string name="folder_dashboard_section_unknown">Неизвестно / не классифицировано (%1$d)</string>
+    <string name="folder_dashboard_section_duplicates">Возможные дубликаты (одинаковый размер)</string>
+
+    <!-- ====================================================================
+         Main screen
+         ==================================================================== -->
+    <string name="main_bookmark_added">Закладка добавлена</string>
+    <string name="main_panel_dual">Двойная панель</string>
+    <string name="main_panel_inspector">Инспектор</string>
+    <string name="main_chooser_open_with">Открыть с помощью</string>
+    <string name="main_chooser_share_cleaned">Поделиться очищенной копией</string>
+    <string name="main_chooser_share_report">Поделиться отчётом</string>
+    <string name="main_chooser_share_cleaned_files">Поделиться очищенными файлами</string>
+
+    <!-- ====================================================================
+         State views
+         ==================================================================== -->
+    <string name="state_no_matches_headline">Нет совпадений</string>
+    <string name="state_no_matches_subtitle">Ничего в этой папке не соответствует &#8220;%1$s&#8221;.</string>
+    <string name="state_no_matches_no_query">Попробуйте другой запрос.</string>
+    <string name="state_error_headline">Что-то пошло не так</string>
+
+    <!-- ====================================================================
+         Plurals
+         ==================================================================== -->
+    <plurals name="plural_file_count">
+        <item quantity="one">%1$d файл</item>
+        <item quantity="few">%1$d файла</item>
+        <item quantity="other">%1$d файлов</item>
+    </plurals>
+
+    <plurals name="plural_item_count">
+        <item quantity="one">1 элемент</item>
+        <item quantity="few">%1$d элемента</item>
+        <item quantity="other">%1$d элементов</item>
+    </plurals>
+
+    <plurals name="plural_risk_count">
+        <item quantity="one">%1$d риск</item>
+        <item quantity="few">%1$d риска</item>
+        <item quantity="other">%1$d рисков</item>
+    </plurals>
+
+    <plurals name="plural_match_count">
+        <item quantity="one">%1$d совпадение</item>
+        <item quantity="few">%1$d совпадения</item>
+        <item quantity="other">%1$d совпадений</item>
+    </plurals>
+
+    <plurals name="plural_secret_count">
+        <item quantity="one">Возможный секрет (%1$d)</item>
+        <item quantity="few">Возможные секреты (%1$d)</item>
+        <item quantity="other">Возможные секреты (%1$d)</item>
+    </plurals>
+
+    <plurals name="plural_ignored_count">
+        <item quantity="one">%1$d проигнорировано — показать</item>
+        <item quantity="few">%1$d проигнорировано — показать</item>
+        <item quantity="other">%1$d проигнорировано — показать</item>
+    </plurals>
+
+    <plurals name="plural_selected_count">
+        <item quantity="one">%1$d выбран</item>
+        <item quantity="few">%1$d выбрано</item>
+        <item quantity="other">%1$d выбрано</item>
+    </plurals>
+
+    <plurals name="plural_collision_count">
+        <item quantity="one">%1$d конфликт имён</item>
+        <item quantity="few">%1$d конфликта имён</item>
+        <item quantity="other">%1$d конфликтов имён</item>
+    </plurals>
+
+    <plurals name="plural_rename_action">
+        <item quantity="one">Переименовать %1$d</item>
+        <item quantity="few">Переименовать %1$d</item>
+        <item quantity="other">Переименовать %1$d</item>
+    </plurals>
+
+    <plurals name="plural_delete_action">
+        <item quantity="one">Удалить %1$d</item>
+        <item quantity="few">Удалить %1$d</item>
+        <item quantity="other">Удалить %1$d</item>
+    </plurals>
+
+    <plurals name="plural_visit_count">
+        <item quantity="one">1 посещение</item>
+        <item quantity="few">%1$d посещения</item>
+        <item quantity="other">%1$d посещений</item>
+    </plurals>
+
+</resources>

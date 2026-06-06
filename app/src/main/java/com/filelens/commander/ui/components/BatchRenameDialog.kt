@@ -24,8 +24,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.filelens.commander.R
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.filelens.commander.domain.usecase.BatchRenameUseCase
@@ -56,17 +59,17 @@ fun BatchRenameDialog(
                 onClick = { viewModel.commit { viewModel.reset(); onApplied() } },
                 enabled = !state.applying && !hasCollisions && !hasInvalid && state.plan.items.isNotEmpty()
             ) {
-                Text(if (state.applying) "Renaming…" else "Rename ${state.plan.items.size}")
+                Text(if (state.applying) stringResource(R.string.batch_rename_applying) else pluralStringResource(R.plurals.plural_rename_action, state.plan.items.size, state.plan.items.size))
             }
         },
         dismissButton = {
-            TextButton(onClick = { viewModel.reset(); onDismiss() }) { Text("Cancel") }
+            TextButton(onClick = { viewModel.reset(); onDismiss() }) { Text(stringResource(R.string.action_cancel)) }
         },
-        title = { Text("Batch rename") },
+        title = { Text(stringResource(R.string.batch_rename_title)) },
         text = {
             Column {
                 Text(
-                    "Tokens: {name}, {ext}, {n}, {n:03}",
+                    stringResource(R.string.batch_rename_tokens_hint),
                     style = MaterialTheme.typography.labelSmall,
                     color = FlInk3
                 )
@@ -74,7 +77,7 @@ fun BatchRenameDialog(
                 OutlinedTextField(
                     value = state.rule.pattern,
                     onValueChange = { viewModel.updateRule(state.rule.copy(pattern = it)) },
-                    label = { Text("Pattern") },
+                    label = { Text(stringResource(R.string.batch_rename_label_pattern)) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -83,7 +86,7 @@ fun BatchRenameDialog(
                     OutlinedTextField(
                         value = state.rule.find,
                         onValueChange = { viewModel.updateRule(state.rule.copy(find = it)) },
-                        label = { Text("Find") },
+                        label = { Text(stringResource(R.string.batch_rename_label_find)) },
                         singleLine = true,
                         modifier = Modifier.weight(1f)
                     )
@@ -91,7 +94,7 @@ fun BatchRenameDialog(
                     OutlinedTextField(
                         value = state.rule.replace,
                         onValueChange = { viewModel.updateRule(state.rule.copy(replace = it)) },
-                        label = { Text("Replace") },
+                        label = { Text(stringResource(R.string.batch_rename_label_replace)) },
                         singleLine = true,
                         modifier = Modifier.weight(1f)
                     )
@@ -104,10 +107,10 @@ fun BatchRenameDialog(
                         checked = state.rule.useRegex,
                         onCheckedChange = { viewModel.updateRule(state.rule.copy(useRegex = it)) }
                     )
-                    Text("Regex find/replace", style = MaterialTheme.typography.labelMedium)
+                    Text(stringResource(R.string.batch_rename_use_regex), style = MaterialTheme.typography.labelMedium)
                     Spacer(modifier = Modifier.weight(1f))
                     Text(
-                        "Start: ${state.rule.startIndex}",
+                        stringResource(R.string.batch_rename_start_index, state.rule.startIndex),
                         style = MaterialTheme.typography.labelMedium,
                         color = FlInk3
                     )
@@ -115,11 +118,11 @@ fun BatchRenameDialog(
 
                 Spacer(modifier = Modifier.height(8.dp))
                 if (hasCollisions) {
-                    Banner(text = "${state.plan.collisions.size} name collision(s)", isError = true)
+                    Banner(text = pluralStringResource(R.plurals.plural_collision_count, state.plan.collisions.size, state.plan.collisions.size), isError = true)
                 } else if (hasInvalid) {
-                    Banner(text = "Some target names are invalid", isError = true)
+                    Banner(text = stringResource(R.string.batch_rename_banner_invalid), isError = true)
                 } else if (state.plan.items.isNotEmpty()) {
-                    Banner(text = "Ready to rename", isError = false)
+                    Banner(text = stringResource(R.string.batch_rename_banner_ready), isError = false)
                 }
 
                 LazyColumn(
@@ -139,7 +142,7 @@ fun BatchRenameDialog(
                                 overflow = TextOverflow.Ellipsis
                             )
                             Text(
-                                text = "→ ${item.newName}",
+                                text = stringResource(R.string.batch_rename_arrow, item.newName),
                                 style = MaterialTheme.typography.bodySmall,
                                 fontFamily = RobotoMono,
                                 color = when {

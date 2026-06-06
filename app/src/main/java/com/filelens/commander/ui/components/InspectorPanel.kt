@@ -90,14 +90,11 @@ import com.filelens.commander.ui.util.LocalSizeUnits
 import com.filelens.commander.ui.util.formatFileSize
 import com.filelens.commander.ui.theme.RobotoMono
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
+import com.filelens.commander.R
 
-enum class InspectorTab(val label: String) {
-    OVERVIEW("Overview"),
-    PREVIEW("Preview"),
-    STRUCTURE("Structure"),
-    METADATA("Metadata"),
-    RISKS("Risks")
-}
+enum class InspectorTab { OVERVIEW, PREVIEW, STRUCTURE, METADATA, RISKS }
 
 @Composable
 fun InspectorPanel(
@@ -163,7 +160,7 @@ fun InspectorPanel(
                         Spacer(modifier = Modifier.width(8.dp))
                         val hasWarning = visibleRisks.any { it.severity == RiskSeverity.WARNING || it.severity == RiskSeverity.DANGER }
                         Text(
-                            text = "$riskCount risk${if (riskCount > 1) "s" else ""}",
+                            text = pluralStringResource(R.plurals.plural_risk_count, riskCount, riskCount),
                             style = MaterialTheme.typography.labelSmall,
                             color = if (hasWarning) RiskWarning else RiskInfo,
                             modifier = Modifier
@@ -181,17 +178,24 @@ fun InspectorPanel(
             }
             if (onDismiss != null) {
                 IconButton(onClick = onDismiss) {
-                    Icon(Icons.Filled.Close, contentDescription = "Close")
+                    Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.cd_close))
                 }
             }
         }
 
         TabRow(selectedTabIndex = selectedTab) {
             tabs.forEachIndexed { index, tab ->
+                val tabLabel = when (tab) {
+                    InspectorTab.OVERVIEW -> stringResource(R.string.inspector_tab_overview)
+                    InspectorTab.PREVIEW -> stringResource(R.string.inspector_tab_preview)
+                    InspectorTab.STRUCTURE -> stringResource(R.string.inspector_tab_structure)
+                    InspectorTab.METADATA -> stringResource(R.string.inspector_tab_metadata)
+                    InspectorTab.RISKS -> stringResource(R.string.inspector_tab_risks)
+                }
                 Tab(
                     selected = selectedTab == index,
                     onClick = { selectedTab = index },
-                    text = { Text(tab.label, style = MaterialTheme.typography.labelMedium) }
+                    text = { Text(tabLabel, style = MaterialTheme.typography.labelMedium) }
                 )
             }
         }
@@ -257,14 +261,14 @@ private fun OverviewTab(
             SecretsCard(result.secrets)
             Spacer(modifier = Modifier.height(12.dp))
         }
-        InfoRow("File", info.name)
-        InfoRow("Type", info.category.displayName())
+        InfoRow(stringResource(R.string.row_label_file), info.name)
+        InfoRow(stringResource(R.string.row_label_type), info.category.displayName())
         if (info.extension.isNotEmpty()) {
-            InfoRow("Extension", ".${info.extension}")
+            InfoRow(stringResource(R.string.row_label_extension), ".${info.extension}")
         }
-        info.mimeType?.let { InfoRow("MIME", it) }
-        info.size?.let { InfoRow("Size", formatFileSize(it, LocalSizeUnits.current)) }
-        info.lastModified?.let { InfoRow("Modified", formatDate(it)) }
+        info.mimeType?.let { InfoRow(stringResource(R.string.row_label_mime), it) }
+        info.size?.let { InfoRow(stringResource(R.string.row_label_size), formatFileSize(it, LocalSizeUnits.current)) }
+        info.lastModified?.let { InfoRow(stringResource(R.string.row_label_modified), formatDate(it)) }
 
         result?.overview?.forEach { (key, value) ->
             InfoRow(key, value)
@@ -287,7 +291,7 @@ private fun OverviewTab(
         }
 
         Text(
-            text = "Safe actions",
+            text = stringResource(R.string.section_safe_actions),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(bottom = 4.dp)
@@ -300,7 +304,7 @@ private fun OverviewTab(
                     onClick = { onSwitchTab(InspectorTab.PREVIEW) },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Preview only")
+                    Text(stringResource(R.string.action_preview_only))
                 }
                 Spacer(modifier = Modifier.height(6.dp))
             }
@@ -310,7 +314,7 @@ private fun OverviewTab(
                     onClick = { onSwitchTab(InspectorTab.METADATA) },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Inspect metadata")
+                    Text(stringResource(R.string.action_inspect_metadata))
                 }
                 Spacer(modifier = Modifier.height(6.dp))
             }
@@ -322,9 +326,9 @@ private fun OverviewTab(
                 ) {
                     Text(
                         when (info.category) {
-                            FileCategory.ARCHIVE, FileCategory.APK -> "Browse contents (no extract)"
-                            FileCategory.DOCUMENT, FileCategory.SPREADSHEET, FileCategory.PRESENTATION -> "Inspect document structure"
-                            else -> "Inspect structure"
+                            FileCategory.ARCHIVE, FileCategory.APK -> stringResource(R.string.action_browse_archive)
+                            FileCategory.DOCUMENT, FileCategory.SPREADSHEET, FileCategory.PRESENTATION -> stringResource(R.string.action_inspect_doc_structure)
+                            else -> stringResource(R.string.action_inspect_structure)
                         }
                     )
                 }
@@ -337,7 +341,7 @@ private fun OverviewTab(
                 onClick = onSearchInside,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Search inside…")
+                Text(stringResource(R.string.action_search_inside))
             }
             Spacer(modifier = Modifier.height(6.dp))
         }
@@ -347,12 +351,12 @@ private fun OverviewTab(
                 androidx.compose.material3.OutlinedButton(
                     onClick = { onExportReport(false) },
                     modifier = Modifier.weight(1f)
-                ) { Text("Export Markdown") }
+                ) { Text(stringResource(R.string.action_export_markdown)) }
                 Spacer(modifier = Modifier.width(6.dp))
                 androidx.compose.material3.OutlinedButton(
                     onClick = { onExportReport(true) },
                     modifier = Modifier.weight(1f)
-                ) { Text("Export JSON") }
+                ) { Text(stringResource(R.string.action_export_json)) }
             }
             Spacer(modifier = Modifier.height(6.dp))
         }
@@ -364,7 +368,7 @@ private fun OverviewTab(
             ) {
                 Icon(Icons.Filled.Shield, contentDescription = null, modifier = Modifier.size(18.dp))
                 Spacer(modifier = Modifier.size(8.dp))
-                Text("Share cleaned copy")
+                Text(stringResource(R.string.action_share_cleaned))
             }
             Spacer(modifier = Modifier.height(8.dp))
         }
@@ -376,7 +380,7 @@ private fun OverviewTab(
             ) {
                 Icon(Icons.Filled.Tag, contentDescription = null, modifier = Modifier.size(18.dp))
                 Spacer(modifier = Modifier.size(8.dp))
-                Text("Verify hash")
+                Text(stringResource(R.string.action_verify_hash))
             }
             Spacer(modifier = Modifier.height(8.dp))
         }
@@ -388,13 +392,13 @@ private fun OverviewTab(
             ) {
                 Icon(Icons.Filled.Storage, contentDescription = null, modifier = Modifier.size(18.dp))
                 Spacer(modifier = Modifier.size(8.dp))
-                Text("Browse rows")
+                Text(stringResource(R.string.action_browse_rows))
             }
             Spacer(modifier = Modifier.height(12.dp))
         }
 
         Text(
-            text = "External",
+            text = stringResource(R.string.section_external),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(bottom = 4.dp)
@@ -405,7 +409,7 @@ private fun OverviewTab(
         ) {
             Icon(Icons.AutoMirrored.Filled.OpenInNew, contentDescription = null, modifier = Modifier.size(18.dp))
             Spacer(modifier = Modifier.size(8.dp))
-            Text("Open with...")
+            Text(stringResource(R.string.action_open_with))
         }
     }
 }
@@ -414,7 +418,7 @@ private fun OverviewTab(
 private fun PreviewTab(result: InspectorResult?) {
     val previewContent = result?.previewContent
     if (previewContent == null) {
-        CenteredMessage("No preview available")
+        CenteredMessage(stringResource(R.string.preview_none_available))
         return
     }
 
@@ -441,7 +445,7 @@ private fun PreviewTab(result: InspectorResult?) {
                     Spacer(modifier = Modifier.weight(1f))
                     if (preview.rawContent != null) {
                         androidx.compose.material3.TextButton(onClick = { showRaw = !showRaw }) {
-                            Text(if (showRaw) "Pretty" else "Raw", style = MaterialTheme.typography.labelMedium)
+                            Text(if (showRaw) stringResource(R.string.preview_pretty) else stringResource(R.string.preview_raw), style = MaterialTheme.typography.labelMedium)
                         }
                     }
                 }
@@ -495,7 +499,7 @@ private fun PreviewTab(result: InspectorResult?) {
                     .padding(12.dp)
             ) {
                 Text(
-                    text = "Hex view (${formatFileSize(preview.totalSize, LocalSizeUnits.current)} total)",
+                    text = stringResource(R.string.preview_hex_header, formatFileSize(preview.totalSize, LocalSizeUnits.current)),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(bottom = 8.dp)
@@ -511,7 +515,7 @@ private fun PreviewTab(result: InspectorResult?) {
             StructureTreeView(preview.root)
         }
         else -> {
-            CenteredMessage("No preview available")
+            CenteredMessage(stringResource(R.string.preview_none_available))
         }
     }
 }
@@ -519,7 +523,7 @@ private fun PreviewTab(result: InspectorResult?) {
 @Composable
 private fun StructureTab(result: InspectorResult?) {
     if (result?.structure == null) {
-        CenteredMessage("No structure available")
+        CenteredMessage(stringResource(R.string.structure_none_available))
         return
     }
 
@@ -581,7 +585,7 @@ private fun StructureNodeItem(node: StructureNode, depth: Int) {
                 ) {
                     Icon(
                         if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
-                        contentDescription = if (expanded) "Collapse" else "Expand",
+                        contentDescription = if (expanded) stringResource(R.string.cd_collapse) else stringResource(R.string.cd_expand),
                         modifier = Modifier.size(16.dp)
                     )
                 }
@@ -614,7 +618,7 @@ private fun StructureNodeItem(node: StructureNode, depth: Int) {
 private fun MetadataTab(result: InspectorResult?) {
     val metadata = result?.metadata
     if (metadata.isNullOrEmpty()) {
-        CenteredMessage("No additional metadata")
+        CenteredMessage(stringResource(R.string.metadata_none_available))
         return
     }
 
@@ -654,11 +658,11 @@ private fun OpenAsMenu(
     var expanded by remember { mutableStateOf(false) }
     Box {
         IconButton(onClick = { expanded = true }) {
-            Icon(Icons.Filled.MoreVert, contentDescription = "Inspector actions")
+            Icon(Icons.Filled.MoreVert, contentDescription = stringResource(R.string.cd_inspector_actions))
         }
         DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
             Text(
-                text = "Open as…",
+                text = stringResource(R.string.open_as_title),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
@@ -682,7 +686,7 @@ private fun OpenAsMenu(
                 DropdownMenuItem(
                     text = {
                         Text(
-                            text = "Restore detected (${detectedCategory.displayName()})",
+                            text = stringResource(R.string.open_as_restore_detected, detectedCategory.displayName()),
                             style = MaterialTheme.typography.bodySmall
                         )
                     },
@@ -694,7 +698,7 @@ private fun OpenAsMenu(
             }
             if (onReinspect != null) {
                 DropdownMenuItem(
-                    text = { Text(text = "Re-run inspector", style = MaterialTheme.typography.bodySmall) },
+                    text = { Text(text = stringResource(R.string.open_as_reinspect), style = MaterialTheme.typography.bodySmall) },
                     onClick = {
                         expanded = false
                         onReinspect()
@@ -764,14 +768,14 @@ private fun SecretsCard(secrets: List<SecretMatch>) {
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "Possible secrets (${secrets.size})",
+                text = pluralStringResource(R.plurals.plural_secret_count, secrets.size, secrets.size),
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSurface
             )
         }
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = "Values are redacted. Treat any leaked credential as compromised — rotate it first, then remove it from the file.",
+            text = stringResource(R.string.secrets_redaction_notice),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -805,7 +809,7 @@ private fun SecretsCard(secrets: List<SecretMatch>) {
                     },
                     contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 6.dp, vertical = 0.dp)
                 ) {
-                    Text("Copy name", style = MaterialTheme.typography.labelSmall)
+                    Text(stringResource(R.string.secrets_copy_name), style = MaterialTheme.typography.labelSmall)
                 }
             }
         }
@@ -822,9 +826,9 @@ private fun SecretsCard(secrets: List<SecretMatch>) {
 @Composable
 private fun ProvenanceCard(provenance: Provenance) {
     val confidenceLabel = when (provenance.confidence) {
-        ProvenanceConfidence.HIGH -> "Likely source"
-        ProvenanceConfidence.MEDIUM -> "Probable source"
-        ProvenanceConfidence.LOW -> "Possible source"
+        ProvenanceConfidence.HIGH -> stringResource(R.string.provenance_high_confidence)
+        ProvenanceConfidence.MEDIUM -> stringResource(R.string.provenance_medium_confidence)
+        ProvenanceConfidence.LOW -> stringResource(R.string.provenance_low_confidence)
     }
     Column(
         modifier = Modifier
@@ -933,14 +937,14 @@ private fun TrustScoreCard(score: TrustScore) {
         }
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "Heuristic trust score. Not antivirus.",
+            text = stringResource(R.string.trust_score_disclaimer),
             style = MaterialTheme.typography.labelSmall,
             color = FlInk3
         )
         if (score.topReasons.isNotEmpty()) {
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Top reasons".uppercase(),
+                text = stringResource(R.string.trust_top_reasons).uppercase(),
                 style = Eyebrow,
                 color = color
             )
@@ -981,7 +985,7 @@ private fun RisksTab(
             )
             Spacer(modifier = Modifier.height(12.dp))
             Text(
-                "No risks detected",
+                stringResource(R.string.risks_none_detected),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -997,7 +1001,7 @@ private fun RisksTab(
     ) {
         if (visible.isEmpty()) {
             Text(
-                "All risks ignored for this session.",
+                stringResource(R.string.risks_all_ignored),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -1011,7 +1015,7 @@ private fun RisksTab(
             Spacer(modifier = Modifier.height(4.dp))
             androidx.compose.material3.TextButton(onClick = onRestoreIgnored) {
                 Text(
-                    "$hiddenCount ignored — show",
+                    pluralStringResource(R.plurals.plural_ignored_count, hiddenCount, hiddenCount),
                     style = MaterialTheme.typography.labelMedium
                 )
             }
@@ -1197,7 +1201,7 @@ private fun RiskCard(
                             contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 8.dp, vertical = 0.dp)
                         ) {
                             Text(
-                                if (showEvidence) "Hide evidence" else "Show evidence",
+                                if (showEvidence) stringResource(R.string.risk_hide_evidence) else stringResource(R.string.risk_show_evidence),
                                 style = MaterialTheme.typography.labelMedium
                             )
                         }
@@ -1208,7 +1212,7 @@ private fun RiskCard(
                             contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 8.dp, vertical = 0.dp)
                         ) {
                             Text(
-                                if (showLearnMore) "Hide learn more" else "Learn more",
+                                if (showLearnMore) stringResource(R.string.risk_hide_learn_more) else stringResource(R.string.risk_learn_more),
                                 style = MaterialTheme.typography.labelMedium
                             )
                         }
@@ -1219,7 +1223,7 @@ private fun RiskCard(
                             onClick = { onIgnoreRisk(risk) },
                             contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 8.dp, vertical = 0.dp)
                         ) {
-                            Text("Ignore", style = MaterialTheme.typography.labelMedium)
+                            Text(stringResource(R.string.action_ignore), style = MaterialTheme.typography.labelMedium)
                         }
                     }
                 }
@@ -1271,8 +1275,8 @@ private fun EmptyInspector(modifier: Modifier = Modifier) {
     EmptyState(
         modifier = modifier,
         icon = androidx.compose.material.icons.Icons.Filled.Search,
-        headline = "Select a file to inspect",
-        subtitle = "Tap any file in the list to peek inside before opening."
+        headline = stringResource(R.string.inspector_empty_headline),
+        subtitle = stringResource(R.string.inspector_empty_subtitle)
     )
 }
 

@@ -24,12 +24,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.filelens.commander.R
 import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.FileItem
 import com.filelens.commander.domain.model.RiskSeverity
@@ -58,8 +61,9 @@ fun FileListItem(
     val isDir = item.fileCategory == FileCategory.DIRECTORY
     val rowAlpha = if (item.isHidden) 0.55f else 1f
     val sizeUnits = LocalSizeUnits.current
+    val context = LocalContext.current
 
-    val a11y = buildA11yDescription(item, sizeUnits, riskSeverity, isSelected)
+    val a11y = buildA11yDescription(context, item, sizeUnits, riskSeverity, isSelected)
 
     Column(
         modifier = modifier
@@ -93,7 +97,7 @@ fun FileListItem(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
-                val subtitle = buildSubtitle(item, sizeUnits)
+                val subtitle = buildSubtitle(context, item, sizeUnits)
                 if (subtitle.isNotEmpty()) {
                     val subtitleStyle = if (isDir) {
                         MaterialTheme.typography.bodySmall.copy(color = FlMuted)
@@ -133,11 +137,12 @@ fun FileListItem(
 
 @Composable
 private fun SeverityDot(severity: RiskSeverity) {
-    val (color, label) = when (severity) {
-        RiskSeverity.DANGER -> RiskDanger to "Danger risk"
-        RiskSeverity.WARNING -> RiskWarning to "Warning risk"
-        RiskSeverity.INFO -> RiskInfo to "Info notice"
+    val (color, labelRes) = when (severity) {
+        RiskSeverity.DANGER -> RiskDanger to R.string.cd_severity_danger
+        RiskSeverity.WARNING -> RiskWarning to R.string.cd_severity_warning
+        RiskSeverity.INFO -> RiskInfo to R.string.cd_severity_info
     }
+    val label = stringResource(labelRes)
     Box(
         modifier = Modifier
             .size(9.dp)
@@ -148,47 +153,49 @@ private fun SeverityDot(severity: RiskSeverity) {
 }
 
 private fun buildA11yDescription(
+    context: android.content.Context,
     item: FileItem,
     units: SizeUnits,
     severity: RiskSeverity?,
     isSelected: Boolean
 ): String {
     val parts = mutableListOf<String>()
-    val kind = if (item.fileCategory == FileCategory.DIRECTORY) "Folder" else "File"
+    val kind = if (item.fileCategory == FileCategory.DIRECTORY)
+        context.getString(R.string.a11y_kind_folder)
+    else
+        context.getString(R.string.a11y_kind_file)
     parts += "$kind ${item.name}"
     if (item.fileCategory == FileCategory.DIRECTORY) {
         item.childCount?.let { count ->
             parts += when (count) {
-                0 -> "empty"
-                1 -> "1 item"
-                else -> "$count items"
+                0 -> context.getString(R.string.a11y_folder_empty)
+                else -> context.resources.getQuantityString(R.plurals.plural_item_count, count, count)
             }
         }
     } else {
         item.size?.let { parts += formatFileSize(it, units) }
     }
-    item.lastModified?.let { parts += "modified ${formatDate(it)}" }
+    item.lastModified?.let { parts += context.getString(R.string.a11y_modified, formatDate(it)) }
     if (item.extension.isNotEmpty() && item.fileCategory != FileCategory.DIRECTORY) {
-        parts += "${item.extension.uppercase()} file"
+        parts += context.getString(R.string.a11y_file_type, item.extension.uppercase())
     }
     severity?.let {
         parts += when (it) {
-            RiskSeverity.DANGER -> "danger risk"
-            RiskSeverity.WARNING -> "warning risk"
-            RiskSeverity.INFO -> "info notice"
+            RiskSeverity.DANGER -> context.getString(R.string.cd_severity_danger)
+            RiskSeverity.WARNING -> context.getString(R.string.cd_severity_warning)
+            RiskSeverity.INFO -> context.getString(R.string.cd_severity_info)
         }
     }
-    if (isSelected) parts += "selected"
+    if (isSelected) parts += context.getString(R.string.a11y_item_selected)
     return parts.joinToString(", ")
 }
 
-private fun buildSubtitle(item: FileItem, units: SizeUnits): String {
+private fun buildSubtitle(context: android.content.Context, item: FileItem, units: SizeUnits): String {
     if (item.fileCategory == FileCategory.DIRECTORY) {
         return when (val count = item.childCount) {
             null -> item.lastModified?.let { formatDate(it) } ?: ""
             0 -> "Empty"
-            1 -> "1 item"
-            else -> "$count items"
+            else -> context.resources.getQuantityString(R.plurals.plural_item_count, count, count)
         }
     }
     val parts = mutableListOf<String>()

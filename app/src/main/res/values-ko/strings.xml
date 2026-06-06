@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Machine-translated first pass — review by a native speaker before final release. -->
+<resources>
+    <!-- ====================================================================
+         App
+         ==================================================================== -->
+    <string name="app_name">FileLens</string>
+
+    <!-- ====================================================================
+         Common actions / buttons
+         ==================================================================== -->
+    <string name="action_cancel">취소</string>
+    <string name="action_close">닫기</string>
+    <string name="action_save">저장</string>
+    <string name="action_create">만들기</string>
+    <string name="action_delete">삭제</string>
+    <string name="action_rename">이름 바꾸기</string>
+    <string name="action_copy">복사</string>
+    <string name="action_move">이동</string>
+    <string name="action_export">내보내기</string>
+    <string name="action_import">가져오기</string>
+    <string name="action_find">찾기</string>
+    <string name="action_reset">초기화</string>
+    <string name="action_retry">다시 시도</string>
+    <string name="action_clear">지우기</string>
+    <string name="action_clear_search">검색 지우기</string>
+    <string name="action_back">뒤로</string>
+    <string name="action_compare">비교</string>
+    <string name="action_ignore">무시</string>
+
+    <!-- ====================================================================
+         Content descriptions (accessibility)
+         ==================================================================== -->
+    <string name="cd_back">뒤로</string>
+    <string name="cd_close">닫기</string>
+    <string name="cd_close_search">검색 닫기</string>
+    <string name="cd_search">검색</string>
+    <string name="cd_more_options">추가 옵션</string>
+    <string name="cd_settings">설정</string>
+    <string name="cd_navigate_up">위로 이동</string>
+    <string name="cd_copy">복사</string>
+    <string name="cd_expand">펼치기</string>
+    <string name="cd_collapse">접기</string>
+    <string name="cd_clear_selection">선택 해제</string>
+    <string name="cd_remove_bookmark">북마크 제거</string>
+    <string name="cd_connect">연결</string>
+    <string name="cd_edit">편집</string>
+    <string name="cd_delete">삭제</string>
+    <string name="cd_add_server">서버 추가</string>
+    <string name="cd_image_preview_left">왼쪽 이미지</string>
+    <string name="cd_image_preview_right">오른쪽 이미지</string>
+    <string name="cd_inspector_actions">검사기 동작</string>
+    <string name="cd_severity_danger">위험 위험도</string>
+    <string name="cd_severity_warning">경고 위험도</string>
+    <string name="cd_severity_info">정보 알림</string>
+
+    <!-- ====================================================================
+         File list panel
+         ==================================================================== -->
+    <string name="brand_name">FileLens</string>
+    <string name="home_folder_label">전화기</string>
+    <string name="menu_show_hidden_files">숨긴 파일 표시</string>
+    <string name="menu_hide_hidden_files">숨긴 파일 숨기기</string>
+    <string name="menu_scan_folder">폴더 위험 검사</string>
+    <string name="menu_analyze_folder">폴더 분석</string>
+    <string name="menu_find_duplicates">여기서 중복 찾기</string>
+    <string name="menu_bookmark_folder">이 폴더 북마크</string>
+    <string name="menu_show_bookmarks">북마크 표시</string>
+    <string name="menu_recents">최근</string>
+    <string name="search_hint">파일 검색…</string>
+    <string name="searching_label">검색 중…</string>
+    <string name="search_in_folder">하위 폴더에서 검색</string>
+    <string name="empty_folder_headline">이 폴더는 비어 있습니다</string>
+    <string name="empty_folder_subtitle">아직 아무것도 없습니다. 파일을 추가하거나 명세서를 가져와서 열기 전에 검사하세요.</string>
+    <string name="empty_folder_action">파일 가져오기</string>
+    <string name="active_panel_indicator">활성 패널</string>
+
+    <!-- ====================================================================
+         File list item (accessibility)
+         ==================================================================== -->
+    <string name="a11y_kind_folder">폴더</string>
+    <string name="a11y_kind_file">파일</string>
+    <string name="a11y_folder_empty">비어 있음</string>
+    <string name="a11y_item_selected">선택됨</string>
+    <string name="a11y_modified">%1$s에 수정됨</string>
+    <string name="a11y_file_type">%1$s 파일</string>
+
+    <!-- ====================================================================
+         Sort
+         ==================================================================== -->
+    <string name="sort_name">이름</string>
+    <string name="sort_size">크기</string>
+    <string name="sort_date">날짜</string>
+    <string name="sort_type">종류</string>
+
+    <!-- ====================================================================
+         Inspector panel — header
+         ==================================================================== -->
+    <string name="inspector_tab_overview">개요</string>
+    <string name="inspector_tab_preview">미리보기</string>
+    <string name="inspector_tab_structure">구조</string>
+    <string name="inspector_tab_metadata">메타데이터</string>
+    <string name="inspector_tab_risks">위험</string>
+
+    <!-- ====================================================================
+         Inspector panel — overview tab
+         ==================================================================== -->
+    <string name="row_label_file">파일</string>
+    <string name="row_label_type">종류</string>
+    <string name="row_label_extension">확장자</string>
+    <string name="row_label_mime">MIME</string>
+    <string name="row_label_size">크기</string>
+    <string name="row_label_modified">수정 일시</string>
+
+    <string name="section_safe_actions">안전한 작업</string>
+    <string name="section_external">외부</string>
+
+    <string name="action_preview_only">미리보기만</string>
+    <string name="action_inspect_metadata">메타데이터 검사</string>
+    <string name="action_browse_archive">콘텐츠 탐색 (추출 안 함)</string>
+    <string name="action_inspect_doc_structure">문서 구조 검사</string>
+    <string name="action_inspect_structure">구조 검사</string>
+    <string name="action_search_inside">내부 검색…</string>
+    <string name="action_export_markdown">Markdown 내보내기</string>
+    <string name="action_export_json">JSON 내보내기</string>
+    <string name="action_share_cleaned">정리된 사본 공유</string>
+    <string name="action_verify_hash">해시 확인</string>
+    <string name="action_browse_rows">행 탐색</string>
+    <string name="action_open_with">연결 프로그램…</string>
+    <string name="action_view_on_map">지도에서 보기</string>
+
+    <!-- Open as menu -->
+    <string name="open_as_title">다른 방식으로 열기…</string>
+    <string name="open_as_restore_detected">복원 감지됨 (%1$s)</string>
+    <string name="open_as_reinspect">검사기 다시 실행</string>
+
+    <!-- Trust score card -->
+    <string name="trust_score_disclaimer">추론적 신뢰 점수. 바이러스 백신 아님.</string>
+    <string name="trust_top_reasons">주요 이유</string>
+
+    <!-- Risks tab -->
+    <string name="risks_none_detected">위험이 감지되지 않았습니다</string>
+    <string name="risks_all_ignored">이 세션의 모든 위험이 무시되었습니다.</string>
+    <string name="risk_show_evidence">증거 표시</string>
+    <string name="risk_hide_evidence">증거 숨기기</string>
+    <string name="risk_learn_more">자세히 알아보기</string>
+    <string name="risk_hide_learn_more">자세히 알아보기 숨기기</string>
+    <string name="risk_severity_danger">위험</string>
+    <string name="risk_severity_warning">경고</string>
+    <string name="risk_severity_info">정보</string>
+
+    <!-- Preview tab -->
+    <string name="preview_none_available">미리보기를 사용할 수 없습니다</string>
+    <string name="preview_raw">원시</string>
+    <string name="preview_pretty">정돈됨</string>
+    <string name="preview_hex_header">16진수 보기 (전체 %1$s)</string>
+
+    <!-- Structure tab -->
+    <string name="structure_none_available">구조를 사용할 수 없습니다</string>
+
+    <!-- Metadata tab -->
+    <string name="metadata_none_available">추가 메타데이터 없음</string>
+
+    <!-- Secrets card -->
+    <string name="secrets_redaction_notice">값이 편집되었습니다. 유출된 자격 증명은 손상된 것으로 간주하여 먼저 교체한 다음 파일에서 제거하세요.</string>
+    <string name="secrets_copy_name">이름 복사</string>
+
+    <!-- Provenance -->
+    <string name="provenance_high_confidence">예상 출처</string>
+    <string name="provenance_medium_confidence">유력한 출처</string>
+    <string name="provenance_low_confidence">가능한 출처</string>
+
+    <!-- Empty inspector -->
+    <string name="inspector_empty_headline">검사할 파일을 선택하세요</string>
+    <string name="inspector_empty_subtitle">목록에서 파일을 탭하면 열기 전에 내용을 미리 볼 수 있습니다.</string>
+
+    <!-- ====================================================================
+         Selection bar
+         ==================================================================== -->
+    <string name="selection_compare">비교</string>
+    <string name="selection_hint_select_two">비교하려면 2개 선택</string>
+
+    <!-- ====================================================================
+         Commander toolbar actions
+         ==================================================================== -->
+    <string name="cmd_view">보기</string>
+    <string name="cmd_copy">복사</string>
+    <string name="cmd_move">이동</string>
+    <string name="cmd_mkdir">폴더 만들기</string>
+    <string name="cmd_diff">비교</string>
+    <string name="cmd_delete">삭제</string>
+    <string name="cmd_rename">이름 바꾸기</string>
+
+    <!-- ====================================================================
+         File operation dialogs
+         ==================================================================== -->
+    <string name="dialog_new_folder_title">새 폴더</string>
+    <string name="dialog_new_folder_label">폴더 이름</string>
+    <string name="dialog_rename_title">이름 바꾸기</string>
+    <string name="dialog_rename_label">새 이름</string>
+    <string name="dialog_delete_title">삭제</string>
+    <string name="dialog_delete_message">정말로 삭제하시겠습니까?</string>
+    <string name="dialog_copy_move_target_label">%1$s %2$d개 파일 대상:</string>
+    <string name="dialog_and_more">… 및 %1$d개 더</string>
+    <string name="dialog_operation_title">%1$s 파일</string>
+
+    <!-- ====================================================================
+         Batch rename dialog
+         ==================================================================== -->
+    <string name="batch_rename_title">일괄 이름 바꾸기</string>
+    <string name="batch_rename_tokens_hint">토큰: {name}, {ext}, {n}, {n:03}</string>
+    <string name="batch_rename_label_pattern">패턴</string>
+    <string name="batch_rename_label_find">찾기</string>
+    <string name="batch_rename_label_replace">바꾸기</string>
+    <string name="batch_rename_use_regex">정규식 찾기/바꾸기</string>
+    <string name="batch_rename_start_index">시작: %1$d</string>
+    <string name="batch_rename_banner_invalid">일부 대상 이름이 유효하지 않습니다</string>
+    <string name="batch_rename_banner_ready">이름 바꾸기 준비 완료</string>
+    <string name="batch_rename_applying">이름 바꾸는 중…</string>
+    <string name="batch_rename_arrow">→ %1$s</string>
+
+    <!-- ====================================================================
+         Hash verify dialog
+         ==================================================================== -->
+    <string name="hash_verify_title">해시 확인</string>
+    <string name="hash_verify_hashing">해싱 중…</string>
+    <string name="hash_verify_compare_label">비교 대상</string>
+    <string name="hash_verify_paste_hint">SHA-256 또는 MD5를 붙여넣어 확인</string>
+    <string name="hash_verify_match">일치</string>
+    <string name="hash_verify_no_match">불일치</string>
+    <string name="hash_verify_unknown">32자 또는 64자 해시를 붙여넣으세요</string>
+
+    <!-- ====================================================================
+         Batch scan / privacy audit dialog
+         ==================================================================== -->
+    <string name="batch_scan_title_scanning">폴더 검사 중…</string>
+    <string name="batch_scan_title_done">개인 정보 감사</string>
+    <string name="batch_scan_progress">%1$d / %2$d</string>
+    <string name="batch_scan_result_count">%1$d개 파일 검사 완료</string>
+    <string name="batch_scan_bucket_empty">이 버킷에 항목이 없습니다.</string>
+    <string name="batch_scan_creating_copies">정리된 사본 만드는 중…</string>
+    <string name="batch_scan_action_batch_clean">일괄 정리</string>
+    <string name="batch_scan_bucket_risky">위험 (%1$d)</string>
+    <string name="batch_scan_bucket_safe">안전 (%1$d)</string>
+    <string name="batch_scan_bucket_unsupported">지원되지 않음 (%1$d)</string>
+
+    <!-- ====================================================================
+         Safe share sheet
+         ==================================================================== -->
+    <string name="safe_share_title">공유 전 확인</string>
+    <string name="safe_share_no_risks">위험이 감지되지 않았습니다. 공유해도 안전합니다.</string>
+    <string name="safe_share_risks_intro">이 파일은 다음을 공개할 수 있습니다:</string>
+    <string name="safe_share_action_original">원본 공유</string>
+    <string name="safe_share_action_cleaned">정리된 사본 만들기</string>
+
+    <!-- ====================================================================
+         Search inside dialog
+         ==================================================================== -->
+    <string name="search_inside_title">파일 내부 검색</string>
+    <string name="search_inside_hint">항목, 키, 내용 검색…</string>
+    <string name="search_inside_searching">검색 중…</string>
+    <string name="search_inside_no_matches">일치하는 항목 없음.</string>
+    <string name="search_inside_more">… %1$d개 더</string>
+
+    <!-- ====================================================================
+         Bookmarks sheet
+         ==================================================================== -->
+    <string name="bookmarks_section_title">북마크</string>
+    <string name="bookmarks_empty_headline">아직 북마크가 없습니다</string>
+    <string name="bookmarks_empty_subtitle">패널 메뉴에서 현재 폴더를 추가하세요.</string>
+
+    <!-- ====================================================================
+         Recents sheet
+         ==================================================================== -->
+    <string name="recents_section_frequent">자주 사용한 폴더</string>
+    <string name="recents_section_recent">최근 파일</string>
+    <string name="recents_clear_history">기록 지우기</string>
+    <string name="recents_empty_headline">최근 활동 없음</string>
+    <string name="recents_empty_subtitle">검사한 파일과 방문한 폴더가 여기에 표시됩니다.</string>
+    <string name="recents_one_visit">1회 방문</string>
+    <string name="recents_visits_format">%1$d회 방문</string>
+
+    <!-- ====================================================================
+         Shortcut recorder dialog
+         ==================================================================== -->
+    <string name="shortcut_bind_title">%1$s 바인딩</string>
+    <string name="shortcut_press_hint">새 조합을 누른 다음 저장을 탭하세요.</string>
+    <string name="shortcut_current">현재: %1$s</string>
+    <string name="shortcut_default">기본값: %1$s</string>
+
+    <!-- ====================================================================
+         Shortcuts screen
+         ==================================================================== -->
+    <string name="shortcuts_title">키보드 단축키</string>
+    <string name="shortcuts_hint">행을 탭하여 새 키 조합을 기록하세요. 새 조합이 이미 사용 중이면 기존 단축키와 편집 중인 단축키가 교체됩니다.</string>
+    <string name="shortcuts_action_reset">초기화</string>
+
+    <!-- ====================================================================
+         Settings screen
+         ==================================================================== -->
+    <string name="settings_title">설정</string>
+    <string name="settings_section_browsing">탐색</string>
+    <string name="settings_section_input">입력</string>
+    <string name="settings_section_remote">원격</string>
+    <string name="settings_section_backup">백업 &amp; 복원</string>
+    <string name="settings_section_about">정보</string>
+    <string name="settings_section_licenses">오픈 소스 라이선스</string>
+
+    <string name="settings_show_hidden_files">숨긴 파일 표시</string>
+    <string name="settings_show_hidden_files_desc">마침표로 시작하는 점 파일 및 폴더를 표시합니다.</string>
+    <string name="settings_hide_empty_folders">빈 폴더 숨기기</string>
+    <string name="settings_hide_empty_folders_desc">표시할 파일이 없는 폴더를 숨깁니다.</string>
+    <string name="settings_size_units">파일 크기 단위</string>
+    <string name="settings_default_panel">기본 패널 (태블릿)</string>
+
+    <string name="settings_keyboard_shortcuts">키보드 단축키</string>
+    <string name="settings_keyboard_shortcuts_desc">커맨더에서 사용되는 F키 및 Ctrl 조합을 사용자 지정합니다.</string>
+
+    <string name="settings_remote_servers">원격 서버</string>
+    <string name="settings_remote_servers_desc">FTP, SFTP, SMB 공유를 로컬 폴더처럼 탐색합니다.</string>
+
+    <string name="settings_backup_desc">설정, 북마크, 최근 파일, 자주 사용한 폴더를 나중에 복원할 수 있는 JSON 파일로 저장합니다.</string>
+
+    <string name="settings_about_app_name">FileLens Commander</string>
+    <string name="settings_about_version">버전 0.4.4</string>
+    <string name="settings_about_vision_label">비전</string>
+    <string name="settings_about_vision_text">파일을 탐색하고, 내부를 엿보고, 열기 전에 이해하세요. 오프라인, 기기 내, 계정 불필요.</string>
+    <string name="settings_licenses_intro">FileLens는 다음 오픈 소스 라이브러리를 기반으로 합니다:</string>
+    <string name="settings_licenses_show">라이선스 표시</string>
+    <string name="settings_licenses_hide">라이선스 숨기기</string>
+
+    <string name="settings_backup_saved">백업 저장됨</string>
+    <string name="settings_export_failed">내보내기 실패: %1$s</string>
+    <string name="settings_import_failed">가져오기 실패: %1$s</string>
+
+    <!-- ====================================================================
+         Remote servers screen
+         ==================================================================== -->
+    <string name="remote_servers_title">원격 서버</string>
+    <string name="remote_servers_empty_headline">아직 원격 서버가 없습니다</string>
+    <string name="remote_servers_empty_subtitle">FTP, SFTP, SMB 서버를 추가하여 로컬 폴더처럼 탐색하세요.</string>
+    <string name="remote_dialog_delete_title">서버를 삭제하시겠습니까?</string>
+    <string name="remote_dialog_delete_message">&#8220;%1$s&#8221;을(를) 제거하시겠습니까? 저장된 항목만 삭제되며 서버의 내용은 변경되지 않습니다.</string>
+    <string name="remote_dialog_add_title">서버 추가</string>
+    <string name="remote_dialog_edit_title">서버 편집</string>
+    <string name="remote_field_display_name">표시 이름</string>
+    <string name="remote_field_host">호스트</string>
+    <string name="remote_field_port">포트</string>
+    <string name="remote_field_username">사용자 이름</string>
+    <string name="remote_field_password">비밀번호</string>
+    <string name="remote_field_password_edit">비밀번호 (저장된 비밀번호를 유지하려면 비워 두세요)</string>
+    <string name="remote_field_share_name">공유 이름</string>
+    <string name="remote_field_base_path">기본 경로 (선택 사항)</string>
+    <string name="remote_option_anonymous">익명</string>
+    <string name="remote_option_passive_mode">수동 모드</string>
+    <string name="remote_option_clear_host_key">고정된 호스트 키 지우기 (다음 연결 시 신뢰 기반으로 다시 고정)</string>
+
+    <!-- ====================================================================
+         Compare screen
+         ==================================================================== -->
+    <string name="compare_title">비교</string>
+    <string name="compare_panel_left">왼쪽</string>
+    <string name="compare_panel_right">오른쪽</string>
+    <string name="compare_tab_overview">개요</string>
+    <string name="compare_tab_metadata">메타데이터</string>
+    <string name="compare_tab_content">내용</string>
+    <string name="compare_progress_folders">폴더 탐색 중…</string>
+    <string name="compare_progress_files">파일 비교 중…</string>
+    <string name="compare_identical">동일한 내용</string>
+    <string name="compare_different">다른 내용</string>
+    <string name="compare_section_checksums">체크섬</string>
+    <string name="compare_metadata_empty">추출된 메타데이터 없음</string>
+    <string name="compare_metadata_identical">메타데이터 동일</string>
+    <string name="compare_content_empty">사용 가능한 내용 없음</string>
+    <string name="compare_structurally_identical">%1$s 구조적으로 동일</string>
+    <string name="compare_diff_truncated">비교가 잘렸습니다 — 처음 5,000줄 표시</string>
+    <string name="compare_renamed_candidates">동일한 내용, 다른 경로 (%1$d)</string>
+    <string name="compare_and_more">…및 %1$d개 더</string>
+    <string name="compare_sizes_lr">왼쪽: %1$s · 오른쪽: %2$s</string>
+    <string name="compare_no_entries">이 필터와 일치하는 항목 없음</string>
+
+    <string name="compare_filter_all">전체</string>
+    <string name="compare_filter_left_only">왼쪽만</string>
+    <string name="compare_filter_right_only">오른쪽만</string>
+    <string name="compare_filter_changed">변경됨</string>
+    <string name="compare_filter_same">동일</string>
+
+    <string name="compare_folder_copy_to_right">오른쪽으로 복사 →</string>
+    <string name="compare_folder_copy_to_left">← 왼쪽으로 복사</string>
+    <string name="compare_folder_overwrite_right">오른쪽으로 덮어쓰기 →</string>
+    <string name="compare_folder_overwrite_left">← 왼쪽으로 덮어쓰기</string>
+    <string name="compare_folder_verify_checksum">체크섬으로 확인</string>
+    <string name="compare_folder_match_count">%1$d / %2$d 일치</string>
+    <string name="compare_folder_both_empty">두 폴더 모두 비어 있습니다</string>
+    <string name="compare_folder_diff_summary">%1$d개 변경됨 · %2$d개 왼쪽만 · %3$d개 오른쪽만</string>
+    <string name="compare_folder_checksum_verified"> · 체크섬 확인됨</string>
+
+    <string name="compare_diff_label_left_only">왼쪽만</string>
+    <string name="compare_diff_label_right_only">오른쪽만</string>
+    <string name="compare_diff_label_changed">변경됨</string>
+    <string name="compare_diff_label_same">동일</string>
+
+    <!-- ====================================================================
+         Duplicate finder screen
+         ==================================================================== -->
+    <string name="duplicates_title">중복 찾기</string>
+    <string name="duplicates_none_found">중복이 발견되지 않았습니다</string>
+    <string name="duplicates_hashing">%2$d 중 %1$d 해싱 중…</string>
+    <string name="duplicates_scanning">검사 중… %1$d개 파일</string>
+    <string name="duplicates_group_count">%1$d개 중복 그룹</string>
+    <string name="duplicates_wasted_summary">%2$d개 파일 검사에서 %1$s 낭비됨</string>
+    <string name="duplicates_action_select_old">오래된 복사본 선택</string>
+    <string name="duplicates_copies_each">%1$d개 사본 · 각각 %2$s</string>
+    <string name="duplicates_wasted">%1$s 낭비됨</string>
+    <string name="duplicates_modified">%1$s에 수정됨</string>
+
+    <!-- ====================================================================
+         Folder dashboard dialog
+         ==================================================================== -->
+    <string name="folder_dashboard_title">폴더 대시보드</string>
+    <string name="folder_dashboard_analyzing">폴더 분석 중…</string>
+    <string name="folder_dashboard_no_data">데이터 없음</string>
+    <string name="folder_dashboard_folder_label">폴더</string>
+    <string name="folder_dashboard_file_count">%1$d개 파일 · 전체 %2$s</string>
+    <string name="folder_dashboard_section_disk_usage">종류별 디스크 사용량</string>
+    <string name="folder_dashboard_section_largest">가장 큰 파일</string>
+    <string name="folder_dashboard_section_newest">최신 파일</string>
+    <string name="folder_dashboard_section_unknown">알 수 없음 / 미분류 (%1$d)</string>
+    <string name="folder_dashboard_section_duplicates">가능한 중복 (동일 크기)</string>
+
+    <!-- ====================================================================
+         Main screen
+         ==================================================================== -->
+    <string name="main_bookmark_added">북마크 추가됨</string>
+    <string name="main_panel_dual">듀얼 패널</string>
+    <string name="main_panel_inspector">검사기</string>
+    <string name="main_chooser_open_with">연결 프로그램</string>
+    <string name="main_chooser_share_cleaned">정리된 사본 공유</string>
+    <string name="main_chooser_share_report">보고서 공유</string>
+    <string name="main_chooser_share_cleaned_files">정리된 파일 공유</string>
+
+    <!-- ====================================================================
+         State views
+         ==================================================================== -->
+    <string name="state_no_matches_headline">일치하는 항목 없음</string>
+    <string name="state_no_matches_subtitle">이 폴더에서 &#8220;%1$s&#8221;와(과) 일치하는 항목이 없습니다.</string>
+    <string name="state_no_matches_no_query">다른 검색어를 입력해 보세요.</string>
+    <string name="state_error_headline">문제가 발생했습니다</string>
+
+    <!-- ====================================================================
+         Plurals
+         ==================================================================== -->
+    <plurals name="plural_file_count">
+        <item quantity="other">%1$d개 파일</item>
+    </plurals>
+
+    <plurals name="plural_item_count">
+        <item quantity="other">%1$d개 항목</item>
+    </plurals>
+
+    <plurals name="plural_risk_count">
+        <item quantity="other">%1$d개 위험</item>
+    </plurals>
+
+    <plurals name="plural_match_count">
+        <item quantity="other">%1$d개 일치</item>
+    </plurals>
+
+    <plurals name="plural_secret_count">
+        <item quantity="other">가능한 시크릿 (%1$d)</item>
+    </plurals>
+
+    <plurals name="plural_ignored_count">
+        <item quantity="other">%1$d개 무시됨 — 표시</item>
+    </plurals>
+
+    <plurals name="plural_selected_count">
+        <item quantity="other">%1$d개 선택됨</item>
+    </plurals>
+
+    <plurals name="plural_collision_count">
+        <item quantity="other">%1$d개 이름 충돌</item>
+    </plurals>
+
+    <plurals name="plural_rename_action">
+        <item quantity="other">%1$d개 이름 바꾸기</item>
+    </plurals>
+
+    <plurals name="plural_delete_action">
+        <item quantity="other">%1$d개 삭제</item>
+    </plurals>
+
+    <plurals name="plural_visit_count">
+        <item quantity="one">1회 방문</item>
+        <item quantity="other">%1$d회 방문</item>
+    </plurals>
+
+</resources>

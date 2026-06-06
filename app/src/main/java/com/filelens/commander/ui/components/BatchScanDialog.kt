@@ -24,8 +24,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.filelens.commander.R
 import com.filelens.commander.domain.usecase.BatchScanUseCase
 import com.filelens.commander.viewmodel.BatchScanState
 
@@ -50,11 +52,11 @@ fun BatchScanDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(if (state.isScanning) "Scanning folder..." else "Privacy audit") },
+        title = { Text(if (state.isScanning) stringResource(R.string.batch_scan_title_scanning) else stringResource(R.string.batch_scan_title_done)) },
         text = {
             Column(modifier = Modifier.fillMaxWidth()) {
                 if (state.isScanning) {
-                    Text("${state.current} / ${state.total}", style = MaterialTheme.typography.bodyMedium)
+                    Text(stringResource(R.string.batch_scan_progress, state.current, state.total), style = MaterialTheme.typography.bodyMedium)
                     Spacer(modifier = Modifier.height(4.dp))
                     LinearProgressIndicator(
                         progress = { if (state.total > 0) state.current.toFloat() / state.total else 0f },
@@ -72,21 +74,21 @@ fun BatchScanDialog(
                     Text("Error: ${state.error}", color = MaterialTheme.colorScheme.error)
                 } else {
                     Text(
-                        text = "${state.results.size} file(s) scanned",
+                        text = stringResource(R.string.batch_scan_result_count, state.results.size),
                         style = MaterialTheme.typography.bodyMedium
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Row {
-                        BucketChip("Risky (${risky.size})", bucketTab == BatchScanUseCase.Bucket.RISKY) { bucketTab = BatchScanUseCase.Bucket.RISKY }
+                        BucketChip(stringResource(R.string.batch_scan_bucket_risky, risky.size), bucketTab == BatchScanUseCase.Bucket.RISKY) { bucketTab = BatchScanUseCase.Bucket.RISKY }
                         Spacer(modifier = Modifier.width(6.dp))
-                        BucketChip("Safe (${safe.size})", bucketTab == BatchScanUseCase.Bucket.SAFE) { bucketTab = BatchScanUseCase.Bucket.SAFE }
+                        BucketChip(stringResource(R.string.batch_scan_bucket_safe, safe.size), bucketTab == BatchScanUseCase.Bucket.SAFE) { bucketTab = BatchScanUseCase.Bucket.SAFE }
                         Spacer(modifier = Modifier.width(6.dp))
-                        BucketChip("Unsupported (${unsupported.size})", bucketTab == BatchScanUseCase.Bucket.UNSUPPORTED) { bucketTab = BatchScanUseCase.Bucket.UNSUPPORTED }
+                        BucketChip(stringResource(R.string.batch_scan_bucket_unsupported, unsupported.size), bucketTab == BatchScanUseCase.Bucket.UNSUPPORTED) { bucketTab = BatchScanUseCase.Bucket.UNSUPPORTED }
                     }
                     Spacer(modifier = Modifier.height(8.dp))
                     if (visible.isEmpty()) {
                         Text(
-                            "Nothing in this bucket.",
+                            stringResource(R.string.batch_scan_bucket_empty),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -99,7 +101,7 @@ fun BatchScanDialog(
                     }
                     if (state.isCleaning) {
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text("Creating cleaned copies…", style = MaterialTheme.typography.bodySmall)
+                        Text(stringResource(R.string.batch_scan_creating_copies), style = MaterialTheme.typography.bodySmall)
                     }
                     state.cleanMessage?.let {
                         Spacer(modifier = Modifier.height(8.dp))
@@ -124,11 +126,11 @@ fun BatchScanDialog(
                         onClick = onCleanAndShareRisky,
                         enabled = !state.isCleaning
                     ) {
-                        Text("Batch clean")
+                        Text(stringResource(R.string.batch_scan_action_batch_clean))
                     }
                 }
                 TextButton(onClick = onDismiss) {
-                    Text(if (state.isScanning) "Cancel" else "Close")
+                    Text(if (state.isScanning) stringResource(R.string.action_cancel) else stringResource(R.string.action_close))
                 }
             }
         }

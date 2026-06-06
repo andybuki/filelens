@@ -53,9 +53,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.filelens.commander.R
 import com.filelens.commander.domain.model.RemoteConnection
 import com.filelens.commander.domain.model.RemoteProtocol
 import com.filelens.commander.viewmodel.RemoteServersViewModel
@@ -73,10 +75,10 @@ fun RemoteServersScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Remote servers") },
+                title = { Text(stringResource(R.string.remote_servers_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.cd_back))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -86,7 +88,7 @@ fun RemoteServersScreen(
         },
         floatingActionButton = {
             FloatingActionButton(onClick = { editing = viewModel.blankDraft() }) {
-                Icon(Icons.Default.Add, contentDescription = "Add server")
+                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.cd_add_server))
             }
         }
     ) { padding ->
@@ -107,12 +109,12 @@ fun RemoteServersScreen(
                     )
                     Spacer(Modifier.height(12.dp))
                     Text(
-                        "No remote servers yet",
+                        stringResource(R.string.remote_servers_empty_headline),
                         style = MaterialTheme.typography.titleMedium
                     )
                     Spacer(Modifier.height(4.dp))
                     Text(
-                        "Add an FTP, SFTP, or SMB server to browse it like a local folder.",
+                        stringResource(R.string.remote_servers_empty_subtitle),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -155,16 +157,16 @@ fun RemoteServersScreen(
     pendingDelete?.let { target ->
         AlertDialog(
             onDismissRequest = { pendingDelete = null },
-            title = { Text("Delete server?") },
-            text = { Text("Remove “${target.name.ifBlank { target.host }}”? This only deletes the saved entry; nothing on the server is touched.") },
+            title = { Text(stringResource(R.string.remote_dialog_delete_title)) },
+            text = { Text(stringResource(R.string.remote_dialog_delete_message, target.name.ifBlank { target.host })) },
             confirmButton = {
                 Button(onClick = {
                     viewModel.remove(target.id)
                     pendingDelete = null
-                }) { Text("Delete") }
+                }) { Text(stringResource(R.string.action_delete)) }
             },
             dismissButton = {
-                OutlinedButton(onClick = { pendingDelete = null }) { Text("Cancel") }
+                OutlinedButton(onClick = { pendingDelete = null }) { Text(stringResource(R.string.action_cancel)) }
             }
         )
     }
@@ -205,13 +207,13 @@ private fun ServerRow(
             )
         }
         IconButton(onClick = onConnect) {
-            Icon(Icons.Default.PlayArrow, contentDescription = "Connect")
+            Icon(Icons.Default.PlayArrow, contentDescription = stringResource(R.string.cd_connect))
         }
         IconButton(onClick = onEdit) {
-            Icon(Icons.Default.Edit, contentDescription = "Edit")
+            Icon(Icons.Default.Edit, contentDescription = stringResource(R.string.cd_edit))
         }
         IconButton(onClick = onDelete) {
-            Icon(Icons.Default.Delete, contentDescription = "Delete")
+            Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.cd_delete))
         }
     }
 }
@@ -238,7 +240,7 @@ private fun ServerEditorDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(if (initial.id.isBlank()) "Add server" else "Edit server") },
+        title = { Text(stringResource(if (initial.id.isBlank()) R.string.remote_dialog_add_title else R.string.remote_dialog_edit_title)) },
         text = {
             Column(
                 modifier = Modifier
@@ -264,42 +266,42 @@ private fun ServerEditorDialog(
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text("Display name") },
+                    label = { Text(stringResource(R.string.remote_field_display_name)) },
                     modifier = Modifier.fillMaxWidth()
                 )
                 OutlinedTextField(
                     value = host,
                     onValueChange = { host = it },
-                    label = { Text("Host") },
+                    label = { Text(stringResource(R.string.remote_field_host)) },
                     modifier = Modifier.fillMaxWidth()
                 )
                 OutlinedTextField(
                     value = port,
                     onValueChange = { port = it.filter(Char::isDigit) },
-                    label = { Text("Port") },
+                    label = { Text(stringResource(R.string.remote_field_port)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     modifier = Modifier.fillMaxWidth()
                 )
                 if (protocol == RemoteProtocol.FTP) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Checkbox(checked = anonymous, onCheckedChange = { anonymous = it })
-                        Text("Anonymous")
+                        Text(stringResource(R.string.remote_option_anonymous))
                         Spacer(Modifier.width(16.dp))
                         Checkbox(checked = ftpPassive, onCheckedChange = { ftpPassive = it })
-                        Text("Passive mode")
+                        Text(stringResource(R.string.remote_option_passive_mode))
                     }
                 }
                 if (!anonymous || protocol != RemoteProtocol.FTP) {
                     OutlinedTextField(
                         value = username,
                         onValueChange = { username = it },
-                        label = { Text("Username") },
+                        label = { Text(stringResource(R.string.remote_field_username)) },
                         modifier = Modifier.fillMaxWidth()
                     )
                     OutlinedTextField(
                         value = password,
                         onValueChange = { password = it },
-                        label = { Text(if (isEdit) "Password (leave blank to keep saved)" else "Password") },
+                        label = { Text(stringResource(if (isEdit) R.string.remote_field_password_edit else R.string.remote_field_password)) },
                         visualTransformation = PasswordVisualTransformation(),
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -311,7 +313,7 @@ private fun ServerEditorDialog(
                             onCheckedChange = { clearPinnedHostKey = it }
                         )
                         Text(
-                            "Clear pinned host key (next connect re-pins on trust)",
+                            stringResource(R.string.remote_option_clear_host_key),
                             style = MaterialTheme.typography.bodySmall
                         )
                     }
@@ -320,14 +322,14 @@ private fun ServerEditorDialog(
                     OutlinedTextField(
                         value = shareName,
                         onValueChange = { shareName = it },
-                        label = { Text("Share name") },
+                        label = { Text(stringResource(R.string.remote_field_share_name)) },
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
                 OutlinedTextField(
                     value = basePath,
                     onValueChange = { basePath = it },
-                    label = { Text("Base path (optional)") },
+                    label = { Text(stringResource(R.string.remote_field_base_path)) },
                     modifier = Modifier.fillMaxWidth()
                 )
             }
@@ -353,10 +355,10 @@ private fun ServerEditorDialog(
                         clearPinnedHostKey
                     )
                 }
-            ) { Text("Save") }
+            ) { Text(stringResource(R.string.action_save)) }
         },
         dismissButton = {
-            OutlinedButton(onClick = onDismiss) { Text("Cancel") }
+            OutlinedButton(onClick = onDismiss) { Text(stringResource(R.string.action_cancel)) }
         }
     )
 }

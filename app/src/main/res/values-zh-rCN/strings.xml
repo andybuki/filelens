@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Machine-translated first pass — review by a native speaker before final release. -->
+<resources>
+    <!-- ====================================================================
+         App
+         ==================================================================== -->
+    <string name="app_name">FileLens</string>
+
+    <!-- ====================================================================
+         Common actions / buttons
+         ==================================================================== -->
+    <string name="action_cancel">取消</string>
+    <string name="action_close">关闭</string>
+    <string name="action_save">保存</string>
+    <string name="action_create">创建</string>
+    <string name="action_delete">删除</string>
+    <string name="action_rename">重命名</string>
+    <string name="action_copy">复制</string>
+    <string name="action_move">移动</string>
+    <string name="action_export">导出</string>
+    <string name="action_import">导入</string>
+    <string name="action_find">查找</string>
+    <string name="action_reset">重置</string>
+    <string name="action_retry">重试</string>
+    <string name="action_clear">清除</string>
+    <string name="action_clear_search">清除搜索</string>
+    <string name="action_back">返回</string>
+    <string name="action_compare">比较</string>
+    <string name="action_ignore">忽略</string>
+
+    <!-- ====================================================================
+         Content descriptions (accessibility)
+         ==================================================================== -->
+    <string name="cd_back">返回</string>
+    <string name="cd_close">关闭</string>
+    <string name="cd_close_search">关闭搜索</string>
+    <string name="cd_search">搜索</string>
+    <string name="cd_more_options">更多选项</string>
+    <string name="cd_settings">设置</string>
+    <string name="cd_navigate_up">向上导航</string>
+    <string name="cd_copy">复制</string>
+    <string name="cd_expand">展开</string>
+    <string name="cd_collapse">折叠</string>
+    <string name="cd_clear_selection">清除选择</string>
+    <string name="cd_remove_bookmark">移除书签</string>
+    <string name="cd_connect">连接</string>
+    <string name="cd_edit">编辑</string>
+    <string name="cd_delete">删除</string>
+    <string name="cd_add_server">添加服务器</string>
+    <string name="cd_image_preview_left">左侧图片</string>
+    <string name="cd_image_preview_right">右侧图片</string>
+    <string name="cd_inspector_actions">检查器操作</string>
+    <string name="cd_severity_danger">危险风险</string>
+    <string name="cd_severity_warning">警告风险</string>
+    <string name="cd_severity_info">信息提示</string>
+
+    <!-- ====================================================================
+         File list panel
+         ==================================================================== -->
+    <string name="brand_name">FileLens</string>
+    <string name="home_folder_label">手机</string>
+    <string name="menu_show_hidden_files">显示隐藏文件</string>
+    <string name="menu_hide_hidden_files">隐藏隐藏文件</string>
+    <string name="menu_scan_folder">扫描文件夹风险</string>
+    <string name="menu_analyze_folder">分析文件夹</string>
+    <string name="menu_find_duplicates">在此处查找重复文件</string>
+    <string name="menu_bookmark_folder">收藏此文件夹</string>
+    <string name="menu_show_bookmarks">显示书签</string>
+    <string name="menu_recents">最近</string>
+    <string name="search_hint">搜索文件…</string>
+    <string name="searching_label">搜索中…</string>
+    <string name="search_in_folder">在子文件夹中搜索</string>
+    <string name="empty_folder_headline">此文件夹为空</string>
+    <string name="empty_folder_subtitle">暂无内容。添加文件，或导入账单以在打开前检查。</string>
+    <string name="empty_folder_action">导入文件</string>
+    <string name="active_panel_indicator">活动面板</string>
+
+    <!-- ====================================================================
+         File list item (accessibility)
+         ==================================================================== -->
+    <string name="a11y_kind_folder">文件夹</string>
+    <string name="a11y_kind_file">文件</string>
+    <string name="a11y_folder_empty">空</string>
+    <string name="a11y_item_selected">已选择</string>
+    <string name="a11y_modified">%1$s 修改</string>
+    <string name="a11y_file_type">%1$s 文件</string>
+
+    <!-- ====================================================================
+         Sort
+         ==================================================================== -->
+    <string name="sort_name">名称</string>
+    <string name="sort_size">大小</string>
+    <string name="sort_date">日期</string>
+    <string name="sort_type">类型</string>
+
+    <!-- ====================================================================
+         Inspector panel — header
+         ==================================================================== -->
+    <string name="inspector_tab_overview">概览</string>
+    <string name="inspector_tab_preview">预览</string>
+    <string name="inspector_tab_structure">结构</string>
+    <string name="inspector_tab_metadata">元数据</string>
+    <string name="inspector_tab_risks">风险</string>
+
+    <!-- ====================================================================
+         Inspector panel — overview tab
+         ==================================================================== -->
+    <string name="row_label_file">文件</string>
+    <string name="row_label_type">类型</string>
+    <string name="row_label_extension">扩展名</string>
+    <string name="row_label_mime">MIME</string>
+    <string name="row_label_size">大小</string>
+    <string name="row_label_modified">修改时间</string>
+
+    <string name="section_safe_actions">安全操作</string>
+    <string name="section_external">外部</string>
+
+    <string name="action_preview_only">仅预览</string>
+    <string name="action_inspect_metadata">检查元数据</string>
+    <string name="action_browse_archive">浏览内容（不解压）</string>
+    <string name="action_inspect_doc_structure">检查文档结构</string>
+    <string name="action_inspect_structure">检查结构</string>
+    <string name="action_search_inside">内部搜索…</string>
+    <string name="action_export_markdown">导出 Markdown</string>
+    <string name="action_export_json">导出 JSON</string>
+    <string name="action_share_cleaned">分享已清理副本</string>
+    <string name="action_verify_hash">验证哈希</string>
+    <string name="action_browse_rows">浏览行</string>
+    <string name="action_open_with">打开方式…</string>
+    <string name="action_view_on_map">在地图上查看</string>
+
+    <!-- Open as menu -->
+    <string name="open_as_title">以…方式打开</string>
+    <string name="open_as_restore_detected">检测到恢复 (%1$s)</string>
+    <string name="open_as_reinspect">重新运行检查器</string>
+
+    <!-- Trust score card -->
+    <string name="trust_score_disclaimer">启发式信任分数。非杀毒软件。</string>
+    <string name="trust_top_reasons">主要原因</string>
+
+    <!-- Risks tab -->
+    <string name="risks_none_detected">未检测到风险</string>
+    <string name="risks_all_ignored">本次会话所有风险已忽略。</string>
+    <string name="risk_show_evidence">显示证据</string>
+    <string name="risk_hide_evidence">隐藏证据</string>
+    <string name="risk_learn_more">了解更多</string>
+    <string name="risk_hide_learn_more">隐藏了解更多</string>
+    <string name="risk_severity_danger">危险</string>
+    <string name="risk_severity_warning">警告</string>
+    <string name="risk_severity_info">信息</string>
+
+    <!-- Preview tab -->
+    <string name="preview_none_available">无可用预览</string>
+    <string name="preview_raw">原始</string>
+    <string name="preview_pretty">格式化</string>
+    <string name="preview_hex_header">十六进制视图（共 %1$s）</string>
+
+    <!-- Structure tab -->
+    <string name="structure_none_available">无可用结构</string>
+
+    <!-- Metadata tab -->
+    <string name="metadata_none_available">无其他元数据</string>
+
+    <!-- Secrets card -->
+    <string name="secrets_redaction_notice">值已隐藏。将任何泄露的凭据视为已泄露——先轮换，再从文件中移除。</string>
+    <string name="secrets_copy_name">复制名称</string>
+
+    <!-- Provenance -->
+    <string name="provenance_high_confidence">可能来源</string>
+    <string name="provenance_medium_confidence">疑似来源</string>
+    <string name="provenance_low_confidence">可能的来源</string>
+
+    <!-- Empty inspector -->
+    <string name="inspector_empty_headline">选择要检查的文件</string>
+    <string name="inspector_empty_subtitle">点击列表中的任意文件，在打开前查看其内容。</string>
+
+    <!-- ====================================================================
+         Selection bar
+         ==================================================================== -->
+    <string name="selection_compare">比较</string>
+    <string name="selection_hint_select_two">选择 2 个以进行比较</string>
+
+    <!-- ====================================================================
+         Commander toolbar actions
+         ==================================================================== -->
+    <string name="cmd_view">查看</string>
+    <string name="cmd_copy">复制</string>
+    <string name="cmd_move">移动</string>
+    <string name="cmd_mkdir">新建文件夹</string>
+    <string name="cmd_diff">差异</string>
+    <string name="cmd_delete">删除</string>
+    <string name="cmd_rename">重命名</string>
+
+    <!-- ====================================================================
+         File operation dialogs
+         ==================================================================== -->
+    <string name="dialog_new_folder_title">新建文件夹</string>
+    <string name="dialog_new_folder_label">文件夹名称</string>
+    <string name="dialog_rename_title">重命名</string>
+    <string name="dialog_rename_label">新名称</string>
+    <string name="dialog_delete_title">删除</string>
+    <string name="dialog_delete_message">确定要删除吗？</string>
+    <string name="dialog_copy_move_target_label">%1$s %2$d 个文件到：</string>
+    <string name="dialog_and_more">… 以及 %1$d 个更多</string>
+    <string name="dialog_operation_title">%1$s 文件</string>
+
+    <!-- ====================================================================
+         Batch rename dialog
+         ==================================================================== -->
+    <string name="batch_rename_title">批量重命名</string>
+    <string name="batch_rename_tokens_hint">标记：{name}、{ext}、{n}、{n:03}</string>
+    <string name="batch_rename_label_pattern">模式</string>
+    <string name="batch_rename_label_find">查找</string>
+    <string name="batch_rename_label_replace">替换</string>
+    <string name="batch_rename_use_regex">正则表达式查找/替换</string>
+    <string name="batch_rename_start_index">起始：%1$d</string>
+    <string name="batch_rename_banner_invalid">部分目标名称无效</string>
+    <string name="batch_rename_banner_ready">准备好重命名</string>
+    <string name="batch_rename_applying">重命名中…</string>
+    <string name="batch_rename_arrow">→ %1$s</string>
+
+    <!-- ====================================================================
+         Hash verify dialog
+         ==================================================================== -->
+    <string name="hash_verify_title">验证哈希</string>
+    <string name="hash_verify_hashing">计算哈希中…</string>
+    <string name="hash_verify_compare_label">与之比较</string>
+    <string name="hash_verify_paste_hint">粘贴 SHA-256 或 MD5 以验证</string>
+    <string name="hash_verify_match">匹配</string>
+    <string name="hash_verify_no_match">不匹配</string>
+    <string name="hash_verify_unknown">请粘贴 32 或 64 位字符的哈希值</string>
+
+    <!-- ====================================================================
+         Batch scan / privacy audit dialog
+         ==================================================================== -->
+    <string name="batch_scan_title_scanning">扫描文件夹中…</string>
+    <string name="batch_scan_title_done">隐私审计</string>
+    <string name="batch_scan_progress">%1$d / %2$d</string>
+    <string name="batch_scan_result_count">已扫描 %1$d 个文件</string>
+    <string name="batch_scan_bucket_empty">此类别中没有内容。</string>
+    <string name="batch_scan_creating_copies">创建已清理副本中…</string>
+    <string name="batch_scan_action_batch_clean">批量清理</string>
+    <string name="batch_scan_bucket_risky">有风险 (%1$d)</string>
+    <string name="batch_scan_bucket_safe">安全 (%1$d)</string>
+    <string name="batch_scan_bucket_unsupported">不支持 (%1$d)</string>
+
+    <!-- ====================================================================
+         Safe share sheet
+         ==================================================================== -->
+    <string name="safe_share_title">分享前检查</string>
+    <string name="safe_share_no_risks">未检测到风险。可安全分享。</string>
+    <string name="safe_share_risks_intro">此文件可能会泄露：</string>
+    <string name="safe_share_action_original">分享原件</string>
+    <string name="safe_share_action_cleaned">创建已清理副本</string>
+
+    <!-- ====================================================================
+         Search inside dialog
+         ==================================================================== -->
+    <string name="search_inside_title">在文件内搜索</string>
+    <string name="search_inside_hint">在条目、键、内容中查找…</string>
+    <string name="search_inside_searching">搜索中…</string>
+    <string name="search_inside_no_matches">无匹配项。</string>
+    <string name="search_inside_more">… %1$d 个更多</string>
+
+    <!-- ====================================================================
+         Bookmarks sheet
+         ==================================================================== -->
+    <string name="bookmarks_section_title">书签</string>
+    <string name="bookmarks_empty_headline">暂无书签</string>
+    <string name="bookmarks_empty_subtitle">从面板菜单中添加当前文件夹。</string>
+
+    <!-- ====================================================================
+         Recents sheet
+         ==================================================================== -->
+    <string name="recents_section_frequent">常用文件夹</string>
+    <string name="recents_section_recent">最近文件</string>
+    <string name="recents_clear_history">清除历史记录</string>
+    <string name="recents_empty_headline">暂无最近活动</string>
+    <string name="recents_empty_subtitle">您检查的文件和访问的文件夹将显示在此处。</string>
+    <string name="recents_one_visit">1 次访问</string>
+    <string name="recents_visits_format">%1$d 次访问</string>
+
+    <!-- ====================================================================
+         Shortcut recorder dialog
+         ==================================================================== -->
+    <string name="shortcut_bind_title">绑定 %1$s</string>
+    <string name="shortcut_press_hint">按下新组合键，然后点击保存。</string>
+    <string name="shortcut_current">当前：%1$s</string>
+    <string name="shortcut_default">默认：%1$s</string>
+
+    <!-- ====================================================================
+         Shortcuts screen
+         ==================================================================== -->
+    <string name="shortcuts_title">键盘快捷键</string>
+    <string name="shortcuts_hint">点击一行以记录新的按键组合。如果新组合已在使用中，现有快捷键将与正在编辑的快捷键交换。</string>
+    <string name="shortcuts_action_reset">重置</string>
+
+    <!-- ====================================================================
+         Settings screen
+         ==================================================================== -->
+    <string name="settings_title">设置</string>
+    <string name="settings_section_browsing">浏览</string>
+    <string name="settings_section_input">输入</string>
+    <string name="settings_section_remote">远程</string>
+    <string name="settings_section_backup">备份 &amp; 恢复</string>
+    <string name="settings_section_about">关于</string>
+    <string name="settings_section_licenses">开源许可证</string>
+
+    <string name="settings_show_hidden_files">显示隐藏文件</string>
+    <string name="settings_show_hidden_files_desc">显示以点开头的点文件和文件夹。</string>
+    <string name="settings_hide_empty_folders">隐藏空文件夹</string>
+    <string name="settings_hide_empty_folders_desc">不显示不包含任何可见文件的文件夹。</string>
+    <string name="settings_size_units">文件大小单位</string>
+    <string name="settings_default_panel">默认面板（平板电脑）</string>
+
+    <string name="settings_keyboard_shortcuts">键盘快捷键</string>
+    <string name="settings_keyboard_shortcuts_desc">自定义指挥官中使用的 F 键和 Ctrl 组合键。</string>
+
+    <string name="settings_remote_servers">远程服务器</string>
+    <string name="settings_remote_servers_desc">像本地文件夹一样浏览 FTP、SFTP 和 SMB 共享。</string>
+
+    <string name="settings_backup_desc">将您的设置、书签、最近文件和常用文件夹保存到 JSON 文件，以便日后恢复。</string>
+
+    <string name="settings_about_app_name">FileLens Commander</string>
+    <string name="settings_about_version">版本 0.4.4</string>
+    <string name="settings_about_vision_label">愿景</string>
+    <string name="settings_about_vision_text">浏览文件，窥视内部，打开前先了解。离线、设备端、无需账号。</string>
+    <string name="settings_licenses_intro">FileLens 基于以下开源库构建：</string>
+    <string name="settings_licenses_show">显示许可证</string>
+    <string name="settings_licenses_hide">隐藏许可证</string>
+
+    <string name="settings_backup_saved">备份已保存</string>
+    <string name="settings_export_failed">导出失败：%1$s</string>
+    <string name="settings_import_failed">导入失败：%1$s</string>
+
+    <!-- ====================================================================
+         Remote servers screen
+         ==================================================================== -->
+    <string name="remote_servers_title">远程服务器</string>
+    <string name="remote_servers_empty_headline">暂无远程服务器</string>
+    <string name="remote_servers_empty_subtitle">添加 FTP、SFTP 或 SMB 服务器，像本地文件夹一样浏览。</string>
+    <string name="remote_dialog_delete_title">删除服务器？</string>
+    <string name="remote_dialog_delete_message">移除 &#8220;%1$s&#8221;？这只会删除已保存的条目；服务器上的内容不受影响。</string>
+    <string name="remote_dialog_add_title">添加服务器</string>
+    <string name="remote_dialog_edit_title">编辑服务器</string>
+    <string name="remote_field_display_name">显示名称</string>
+    <string name="remote_field_host">主机</string>
+    <string name="remote_field_port">端口</string>
+    <string name="remote_field_username">用户名</string>
+    <string name="remote_field_password">密码</string>
+    <string name="remote_field_password_edit">密码（留空以保留已保存的密码）</string>
+    <string name="remote_field_share_name">共享名称</string>
+    <string name="remote_field_base_path">基础路径（可选）</string>
+    <string name="remote_option_anonymous">匿名</string>
+    <string name="remote_option_passive_mode">被动模式</string>
+    <string name="remote_option_clear_host_key">清除固定的主机密钥（下次连接时基于信任重新固定）</string>
+
+    <!-- ====================================================================
+         Compare screen
+         ==================================================================== -->
+    <string name="compare_title">比较</string>
+    <string name="compare_panel_left">左侧</string>
+    <string name="compare_panel_right">右侧</string>
+    <string name="compare_tab_overview">概览</string>
+    <string name="compare_tab_metadata">元数据</string>
+    <string name="compare_tab_content">内容</string>
+    <string name="compare_progress_folders">遍历文件夹中…</string>
+    <string name="compare_progress_files">比较文件中…</string>
+    <string name="compare_identical">内容相同</string>
+    <string name="compare_different">内容不同</string>
+    <string name="compare_section_checksums">校验和</string>
+    <string name="compare_metadata_empty">未提取元数据</string>
+    <string name="compare_metadata_identical">元数据相同</string>
+    <string name="compare_content_empty">无可用内容</string>
+    <string name="compare_structurally_identical">%1$s 结构相同</string>
+    <string name="compare_diff_truncated">差异已截断——显示前 5,000 行</string>
+    <string name="compare_renamed_candidates">相同内容，不同路径 (%1$d)</string>
+    <string name="compare_and_more">…以及 %1$d 个更多</string>
+    <string name="compare_sizes_lr">左：%1$s · 右：%2$s</string>
+    <string name="compare_no_entries">没有条目匹配此过滤器</string>
+
+    <string name="compare_filter_all">全部</string>
+    <string name="compare_filter_left_only">仅左侧</string>
+    <string name="compare_filter_right_only">仅右侧</string>
+    <string name="compare_filter_changed">已更改</string>
+    <string name="compare_filter_same">相同</string>
+
+    <string name="compare_folder_copy_to_right">复制 → 右侧</string>
+    <string name="compare_folder_copy_to_left">复制 ← 左侧</string>
+    <string name="compare_folder_overwrite_right">覆盖 →</string>
+    <string name="compare_folder_overwrite_left">← 覆盖</string>
+    <string name="compare_folder_verify_checksum">通过校验和验证</string>
+    <string name="compare_folder_match_count">%1$d / %2$d 匹配</string>
+    <string name="compare_folder_both_empty">两个文件夹均为空</string>
+    <string name="compare_folder_diff_summary">%1$d 个已更改 · %2$d 个仅在左侧 · %3$d 个仅在右侧</string>
+    <string name="compare_folder_checksum_verified"> · 校验和已验证</string>
+
+    <string name="compare_diff_label_left_only">仅左侧</string>
+    <string name="compare_diff_label_right_only">仅右侧</string>
+    <string name="compare_diff_label_changed">已更改</string>
+    <string name="compare_diff_label_same">相同</string>
+
+    <!-- ====================================================================
+         Duplicate finder screen
+         ==================================================================== -->
+    <string name="duplicates_title">查找重复文件</string>
+    <string name="duplicates_none_found">未发现重复文件</string>
+    <string name="duplicates_hashing">正在计算哈希 %2$d 中的第 %1$d 个…</string>
+    <string name="duplicates_scanning">扫描中… %1$d 个文件</string>
+    <string name="duplicates_group_count">%1$d 个重复组</string>
+    <string name="duplicates_wasted_summary">在扫描的 %2$d 个文件中浪费了 %1$s</string>
+    <string name="duplicates_action_select_old">选择旧副本</string>
+    <string name="duplicates_copies_each">%1$d 个副本 · 每个 %2$s</string>
+    <string name="duplicates_wasted">%1$s 已浪费</string>
+    <string name="duplicates_modified">%1$s 修改</string>
+
+    <!-- ====================================================================
+         Folder dashboard dialog
+         ==================================================================== -->
+    <string name="folder_dashboard_title">文件夹仪表板</string>
+    <string name="folder_dashboard_analyzing">分析文件夹中…</string>
+    <string name="folder_dashboard_no_data">无数据</string>
+    <string name="folder_dashboard_folder_label">文件夹</string>
+    <string name="folder_dashboard_file_count">%1$d 个文件 · 共 %2$s</string>
+    <string name="folder_dashboard_section_disk_usage">按类型的磁盘使用情况</string>
+    <string name="folder_dashboard_section_largest">最大文件</string>
+    <string name="folder_dashboard_section_newest">最新文件</string>
+    <string name="folder_dashboard_section_unknown">未知 / 未分类 (%1$d)</string>
+    <string name="folder_dashboard_section_duplicates">可能的重复项（相同大小）</string>
+
+    <!-- ====================================================================
+         Main screen
+         ==================================================================== -->
+    <string name="main_bookmark_added">书签已添加</string>
+    <string name="main_panel_dual">双面板</string>
+    <string name="main_panel_inspector">检查器</string>
+    <string name="main_chooser_open_with">打开方式</string>
+    <string name="main_chooser_share_cleaned">分享已清理副本</string>
+    <string name="main_chooser_share_report">分享报告</string>
+    <string name="main_chooser_share_cleaned_files">分享已清理文件</string>
+
+    <!-- ====================================================================
+         State views
+         ==================================================================== -->
+    <string name="state_no_matches_headline">无匹配项</string>
+    <string name="state_no_matches_subtitle">此文件夹中没有与 &#8220;%1$s&#8221; 匹配的内容。</string>
+    <string name="state_no_matches_no_query">请尝试其他查询。</string>
+    <string name="state_error_headline">出现错误</string>
+
+    <!-- ====================================================================
+         Plurals
+         ==================================================================== -->
+    <plurals name="plural_file_count">
+        <item quantity="other">%1$d 个文件</item>
+    </plurals>
+
+    <plurals name="plural_item_count">
+        <item quantity="other">%1$d 个项目</item>
+    </plurals>
+
+    <plurals name="plural_risk_count">
+        <item quantity="other">%1$d 个风险</item>
+    </plurals>
+
+    <plurals name="plural_match_count">
+        <item quantity="other">%1$d 个匹配项</item>
+    </plurals>
+
+    <plurals name="plural_secret_count">
+        <item quantity="other">可能的密钥 (%1$d)</item>
+    </plurals>
+
+    <plurals name="plural_ignored_count">
+        <item quantity="other">%1$d 个已忽略 — 显示</item>
+    </plurals>
+
+    <plurals name="plural_selected_count">
+        <item quantity="other">已选择 %1$d 个</item>
+    </plurals>
+
+    <plurals name="plural_collision_count">
+        <item quantity="other">%1$d 个名称冲突</item>
+    </plurals>
+
+    <plurals name="plural_rename_action">
+        <item quantity="other">重命名 %1$d 个</item>
+    </plurals>
+
+    <plurals name="plural_delete_action">
+        <item quantity="other">删除 %1$d 个</item>
+    </plurals>
+
+    <plurals name="plural_visit_count">
+        <item quantity="one">1 次访问</item>
+        <item quantity="other">%1$d 次访问</item>
+    </plurals>
+
+</resources>

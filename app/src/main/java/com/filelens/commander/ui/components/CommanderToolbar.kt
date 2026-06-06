@@ -23,7 +23,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.filelens.commander.R
 
 data class CommanderAction(
     val label: String,
@@ -47,13 +49,13 @@ fun CommanderToolbar(
     modifier: Modifier = Modifier
 ) {
     val actions = listOf(
-        CommanderAction("View", "F3", Icons.Filled.Info, onView, hasSelection),
-        CommanderAction("Copy", "F5", Icons.Filled.ContentCopy, onCopy, hasSelection),
-        CommanderAction("Move", "F6", Icons.AutoMirrored.Filled.DriveFileMove, onMove, hasSelection),
-        CommanderAction("Mkdir", "F7", Icons.Filled.CreateNewFolder, onNewFolder, true),
-        CommanderAction("Diff", "F9", Icons.Filled.Compare, onCompare, canCompare),
-        CommanderAction("Delete", "F8", Icons.Filled.Delete, onDelete, hasSelection),
-        CommanderAction("Rename", "F2", Icons.Filled.Edit, onRename, hasSelection)
+        CommanderAction(stringResource(R.string.cmd_view), "F3", Icons.Filled.Info, onView, hasSelection),
+        CommanderAction(stringResource(R.string.cmd_copy), "F5", Icons.Filled.ContentCopy, onCopy, hasSelection),
+        CommanderAction(stringResource(R.string.cmd_move), "F6", Icons.AutoMirrored.Filled.DriveFileMove, onMove, hasSelection),
+        CommanderAction(stringResource(R.string.cmd_mkdir), "F7", Icons.Filled.CreateNewFolder, onNewFolder, true),
+        CommanderAction(stringResource(R.string.cmd_diff), "F9", Icons.Filled.Compare, onCompare, canCompare),
+        CommanderAction(stringResource(R.string.cmd_delete), "F8", Icons.Filled.Delete, onDelete, hasSelection),
+        CommanderAction(stringResource(R.string.cmd_rename), "F2", Icons.Filled.Edit, onRename, hasSelection)
     )
 
     BottomAppBar(

@@ -21,6 +21,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.filelens.commander.R
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -56,21 +58,21 @@ fun FolderDashboardDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Folder dashboard") },
+        title = { Text(stringResource(R.string.folder_dashboard_title)) },
         text = {
             when {
                 state.isAnalyzing -> Row(verticalAlignment = Alignment.CenterVertically) {
                     CircularProgressIndicator(modifier = Modifier.height(16.dp))
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("Analyzing folder…", style = MaterialTheme.typography.bodySmall)
+                    Text(stringResource(R.string.folder_dashboard_analyzing), style = MaterialTheme.typography.bodySmall)
                 }
                 state.error != null -> Text("Error: ${state.error}", color = MaterialTheme.colorScheme.error)
                 state.summary != null -> SummaryBody(state.summary)
-                else -> Text("No data")
+                else -> Text(stringResource(R.string.folder_dashboard_no_data))
             }
         },
         confirmButton = {
-            TextButton(onClick = onDismiss) { Text("Close") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_close)) }
         }
     )
 }
@@ -83,7 +85,7 @@ private fun SummaryBody(summary: com.filelens.commander.domain.usecase.FolderAna
             .heightIn(max = 500.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        Text("Folder", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(stringResource(R.string.folder_dashboard_folder_label), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         Text(
             summary.folderPath,
             style = MaterialTheme.typography.bodySmall,
@@ -91,11 +93,11 @@ private fun SummaryBody(summary: com.filelens.commander.domain.usecase.FolderAna
             overflow = TextOverflow.Ellipsis
         )
         Spacer(modifier = Modifier.height(8.dp))
-        Text("${summary.fileCount} file(s) · ${formatSize(summary.totalSize)} total", style = MaterialTheme.typography.bodyMedium)
+        Text(stringResource(R.string.folder_dashboard_file_count, summary.fileCount, formatSize(summary.totalSize)), style = MaterialTheme.typography.bodyMedium)
 
         if (summary.categoryBytes.isNotEmpty() && summary.totalSize > 0) {
             Spacer(modifier = Modifier.height(8.dp))
-            SectionTitle("Disk usage by type")
+            SectionTitle(stringResource(R.string.folder_dashboard_section_disk_usage))
             CategoryStackBar(summary.categoryBytes, summary.totalSize)
             Spacer(modifier = Modifier.height(6.dp))
             summary.categoryBytes.entries
@@ -114,7 +116,7 @@ private fun SummaryBody(summary: com.filelens.commander.domain.usecase.FolderAna
 
         if (summary.largest.isNotEmpty()) {
             Spacer(modifier = Modifier.height(8.dp))
-            SectionTitle("Largest files")
+            SectionTitle(stringResource(R.string.folder_dashboard_section_largest))
             summary.largest.take(5).forEach {
                 BulletRow("${it.name} — ${formatSize(it.size)}")
             }
@@ -122,7 +124,7 @@ private fun SummaryBody(summary: com.filelens.commander.domain.usecase.FolderAna
 
         if (summary.newest.isNotEmpty()) {
             Spacer(modifier = Modifier.height(8.dp))
-            SectionTitle("Newest files")
+            SectionTitle(stringResource(R.string.folder_dashboard_section_newest))
             summary.newest.take(5).forEach {
                 BulletRow("${it.name} — ${formatDateShort(it.lastModified)}")
             }
@@ -130,7 +132,7 @@ private fun SummaryBody(summary: com.filelens.commander.domain.usecase.FolderAna
 
         if (summary.unknown.isNotEmpty()) {
             Spacer(modifier = Modifier.height(8.dp))
-            SectionTitle("Unknown / unclassified (${summary.unknown.size})")
+            SectionTitle(stringResource(R.string.folder_dashboard_section_unknown, summary.unknown.size))
             summary.unknown.take(5).forEach {
                 BulletRow(it.name)
             }
@@ -138,7 +140,7 @@ private fun SummaryBody(summary: com.filelens.commander.domain.usecase.FolderAna
 
         if (summary.duplicateCandidates.isNotEmpty()) {
             Spacer(modifier = Modifier.height(8.dp))
-            SectionTitle("Possible duplicates (same size)")
+            SectionTitle(stringResource(R.string.folder_dashboard_section_duplicates))
             summary.duplicateCandidates.take(5).forEach { group ->
                 BulletRow("${group.size}× ${formatSize(group.first().size)}: ${group.joinToString(", ") { it.name }.take(160)}")
             }

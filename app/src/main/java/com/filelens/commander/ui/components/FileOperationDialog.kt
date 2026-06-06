@@ -15,7 +15,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.filelens.commander.R
 
 @Composable
 fun NewFolderDialog(
@@ -26,12 +28,12 @@ fun NewFolderDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("New Folder") },
+        title = { Text(stringResource(R.string.dialog_new_folder_title)) },
         text = {
             OutlinedTextField(
                 value = name,
                 onValueChange = { name = it },
-                label = { Text("Folder name") },
+                label = { Text(stringResource(R.string.dialog_new_folder_label)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -40,10 +42,10 @@ fun NewFolderDialog(
             TextButton(
                 onClick = { if (name.isNotBlank()) onConfirm(name.trim()) },
                 enabled = name.isNotBlank()
-            ) { Text("Create") }
+            ) { Text(stringResource(R.string.action_create)) }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_cancel)) }
         }
     )
 }
@@ -58,12 +60,12 @@ fun RenameDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Rename") },
+        title = { Text(stringResource(R.string.dialog_rename_title)) },
         text = {
             OutlinedTextField(
                 value = name,
                 onValueChange = { name = it },
-                label = { Text("New name") },
+                label = { Text(stringResource(R.string.dialog_rename_label)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -72,10 +74,10 @@ fun RenameDialog(
             TextButton(
                 onClick = { if (name.isNotBlank() && name != currentName) onConfirm(name.trim()) },
                 enabled = name.isNotBlank() && name != currentName
-            ) { Text("Rename") }
+            ) { Text(stringResource(R.string.action_rename)) }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_cancel)) }
         }
     )
 }
@@ -88,10 +90,10 @@ fun DeleteConfirmDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Delete") },
+        title = { Text(stringResource(R.string.dialog_delete_title)) },
         text = {
             Column {
-                Text("Are you sure you want to delete?")
+                Text(stringResource(R.string.dialog_delete_message))
                 Spacer(modifier = Modifier.height(8.dp))
                 fileNames.take(5).forEach { name ->
                     Text(
@@ -102,7 +104,7 @@ fun DeleteConfirmDialog(
                 }
                 if (fileNames.size > 5) {
                     Text(
-                        text = "... and ${fileNames.size - 5} more",
+                        text = stringResource(R.string.dialog_and_more, fileNames.size - 5),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -111,11 +113,11 @@ fun DeleteConfirmDialog(
         },
         confirmButton = {
             TextButton(onClick = onConfirm) {
-                Text("Delete", color = MaterialTheme.colorScheme.error)
+                Text(stringResource(R.string.action_delete), color = MaterialTheme.colorScheme.error)
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_cancel)) }
         }
     )
 }
@@ -130,10 +132,10 @@ fun CopyMoveDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("$operation files") },
+        title = { Text(stringResource(R.string.dialog_operation_title, operation)) },
         text = {
             Column {
-                Text("$operation ${fileNames.size} file(s) to:")
+                Text(stringResource(R.string.dialog_copy_move_target_label, operation, fileNames.size))
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = targetPath,
@@ -150,7 +152,7 @@ fun CopyMoveDialog(
                 }
                 if (fileNames.size > 5) {
                     Text(
-                        text = "... and ${fileNames.size - 5} more",
+                        text = stringResource(R.string.dialog_and_more, fileNames.size - 5),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -161,7 +163,7 @@ fun CopyMoveDialog(
             TextButton(onClick = onConfirm) { Text(operation) }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_cancel)) }
         }
     )
 }

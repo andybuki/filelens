@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Machine-translated first pass — review by a native speaker before final release. -->
+<resources>
+    <!-- ====================================================================
+         App
+         ==================================================================== -->
+    <string name="app_name">FileLens</string>
+
+    <!-- ====================================================================
+         Common actions / buttons
+         ==================================================================== -->
+    <string name="action_cancel">Annulla</string>
+    <string name="action_close">Chiudi</string>
+    <string name="action_save">Salva</string>
+    <string name="action_create">Crea</string>
+    <string name="action_delete">Elimina</string>
+    <string name="action_rename">Rinomina</string>
+    <string name="action_copy">Copia</string>
+    <string name="action_move">Sposta</string>
+    <string name="action_export">Esporta</string>
+    <string name="action_import">Importa</string>
+    <string name="action_find">Trova</string>
+    <string name="action_reset">Reimposta</string>
+    <string name="action_retry">Riprova</string>
+    <string name="action_clear">Cancella</string>
+    <string name="action_clear_search">Cancella ricerca</string>
+    <string name="action_back">Indietro</string>
+    <string name="action_compare">Confronta</string>
+    <string name="action_ignore">Ignora</string>
+
+    <!-- ====================================================================
+         Content descriptions (accessibility)
+         ==================================================================== -->
+    <string name="cd_back">Indietro</string>
+    <string name="cd_close">Chiudi</string>
+    <string name="cd_close_search">Chiudi ricerca</string>
+    <string name="cd_search">Cerca</string>
+    <string name="cd_more_options">Altre opzioni</string>
+    <string name="cd_settings">Impostazioni</string>
+    <string name="cd_navigate_up">Vai su</string>
+    <string name="cd_copy">Copia</string>
+    <string name="cd_expand">Espandi</string>
+    <string name="cd_collapse">Comprimi</string>
+    <string name="cd_clear_selection">Cancella selezione</string>
+    <string name="cd_remove_bookmark">Rimuovi segnalibro</string>
+    <string name="cd_connect">Connetti</string>
+    <string name="cd_edit">Modifica</string>
+    <string name="cd_delete">Elimina</string>
+    <string name="cd_add_server">Aggiungi server</string>
+    <string name="cd_image_preview_left">Immagine sinistra</string>
+    <string name="cd_image_preview_right">Immagine destra</string>
+    <string name="cd_inspector_actions">Azioni ispettore</string>
+    <string name="cd_severity_danger">Rischio pericolo</string>
+    <string name="cd_severity_warning">Rischio avviso</string>
+    <string name="cd_severity_info">Avviso informativo</string>
+
+    <!-- ====================================================================
+         File list panel
+         ==================================================================== -->
+    <string name="brand_name">FileLens</string>
+    <string name="home_folder_label">Telefono</string>
+    <string name="menu_show_hidden_files">Mostra file nascosti</string>
+    <string name="menu_hide_hidden_files">Nascondi file nascosti</string>
+    <string name="menu_scan_folder">Analizza cartella per rischi</string>
+    <string name="menu_analyze_folder">Analizza cartella</string>
+    <string name="menu_find_duplicates">Trova duplicati qui</string>
+    <string name="menu_bookmark_folder">Aggiungi cartella ai segnalibri</string>
+    <string name="menu_show_bookmarks">Mostra segnalibri</string>
+    <string name="menu_recents">Recenti</string>
+    <string name="search_hint">Cerca file…</string>
+    <string name="searching_label">Ricerca in corso…</string>
+    <string name="search_in_folder">Cerca nelle sottocartelle</string>
+    <string name="empty_folder_headline">Questa cartella è vuota</string>
+    <string name="empty_folder_subtitle">Ancora niente qui. Aggiungi file o importa un estratto per ispezionarlo prima di aprirlo.</string>
+    <string name="empty_folder_action">Importa un file</string>
+    <string name="active_panel_indicator">Pannello attivo</string>
+
+    <!-- ====================================================================
+         File list item (accessibility)
+         ==================================================================== -->
+    <string name="a11y_kind_folder">Cartella</string>
+    <string name="a11y_kind_file">File</string>
+    <string name="a11y_folder_empty">vuota</string>
+    <string name="a11y_item_selected">selezionato</string>
+    <string name="a11y_modified">modificato %1$s</string>
+    <string name="a11y_file_type">file %1$s</string>
+
+    <!-- ====================================================================
+         Sort
+         ==================================================================== -->
+    <string name="sort_name">Nome</string>
+    <string name="sort_size">Dimensione</string>
+    <string name="sort_date">Data</string>
+    <string name="sort_type">Tipo</string>
+
+    <!-- ====================================================================
+         Inspector panel — header
+         ==================================================================== -->
+    <string name="inspector_tab_overview">Panoramica</string>
+    <string name="inspector_tab_preview">Anteprima</string>
+    <string name="inspector_tab_structure">Struttura</string>
+    <string name="inspector_tab_metadata">Metadati</string>
+    <string name="inspector_tab_risks">Rischi</string>
+
+    <!-- ====================================================================
+         Inspector panel — overview tab
+         ==================================================================== -->
+    <string name="row_label_file">File</string>
+    <string name="row_label_type">Tipo</string>
+    <string name="row_label_extension">Estensione</string>
+    <string name="row_label_mime">MIME</string>
+    <string name="row_label_size">Dimensione</string>
+    <string name="row_label_modified">Modificato</string>
+
+    <string name="section_safe_actions">Azioni sicure</string>
+    <string name="section_external">Esterno</string>
+
+    <string name="action_preview_only">Solo anteprima</string>
+    <string name="action_inspect_metadata">Ispeziona metadati</string>
+    <string name="action_browse_archive">Sfoglia contenuto (senza estrarre)</string>
+    <string name="action_inspect_doc_structure">Ispeziona struttura documento</string>
+    <string name="action_inspect_structure">Ispeziona struttura</string>
+    <string name="action_search_inside">Cerca all\'interno…</string>
+    <string name="action_export_markdown">Esporta Markdown</string>
+    <string name="action_export_json">Esporta JSON</string>
+    <string name="action_share_cleaned">Condividi copia pulita</string>
+    <string name="action_verify_hash">Verifica hash</string>
+    <string name="action_browse_rows">Sfoglia righe</string>
+    <string name="action_open_with">Apri con…</string>
+    <string name="action_view_on_map">Visualizza sulla mappa</string>
+
+    <!-- Open as menu -->
+    <string name="open_as_title">Apri come…</string>
+    <string name="open_as_restore_detected">Ripristino rilevato (%1$s)</string>
+    <string name="open_as_reinspect">Riesegui ispettore</string>
+
+    <!-- Trust score card -->
+    <string name="trust_score_disclaimer">Punteggio di fiducia euristico. Non è un antivirus.</string>
+    <string name="trust_top_reasons">Motivi principali</string>
+
+    <!-- Risks tab -->
+    <string name="risks_none_detected">Nessun rischio rilevato</string>
+    <string name="risks_all_ignored">Tutti i rischi ignorati per questa sessione.</string>
+    <string name="risk_show_evidence">Mostra evidenza</string>
+    <string name="risk_hide_evidence">Nascondi evidenza</string>
+    <string name="risk_learn_more">Scopri di più</string>
+    <string name="risk_hide_learn_more">Nascondi scopri di più</string>
+    <string name="risk_severity_danger">Pericolo</string>
+    <string name="risk_severity_warning">Avviso</string>
+    <string name="risk_severity_info">Info</string>
+
+    <!-- Preview tab -->
+    <string name="preview_none_available">Nessuna anteprima disponibile</string>
+    <string name="preview_raw">Grezzo</string>
+    <string name="preview_pretty">Formattato</string>
+    <string name="preview_hex_header">Vista esadecimale (%1$s totale)</string>
+
+    <!-- Structure tab -->
+    <string name="structure_none_available">Nessuna struttura disponibile</string>
+
+    <!-- Metadata tab -->
+    <string name="metadata_none_available">Nessun metadato aggiuntivo</string>
+
+    <!-- Secrets card -->
+    <string name="secrets_redaction_notice">I valori sono oscurati. Tratta qualsiasi credenziale trapelata come compromessa — ruotala prima, poi rimuovila dal file.</string>
+    <string name="secrets_copy_name">Copia nome</string>
+
+    <!-- Provenance -->
+    <string name="provenance_high_confidence">Fonte probabile</string>
+    <string name="provenance_medium_confidence">Fonte possibile</string>
+    <string name="provenance_low_confidence">Fonte potenziale</string>
+
+    <!-- Empty inspector -->
+    <string name="inspector_empty_headline">Seleziona un file da ispezionare</string>
+    <string name="inspector_empty_subtitle">Tocca qualsiasi file nell\'elenco per sbirciare dentro prima di aprirlo.</string>
+
+    <!-- ====================================================================
+         Selection bar
+         ==================================================================== -->
+    <string name="selection_compare">Confronta</string>
+    <string name="selection_hint_select_two">Seleziona 2 per confrontare</string>
+
+    <!-- ====================================================================
+         Commander toolbar actions
+         ==================================================================== -->
+    <string name="cmd_view">Visualizza</string>
+    <string name="cmd_copy">Copia</string>
+    <string name="cmd_move">Sposta</string>
+    <string name="cmd_mkdir">Mkdir</string>
+    <string name="cmd_diff">Diff</string>
+    <string name="cmd_delete">Elimina</string>
+    <string name="cmd_rename">Rinomina</string>
+
+    <!-- ====================================================================
+         File operation dialogs
+         ==================================================================== -->
+    <string name="dialog_new_folder_title">Nuova cartella</string>
+    <string name="dialog_new_folder_label">Nome cartella</string>
+    <string name="dialog_rename_title">Rinomina</string>
+    <string name="dialog_rename_label">Nuovo nome</string>
+    <string name="dialog_delete_title">Elimina</string>
+    <string name="dialog_delete_message">Sei sicuro di voler eliminare?</string>
+    <string name="dialog_copy_move_target_label">%1$s %2$d file in:</string>
+    <string name="dialog_and_more">… e altri %1$d</string>
+    <string name="dialog_operation_title">%1$s file</string>
+
+    <!-- ====================================================================
+         Batch rename dialog
+         ==================================================================== -->
+    <string name="batch_rename_title">Rinomina in blocco</string>
+    <string name="batch_rename_tokens_hint">Token: {name}, {ext}, {n}, {n:03}</string>
+    <string name="batch_rename_label_pattern">Schema</string>
+    <string name="batch_rename_label_find">Trova</string>
+    <string name="batch_rename_label_replace">Sostituisci</string>
+    <string name="batch_rename_use_regex">Trova/sostituisci con regex</string>
+    <string name="batch_rename_start_index">Inizio: %1$d</string>
+    <string name="batch_rename_banner_invalid">Alcuni nomi di destinazione non sono validi</string>
+    <string name="batch_rename_banner_ready">Pronto per rinominare</string>
+    <string name="batch_rename_applying">Rinomina in corso…</string>
+    <string name="batch_rename_arrow">→ %1$s</string>
+
+    <!-- ====================================================================
+         Hash verify dialog
+         ==================================================================== -->
+    <string name="hash_verify_title">Verifica hash</string>
+    <string name="hash_verify_hashing">Calcolo hash in corso…</string>
+    <string name="hash_verify_compare_label">Confronta con</string>
+    <string name="hash_verify_paste_hint">Incolla SHA-256 o MD5 per verificare</string>
+    <string name="hash_verify_match">Corrisponde</string>
+    <string name="hash_verify_no_match">Non corrisponde</string>
+    <string name="hash_verify_unknown">Incolla un hash di 32 o 64 caratteri</string>
+
+    <!-- ====================================================================
+         Batch scan / privacy audit dialog
+         ==================================================================== -->
+    <string name="batch_scan_title_scanning">Scansione cartella in corso…</string>
+    <string name="batch_scan_title_done">Audit sulla privacy</string>
+    <string name="batch_scan_progress">%1$d / %2$d</string>
+    <string name="batch_scan_result_count">%1$d file analizzati</string>
+    <string name="batch_scan_bucket_empty">Niente in questo bucket.</string>
+    <string name="batch_scan_creating_copies">Creazione copie pulite in corso…</string>
+    <string name="batch_scan_action_batch_clean">Pulizia in blocco</string>
+    <string name="batch_scan_bucket_risky">Rischioso (%1$d)</string>
+    <string name="batch_scan_bucket_safe">Sicuro (%1$d)</string>
+    <string name="batch_scan_bucket_unsupported">Non supportato (%1$d)</string>
+
+    <!-- ====================================================================
+         Safe share sheet
+         ==================================================================== -->
+    <string name="safe_share_title">Controlla prima di condividere</string>
+    <string name="safe_share_no_risks">Nessun rischio rilevato. Sicuro da condividere.</string>
+    <string name="safe_share_risks_intro">Questo file potrebbe rivelare:</string>
+    <string name="safe_share_action_original">Condividi originale</string>
+    <string name="safe_share_action_cleaned">Crea copia pulita</string>
+
+    <!-- ====================================================================
+         Search inside dialog
+         ==================================================================== -->
+    <string name="search_inside_title">Cerca nel file</string>
+    <string name="search_inside_hint">Trova in voci, chiavi, contenuto…</string>
+    <string name="search_inside_searching">Ricerca in corso…</string>
+    <string name="search_inside_no_matches">Nessuna corrispondenza.</string>
+    <string name="search_inside_more">… altri %1$d</string>
+
+    <!-- ====================================================================
+         Bookmarks sheet
+         ==================================================================== -->
+    <string name="bookmarks_section_title">Segnalibri</string>
+    <string name="bookmarks_empty_headline">Nessun segnalibro ancora</string>
+    <string name="bookmarks_empty_subtitle">Aggiungi la cartella corrente dal menu del pannello.</string>
+
+    <!-- ====================================================================
+         Recents sheet
+         ==================================================================== -->
+    <string name="recents_section_frequent">Cartelle frequenti</string>
+    <string name="recents_section_recent">File recenti</string>
+    <string name="recents_clear_history">Cancella cronologia</string>
+    <string name="recents_empty_headline">Nessuna attività recente</string>
+    <string name="recents_empty_subtitle">I file ispezionati e le cartelle visitate verranno mostrati qui.</string>
+    <string name="recents_one_visit">1 visita</string>
+    <string name="recents_visits_format">%1$d visite</string>
+
+    <!-- ====================================================================
+         Shortcut recorder dialog
+         ==================================================================== -->
+    <string name="shortcut_bind_title">Assegna %1$s</string>
+    <string name="shortcut_press_hint">Premi la nuova combinazione, poi tocca Salva.</string>
+    <string name="shortcut_current">Corrente: %1$s</string>
+    <string name="shortcut_default">Predefinito: %1$s</string>
+
+    <!-- ====================================================================
+         Shortcuts screen
+         ==================================================================== -->
+    <string name="shortcuts_title">Scorciatoie da tastiera</string>
+    <string name="shortcuts_hint">Tocca una riga per registrare una nuova combinazione di tasti. Se la nuova combinazione è già in uso, la scorciatoia esistente si scambia con quella che stai modificando.</string>
+    <string name="shortcuts_action_reset">Reimposta</string>
+
+    <!-- ====================================================================
+         Settings screen
+         ==================================================================== -->
+    <string name="settings_title">Impostazioni</string>
+    <string name="settings_section_browsing">Navigazione</string>
+    <string name="settings_section_input">Input</string>
+    <string name="settings_section_remote">Remoto</string>
+    <string name="settings_section_backup">Backup &amp; ripristino</string>
+    <string name="settings_section_about">Informazioni</string>
+    <string name="settings_section_licenses">Licenze open source</string>
+
+    <string name="settings_show_hidden_files">Mostra file nascosti</string>
+    <string name="settings_show_hidden_files_desc">Mostra i dotfile e le cartelle che iniziano con un punto.</string>
+    <string name="settings_hide_empty_folders">Nascondi cartelle vuote</string>
+    <string name="settings_hide_empty_folders_desc">Non mostrare le cartelle che non contengono file visibili.</string>
+    <string name="settings_size_units">Unità di dimensione file</string>
+    <string name="settings_default_panel">Pannello predefinito (tablet)</string>
+
+    <string name="settings_keyboard_shortcuts">Scorciatoie da tastiera</string>
+    <string name="settings_keyboard_shortcuts_desc">Personalizza i tasti funzione e le combinazioni Ctrl usate nel commander.</string>
+
+    <string name="settings_remote_servers">Server remoti</string>
+    <string name="settings_remote_servers_desc">Sfoglia condivisioni FTP, SFTP e SMB come cartelle locali.</string>
+
+    <string name="settings_backup_desc">Salva le tue impostazioni, segnalibri, file recenti e cartelle frequenti in un file JSON che puoi ripristinare in seguito.</string>
+
+    <string name="settings_about_app_name">FileLens Commander</string>
+    <string name="settings_about_version">Versione 0.4.4</string>
+    <string name="settings_about_vision_label">Visione</string>
+    <string name="settings_about_vision_text">Sfoglia i file, guarda dentro, capisci prima di aprire. Offline, sul dispositivo, senza account.</string>
+    <string name="settings_licenses_intro">FileLens è costruito su queste librerie open source:</string>
+    <string name="settings_licenses_show">Mostra licenze</string>
+    <string name="settings_licenses_hide">Nascondi licenze</string>
+
+    <string name="settings_backup_saved">Backup salvato</string>
+    <string name="settings_export_failed">Esportazione fallita: %1$s</string>
+    <string name="settings_import_failed">Importazione fallita: %1$s</string>
+
+    <!-- ====================================================================
+         Remote servers screen
+         ==================================================================== -->
+    <string name="remote_servers_title">Server remoti</string>
+    <string name="remote_servers_empty_headline">Nessun server remoto ancora</string>
+    <string name="remote_servers_empty_subtitle">Aggiungi un server FTP, SFTP o SMB per sfogliarlo come una cartella locale.</string>
+    <string name="remote_dialog_delete_title">Eliminare il server?</string>
+    <string name="remote_dialog_delete_message">Rimuovere &#8220;%1$s&#8221;? Questo elimina solo la voce salvata; nulla sul server viene toccato.</string>
+    <string name="remote_dialog_add_title">Aggiungi server</string>
+    <string name="remote_dialog_edit_title">Modifica server</string>
+    <string name="remote_field_display_name">Nome visualizzato</string>
+    <string name="remote_field_host">Host</string>
+    <string name="remote_field_port">Porta</string>
+    <string name="remote_field_username">Nome utente</string>
+    <string name="remote_field_password">Password</string>
+    <string name="remote_field_password_edit">Password (lascia vuoto per mantenere quella salvata)</string>
+    <string name="remote_field_share_name">Nome condivisione</string>
+    <string name="remote_field_base_path">Percorso base (opzionale)</string>
+    <string name="remote_option_anonymous">Anonimo</string>
+    <string name="remote_option_passive_mode">Modalità passiva</string>
+    <string name="remote_option_clear_host_key">Cancella chiave host salvata (la prossima connessione la re-salverà al momento della fiducia)</string>
+
+    <!-- ====================================================================
+         Compare screen
+         ==================================================================== -->
+    <string name="compare_title">Confronta</string>
+    <string name="compare_panel_left">Sinistra</string>
+    <string name="compare_panel_right">Destra</string>
+    <string name="compare_tab_overview">Panoramica</string>
+    <string name="compare_tab_metadata">Metadati</string>
+    <string name="compare_tab_content">Contenuto</string>
+    <string name="compare_progress_folders">Scansione cartelle…</string>
+    <string name="compare_progress_files">Confronto file…</string>
+    <string name="compare_identical">Contenuto identico</string>
+    <string name="compare_different">Contenuto diverso</string>
+    <string name="compare_section_checksums">Checksum</string>
+    <string name="compare_metadata_empty">Nessun metadato estratto</string>
+    <string name="compare_metadata_identical">Metadati identici</string>
+    <string name="compare_content_empty">Nessun contenuto disponibile</string>
+    <string name="compare_structurally_identical">%1$s strutturalmente identico</string>
+    <string name="compare_diff_truncated">Diff troncato — mostrate le prime 5.000 righe</string>
+    <string name="compare_renamed_candidates">Stesso contenuto, percorsi diversi (%1$d)</string>
+    <string name="compare_and_more">…e altri %1$d</string>
+    <string name="compare_sizes_lr">S: %1$s · D: %2$s</string>
+    <string name="compare_no_entries">Nessuna voce corrisponde a questo filtro</string>
+
+    <string name="compare_filter_all">Tutti</string>
+    <string name="compare_filter_left_only">Solo sinistra</string>
+    <string name="compare_filter_right_only">Solo destra</string>
+    <string name="compare_filter_changed">Modificato</string>
+    <string name="compare_filter_same">Uguale</string>
+
+    <string name="compare_folder_copy_to_right">Copia → destra</string>
+    <string name="compare_folder_copy_to_left">Copia ← sinistra</string>
+    <string name="compare_folder_overwrite_right">Sovrascrivi →</string>
+    <string name="compare_folder_overwrite_left">← Sovrascrivi</string>
+    <string name="compare_folder_verify_checksum">Verifica per checksum</string>
+    <string name="compare_folder_match_count">%1$d / %2$d corrispondono</string>
+    <string name="compare_folder_both_empty">Entrambe le cartelle sono vuote</string>
+    <string name="compare_folder_diff_summary">%1$d modificato · %2$d solo sinistra · %3$d solo destra</string>
+    <string name="compare_folder_checksum_verified"> · checksum verificato</string>
+
+    <string name="compare_diff_label_left_only">Solo sinistra</string>
+    <string name="compare_diff_label_right_only">Solo destra</string>
+    <string name="compare_diff_label_changed">Modificato</string>
+    <string name="compare_diff_label_same">Uguale</string>
+
+    <!-- ====================================================================
+         Duplicate finder screen
+         ==================================================================== -->
+    <string name="duplicates_title">Trova duplicati</string>
+    <string name="duplicates_none_found">Nessun duplicato trovato</string>
+    <string name="duplicates_hashing">Calcolo hash %1$d di %2$d…</string>
+    <string name="duplicates_scanning">Scansione… %1$d file</string>
+    <string name="duplicates_group_count">%1$d gruppo/i di duplicati</string>
+    <string name="duplicates_wasted_summary">%1$s sprecato su %2$d file analizzati</string>
+    <string name="duplicates_action_select_old">Seleziona vecchi duplicati</string>
+    <string name="duplicates_copies_each">%1$d copie · %2$s ciascuna</string>
+    <string name="duplicates_wasted">%1$s sprecato</string>
+    <string name="duplicates_modified">Modificato %1$s</string>
+
+    <!-- ====================================================================
+         Folder dashboard dialog
+         ==================================================================== -->
+    <string name="folder_dashboard_title">Dashboard cartella</string>
+    <string name="folder_dashboard_analyzing">Analisi cartella in corso…</string>
+    <string name="folder_dashboard_no_data">Nessun dato</string>
+    <string name="folder_dashboard_folder_label">Cartella</string>
+    <string name="folder_dashboard_file_count">%1$d file · %2$s totale</string>
+    <string name="folder_dashboard_section_disk_usage">Utilizzo disco per tipo</string>
+    <string name="folder_dashboard_section_largest">File più grandi</string>
+    <string name="folder_dashboard_section_newest">File più recenti</string>
+    <string name="folder_dashboard_section_unknown">Sconosciuto / non classificato (%1$d)</string>
+    <string name="folder_dashboard_section_duplicates">Possibili duplicati (stessa dimensione)</string>
+
+    <!-- ====================================================================
+         Main screen
+         ==================================================================== -->
+    <string name="main_bookmark_added">Segnalibro aggiunto</string>
+    <string name="main_panel_dual">Pannello doppio</string>
+    <string name="main_panel_inspector">Ispettore</string>
+    <string name="main_chooser_open_with">Apri con</string>
+    <string name="main_chooser_share_cleaned">Condividi copia pulita</string>
+    <string name="main_chooser_share_report">Condividi report</string>
+    <string name="main_chooser_share_cleaned_files">Condividi file puliti</string>
+
+    <!-- ====================================================================
+         State views
+         ==================================================================== -->
+    <string name="state_no_matches_headline">Nessuna corrispondenza</string>
+    <string name="state_no_matches_subtitle">Niente in questa cartella corrisponde a &#8220;%1$s&#8221;.</string>
+    <string name="state_no_matches_no_query">Prova una query diversa.</string>
+    <string name="state_error_headline">Qualcosa è andato storto</string>
+
+    <!-- ====================================================================
+         Plurals
+         ==================================================================== -->
+    <plurals name="plural_file_count">
+        <item quantity="one">%1$d file</item>
+        <item quantity="other">%1$d file</item>
+    </plurals>
+
+    <plurals name="plural_item_count">
+        <item quantity="one">1 elemento</item>
+        <item quantity="other">%1$d elementi</item>
+    </plurals>
+
+    <plurals name="plural_risk_count">
+        <item quantity="one">%1$d rischio</item>
+        <item quantity="other">%1$d rischi</item>
+    </plurals>
+
+    <plurals name="plural_match_count">
+        <item quantity="one">%1$d corrispondenza</item>
+        <item quantity="other">%1$d corrispondenze</item>
+    </plurals>
+
+    <plurals name="plural_secret_count">
+        <item quantity="one">Possibile segreto (%1$d)</item>
+        <item quantity="other">Possibili segreti (%1$d)</item>
+    </plurals>
+
+    <plurals name="plural_ignored_count">
+        <item quantity="one">%1$d ignorato — mostra</item>
+        <item quantity="other">%1$d ignorati — mostra</item>
+    </plurals>
+
+    <plurals name="plural_selected_count">
+        <item quantity="one">%1$d selezionato</item>
+        <item quantity="other">%1$d selezionati</item>
+    </plurals>
+
+    <plurals name="plural_collision_count">
+        <item quantity="one">%1$d collisione di nome</item>
+        <item quantity="other">%1$d collisioni di nome</item>
+    </plurals>
+
+    <plurals name="plural_rename_action">
+        <item quantity="one">Rinomina %1$d</item>
+        <item quantity="other">Rinomina %1$d</item>
+    </plurals>
+
+    <plurals name="plural_delete_action">
+        <item quantity="one">Elimina %1$d</item>
+        <item quantity="other">Elimina %1$d</item>
+    </plurals>
+
+    <plurals name="plural_visit_count">
+        <item quantity="one">1 visita</item>
+        <item quantity="other">%1$d visite</item>
+    </plurals>
+
+</resources>
