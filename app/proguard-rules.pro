@@ -34,3 +34,13 @@
 -dontwarn javax.naming.**
 -dontwarn javax.el.**
 -dontwarn net.engio.**
+
+# androidx.security.crypto -> Google Tink. Tink references errorprone / jspecify
+# annotations that are compile-only and not on the runtime classpath. Keep Tink
+# classes (reflective key manager + proto lookup) and silence the warnings.
+-keep class com.google.crypto.tink.** { *; }
+-dontwarn com.google.crypto.tink.**
+-dontwarn com.google.errorprone.annotations.**
+-dontwarn com.google.api.**
+-dontwarn org.jspecify.annotations.**
+-dontwarn javax.annotation.**
