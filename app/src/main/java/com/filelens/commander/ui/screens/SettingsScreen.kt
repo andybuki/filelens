@@ -247,7 +247,7 @@ fun SettingsScreen(
 
             SectionHeader("About")
             SettingsCard {
-                StaticRow("FileLens Commander", "Version 0.4.1")
+                StaticRow("FileLens Commander", "Version 0.4.3")
                 Divider()
                 StaticRow(
                     "Vision",
