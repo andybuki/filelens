@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Document sheet -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M36,30 L60,30 L72,42 L72,70 A4,4 0 0 1 68,74 L36,74 A4,4 0 0 1 32,70 L32,34 A4,4 0 0 1 36,30 Z" />
+    <!-- Folded corner -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M60,30 L60,38 A4,4 0 0 0 64,42 L72,42 Z" />
+    <!-- Magnifier lens ring -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M66,66 m-14,0 a14,14 0 1,0 28,0 a14,14 0 1,0 -28,0 M66,66 m-9,0 a9,9 0 1,1 18,0 a9,9 0 1,1 -18,0 Z"
+        android:fillType="evenOdd" />
+    <!-- Lens center dot -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M66,66 m-5,0 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 Z" />
+    <!-- Lens handle -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M76,76 L84,84 A3,3 0 0 1 80,88 L72,80 Z" />
+</vector>
