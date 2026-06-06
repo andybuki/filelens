@@ -77,6 +77,7 @@ import com.filelens.commander.domain.model.TrustLevel
 import com.filelens.commander.domain.model.TrustScore
 import com.filelens.commander.ui.theme.Eyebrow
 import com.filelens.commander.ui.theme.FlInk3
+import com.filelens.commander.ui.theme.FlSurface3
 import com.filelens.commander.ui.theme.MonoSmall
 import com.filelens.commander.ui.theme.RiskDanger
 import com.filelens.commander.ui.theme.RiskInfo
@@ -920,7 +921,7 @@ private fun TrustScoreCard(score: TrustScore) {
                 .fillMaxWidth()
                 .height(4.dp)
                 .clip(RoundedCornerShape(999.dp))
-                .background(MaterialTheme.colorScheme.surface)
+                .background(FlSurface3)
         ) {
             Box(
                 modifier = Modifier
@@ -1140,7 +1141,7 @@ private fun RiskCard(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(
-                            color = MaterialTheme.colorScheme.surface,
+                            color = FlSurface3,
                             shape = RoundedCornerShape(6.dp)
                         )
                         .padding(8.dp)
@@ -1178,7 +1179,7 @@ private fun RiskCard(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(
-                            color = MaterialTheme.colorScheme.surface,
+                            color = FlSurface3,
                             shape = RoundedCornerShape(6.dp)
                         )
                         .padding(8.dp)

@@ -466,10 +466,10 @@ Prioritised so heavy / high-token tasks land early and risk is front-loaded; fin
 
 #### Week 1 — Foundations (Design, Theme, Localization)
 
-- [ ] **Day 1 — Design direction lock-in**
-  - [ ] Delete dark-only assumptions from `README.md` design system; rewrite as light-first.
-  - [ ] Decide light palette: canvas `#F7F7F8`, surface `#FFFFFF`, surface-2 `#F0F1F4`, ink `#1A1B1F` / `#5A5E66` / `#9098A2`, keep violet accent `#7C3AED` (deeper for light contrast).
-  - [ ] Strip "theme" selector from settings (preserve preference key for migration only).
+- [x] **Day 1 — Design direction lock-in**
+  - [x] Delete dark-only assumptions from `README.md` design system; rewrite as light-first.
+  - [x] Decide light palette: canvas `#F7F7F8`, surface `#FFFFFF`, surface-2 `#F0F1F4`, ink `#1A1B1F` / `#5A5E66` / `#9098A2`, keep violet accent `#7C3AED` (deeper for light contrast).
+  - [x] Strip "theme" selector from settings (preserve preference key for migration only).
 - [x] **Day 2 — New logo + brand mark**
   - [x] Redraw `assets/lens_mark.svg` and `assets/app_icon.svg` against the new light identity.
   - [x] Adaptive launcher icon (foreground + monochrome).
@@ -478,11 +478,11 @@ Prioritised so heavy / high-token tasks land early and risk is front-loaded; fin
   - [x] Audit every Compose screen for hardcoded dark surfaces / colors. _(Only `FlNavy` deep-violet brand header band remains as an intentional surface; all other hardcoded `Color(0x…)` calls are category seeds, syntax-highlight tones, or ink/stroke — appropriate for light surfaces.)_
   - [x] Rebuild `ui/theme/Color.kt` and `Type.kt` against the new light tokens. _(Done in Day 1 commit `80344f8`; canvas `#F7F7F8`, surface `#FFFFFF`, surface-2 `#F0F1F4`, ink ramp `#1A1B1F / #5A5E66 / #9098A2 / #7B8089`, violet accent `#7C3AED`.)_
   - [x] Remove dark/system theme branches from `MainScreen.kt`, `SettingsScreen.kt`, bottom sheets, dialogs. _(Verified: zero `isSystemInDarkTheme` / `darkColorScheme` references in the codebase; `KEY_THEME` preference removed in v1.0 — see `SettingsRepository.kt:64`.)_
-- [ ] **Day 4 — Light-theme migration pass 2 (deep screens)**
-  - [ ] Inspector tabs (Overview / Preview / Structure / Metadata / Risks).
-  - [ ] Risk cards, trust chip, severity dots, category badges — verify contrast on light.
-  - [ ] Compare mode, batch scan dialog, safe-share sheet, batch privacy audit review.
-  - [ ] Hex view, code view, tree view — re-tune syntax colors for light background.
+- [x] **Day 4 — Light-theme migration pass 2 (deep screens)**
+  - [x] Inspector tabs (Overview / Preview / Structure / Metadata / Risks).
+  - [x] Risk cards, trust chip, severity dots, category badges — verify contrast on light.
+  - [x] Compare mode, batch scan dialog, safe-share sheet, batch privacy audit review.
+  - [x] Hex view, code view, tree view — re-tune syntax colors for light background.
 - [ ] **Day 5 — Localization framework**
   - [ ] Migrate all hardcoded UI strings to `strings.xml`.
   - [ ] Extract risk-card copy, provenance hints, trust tier labels, error messages.
