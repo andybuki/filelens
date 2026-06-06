@@ -15,7 +15,6 @@ exifinterface = "1.3.7"
 datastore = "1.1.1"
 junit = "4.13.2"
 kotlinxCoroutinesTest = "1.9.0"
-leakcanary = "2.14"
 robolectric = "4.13"
 commonsCompress = "1.27.1"
 xz = "1.9"
@@ -49,7 +48,6 @@ androidx-exifinterface = { group = "androidx.exifinterface", name = "exifinterfa
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
-leakcanary-android = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakcanary" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 commons-compress = { group = "org.apache.commons", name = "commons-compress", version.ref = "commonsCompress" }
 xz = { group = "org.tukaani", name = "xz", version.ref = "xz" }
