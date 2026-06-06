@@ -3,8 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application>
-        <!-- Hide LeakCanary's separate launcher icon ("Leaks") from the home screen. -->
-        <activity-alias
+        <!--
+          Hide LeakCanary's separate launcher icon ("Leaks") from the home screen.
+          LeakCanary registers this as <activity> in its own manifest; we override
+          enabled=false via manifest merger so no launcher entry is created.
+          See: https://square.github.io/leakcanary/recipes/#hiding-the-leakcanary-icon
+        -->
+        <activity
             android:name="leakcanary.internal.activity.LeakLauncherActivity"
             android:enabled="false"
             tools:replace="android:enabled" />
