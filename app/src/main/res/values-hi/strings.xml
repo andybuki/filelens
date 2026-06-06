@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Machine-translated first pass — review by a native speaker before final release. -->
+<resources>
+    <!-- ====================================================================
+         App
+         ==================================================================== -->
+    <string name="app_name">FileLens</string>
+
+    <!-- ====================================================================
+         Common actions / buttons
+         ==================================================================== -->
+    <string name="action_cancel">रद्द करें</string>
+    <string name="action_close">बंद करें</string>
+    <string name="action_save">सहेजें</string>
+    <string name="action_create">बनाएं</string>
+    <string name="action_delete">हटाएं</string>
+    <string name="action_rename">नाम बदलें</string>
+    <string name="action_copy">कॉपी करें</string>
+    <string name="action_move">स्थानांतरित करें</string>
+    <string name="action_export">निर्यात करें</string>
+    <string name="action_import">आयात करें</string>
+    <string name="action_find">खोजें</string>
+    <string name="action_reset">रीसेट करें</string>
+    <string name="action_retry">पुनः प्रयास करें</string>
+    <string name="action_clear">साफ़ करें</string>
+    <string name="action_clear_search">खोज साफ़ करें</string>
+    <string name="action_back">वापस</string>
+    <string name="action_compare">तुलना करें</string>
+    <string name="action_ignore">अनदेखा करें</string>
+
+    <!-- ====================================================================
+         Content descriptions (accessibility)
+         ==================================================================== -->
+    <string name="cd_back">वापस</string>
+    <string name="cd_close">बंद करें</string>
+    <string name="cd_close_search">खोज बंद करें</string>
+    <string name="cd_search">खोज</string>
+    <string name="cd_more_options">अधिक विकल्प</string>
+    <string name="cd_settings">सेटिंग</string>
+    <string name="cd_navigate_up">ऊपर नेविगेट करें</string>
+    <string name="cd_copy">कॉपी करें</string>
+    <string name="cd_expand">विस्तार करें</string>
+    <string name="cd_collapse">संकुचित करें</string>
+    <string name="cd_clear_selection">चयन साफ़ करें</string>
+    <string name="cd_remove_bookmark">बुकमार्क हटाएं</string>
+    <string name="cd_connect">कनेक्ट करें</string>
+    <string name="cd_edit">संपादित करें</string>
+    <string name="cd_delete">हटाएं</string>
+    <string name="cd_add_server">सर्वर जोड़ें</string>
+    <string name="cd_image_preview_left">बाईं छवि</string>
+    <string name="cd_image_preview_right">दाईं छवि</string>
+    <string name="cd_inspector_actions">इंस्पेक्टर क्रियाएं</string>
+    <string name="cd_severity_danger">खतरे का जोखिम</string>
+    <string name="cd_severity_warning">चेतावनी जोखिम</string>
+    <string name="cd_severity_info">जानकारी सूचना</string>
+
+    <!-- ====================================================================
+         File list panel
+         ==================================================================== -->
+    <string name="brand_name">FileLens</string>
+    <string name="home_folder_label">फ़ोन</string>
+    <string name="menu_show_hidden_files">छुपी हुई फ़ाइलें दिखाएं</string>
+    <string name="menu_hide_hidden_files">छुपी हुई फ़ाइलें छुपाएं</string>
+    <string name="menu_scan_folder">फ़ोल्डर में जोखिम स्कैन करें</string>
+    <string name="menu_analyze_folder">फ़ोल्डर का विश्लेषण करें</string>
+    <string name="menu_find_duplicates">यहाँ डुप्लीकेट खोजें</string>
+    <string name="menu_bookmark_folder">इस फ़ोल्डर को बुकमार्क करें</string>
+    <string name="menu_show_bookmarks">बुकमार्क दिखाएं</string>
+    <string name="menu_recents">हाल ही में</string>
+    <string name="search_hint">फ़ाइलें खोजें…</string>
+    <string name="searching_label">खोज रहे हैं…</string>
+    <string name="search_in_folder">उपफ़ोल्डर में खोजें</string>
+    <string name="empty_folder_headline">यह फ़ोल्डर खाली है</string>
+    <string name="empty_folder_subtitle">यहाँ अभी कुछ नहीं है। फ़ाइलें जोड़ें, या खोलने से पहले जाँचने के लिए कोई विवरण आयात करें।</string>
+    <string name="empty_folder_action">फ़ाइल आयात करें</string>
+    <string name="active_panel_indicator">सक्रिय पैनल</string>
+
+    <!-- ====================================================================
+         File list item (accessibility)
+         ==================================================================== -->
+    <string name="a11y_kind_folder">फ़ोल्डर</string>
+    <string name="a11y_kind_file">फ़ाइल</string>
+    <string name="a11y_folder_empty">खाली</string>
+    <string name="a11y_item_selected">चुना गया</string>
+    <string name="a11y_modified">%1$s को संशोधित</string>
+    <string name="a11y_file_type">%1$s फ़ाइल</string>
+
+    <!-- ====================================================================
+         Sort
+         ==================================================================== -->
+    <string name="sort_name">नाम</string>
+    <string name="sort_size">आकार</string>
+    <string name="sort_date">दिनांक</string>
+    <string name="sort_type">प्रकार</string>
+
+    <!-- ====================================================================
+         Inspector panel — header
+         ==================================================================== -->
+    <string name="inspector_tab_overview">अवलोकन</string>
+    <string name="inspector_tab_preview">पूर्वावलोकन</string>
+    <string name="inspector_tab_structure">संरचना</string>
+    <string name="inspector_tab_metadata">मेटाडेटा</string>
+    <string name="inspector_tab_risks">जोखिम</string>
+
+    <!-- ====================================================================
+         Inspector panel — overview tab
+         ==================================================================== -->
+    <string name="row_label_file">फ़ाइल</string>
+    <string name="row_label_type">प्रकार</string>
+    <string name="row_label_extension">एक्सटेंशन</string>
+    <string name="row_label_mime">MIME</string>
+    <string name="row_label_size">आकार</string>
+    <string name="row_label_modified">संशोधित</string>
+
+    <string name="section_safe_actions">सुरक्षित क्रियाएं</string>
+    <string name="section_external">बाहरी</string>
+
+    <string name="action_preview_only">केवल पूर्वावलोकन</string>
+    <string name="action_inspect_metadata">मेटाडेटा जाँचें</string>
+    <string name="action_browse_archive">सामग्री ब्राउज़ करें (निकाले बिना)</string>
+    <string name="action_inspect_doc_structure">दस्तावेज़ संरचना जाँचें</string>
+    <string name="action_inspect_structure">संरचना जाँचें</string>
+    <string name="action_search_inside">अंदर खोजें…</string>
+    <string name="action_export_markdown">Markdown निर्यात करें</string>
+    <string name="action_export_json">JSON निर्यात करें</string>
+    <string name="action_share_cleaned">साफ़ की गई प्रतिलिपि साझा करें</string>
+    <string name="action_verify_hash">हैश सत्यापित करें</string>
+    <string name="action_browse_rows">पंक्तियाँ ब्राउज़ करें</string>
+    <string name="action_open_with">इसके साथ खोलें…</string>
+    <string name="action_view_on_map">मानचित्र पर देखें</string>
+
+    <!-- Open as menu -->
+    <string name="open_as_title">इस रूप में खोलें…</string>
+    <string name="open_as_restore_detected">पुनर्स्थापना का पता चला (%1$s)</string>
+    <string name="open_as_reinspect">इंस्पेक्टर पुनः चलाएं</string>
+
+    <!-- Trust score card -->
+    <string name="trust_score_disclaimer">अनुमानी विश्वास स्कोर। एंटीवायरस नहीं।</string>
+    <string name="trust_top_reasons">मुख्य कारण</string>
+
+    <!-- Risks tab -->
+    <string name="risks_none_detected">कोई जोखिम नहीं पाया गया</string>
+    <string name="risks_all_ignored">इस सत्र के लिए सभी जोखिम अनदेखे किए गए।</string>
+    <string name="risk_show_evidence">साक्ष्य दिखाएं</string>
+    <string name="risk_hide_evidence">साक्ष्य छुपाएं</string>
+    <string name="risk_learn_more">अधिक जानें</string>
+    <string name="risk_hide_learn_more">अधिक जानें छुपाएं</string>
+    <string name="risk_severity_danger">खतरा</string>
+    <string name="risk_severity_warning">चेतावनी</string>
+    <string name="risk_severity_info">जानकारी</string>
+
+    <!-- Preview tab -->
+    <string name="preview_none_available">कोई पूर्वावलोकन उपलब्ध नहीं</string>
+    <string name="preview_raw">कच्चा</string>
+    <string name="preview_pretty">सुंदर</string>
+    <string name="preview_hex_header">हेक्स दृश्य (कुल %1$s)</string>
+
+    <!-- Structure tab -->
+    <string name="structure_none_available">कोई संरचना उपलब्ध नहीं</string>
+
+    <!-- Metadata tab -->
+    <string name="metadata_none_available">कोई अतिरिक्त मेटाडेटा नहीं</string>
+
+    <!-- Secrets card -->
+    <string name="secrets_redaction_notice">मान संपादित किए गए हैं। किसी भी लीक हुई क्रेडेंशियल को समझौता किया हुआ मानें — पहले इसे बदलें, फिर फ़ाइल से हटाएं।</string>
+    <string name="secrets_copy_name">नाम कॉपी करें</string>
+
+    <!-- Provenance -->
+    <string name="provenance_high_confidence">संभावित स्रोत</string>
+    <string name="provenance_medium_confidence">प्रायिक स्रोत</string>
+    <string name="provenance_low_confidence">संभव स्रोत</string>
+
+    <!-- Empty inspector -->
+    <string name="inspector_empty_headline">जाँचने के लिए कोई फ़ाइल चुनें</string>
+    <string name="inspector_empty_subtitle">खोलने से पहले अंदर झाँकने के लिए सूची में किसी भी फ़ाइल पर टैप करें।</string>
+
+    <!-- ====================================================================
+         Selection bar
+         ==================================================================== -->
+    <string name="selection_compare">तुलना करें</string>
+    <string name="selection_hint_select_two">तुलना के लिए 2 चुनें</string>
+
+    <!-- ====================================================================
+         Commander toolbar actions
+         ==================================================================== -->
+    <string name="cmd_view">देखें</string>
+    <string name="cmd_copy">कॉपी</string>
+    <string name="cmd_move">स्थानांतरित करें</string>
+    <string name="cmd_mkdir">फ़ोल्डर बनाएं</string>
+    <string name="cmd_diff">अंतर</string>
+    <string name="cmd_delete">हटाएं</string>
+    <string name="cmd_rename">नाम बदलें</string>
+
+    <!-- ====================================================================
+         File operation dialogs
+         ==================================================================== -->
+    <string name="dialog_new_folder_title">नया फ़ोल्डर</string>
+    <string name="dialog_new_folder_label">फ़ोल्डर का नाम</string>
+    <string name="dialog_rename_title">नाम बदलें</string>
+    <string name="dialog_rename_label">नया नाम</string>
+    <string name="dialog_delete_title">हटाएं</string>
+    <string name="dialog_delete_message">क्या आप वाकई हटाना चाहते हैं?</string>
+    <string name="dialog_copy_move_target_label">%1$s %2$d फ़ाइल(ें) यहाँ:</string>
+    <string name="dialog_and_more">… और %1$d अधिक</string>
+    <string name="dialog_operation_title">%1$s फ़ाइलें</string>
+
+    <!-- ====================================================================
+         Batch rename dialog
+         ==================================================================== -->
+    <string name="batch_rename_title">बैच नाम बदलें</string>
+    <string name="batch_rename_tokens_hint">टोकन: {name}, {ext}, {n}, {n:03}</string>
+    <string name="batch_rename_label_pattern">पैटर्न</string>
+    <string name="batch_rename_label_find">खोजें</string>
+    <string name="batch_rename_label_replace">बदलें</string>
+    <string name="batch_rename_use_regex">Regex खोज/बदलें</string>
+    <string name="batch_rename_start_index">प्रारंभ: %1$d</string>
+    <string name="batch_rename_banner_invalid">कुछ लक्ष्य नाम अमान्य हैं</string>
+    <string name="batch_rename_banner_ready">नाम बदलने के लिए तैयार</string>
+    <string name="batch_rename_applying">नाम बदल रहे हैं…</string>
+    <string name="batch_rename_arrow">→ %1$s</string>
+
+    <!-- ====================================================================
+         Hash verify dialog
+         ==================================================================== -->
+    <string name="hash_verify_title">हैश सत्यापित करें</string>
+    <string name="hash_verify_hashing">हैश कर रहे हैं…</string>
+    <string name="hash_verify_compare_label">इससे तुलना करें</string>
+    <string name="hash_verify_paste_hint">सत्यापित करने के लिए SHA-256 या MD5 पेस्ट करें</string>
+    <string name="hash_verify_match">मिलान</string>
+    <string name="hash_verify_no_match">कोई मिलान नहीं</string>
+    <string name="hash_verify_unknown">32 या 64 वर्ण का हैश पेस्ट करें</string>
+
+    <!-- ====================================================================
+         Batch scan / privacy audit dialog
+         ==================================================================== -->
+    <string name="batch_scan_title_scanning">फ़ोल्डर स्कैन हो रहा है…</string>
+    <string name="batch_scan_title_done">गोपनीयता ऑडिट</string>
+    <string name="batch_scan_progress">%1$d / %2$d</string>
+    <string name="batch_scan_result_count">%1$d फ़ाइल(ें) स्कैन की गईं</string>
+    <string name="batch_scan_bucket_empty">इस बकेट में कुछ नहीं है।</string>
+    <string name="batch_scan_creating_copies">साफ़ की गई प्रतिलिपियाँ बना रहे हैं…</string>
+    <string name="batch_scan_action_batch_clean">बैच क्लीन</string>
+    <string name="batch_scan_bucket_risky">जोखिम भरा (%1$d)</string>
+    <string name="batch_scan_bucket_safe">सुरक्षित (%1$d)</string>
+    <string name="batch_scan_bucket_unsupported">असमर्थित (%1$d)</string>
+
+    <!-- ====================================================================
+         Safe share sheet
+         ==================================================================== -->
+    <string name="safe_share_title">साझा करने से पहले जाँचें</string>
+    <string name="safe_share_no_risks">कोई जोखिम नहीं पाया गया। साझा करना सुरक्षित है।</string>
+    <string name="safe_share_risks_intro">यह फ़ाइल उजागर कर सकती है:</string>
+    <string name="safe_share_action_original">मूल साझा करें</string>
+    <string name="safe_share_action_cleaned">साफ़ की गई प्रतिलिपि बनाएं</string>
+
+    <!-- ====================================================================
+         Search inside dialog
+         ==================================================================== -->
+    <string name="search_inside_title">फ़ाइल के अंदर खोजें</string>
+    <string name="search_inside_hint">प्रविष्टियों, कुंजियों, सामग्री में खोजें…</string>
+    <string name="search_inside_searching">खोज रहे हैं…</string>
+    <string name="search_inside_no_matches">कोई मिलान नहीं।</string>
+    <string name="search_inside_more">… %1$d अधिक</string>
+
+    <!-- ====================================================================
+         Bookmarks sheet
+         ==================================================================== -->
+    <string name="bookmarks_section_title">बुकमार्क</string>
+    <string name="bookmarks_empty_headline">अभी कोई बुकमार्क नहीं</string>
+    <string name="bookmarks_empty_subtitle">पैनल मेनू से वर्तमान फ़ोल्डर जोड़ें।</string>
+
+    <!-- ====================================================================
+         Recents sheet
+         ==================================================================== -->
+    <string name="recents_section_frequent">बार-बार उपयोग किए गए फ़ोल्डर</string>
+    <string name="recents_section_recent">हाल की फ़ाइलें</string>
+    <string name="recents_clear_history">इतिहास साफ़ करें</string>
+    <string name="recents_empty_headline">कोई हालिया गतिविधि नहीं</string>
+    <string name="recents_empty_subtitle">आपके द्वारा जाँची गई फ़ाइलें और देखे गए फ़ोल्डर यहाँ दिखाई देंगे।</string>
+    <string name="recents_one_visit">1 बार देखा</string>
+    <string name="recents_visits_format">%1$d बार देखा</string>
+
+    <!-- ====================================================================
+         Shortcut recorder dialog
+         ==================================================================== -->
+    <string name="shortcut_bind_title">%1$s बाइंड करें</string>
+    <string name="shortcut_press_hint">नया संयोजन दबाएं, फिर सहेजें टैप करें।</string>
+    <string name="shortcut_current">वर्तमान: %1$s</string>
+    <string name="shortcut_default">डिफ़ॉल्ट: %1$s</string>
+
+    <!-- ====================================================================
+         Shortcuts screen
+         ==================================================================== -->
+    <string name="shortcuts_title">कीबोर्ड शॉर्टकट</string>
+    <string name="shortcuts_hint">नया की संयोजन रिकॉर्ड करने के लिए किसी पंक्ति पर टैप करें। यदि नया संयोजन पहले से उपयोग में है, तो मौजूदा शॉर्टकट संपादित किए जा रहे शॉर्टकट के साथ बदल जाएगा।</string>
+    <string name="shortcuts_action_reset">रीसेट</string>
+
+    <!-- ====================================================================
+         Settings screen
+         ==================================================================== -->
+    <string name="settings_title">सेटिंग</string>
+    <string name="settings_section_browsing">ब्राउज़िंग</string>
+    <string name="settings_section_input">इनपुट</string>
+    <string name="settings_section_remote">रिमोट</string>
+    <string name="settings_section_backup">बैकअप &amp; पुनर्स्थापना</string>
+    <string name="settings_section_about">के बारे में</string>
+    <string name="settings_section_licenses">ओपन सोर्स लाइसेंस</string>
+
+    <string name="settings_show_hidden_files">छुपी हुई फ़ाइलें दिखाएं</string>
+    <string name="settings_show_hidden_files_desc">डॉट से शुरू होने वाली डॉटफ़ाइलें और फ़ोल्डर दिखाएं।</string>
+    <string name="settings_hide_empty_folders">खाली फ़ोल्डर छुपाएं</string>
+    <string name="settings_hide_empty_folders_desc">कोई दृश्यमान फ़ाइल न होने वाले फ़ोल्डर न दिखाएं।</string>
+    <string name="settings_size_units">फ़ाइल आकार इकाइयाँ</string>
+    <string name="settings_default_panel">डिफ़ॉल्ट पैनल (टैबलेट)</string>
+
+    <string name="settings_keyboard_shortcuts">कीबोर्ड शॉर्टकट</string>
+    <string name="settings_keyboard_shortcuts_desc">कमांडर में उपयोग की जाने वाली F-की और Ctrl संयोजन कस्टमाइज़ करें।</string>
+
+    <string name="settings_remote_servers">रिमोट सर्वर</string>
+    <string name="settings_remote_servers_desc">FTP, SFTP और SMB शेयर को स्थानीय फ़ोल्डर की तरह ब्राउज़ करें।</string>
+
+    <string name="settings_backup_desc">अपनी सेटिंग, बुकमार्क, हाल की फ़ाइलें और बार-बार उपयोग किए गए फ़ोल्डर को JSON फ़ाइल में सहेजें जिसे बाद में पुनर्स्थापित किया जा सकता है।</string>
+
+    <string name="settings_about_app_name">FileLens Commander</string>
+    <string name="settings_about_version">संस्करण 0.4.4</string>
+    <string name="settings_about_vision_label">दृष्टिकोण</string>
+    <string name="settings_about_vision_text">फ़ाइलें ब्राउज़ करें, अंदर झाँकें, खोलने से पहले समझें। ऑफ़लाइन, डिवाइस पर, बिना खाते के।</string>
+    <string name="settings_licenses_intro">FileLens इन ओपन सोर्स लाइब्रेरी पर बना है:</string>
+    <string name="settings_licenses_show">लाइसेंस दिखाएं</string>
+    <string name="settings_licenses_hide">लाइसेंस छुपाएं</string>
+
+    <string name="settings_backup_saved">बैकअप सहेजा गया</string>
+    <string name="settings_export_failed">निर्यात विफल: %1$s</string>
+    <string name="settings_import_failed">आयात विफल: %1$s</string>
+
+    <!-- ====================================================================
+         Remote servers screen
+         ==================================================================== -->
+    <string name="remote_servers_title">रिमोट सर्वर</string>
+    <string name="remote_servers_empty_headline">अभी कोई रिमोट सर्वर नहीं</string>
+    <string name="remote_servers_empty_subtitle">FTP, SFTP या SMB सर्वर जोड़ें और इसे स्थानीय फ़ोल्डर की तरह ब्राउज़ करें।</string>
+    <string name="remote_dialog_delete_title">सर्वर हटाएं?</string>
+    <string name="remote_dialog_delete_message">&#8220;%1$s&#8221; हटाएं? यह केवल सहेजी गई प्रविष्टि हटाता है; सर्वर पर कुछ भी नहीं बदलता।</string>
+    <string name="remote_dialog_add_title">सर्वर जोड़ें</string>
+    <string name="remote_dialog_edit_title">सर्वर संपादित करें</string>
+    <string name="remote_field_display_name">प्रदर्शन नाम</string>
+    <string name="remote_field_host">होस्ट</string>
+    <string name="remote_field_port">पोर्ट</string>
+    <string name="remote_field_username">उपयोगकर्ता नाम</string>
+    <string name="remote_field_password">पासवर्ड</string>
+    <string name="remote_field_password_edit">पासवर्ड (सहेजा हुआ रखने के लिए खाली छोड़ें)</string>
+    <string name="remote_field_share_name">शेयर नाम</string>
+    <string name="remote_field_base_path">बेस पथ (वैकल्पिक)</string>
+    <string name="remote_option_anonymous">गुमनाम</string>
+    <string name="remote_option_passive_mode">निष्क्रिय मोड</string>
+    <string name="remote_option_clear_host_key">पिन किया गया होस्ट की साफ़ करें (अगला कनेक्ट विश्वास पर पुनः पिन करेगा)</string>
+
+    <!-- ====================================================================
+         Compare screen
+         ==================================================================== -->
+    <string name="compare_title">तुलना करें</string>
+    <string name="compare_panel_left">बाएं</string>
+    <string name="compare_panel_right">दाएं</string>
+    <string name="compare_tab_overview">अवलोकन</string>
+    <string name="compare_tab_metadata">मेटाडेटा</string>
+    <string name="compare_tab_content">सामग्री</string>
+    <string name="compare_progress_folders">फ़ोल्डर चल रहे हैं…</string>
+    <string name="compare_progress_files">फ़ाइलें तुलना कर रहे हैं…</string>
+    <string name="compare_identical">समान सामग्री</string>
+    <string name="compare_different">भिन्न सामग्री</string>
+    <string name="compare_section_checksums">चेकसम</string>
+    <string name="compare_metadata_empty">कोई मेटाडेटा निकाला नहीं गया</string>
+    <string name="compare_metadata_identical">मेटाडेटा समान है</string>
+    <string name="compare_content_empty">कोई सामग्री उपलब्ध नहीं</string>
+    <string name="compare_structurally_identical">%1$s संरचनात्मक रूप से समान</string>
+    <string name="compare_diff_truncated">अंतर काटा गया — पहली 5,000 पंक्तियाँ दिखाई जा रही हैं</string>
+    <string name="compare_renamed_candidates">समान सामग्री, भिन्न पथ (%1$d)</string>
+    <string name="compare_and_more">…और %1$d अधिक</string>
+    <string name="compare_sizes_lr">बाएं: %1$s · दाएं: %2$s</string>
+    <string name="compare_no_entries">इस फ़िल्टर से कोई प्रविष्टि मेल नहीं खाती</string>
+
+    <string name="compare_filter_all">सभी</string>
+    <string name="compare_filter_left_only">केवल बाएं</string>
+    <string name="compare_filter_right_only">केवल दाएं</string>
+    <string name="compare_filter_changed">बदला गया</string>
+    <string name="compare_filter_same">समान</string>
+
+    <string name="compare_folder_copy_to_right">दाएं → कॉपी करें</string>
+    <string name="compare_folder_copy_to_left">← बाएं कॉपी करें</string>
+    <string name="compare_folder_overwrite_right">दाएं → ओवरराइट करें</string>
+    <string name="compare_folder_overwrite_left">← ओवरराइट करें</string>
+    <string name="compare_folder_verify_checksum">चेकसम से सत्यापित करें</string>
+    <string name="compare_folder_match_count">%1$d / %2$d मेल</string>
+    <string name="compare_folder_both_empty">दोनों फ़ोल्डर खाली हैं</string>
+    <string name="compare_folder_diff_summary">%1$d बदला गया · %2$d केवल बाएं · %3$d केवल दाएं</string>
+    <string name="compare_folder_checksum_verified"> · चेकसम सत्यापित</string>
+
+    <string name="compare_diff_label_left_only">केवल बाएं</string>
+    <string name="compare_diff_label_right_only">केवल दाएं</string>
+    <string name="compare_diff_label_changed">बदला गया</string>
+    <string name="compare_diff_label_same">समान</string>
+
+    <!-- ====================================================================
+         Duplicate finder screen
+         ==================================================================== -->
+    <string name="duplicates_title">डुप्लीकेट खोजें</string>
+    <string name="duplicates_none_found">कोई डुप्लीकेट नहीं मिला</string>
+    <string name="duplicates_hashing">%2$d में से %1$d को हैश कर रहे हैं…</string>
+    <string name="duplicates_scanning">स्कैन हो रहा है… %1$d फ़ाइलें</string>
+    <string name="duplicates_group_count">%1$d डुप्लीकेट समूह</string>
+    <string name="duplicates_wasted_summary">%2$d फ़ाइलें स्कैन में %1$s बर्बाद हुई</string>
+    <string name="duplicates_action_select_old">पुरानी अतिरिक्त फ़ाइलें चुनें</string>
+    <string name="duplicates_copies_each">%1$d प्रतिलिपियाँ · प्रत्येक %2$s</string>
+    <string name="duplicates_wasted">%1$s बर्बाद हुई</string>
+    <string name="duplicates_modified">%1$s को संशोधित</string>
+
+    <!-- ====================================================================
+         Folder dashboard dialog
+         ==================================================================== -->
+    <string name="folder_dashboard_title">फ़ोल्डर डैशबोर्ड</string>
+    <string name="folder_dashboard_analyzing">फ़ोल्डर का विश्लेषण हो रहा है…</string>
+    <string name="folder_dashboard_no_data">कोई डेटा नहीं</string>
+    <string name="folder_dashboard_folder_label">फ़ोल्डर</string>
+    <string name="folder_dashboard_file_count">%1$d फ़ाइल(ें) · कुल %2$s</string>
+    <string name="folder_dashboard_section_disk_usage">प्रकार के अनुसार डिस्क उपयोग</string>
+    <string name="folder_dashboard_section_largest">सबसे बड़ी फ़ाइलें</string>
+    <string name="folder_dashboard_section_newest">नवीनतम फ़ाइलें</string>
+    <string name="folder_dashboard_section_unknown">अज्ञात / अवर्गीकृत (%1$d)</string>
+    <string name="folder_dashboard_section_duplicates">संभावित डुप्लीकेट (समान आकार)</string>
+
+    <!-- ====================================================================
+         Main screen
+         ==================================================================== -->
+    <string name="main_bookmark_added">बुकमार्क जोड़ा गया</string>
+    <string name="main_panel_dual">दोहरा पैनल</string>
+    <string name="main_panel_inspector">इंस्पेक्टर</string>
+    <string name="main_chooser_open_with">इसके साथ खोलें</string>
+    <string name="main_chooser_share_cleaned">साफ़ की गई प्रतिलिपि साझा करें</string>
+    <string name="main_chooser_share_report">रिपोर्ट साझा करें</string>
+    <string name="main_chooser_share_cleaned_files">साफ़ की गई फ़ाइलें साझा करें</string>
+
+    <!-- ====================================================================
+         State views
+         ==================================================================== -->
+    <string name="state_no_matches_headline">कोई मिलान नहीं</string>
+    <string name="state_no_matches_subtitle">इस फ़ोल्डर में &#8220;%1$s&#8221; से मेल खाने वाला कुछ नहीं है।</string>
+    <string name="state_no_matches_no_query">कोई अलग क्वेरी आज़माएं।</string>
+    <string name="state_error_headline">कुछ गलत हो गया</string>
+
+    <!-- ====================================================================
+         Plurals
+         ==================================================================== -->
+    <plurals name="plural_file_count">
+        <item quantity="one">%1$d फ़ाइल</item>
+        <item quantity="other">%1$d फ़ाइलें</item>
+    </plurals>
+
+    <plurals name="plural_item_count">
+        <item quantity="one">1 आइटम</item>
+        <item quantity="other">%1$d आइटम</item>
+    </plurals>
+
+    <plurals name="plural_risk_count">
+        <item quantity="one">%1$d जोखिम</item>
+        <item quantity="other">%1$d जोखिम</item>
+    </plurals>
+
+    <plurals name="plural_match_count">
+        <item quantity="one">%1$d मिलान</item>
+        <item quantity="other">%1$d मिलान</item>
+    </plurals>
+
+    <plurals name="plural_secret_count">
+        <item quantity="one">संभावित सीक्रेट (%1$d)</item>
+        <item quantity="other">संभावित सीक्रेट (%1$d)</item>
+    </plurals>
+
+    <plurals name="plural_ignored_count">
+        <item quantity="one">%1$d अनदेखा — दिखाएं</item>
+        <item quantity="other">%1$d अनदेखा — दिखाएं</item>
+    </plurals>
+
+    <plurals name="plural_selected_count">
+        <item quantity="one">%1$d चुना गया</item>
+        <item quantity="other">%1$d चुने गए</item>
+    </plurals>
+
+    <plurals name="plural_collision_count">
+        <item quantity="one">%1$d नाम टकराव</item>
+        <item quantity="other">%1$d नाम टकराव</item>
+    </plurals>
+
+    <plurals name="plural_rename_action">
+        <item quantity="one">%1$d का नाम बदलें</item>
+        <item quantity="other">%1$d का नाम बदलें</item>
+    </plurals>
+
+    <plurals name="plural_delete_action">
+        <item quantity="one">%1$d हटाएं</item>
+        <item quantity="other">%1$d हटाएं</item>
+    </plurals>
+
+    <plurals name="plural_visit_count">
+        <item quantity="one">1 बार देखा</item>
+        <item quantity="other">%1$d बार देखा</item>
+    </plurals>
+
+</resources>

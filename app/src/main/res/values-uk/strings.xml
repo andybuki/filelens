@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Machine-translated first pass — review by a native speaker before final release. -->
+<resources>
+    <!-- ====================================================================
+         App
+         ==================================================================== -->
+    <string name="app_name">FileLens</string>
+
+    <!-- ====================================================================
+         Common actions / buttons
+         ==================================================================== -->
+    <string name="action_cancel">Скасувати</string>
+    <string name="action_close">Закрити</string>
+    <string name="action_save">Зберегти</string>
+    <string name="action_create">Створити</string>
+    <string name="action_delete">Видалити</string>
+    <string name="action_rename">Перейменувати</string>
+    <string name="action_copy">Копіювати</string>
+    <string name="action_move">Перемістити</string>
+    <string name="action_export">Експортувати</string>
+    <string name="action_import">Імпортувати</string>
+    <string name="action_find">Знайти</string>
+    <string name="action_reset">Скинути</string>
+    <string name="action_retry">Спробувати знову</string>
+    <string name="action_clear">Очистити</string>
+    <string name="action_clear_search">Очистити пошук</string>
+    <string name="action_back">Назад</string>
+    <string name="action_compare">Порівняти</string>
+    <string name="action_ignore">Ігнорувати</string>
+
+    <!-- ====================================================================
+         Content descriptions (accessibility)
+         ==================================================================== -->
+    <string name="cd_back">Назад</string>
+    <string name="cd_close">Закрити</string>
+    <string name="cd_close_search">Закрити пошук</string>
+    <string name="cd_search">Пошук</string>
+    <string name="cd_more_options">Більше параметрів</string>
+    <string name="cd_settings">Налаштування</string>
+    <string name="cd_navigate_up">Перейти вгору</string>
+    <string name="cd_copy">Копіювати</string>
+    <string name="cd_expand">Розгорнути</string>
+    <string name="cd_collapse">Згорнути</string>
+    <string name="cd_clear_selection">Скасувати вибір</string>
+    <string name="cd_remove_bookmark">Видалити закладку</string>
+    <string name="cd_connect">Підключитися</string>
+    <string name="cd_edit">Редагувати</string>
+    <string name="cd_delete">Видалити</string>
+    <string name="cd_add_server">Додати сервер</string>
+    <string name="cd_image_preview_left">Ліве зображення</string>
+    <string name="cd_image_preview_right">Праве зображення</string>
+    <string name="cd_inspector_actions">Дії інспектора</string>
+    <string name="cd_severity_danger">Небезпечний ризик</string>
+    <string name="cd_severity_warning">Попередження про ризик</string>
+    <string name="cd_severity_info">Інформаційне повідомлення</string>
+
+    <!-- ====================================================================
+         File list panel
+         ==================================================================== -->
+    <string name="brand_name">FileLens</string>
+    <string name="home_folder_label">Телефон</string>
+    <string name="menu_show_hidden_files">Показати приховані файли</string>
+    <string name="menu_hide_hidden_files">Сховати приховані файли</string>
+    <string name="menu_scan_folder">Сканувати теку на ризики</string>
+    <string name="menu_analyze_folder">Аналізувати теку</string>
+    <string name="menu_find_duplicates">Знайти дублікати тут</string>
+    <string name="menu_bookmark_folder">Додати теку в закладки</string>
+    <string name="menu_show_bookmarks">Показати закладки</string>
+    <string name="menu_recents">Останні</string>
+    <string name="search_hint">Пошук файлів…</string>
+    <string name="searching_label">Пошук…</string>
+    <string name="search_in_folder">Пошук у підтеках</string>
+    <string name="empty_folder_headline">Ця тека порожня</string>
+    <string name="empty_folder_subtitle">Тут ще нічого немає. Додайте файли або імпортуйте виписку, щоб перевірити її перед відкриттям.</string>
+    <string name="empty_folder_action">Імпортувати файл</string>
+    <string name="active_panel_indicator">Активна панель</string>
+
+    <!-- ====================================================================
+         File list item (accessibility)
+         ==================================================================== -->
+    <string name="a11y_kind_folder">Тека</string>
+    <string name="a11y_kind_file">Файл</string>
+    <string name="a11y_folder_empty">порожня</string>
+    <string name="a11y_item_selected">вибрано</string>
+    <string name="a11y_modified">змінено %1$s</string>
+    <string name="a11y_file_type">файл %1$s</string>
+
+    <!-- ====================================================================
+         Sort
+         ==================================================================== -->
+    <string name="sort_name">Назва</string>
+    <string name="sort_size">Розмір</string>
+    <string name="sort_date">Дата</string>
+    <string name="sort_type">Тип</string>
+
+    <!-- ====================================================================
+         Inspector panel — header
+         ==================================================================== -->
+    <string name="inspector_tab_overview">Огляд</string>
+    <string name="inspector_tab_preview">Попередній перегляд</string>
+    <string name="inspector_tab_structure">Структура</string>
+    <string name="inspector_tab_metadata">Метадані</string>
+    <string name="inspector_tab_risks">Ризики</string>
+
+    <!-- ====================================================================
+         Inspector panel — overview tab
+         ==================================================================== -->
+    <string name="row_label_file">Файл</string>
+    <string name="row_label_type">Тип</string>
+    <string name="row_label_extension">Розширення</string>
+    <string name="row_label_mime">MIME</string>
+    <string name="row_label_size">Розмір</string>
+    <string name="row_label_modified">Змінено</string>
+
+    <string name="section_safe_actions">Безпечні дії</string>
+    <string name="section_external">Зовнішнє</string>
+
+    <string name="action_preview_only">Лише перегляд</string>
+    <string name="action_inspect_metadata">Перевірити метадані</string>
+    <string name="action_browse_archive">Переглянути вміст (без розпакування)</string>
+    <string name="action_inspect_doc_structure">Перевірити структуру документа</string>
+    <string name="action_inspect_structure">Перевірити структуру</string>
+    <string name="action_search_inside">Пошук всередині…</string>
+    <string name="action_export_markdown">Експортувати Markdown</string>
+    <string name="action_export_json">Експортувати JSON</string>
+    <string name="action_share_cleaned">Поділитися очищеною копією</string>
+    <string name="action_verify_hash">Перевірити хеш</string>
+    <string name="action_browse_rows">Переглянути рядки</string>
+    <string name="action_open_with">Відкрити за допомогою…</string>
+    <string name="action_view_on_map">Переглянути на карті</string>
+
+    <!-- Open as menu -->
+    <string name="open_as_title">Відкрити як…</string>
+    <string name="open_as_restore_detected">Відновити виявлене (%1$s)</string>
+    <string name="open_as_reinspect">Запустити інспектор повторно</string>
+
+    <!-- Trust score card -->
+    <string name="trust_score_disclaimer">Евристична оцінка довіри. Не антивірус.</string>
+    <string name="trust_top_reasons">Основні причини</string>
+
+    <!-- Risks tab -->
+    <string name="risks_none_detected">Ризиків не виявлено</string>
+    <string name="risks_all_ignored">Усі ризики ігноруються для цього сеансу.</string>
+    <string name="risk_show_evidence">Показати докази</string>
+    <string name="risk_hide_evidence">Сховати докази</string>
+    <string name="risk_learn_more">Дізнатися більше</string>
+    <string name="risk_hide_learn_more">Сховати докладніше</string>
+    <string name="risk_severity_danger">Небезпека</string>
+    <string name="risk_severity_warning">Попередження</string>
+    <string name="risk_severity_info">Інформація</string>
+
+    <!-- Preview tab -->
+    <string name="preview_none_available">Попередній перегляд недоступний</string>
+    <string name="preview_raw">Без форматування</string>
+    <string name="preview_pretty">Форматований</string>
+    <string name="preview_hex_header">Hex-перегляд (%1$s всього)</string>
+
+    <!-- Structure tab -->
+    <string name="structure_none_available">Структура недоступна</string>
+
+    <!-- Metadata tab -->
+    <string name="metadata_none_available">Немає додаткових метаданих</string>
+
+    <!-- Secrets card -->
+    <string name="secrets_redaction_notice">Значення приховано. Розглядайте будь-які виявлені облікові дані як скомпрометовані — спочатку замініть їх, а потім видаліть з файлу.</string>
+    <string name="secrets_copy_name">Копіювати назву</string>
+
+    <!-- Provenance -->
+    <string name="provenance_high_confidence">Імовірне джерело</string>
+    <string name="provenance_medium_confidence">Вірогідне джерело</string>
+    <string name="provenance_low_confidence">Можливе джерело</string>
+
+    <!-- Empty inspector -->
+    <string name="inspector_empty_headline">Виберіть файл для перевірки</string>
+    <string name="inspector_empty_subtitle">Торкніться будь-якого файлу в списку, щоб зазирнути всередину перед відкриттям.</string>
+
+    <!-- ====================================================================
+         Selection bar
+         ==================================================================== -->
+    <string name="selection_compare">Порівняти</string>
+    <string name="selection_hint_select_two">Виберіть 2 для порівняння</string>
+
+    <!-- ====================================================================
+         Commander toolbar actions
+         ==================================================================== -->
+    <string name="cmd_view">Перегляд</string>
+    <string name="cmd_copy">Копія</string>
+    <string name="cmd_move">Перемістити</string>
+    <string name="cmd_mkdir">Нова тека</string>
+    <string name="cmd_diff">Різниця</string>
+    <string name="cmd_delete">Видалити</string>
+    <string name="cmd_rename">Перейменувати</string>
+
+    <!-- ====================================================================
+         File operation dialogs
+         ==================================================================== -->
+    <string name="dialog_new_folder_title">Нова тека</string>
+    <string name="dialog_new_folder_label">Назва теки</string>
+    <string name="dialog_rename_title">Перейменувати</string>
+    <string name="dialog_rename_label">Нова назва</string>
+    <string name="dialog_delete_title">Видалити</string>
+    <string name="dialog_delete_message">Ви впевнені, що хочете видалити?</string>
+    <string name="dialog_copy_move_target_label">%1$s %2$d файл(ів) до:</string>
+    <string name="dialog_and_more">… і ще %1$d</string>
+    <string name="dialog_operation_title">%1$s файли</string>
+
+    <!-- ====================================================================
+         Batch rename dialog
+         ==================================================================== -->
+    <string name="batch_rename_title">Групове перейменування</string>
+    <string name="batch_rename_tokens_hint">Токени: {name}, {ext}, {n}, {n:03}</string>
+    <string name="batch_rename_label_pattern">Шаблон</string>
+    <string name="batch_rename_label_find">Знайти</string>
+    <string name="batch_rename_label_replace">Замінити</string>
+    <string name="batch_rename_use_regex">Regex пошук/заміна</string>
+    <string name="batch_rename_start_index">Початок: %1$d</string>
+    <string name="batch_rename_banner_invalid">Деякі цільові назви недійсні</string>
+    <string name="batch_rename_banner_ready">Готово до перейменування</string>
+    <string name="batch_rename_applying">Перейменування…</string>
+    <string name="batch_rename_arrow">→ %1$s</string>
+
+    <!-- ====================================================================
+         Hash verify dialog
+         ==================================================================== -->
+    <string name="hash_verify_title">Перевірити хеш</string>
+    <string name="hash_verify_hashing">Хешування…</string>
+    <string name="hash_verify_compare_label">Порівняти з</string>
+    <string name="hash_verify_paste_hint">Вставте SHA-256 або MD5 для перевірки</string>
+    <string name="hash_verify_match">Збіг</string>
+    <string name="hash_verify_no_match">Немає збігу</string>
+    <string name="hash_verify_unknown">Вставте хеш з 32 або 64 символів</string>
+
+    <!-- ====================================================================
+         Batch scan / privacy audit dialog
+         ==================================================================== -->
+    <string name="batch_scan_title_scanning">Сканування теки…</string>
+    <string name="batch_scan_title_done">Аудит конфіденційності</string>
+    <string name="batch_scan_progress">%1$d / %2$d</string>
+    <string name="batch_scan_result_count">%1$d файл(ів) проскановано</string>
+    <string name="batch_scan_bucket_empty">У цьому розділі нічого немає.</string>
+    <string name="batch_scan_creating_copies">Створення очищених копій…</string>
+    <string name="batch_scan_action_batch_clean">Групове очищення</string>
+    <string name="batch_scan_bucket_risky">Ризиковані (%1$d)</string>
+    <string name="batch_scan_bucket_safe">Безпечні (%1$d)</string>
+    <string name="batch_scan_bucket_unsupported">Непідтримувані (%1$d)</string>
+
+    <!-- ====================================================================
+         Safe share sheet
+         ==================================================================== -->
+    <string name="safe_share_title">Перевірте перед поширенням</string>
+    <string name="safe_share_no_risks">Ризиків не виявлено. Безпечно поширювати.</string>
+    <string name="safe_share_risks_intro">Цей файл може розкрити:</string>
+    <string name="safe_share_action_original">Поширити оригінал</string>
+    <string name="safe_share_action_cleaned">Створити очищену копію</string>
+
+    <!-- ====================================================================
+         Search inside dialog
+         ==================================================================== -->
+    <string name="search_inside_title">Пошук всередині файлу</string>
+    <string name="search_inside_hint">Пошук у записах, ключах, вмісті…</string>
+    <string name="search_inside_searching">Пошук…</string>
+    <string name="search_inside_no_matches">Збігів не знайдено.</string>
+    <string name="search_inside_more">… ще %1$d</string>
+
+    <!-- ====================================================================
+         Bookmarks sheet
+         ==================================================================== -->
+    <string name="bookmarks_section_title">Закладки</string>
+    <string name="bookmarks_empty_headline">Ще немає закладок</string>
+    <string name="bookmarks_empty_subtitle">Додайте поточну теку через меню панелі.</string>
+
+    <!-- ====================================================================
+         Recents sheet
+         ==================================================================== -->
+    <string name="recents_section_frequent">Часті теки</string>
+    <string name="recents_section_recent">Останні файли</string>
+    <string name="recents_clear_history">Очистити історію</string>
+    <string name="recents_empty_headline">Немає нещодавньої активності</string>
+    <string name="recents_empty_subtitle">Файли, які ви перевіряєте, та теки, які ви відвідуєте, відображатимуться тут.</string>
+    <string name="recents_one_visit">1 відвідування</string>
+    <string name="recents_visits_format">%1$d відвідувань</string>
+
+    <!-- ====================================================================
+         Shortcut recorder dialog
+         ==================================================================== -->
+    <string name="shortcut_bind_title">Прив\'язати %1$s</string>
+    <string name="shortcut_press_hint">Натисніть нову комбінацію, а потім торкніться «Зберегти».</string>
+    <string name="shortcut_current">Поточна: %1$s</string>
+    <string name="shortcut_default">За замовчуванням: %1$s</string>
+
+    <!-- ====================================================================
+         Shortcuts screen
+         ==================================================================== -->
+    <string name="shortcuts_title">Клавіатурні скорочення</string>
+    <string name="shortcuts_hint">Торкніться рядка, щоб записати нову комбінацію клавіш. Якщо нова комбінація вже використовується, існуюче скорочення поміняється місцями з тим, що ви редагуєте.</string>
+    <string name="shortcuts_action_reset">Скинути</string>
+
+    <!-- ====================================================================
+         Settings screen
+         ==================================================================== -->
+    <string name="settings_title">Налаштування</string>
+    <string name="settings_section_browsing">Перегляд</string>
+    <string name="settings_section_input">Введення</string>
+    <string name="settings_section_remote">Віддалений доступ</string>
+    <string name="settings_section_backup">Резервна копія &amp; відновлення</string>
+    <string name="settings_section_about">Про додаток</string>
+    <string name="settings_section_licenses">Ліцензії відкритого коду</string>
+
+    <string name="settings_show_hidden_files">Показати приховані файли</string>
+    <string name="settings_show_hidden_files_desc">Відображати файли та теки, що починаються з крапки.</string>
+    <string name="settings_hide_empty_folders">Сховати порожні теки</string>
+    <string name="settings_hide_empty_folders_desc">Не показувати теки без видимих файлів.</string>
+    <string name="settings_size_units">Одиниці розміру файлу</string>
+    <string name="settings_default_panel">Панель за замовчуванням (планшети)</string>
+
+    <string name="settings_keyboard_shortcuts">Клавіатурні скорочення</string>
+    <string name="settings_keyboard_shortcuts_desc">Налаштуйте комбінації клавіш F та Ctrl, що використовуються в командері.</string>
+
+    <string name="settings_remote_servers">Віддалені сервери</string>
+    <string name="settings_remote_servers_desc">Переглядайте FTP, SFTP та SMB-ресурси як локальні теки.</string>
+
+    <string name="settings_backup_desc">Збережіть налаштування, закладки, останні файли та часті теки у файл JSON, який можна відновити пізніше.</string>
+
+    <string name="settings_about_app_name">FileLens Commander</string>
+    <string name="settings_about_version">Версія 0.4.4</string>
+    <string name="settings_about_vision_label">Концепція</string>
+    <string name="settings_about_vision_text">Переглядайте файли, зазирайте всередину, розумійте перед відкриттям. Офлайн, на пристрої, без облікових записів.</string>
+    <string name="settings_licenses_intro">FileLens побудовано на таких бібліотеках з відкритим кодом:</string>
+    <string name="settings_licenses_show">Показати ліцензії</string>
+    <string name="settings_licenses_hide">Сховати ліцензії</string>
+
+    <string name="settings_backup_saved">Резервну копію збережено</string>
+    <string name="settings_export_failed">Помилка експорту: %1$s</string>
+    <string name="settings_import_failed">Помилка імпорту: %1$s</string>
+
+    <!-- ====================================================================
+         Remote servers screen
+         ==================================================================== -->
+    <string name="remote_servers_title">Віддалені сервери</string>
+    <string name="remote_servers_empty_headline">Ще немає віддалених серверів</string>
+    <string name="remote_servers_empty_subtitle">Додайте FTP, SFTP або SMB-сервер, щоб переглядати його як локальну теку.</string>
+    <string name="remote_dialog_delete_title">Видалити сервер?</string>
+    <string name="remote_dialog_delete_message">Видалити &#8220;%1$s&#8221;? Це лише видалить збережений запис; нічого на сервері не буде торкнуто.</string>
+    <string name="remote_dialog_add_title">Додати сервер</string>
+    <string name="remote_dialog_edit_title">Редагувати сервер</string>
+    <string name="remote_field_display_name">Відображувана назва</string>
+    <string name="remote_field_host">Хост</string>
+    <string name="remote_field_port">Порт</string>
+    <string name="remote_field_username">Ім\'я користувача</string>
+    <string name="remote_field_password">Пароль</string>
+    <string name="remote_field_password_edit">Пароль (залиште порожнім, щоб зберегти поточний)</string>
+    <string name="remote_field_share_name">Назва ресурсу</string>
+    <string name="remote_field_base_path">Базовий шлях (необов\'язково)</string>
+    <string name="remote_option_anonymous">Анонімно</string>
+    <string name="remote_option_passive_mode">Пасивний режим</string>
+    <string name="remote_option_clear_host_key">Очистити закріплений ключ хоста (наступне підключення перезакріпить при довірі)</string>
+
+    <!-- ====================================================================
+         Compare screen
+         ==================================================================== -->
+    <string name="compare_title">Порівняти</string>
+    <string name="compare_panel_left">Ліворуч</string>
+    <string name="compare_panel_right">Праворуч</string>
+    <string name="compare_tab_overview">Огляд</string>
+    <string name="compare_tab_metadata">Метадані</string>
+    <string name="compare_tab_content">Вміст</string>
+    <string name="compare_progress_folders">Обхід тек…</string>
+    <string name="compare_progress_files">Порівняння файлів…</string>
+    <string name="compare_identical">Ідентичний вміст</string>
+    <string name="compare_different">Різний вміст</string>
+    <string name="compare_section_checksums">Контрольні суми</string>
+    <string name="compare_metadata_empty">Метадані не отримано</string>
+    <string name="compare_metadata_identical">Метадані ідентичні</string>
+    <string name="compare_content_empty">Вміст недоступний</string>
+    <string name="compare_structurally_identical">%1$s структурно ідентично</string>
+    <string name="compare_diff_truncated">Різниця скорочена — показано перші 5 000 рядків</string>
+    <string name="compare_renamed_candidates">Однаковий вміст, різні шляхи (%1$d)</string>
+    <string name="compare_and_more">…і ще %1$d</string>
+    <string name="compare_sizes_lr">Л: %1$s · П: %2$s</string>
+    <string name="compare_no_entries">Жоден запис не відповідає цьому фільтру</string>
+
+    <string name="compare_filter_all">Усі</string>
+    <string name="compare_filter_left_only">Лише ліворуч</string>
+    <string name="compare_filter_right_only">Лише праворуч</string>
+    <string name="compare_filter_changed">Змінені</string>
+    <string name="compare_filter_same">Однакові</string>
+
+    <string name="compare_folder_copy_to_right">Копіювати → праворуч</string>
+    <string name="compare_folder_copy_to_left">Копіювати ← ліворуч</string>
+    <string name="compare_folder_overwrite_right">Перезаписати →</string>
+    <string name="compare_folder_overwrite_left">← Перезаписати</string>
+    <string name="compare_folder_verify_checksum">Перевірити за контрольною сумою</string>
+    <string name="compare_folder_match_count">%1$d / %2$d збігаються</string>
+    <string name="compare_folder_both_empty">Обидві теки порожні</string>
+    <string name="compare_folder_diff_summary">%1$d змінено · %2$d лише ліворуч · %3$d лише праворуч</string>
+    <string name="compare_folder_checksum_verified"> · контрольну суму перевірено</string>
+
+    <string name="compare_diff_label_left_only">Лише ліворуч</string>
+    <string name="compare_diff_label_right_only">Лише праворуч</string>
+    <string name="compare_diff_label_changed">Змінено</string>
+    <string name="compare_diff_label_same">Однакові</string>
+
+    <!-- ====================================================================
+         Duplicate finder screen
+         ==================================================================== -->
+    <string name="duplicates_title">Пошук дублікатів</string>
+    <string name="duplicates_none_found">Дублікатів не знайдено</string>
+    <string name="duplicates_hashing">Хешування %1$d з %2$d…</string>
+    <string name="duplicates_scanning">Сканування… %1$d файлів</string>
+    <string name="duplicates_group_count">%1$d група(и) дублікатів</string>
+    <string name="duplicates_wasted_summary">%1$s витрачено в %2$d проскановаих файлах</string>
+    <string name="duplicates_action_select_old">Вибрати старі копії</string>
+    <string name="duplicates_copies_each">%1$d копій · %2$s кожна</string>
+    <string name="duplicates_wasted">%1$s витрачено</string>
+    <string name="duplicates_modified">Змінено %1$s</string>
+
+    <!-- ====================================================================
+         Folder dashboard dialog
+         ==================================================================== -->
+    <string name="folder_dashboard_title">Інформаційна панель теки</string>
+    <string name="folder_dashboard_analyzing">Аналіз теки…</string>
+    <string name="folder_dashboard_no_data">Немає даних</string>
+    <string name="folder_dashboard_folder_label">Тека</string>
+    <string name="folder_dashboard_file_count">%1$d файл(ів) · %2$s всього</string>
+    <string name="folder_dashboard_section_disk_usage">Використання диска за типом</string>
+    <string name="folder_dashboard_section_largest">Найбільші файли</string>
+    <string name="folder_dashboard_section_newest">Найновіші файли</string>
+    <string name="folder_dashboard_section_unknown">Невідомі / некласифіковані (%1$d)</string>
+    <string name="folder_dashboard_section_duplicates">Можливі дублікати (однаковий розмір)</string>
+
+    <!-- ====================================================================
+         Main screen
+         ==================================================================== -->
+    <string name="main_bookmark_added">Закладку додано</string>
+    <string name="main_panel_dual">Подвійна панель</string>
+    <string name="main_panel_inspector">Інспектор</string>
+    <string name="main_chooser_open_with">Відкрити за допомогою</string>
+    <string name="main_chooser_share_cleaned">Поділитися очищеною копією</string>
+    <string name="main_chooser_share_report">Поділитися звітом</string>
+    <string name="main_chooser_share_cleaned_files">Поділитися очищеними файлами</string>
+
+    <!-- ====================================================================
+         State views
+         ==================================================================== -->
+    <string name="state_no_matches_headline">Збігів немає</string>
+    <string name="state_no_matches_subtitle">У цій теці немає нічого, що відповідає &#8220;%1$s&#8221;.</string>
+    <string name="state_no_matches_no_query">Спробуйте інший запит.</string>
+    <string name="state_error_headline">Щось пішло не так</string>
+
+    <!-- ====================================================================
+         Plurals
+         ==================================================================== -->
+    <plurals name="plural_file_count">
+        <item quantity="one">%1$d файл</item>
+        <item quantity="few">%1$d файли</item>
+        <item quantity="many">%1$d файлів</item>
+        <item quantity="other">%1$d файлу</item>
+    </plurals>
+
+    <plurals name="plural_item_count">
+        <item quantity="one">1 елемент</item>
+        <item quantity="few">%1$d елементи</item>
+        <item quantity="many">%1$d елементів</item>
+        <item quantity="other">%1$d елемента</item>
+    </plurals>
+
+    <plurals name="plural_risk_count">
+        <item quantity="one">%1$d ризик</item>
+        <item quantity="few">%1$d ризики</item>
+        <item quantity="many">%1$d ризиків</item>
+        <item quantity="other">%1$d ризику</item>
+    </plurals>
+
+    <plurals name="plural_match_count">
+        <item quantity="one">%1$d збіг</item>
+        <item quantity="few">%1$d збіги</item>
+        <item quantity="many">%1$d збігів</item>
+        <item quantity="other">%1$d збігу</item>
+    </plurals>
+
+    <plurals name="plural_secret_count">
+        <item quantity="one">Можливий секрет (%1$d)</item>
+        <item quantity="few">Можливі секрети (%1$d)</item>
+        <item quantity="many">Можливих секретів (%1$d)</item>
+        <item quantity="other">Можливого секрету (%1$d)</item>
+    </plurals>
+
+    <plurals name="plural_ignored_count">
+        <item quantity="one">%1$d ігноровано — показати</item>
+        <item quantity="few">%1$d ігноровано — показати</item>
+        <item quantity="many">%1$d ігноровано — показати</item>
+        <item quantity="other">%1$d ігноровано — показати</item>
+    </plurals>
+
+    <plurals name="plural_selected_count">
+        <item quantity="one">%1$d вибрано</item>
+        <item quantity="few">%1$d вибрано</item>
+        <item quantity="many">%1$d вибрано</item>
+        <item quantity="other">%1$d вибрано</item>
+    </plurals>
+
+    <plurals name="plural_collision_count">
+        <item quantity="one">%1$d конфлікт імен</item>
+        <item quantity="few">%1$d конфлікти імен</item>
+        <item quantity="many">%1$d конфліктів імен</item>
+        <item quantity="other">%1$d конфлікту імен</item>
+    </plurals>
+
+    <plurals name="plural_rename_action">
+        <item quantity="one">Перейменувати %1$d</item>
+        <item quantity="few">Перейменувати %1$d</item>
+        <item quantity="many">Перейменувати %1$d</item>
+        <item quantity="other">Перейменувати %1$d</item>
+    </plurals>
+
+    <plurals name="plural_delete_action">
+        <item quantity="one">Видалити %1$d</item>
+        <item quantity="few">Видалити %1$d</item>
+        <item quantity="many">Видалити %1$d</item>
+        <item quantity="other">Видалити %1$d</item>
+    </plurals>
+
+    <plurals name="plural_visit_count">
+        <item quantity="one">1 відвідування</item>
+        <item quantity="few">%1$d відвідування</item>
+        <item quantity="many">%1$d відвідувань</item>
+        <item quantity="other">%1$d відвідування</item>
+    </plurals>
+
+</resources>

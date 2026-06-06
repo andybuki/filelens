@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Machine-translated first pass — review by a native speaker before final release. -->
+<resources>
+    <!-- ====================================================================
+         App
+         ==================================================================== -->
+    <string name="app_name">FileLens</string>
+
+    <!-- ====================================================================
+         Common actions / buttons
+         ==================================================================== -->
+    <string name="action_cancel">İptal</string>
+    <string name="action_close">Kapat</string>
+    <string name="action_save">Kaydet</string>
+    <string name="action_create">Oluştur</string>
+    <string name="action_delete">Sil</string>
+    <string name="action_rename">Yeniden adlandır</string>
+    <string name="action_copy">Kopyala</string>
+    <string name="action_move">Taşı</string>
+    <string name="action_export">Dışa aktar</string>
+    <string name="action_import">İçe aktar</string>
+    <string name="action_find">Bul</string>
+    <string name="action_reset">Sıfırla</string>
+    <string name="action_retry">Tekrar dene</string>
+    <string name="action_clear">Temizle</string>
+    <string name="action_clear_search">Aramayı temizle</string>
+    <string name="action_back">Geri</string>
+    <string name="action_compare">Karşılaştır</string>
+    <string name="action_ignore">Yoksay</string>
+
+    <!-- ====================================================================
+         Content descriptions (accessibility)
+         ==================================================================== -->
+    <string name="cd_back">Geri</string>
+    <string name="cd_close">Kapat</string>
+    <string name="cd_close_search">Aramayı kapat</string>
+    <string name="cd_search">Ara</string>
+    <string name="cd_more_options">Daha fazla seçenek</string>
+    <string name="cd_settings">Ayarlar</string>
+    <string name="cd_navigate_up">Yukarı git</string>
+    <string name="cd_copy">Kopyala</string>
+    <string name="cd_expand">Genişlet</string>
+    <string name="cd_collapse">Daralt</string>
+    <string name="cd_clear_selection">Seçimi temizle</string>
+    <string name="cd_remove_bookmark">Yer imini kaldır</string>
+    <string name="cd_connect">Bağlan</string>
+    <string name="cd_edit">Düzenle</string>
+    <string name="cd_delete">Sil</string>
+    <string name="cd_add_server">Sunucu ekle</string>
+    <string name="cd_image_preview_left">Sol görüntü</string>
+    <string name="cd_image_preview_right">Sağ görüntü</string>
+    <string name="cd_inspector_actions">Denetçi eylemleri</string>
+    <string name="cd_severity_danger">Tehlike riski</string>
+    <string name="cd_severity_warning">Uyarı riski</string>
+    <string name="cd_severity_info">Bilgi notu</string>
+
+    <!-- ====================================================================
+         File list panel
+         ==================================================================== -->
+    <string name="brand_name">FileLens</string>
+    <string name="home_folder_label">Telefon</string>
+    <string name="menu_show_hidden_files">Gizli dosyaları göster</string>
+    <string name="menu_hide_hidden_files">Gizli dosyaları gizle</string>
+    <string name="menu_scan_folder">Klasörü riskler için tara</string>
+    <string name="menu_analyze_folder">Klasörü analiz et</string>
+    <string name="menu_find_duplicates">Burada kopyaları bul</string>
+    <string name="menu_bookmark_folder">Bu klasörü yer imine ekle</string>
+    <string name="menu_show_bookmarks">Yer imlerini göster</string>
+    <string name="menu_recents">Son kullanılan</string>
+    <string name="search_hint">Dosya ara…</string>
+    <string name="searching_label">Aranıyor…</string>
+    <string name="search_in_folder">Alt klasörlerde ara</string>
+    <string name="empty_folder_headline">Bu klasör boş</string>
+    <string name="empty_folder_subtitle">Henüz burada bir şey yok. Dosya ekleyin veya açmadan önce incelemek için bir ekstre içe aktarın.</string>
+    <string name="empty_folder_action">Dosya içe aktar</string>
+    <string name="active_panel_indicator">Etkin panel</string>
+
+    <!-- ====================================================================
+         File list item (accessibility)
+         ==================================================================== -->
+    <string name="a11y_kind_folder">Klasör</string>
+    <string name="a11y_kind_file">Dosya</string>
+    <string name="a11y_folder_empty">boş</string>
+    <string name="a11y_item_selected">seçildi</string>
+    <string name="a11y_modified">%1$s tarihinde değiştirildi</string>
+    <string name="a11y_file_type">%1$s dosyası</string>
+
+    <!-- ====================================================================
+         Sort
+         ==================================================================== -->
+    <string name="sort_name">Ad</string>
+    <string name="sort_size">Boyut</string>
+    <string name="sort_date">Tarih</string>
+    <string name="sort_type">Tür</string>
+
+    <!-- ====================================================================
+         Inspector panel — header
+         ==================================================================== -->
+    <string name="inspector_tab_overview">Genel bakış</string>
+    <string name="inspector_tab_preview">Önizleme</string>
+    <string name="inspector_tab_structure">Yapı</string>
+    <string name="inspector_tab_metadata">Meta veri</string>
+    <string name="inspector_tab_risks">Riskler</string>
+
+    <!-- ====================================================================
+         Inspector panel — overview tab
+         ==================================================================== -->
+    <string name="row_label_file">Dosya</string>
+    <string name="row_label_type">Tür</string>
+    <string name="row_label_extension">Uzantı</string>
+    <string name="row_label_mime">MIME</string>
+    <string name="row_label_size">Boyut</string>
+    <string name="row_label_modified">Değiştirilme</string>
+
+    <string name="section_safe_actions">Güvenli eylemler</string>
+    <string name="section_external">Harici</string>
+
+    <string name="action_preview_only">Yalnızca önizle</string>
+    <string name="action_inspect_metadata">Meta veriyi incele</string>
+    <string name="action_browse_archive">İçeriğe gözat (çıkarmadan)</string>
+    <string name="action_inspect_doc_structure">Belge yapısını incele</string>
+    <string name="action_inspect_structure">Yapıyı incele</string>
+    <string name="action_search_inside">İçinde ara…</string>
+    <string name="action_export_markdown">Markdown olarak dışa aktar</string>
+    <string name="action_export_json">JSON olarak dışa aktar</string>
+    <string name="action_share_cleaned">Temizlenmiş kopyayı paylaş</string>
+    <string name="action_verify_hash">Karma değerini doğrula</string>
+    <string name="action_browse_rows">Satırlara gözat</string>
+    <string name="action_open_with">Şununla aç…</string>
+    <string name="action_view_on_map">Haritada görüntüle</string>
+
+    <!-- Open as menu -->
+    <string name="open_as_title">Şu şekilde aç…</string>
+    <string name="open_as_restore_detected">Algılananı geri yükle (%1$s)</string>
+    <string name="open_as_reinspect">Denetçiyi yeniden çalıştır</string>
+
+    <!-- Trust score card -->
+    <string name="trust_score_disclaimer">Buluşsal güven puanı. Antivirüs değildir.</string>
+    <string name="trust_top_reasons">Başlıca nedenler</string>
+
+    <!-- Risks tab -->
+    <string name="risks_none_detected">Risk tespit edilmedi</string>
+    <string name="risks_all_ignored">Bu oturum için tüm riskler yoksayıldı.</string>
+    <string name="risk_show_evidence">Kanıtı göster</string>
+    <string name="risk_hide_evidence">Kanıtı gizle</string>
+    <string name="risk_learn_more">Daha fazla bilgi</string>
+    <string name="risk_hide_learn_more">Daha fazla bilgiyi gizle</string>
+    <string name="risk_severity_danger">Tehlike</string>
+    <string name="risk_severity_warning">Uyarı</string>
+    <string name="risk_severity_info">Bilgi</string>
+
+    <!-- Preview tab -->
+    <string name="preview_none_available">Önizleme mevcut değil</string>
+    <string name="preview_raw">Ham</string>
+    <string name="preview_pretty">Biçimlendirilmiş</string>
+    <string name="preview_hex_header">Onaltılık görünüm (toplam %1$s)</string>
+
+    <!-- Structure tab -->
+    <string name="structure_none_available">Yapı mevcut değil</string>
+
+    <!-- Metadata tab -->
+    <string name="metadata_none_available">Ek meta veri yok</string>
+
+    <!-- Secrets card -->
+    <string name="secrets_redaction_notice">Değerler gizlendi. Sızdırılan kimlik bilgilerini ele geçirilmiş olarak kabul edin — önce döndürün, ardından dosyadan kaldırın.</string>
+    <string name="secrets_copy_name">Adı kopyala</string>
+
+    <!-- Provenance -->
+    <string name="provenance_high_confidence">Muhtemel kaynak</string>
+    <string name="provenance_medium_confidence">Olası kaynak</string>
+    <string name="provenance_low_confidence">Mümkün kaynak</string>
+
+    <!-- Empty inspector -->
+    <string name="inspector_empty_headline">İncelenecek dosyayı seçin</string>
+    <string name="inspector_empty_subtitle">Açmadan önce içine göz atmak için listeden herhangi bir dosyaya dokunun.</string>
+
+    <!-- ====================================================================
+         Selection bar
+         ==================================================================== -->
+    <string name="selection_compare">Karşılaştır</string>
+    <string name="selection_hint_select_two">Karşılaştırmak için 2 seçin</string>
+
+    <!-- ====================================================================
+         Commander toolbar actions
+         ==================================================================== -->
+    <string name="cmd_view">Görüntüle</string>
+    <string name="cmd_copy">Kopyala</string>
+    <string name="cmd_move">Taşı</string>
+    <string name="cmd_mkdir">Klasör oluştur</string>
+    <string name="cmd_diff">Fark</string>
+    <string name="cmd_delete">Sil</string>
+    <string name="cmd_rename">Yeniden adlandır</string>
+
+    <!-- ====================================================================
+         File operation dialogs
+         ==================================================================== -->
+    <string name="dialog_new_folder_title">Yeni Klasör</string>
+    <string name="dialog_new_folder_label">Klasör adı</string>
+    <string name="dialog_rename_title">Yeniden adlandır</string>
+    <string name="dialog_rename_label">Yeni ad</string>
+    <string name="dialog_delete_title">Sil</string>
+    <string name="dialog_delete_message">Silmek istediğinizden emin misiniz?</string>
+    <string name="dialog_copy_move_target_label">%1$s %2$d dosya(lar): hedef:</string>
+    <string name="dialog_and_more">… ve %1$d daha</string>
+    <string name="dialog_operation_title">%1$s dosyaları</string>
+
+    <!-- ====================================================================
+         Batch rename dialog
+         ==================================================================== -->
+    <string name="batch_rename_title">Toplu yeniden adlandırma</string>
+    <string name="batch_rename_tokens_hint">Belirteçler: {name}, {ext}, {n}, {n:03}</string>
+    <string name="batch_rename_label_pattern">Desen</string>
+    <string name="batch_rename_label_find">Bul</string>
+    <string name="batch_rename_label_replace">Değiştir</string>
+    <string name="batch_rename_use_regex">Regex bul/değiştir</string>
+    <string name="batch_rename_start_index">Başlangıç: %1$d</string>
+    <string name="batch_rename_banner_invalid">Bazı hedef adları geçersiz</string>
+    <string name="batch_rename_banner_ready">Yeniden adlandırmaya hazır</string>
+    <string name="batch_rename_applying">Yeniden adlandırılıyor…</string>
+    <string name="batch_rename_arrow">→ %1$s</string>
+
+    <!-- ====================================================================
+         Hash verify dialog
+         ==================================================================== -->
+    <string name="hash_verify_title">Karma değerini doğrula</string>
+    <string name="hash_verify_hashing">Karma hesaplanıyor…</string>
+    <string name="hash_verify_compare_label">Şununla karşılaştır</string>
+    <string name="hash_verify_paste_hint">Doğrulamak için SHA-256 veya MD5 yapıştırın</string>
+    <string name="hash_verify_match">Eşleşiyor</string>
+    <string name="hash_verify_no_match">Eşleşmiyor</string>
+    <string name="hash_verify_unknown">32 veya 64 karakterlik karma yapıştırın</string>
+
+    <!-- ====================================================================
+         Batch scan / privacy audit dialog
+         ==================================================================== -->
+    <string name="batch_scan_title_scanning">Klasör taranıyor…</string>
+    <string name="batch_scan_title_done">Gizlilik denetimi</string>
+    <string name="batch_scan_progress">%1$d / %2$d</string>
+    <string name="batch_scan_result_count">%1$d dosya tarandı</string>
+    <string name="batch_scan_bucket_empty">Bu pakette hiçbir şey yok.</string>
+    <string name="batch_scan_creating_copies">Temizlenmiş kopyalar oluşturuluyor…</string>
+    <string name="batch_scan_action_batch_clean">Toplu temizle</string>
+    <string name="batch_scan_bucket_risky">Riskli (%1$d)</string>
+    <string name="batch_scan_bucket_safe">Güvenli (%1$d)</string>
+    <string name="batch_scan_bucket_unsupported">Desteklenmeyen (%1$d)</string>
+
+    <!-- ====================================================================
+         Safe share sheet
+         ==================================================================== -->
+    <string name="safe_share_title">Paylaşmadan önce kontrol edin</string>
+    <string name="safe_share_no_risks">Risk tespit edilmedi. Paylaşmak güvenli.</string>
+    <string name="safe_share_risks_intro">Bu dosya şunları açığa çıkarabilir:</string>
+    <string name="safe_share_action_original">Orijinali paylaş</string>
+    <string name="safe_share_action_cleaned">Temizlenmiş kopya oluştur</string>
+
+    <!-- ====================================================================
+         Search inside dialog
+         ==================================================================== -->
+    <string name="search_inside_title">Dosya içinde ara</string>
+    <string name="search_inside_hint">Girişlerde, anahtarlarda, içerikte ara…</string>
+    <string name="search_inside_searching">Aranıyor…</string>
+    <string name="search_inside_no_matches">Eşleşme bulunamadı.</string>
+    <string name="search_inside_more">… %1$d daha</string>
+
+    <!-- ====================================================================
+         Bookmarks sheet
+         ==================================================================== -->
+    <string name="bookmarks_section_title">Yer imleri</string>
+    <string name="bookmarks_empty_headline">Henüz yer imi yok</string>
+    <string name="bookmarks_empty_subtitle">Panel menüsünden mevcut klasörü ekleyin.</string>
+
+    <!-- ====================================================================
+         Recents sheet
+         ==================================================================== -->
+    <string name="recents_section_frequent">Sık kullanılan klasörler</string>
+    <string name="recents_section_recent">Son dosyalar</string>
+    <string name="recents_clear_history">Geçmişi temizle</string>
+    <string name="recents_empty_headline">Son etkinlik yok</string>
+    <string name="recents_empty_subtitle">İncelediğiniz dosyalar ve ziyaret ettiğiniz klasörler burada görünecek.</string>
+    <string name="recents_one_visit">1 ziyaret</string>
+    <string name="recents_visits_format">%1$d ziyaret</string>
+
+    <!-- ====================================================================
+         Shortcut recorder dialog
+         ==================================================================== -->
+    <string name="shortcut_bind_title">%1$s bağla</string>
+    <string name="shortcut_press_hint">Yeni kombinasyona basın, ardından Kaydet\'e dokunun.</string>
+    <string name="shortcut_current">Mevcut: %1$s</string>
+    <string name="shortcut_default">Varsayılan: %1$s</string>
+
+    <!-- ====================================================================
+         Shortcuts screen
+         ==================================================================== -->
+    <string name="shortcuts_title">Klavye kısayolları</string>
+    <string name="shortcuts_hint">Yeni bir tuş kombinasyonu kaydetmek için bir satıra dokunun. Yeni kombinasyon zaten kullanımdaysa, mevcut kısayol düzenlediğinizle yer değiştirir.</string>
+    <string name="shortcuts_action_reset">Sıfırla</string>
+
+    <!-- ====================================================================
+         Settings screen
+         ==================================================================== -->
+    <string name="settings_title">Ayarlar</string>
+    <string name="settings_section_browsing">Gezinme</string>
+    <string name="settings_section_input">Giriş</string>
+    <string name="settings_section_remote">Uzak</string>
+    <string name="settings_section_backup">Yedekleme &amp; geri yükleme</string>
+    <string name="settings_section_about">Hakkında</string>
+    <string name="settings_section_licenses">Açık kaynak lisansları</string>
+
+    <string name="settings_show_hidden_files">Gizli dosyaları göster</string>
+    <string name="settings_show_hidden_files_desc">Nokta ile başlayan dosya ve klasörleri görüntüle.</string>
+    <string name="settings_hide_empty_folders">Boş klasörleri gizle</string>
+    <string name="settings_hide_empty_folders_desc">Görünür dosya içermeyen klasörleri gösterme.</string>
+    <string name="settings_size_units">Dosya boyutu birimleri</string>
+    <string name="settings_default_panel">Varsayılan panel (tabletler)</string>
+
+    <string name="settings_keyboard_shortcuts">Klavye kısayolları</string>
+    <string name="settings_keyboard_shortcuts_desc">Komutanda kullanılan F tuşu ve Ctrl kombinasyonlarını özelleştirin.</string>
+
+    <string name="settings_remote_servers">Uzak sunucular</string>
+    <string name="settings_remote_servers_desc">FTP, SFTP ve SMB paylaşımlarına yerel klasörler gibi gözatın.</string>
+
+    <string name="settings_backup_desc">Ayarlarınızı, yer imlerinizi, son dosyalarınızı ve sık kullanılan klasörlerinizi daha sonra geri yükleyebileceğiniz bir JSON dosyasına kaydedin.</string>
+
+    <string name="settings_about_app_name">FileLens Commander</string>
+    <string name="settings_about_version">Sürüm 0.4.4</string>
+    <string name="settings_about_vision_label">Vizyon</string>
+    <string name="settings_about_vision_text">Dosyalara gözat, içine bak, açmadan önce anla. Çevrimdışı, cihazda, hesap gerektirmez.</string>
+    <string name="settings_licenses_intro">FileLens şu açık kaynak kütüphaneler üzerine kurulmuştur:</string>
+    <string name="settings_licenses_show">Lisansları göster</string>
+    <string name="settings_licenses_hide">Lisansları gizle</string>
+
+    <string name="settings_backup_saved">Yedek kaydedildi</string>
+    <string name="settings_export_failed">Dışa aktarma başarısız: %1$s</string>
+    <string name="settings_import_failed">İçe aktarma başarısız: %1$s</string>
+
+    <!-- ====================================================================
+         Remote servers screen
+         ==================================================================== -->
+    <string name="remote_servers_title">Uzak sunucular</string>
+    <string name="remote_servers_empty_headline">Henüz uzak sunucu yok</string>
+    <string name="remote_servers_empty_subtitle">Yerel klasör gibi gözatmak için FTP, SFTP veya SMB sunucusu ekleyin.</string>
+    <string name="remote_dialog_delete_title">Sunucu silinsin mi?</string>
+    <string name="remote_dialog_delete_message">&#8220;%1$s&#8221; kaldırılsın mı? Bu yalnızca kaydedilen girişi siler; sunucudaki hiçbir şeye dokunulmaz.</string>
+    <string name="remote_dialog_add_title">Sunucu ekle</string>
+    <string name="remote_dialog_edit_title">Sunucuyu düzenle</string>
+    <string name="remote_field_display_name">Görünen ad</string>
+    <string name="remote_field_host">Ana bilgisayar</string>
+    <string name="remote_field_port">Bağlantı noktası</string>
+    <string name="remote_field_username">Kullanıcı adı</string>
+    <string name="remote_field_password">Parola</string>
+    <string name="remote_field_password_edit">Parola (kaydedileni korumak için boş bırakın)</string>
+    <string name="remote_field_share_name">Paylaşım adı</string>
+    <string name="remote_field_base_path">Temel yol (isteğe bağlı)</string>
+    <string name="remote_option_anonymous">Anonim</string>
+    <string name="remote_option_passive_mode">Pasif mod</string>
+    <string name="remote_option_clear_host_key">Sabitlenmiş ana bilgisayar anahtarını temizle (sonraki bağlantı güvene göre yeniden sabitler)</string>
+
+    <!-- ====================================================================
+         Compare screen
+         ==================================================================== -->
+    <string name="compare_title">Karşılaştır</string>
+    <string name="compare_panel_left">Sol</string>
+    <string name="compare_panel_right">Sağ</string>
+    <string name="compare_tab_overview">Genel bakış</string>
+    <string name="compare_tab_metadata">Meta veri</string>
+    <string name="compare_tab_content">İçerik</string>
+    <string name="compare_progress_folders">Klasörler taranıyor…</string>
+    <string name="compare_progress_files">Dosyalar karşılaştırılıyor…</string>
+    <string name="compare_identical">Özdeş içerik</string>
+    <string name="compare_different">Farklı içerik</string>
+    <string name="compare_section_checksums">Sağlama toplamları</string>
+    <string name="compare_metadata_empty">Meta veri çıkarılmadı</string>
+    <string name="compare_metadata_identical">Meta veri özdeş</string>
+    <string name="compare_content_empty">İçerik mevcut değil</string>
+    <string name="compare_structurally_identical">%1$s yapısal olarak özdeş</string>
+    <string name="compare_diff_truncated">Fark kısaltıldı — ilk 5.000 satır gösteriliyor</string>
+    <string name="compare_renamed_candidates">Aynı içerik, farklı yollar (%1$d)</string>
+    <string name="compare_and_more">…ve %1$d daha</string>
+    <string name="compare_sizes_lr">S: %1$s · Sağ: %2$s</string>
+    <string name="compare_no_entries">Bu filtreyle eşleşen giriş yok</string>
+
+    <string name="compare_filter_all">Tümü</string>
+    <string name="compare_filter_left_only">Yalnızca sol</string>
+    <string name="compare_filter_right_only">Yalnızca sağ</string>
+    <string name="compare_filter_changed">Değişmiş</string>
+    <string name="compare_filter_same">Aynı</string>
+
+    <string name="compare_folder_copy_to_right">Sağa kopyala →</string>
+    <string name="compare_folder_copy_to_left">← Sola kopyala</string>
+    <string name="compare_folder_overwrite_right">Sağa üzerine yaz →</string>
+    <string name="compare_folder_overwrite_left">← Sola üzerine yaz</string>
+    <string name="compare_folder_verify_checksum">Sağlama toplamıyla doğrula</string>
+    <string name="compare_folder_match_count">%1$d / %2$d eşleşiyor</string>
+    <string name="compare_folder_both_empty">Her iki klasör de boş</string>
+    <string name="compare_folder_diff_summary">%1$d değişti · %2$d yalnızca solda · %3$d yalnızca sağda</string>
+    <string name="compare_folder_checksum_verified"> · sağlama toplamı doğrulandı</string>
+
+    <string name="compare_diff_label_left_only">Yalnızca sol</string>
+    <string name="compare_diff_label_right_only">Yalnızca sağ</string>
+    <string name="compare_diff_label_changed">Değişti</string>
+    <string name="compare_diff_label_same">Aynı</string>
+
+    <!-- ====================================================================
+         Duplicate finder screen
+         ==================================================================== -->
+    <string name="duplicates_title">Kopyaları bul</string>
+    <string name="duplicates_none_found">Kopya bulunamadı</string>
+    <string name="duplicates_hashing">%2$d dosyadan %1$d tanesi karmalanıyor…</string>
+    <string name="duplicates_scanning">Taranıyor… %1$d dosya</string>
+    <string name="duplicates_group_count">%1$d kopya grubu</string>
+    <string name="duplicates_wasted_summary">%2$d taranan dosyada %1$s israf edildi</string>
+    <string name="duplicates_action_select_old">Eski kopyaları seç</string>
+    <string name="duplicates_copies_each">%1$d kopya · her biri %2$s</string>
+    <string name="duplicates_wasted">%1$s israf edildi</string>
+    <string name="duplicates_modified">%1$s tarihinde değiştirildi</string>
+
+    <!-- ====================================================================
+         Folder dashboard dialog
+         ==================================================================== -->
+    <string name="folder_dashboard_title">Klasör panosu</string>
+    <string name="folder_dashboard_analyzing">Klasör analiz ediliyor…</string>
+    <string name="folder_dashboard_no_data">Veri yok</string>
+    <string name="folder_dashboard_folder_label">Klasör</string>
+    <string name="folder_dashboard_file_count">%1$d dosya · toplam %2$s</string>
+    <string name="folder_dashboard_section_disk_usage">Türe göre disk kullanımı</string>
+    <string name="folder_dashboard_section_largest">En büyük dosyalar</string>
+    <string name="folder_dashboard_section_newest">En yeni dosyalar</string>
+    <string name="folder_dashboard_section_unknown">Bilinmeyen / sınıflandırılmamış (%1$d)</string>
+    <string name="folder_dashboard_section_duplicates">Olası kopyalar (aynı boyut)</string>
+
+    <!-- ====================================================================
+         Main screen
+         ==================================================================== -->
+    <string name="main_bookmark_added">Yer imi eklendi</string>
+    <string name="main_panel_dual">Çift panel</string>
+    <string name="main_panel_inspector">Denetçi</string>
+    <string name="main_chooser_open_with">Şununla aç</string>
+    <string name="main_chooser_share_cleaned">Temizlenmiş kopyayı paylaş</string>
+    <string name="main_chooser_share_report">Raporu paylaş</string>
+    <string name="main_chooser_share_cleaned_files">Temizlenmiş dosyaları paylaş</string>
+
+    <!-- ====================================================================
+         State views
+         ==================================================================== -->
+    <string name="state_no_matches_headline">Eşleşme yok</string>
+    <string name="state_no_matches_subtitle">Bu klasörde &#8220;%1$s&#8221; ile eşleşen hiçbir şey yok.</string>
+    <string name="state_no_matches_no_query">Farklı bir sorgu deneyin.</string>
+    <string name="state_error_headline">Bir şeyler ters gitti</string>
+
+    <!-- ====================================================================
+         Plurals
+         ==================================================================== -->
+    <plurals name="plural_file_count">
+        <item quantity="one">%1$d dosya</item>
+        <item quantity="other">%1$d dosya</item>
+    </plurals>
+
+    <plurals name="plural_item_count">
+        <item quantity="one">1 öğe</item>
+        <item quantity="other">%1$d öğe</item>
+    </plurals>
+
+    <plurals name="plural_risk_count">
+        <item quantity="one">%1$d risk</item>
+        <item quantity="other">%1$d risk</item>
+    </plurals>
+
+    <plurals name="plural_match_count">
+        <item quantity="one">%1$d eşleşme</item>
+        <item quantity="other">%1$d eşleşme</item>
+    </plurals>
+
+    <plurals name="plural_secret_count">
+        <item quantity="one">Olası gizli (%1$d)</item>
+        <item quantity="other">Olası gizli bilgiler (%1$d)</item>
+    </plurals>
+
+    <plurals name="plural_ignored_count">
+        <item quantity="one">%1$d yoksayıldı — göster</item>
+        <item quantity="other">%1$d yoksayıldı — göster</item>
+    </plurals>
+
+    <plurals name="plural_selected_count">
+        <item quantity="one">%1$d seçildi</item>
+        <item quantity="other">%1$d seçildi</item>
+    </plurals>
+
+    <plurals name="plural_collision_count">
+        <item quantity="one">%1$d ad çakışması</item>
+        <item quantity="other">%1$d ad çakışması</item>
+    </plurals>
+
+    <plurals name="plural_rename_action">
+        <item quantity="one">%1$d yeniden adlandır</item>
+        <item quantity="other">%1$d yeniden adlandır</item>
+    </plurals>
+
+    <plurals name="plural_delete_action">
+        <item quantity="one">%1$d sil</item>
+        <item quantity="other">%1$d sil</item>
+    </plurals>
+
+    <plurals name="plural_visit_count">
+        <item quantity="one">1 ziyaret</item>
+        <item quantity="other">%1$d ziyaret</item>
+    </plurals>
+
+</resources>
