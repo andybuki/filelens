@@ -38,8 +38,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.filelens.commander.R
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.filelens.commander.domain.usecase.FindDuplicatesUseCase
@@ -68,10 +71,10 @@ fun DuplicateFinderScreen(
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
-            title = { Text("Find duplicates", style = MaterialTheme.typography.titleLarge) },
+            title = { Text(stringResource(R.string.duplicates_title), style = MaterialTheme.typography.titleLarge) },
             navigationIcon = {
                 IconButton(onClick = onBack) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.cd_back))
                 }
             },
             windowInsets = WindowInsets(0),
@@ -98,7 +101,7 @@ fun DuplicateFinderScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    "No duplicates found",
+                    stringResource(R.string.duplicates_none_found),
                     style = MaterialTheme.typography.bodyMedium,
                     color = FlInk3
                 )
@@ -124,7 +127,7 @@ private fun ScanningView(state: com.filelens.commander.viewmodel.DuplicateFinder
             Spacer(modifier = Modifier.height(12.dp))
             if (state.hashTotal > 0) {
                 Text(
-                    "Hashing ${state.hashCurrent} of ${state.hashTotal}…",
+                    stringResource(R.string.duplicates_hashing, state.hashCurrent, state.hashTotal),
                     style = MaterialTheme.typography.bodyMedium,
                     color = FlInk2
                 )
@@ -136,7 +139,7 @@ private fun ScanningView(state: com.filelens.commander.viewmodel.DuplicateFinder
                 )
             } else {
                 Text(
-                    "Scanning… ${state.filesSeen} files",
+                    stringResource(R.string.duplicates_scanning, state.filesSeen),
                     style = MaterialTheme.typography.bodyMedium,
                     color = FlInk2
                 )
@@ -166,11 +169,11 @@ private fun ResultsView(
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    "${state.groups.size} duplicate group(s)",
+                    stringResource(R.string.duplicates_group_count, state.groups.size),
                     style = MaterialTheme.typography.titleSmall
                 )
                 Text(
-                    "${formatFileSize(state.totalWastedBytes, units)} wasted across ${state.totalFiles} files scanned",
+                    stringResource(R.string.duplicates_wasted_summary, formatFileSize(state.totalWastedBytes, units), state.totalFiles),
                     style = MaterialTheme.typography.labelMedium,
                     color = FlInk3
                 )
@@ -183,16 +186,16 @@ private fun ResultsView(
                 .padding(horizontal = 12.dp, vertical = 4.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            TextButton(onClick = onSelectOldExtras) { Text("Select old extras") }
+            TextButton(onClick = onSelectOldExtras) { Text(stringResource(R.string.duplicates_action_select_old)) }
             TextButton(
                 onClick = onClearSelection,
                 enabled = state.selectedForDeletion.isNotEmpty()
-            ) { Text("Clear") }
+            ) { Text(stringResource(R.string.action_clear)) }
             Spacer(modifier = Modifier.weight(1f))
             TextButton(
                 onClick = onDeleteSelected,
                 enabled = state.selectedForDeletion.isNotEmpty()
-            ) { Text("Delete ${state.selectedForDeletion.size}") }
+            ) { Text(pluralStringResource(R.plurals.plural_delete_action, state.selectedForDeletion.size, state.selectedForDeletion.size)) }
         }
 
         LazyColumn(modifier = Modifier.fillMaxSize().padding(horizontal = 12.dp)) {
@@ -226,13 +229,13 @@ private fun DuplicateGroupCard(
     ) {
         Row {
             Text(
-                "${group.files.size} copies · ${formatFileSize(group.size, units)} each",
+                stringResource(R.string.duplicates_copies_each, group.files.size, formatFileSize(group.size, units)),
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.weight(1f)
             )
             Text(
-                "${formatFileSize(group.wastedBytes, units)} wasted",
+                stringResource(R.string.duplicates_wasted, formatFileSize(group.wastedBytes, units)),
                 style = MaterialTheme.typography.labelMedium,
                 color = FlInk3
             )
@@ -260,7 +263,7 @@ private fun DuplicateGroupCard(
                         overflow = TextOverflow.Ellipsis
                     )
                     Text(
-                        text = "Modified ${df.format(Date(f.lastModified))}",
+                        text = stringResource(R.string.duplicates_modified, df.format(Date(f.lastModified))),
                         style = MaterialTheme.typography.labelSmall,
                         color = FlInk3
                     )

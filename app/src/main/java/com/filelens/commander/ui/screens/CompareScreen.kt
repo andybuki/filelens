@@ -172,7 +172,7 @@ private fun PathHeader(leftPath: String, rightPath: String) {
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                "Left",
+                stringResource(R.string.compare_panel_left),
                 style = MaterialTheme.typography.labelMedium,
                 color = FlInk3
             )
@@ -189,7 +189,7 @@ private fun PathHeader(leftPath: String, rightPath: String) {
         Spacer(modifier = Modifier.width(12.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                "Right",
+                stringResource(R.string.compare_panel_right),
                 style = MaterialTheme.typography.labelMedium,
                 color = FlInk3
             )
@@ -204,7 +204,7 @@ private fun PathHeader(leftPath: String, rightPath: String) {
     }
 }
 
-private enum class FileTab(val title: String) { OVERVIEW("Overview"), METADATA("Metadata"), CONTENT("Content") }
+private enum class FileTab { OVERVIEW, METADATA, CONTENT }
 
 @Composable
 private fun FileCompareView(result: FileCompareResult) {
@@ -222,6 +222,11 @@ private fun FileCompareView(result: FileCompareResult) {
         ) {
             FileTab.entries.forEach { entry ->
                 val selected = tab == entry
+                val tabTitle = when (entry) {
+                    FileTab.OVERVIEW -> stringResource(R.string.compare_tab_overview)
+                    FileTab.METADATA -> stringResource(R.string.compare_tab_metadata)
+                    FileTab.CONTENT -> stringResource(R.string.compare_tab_content)
+                }
                 Box(
                     modifier = Modifier
                         .weight(1f)
@@ -232,7 +237,7 @@ private fun FileCompareView(result: FileCompareResult) {
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = entry.title,
+                        text = tabTitle,
                         style = MaterialTheme.typography.labelLarge,
                         color = if (selected) FlOnAccent else FlInk2
                     )
@@ -261,9 +266,9 @@ private fun OverviewSection(result: com.filelens.commander.domain.model.FileComp
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         if (s.identical) {
-            Pill(text = "Identical content", background = RiskSafeTint, foreground = RiskSafe)
+            Pill(text = stringResource(R.string.compare_identical), background = RiskSafeTint, foreground = RiskSafe)
         } else {
-            Pill(text = "Different content", background = RiskWarningTint, foreground = RiskWarning)
+            Pill(text = stringResource(R.string.compare_different), background = RiskWarningTint, foreground = RiskWarning)
         }
         Spacer(modifier = Modifier.height(12.dp))
 
@@ -276,7 +281,7 @@ private fun OverviewSection(result: com.filelens.commander.domain.model.FileComp
             ) {
                 AsyncImage(
                     model = s.leftPath,
-                    contentDescription = "Left image",
+                    contentDescription = stringResource(R.string.cd_image_preview_left),
                     modifier = Modifier
                         .weight(1f)
                         .clip(RoundedCornerShape(8.dp)),
@@ -284,7 +289,7 @@ private fun OverviewSection(result: com.filelens.commander.domain.model.FileComp
                 )
                 AsyncImage(
                     model = s.rightPath,
-                    contentDescription = "Right image",
+                    contentDescription = stringResource(R.string.cd_image_preview_right),
                     modifier = Modifier
                         .weight(1f)
                         .clip(RoundedCornerShape(8.dp)),
@@ -302,7 +307,7 @@ private fun OverviewSection(result: com.filelens.commander.domain.model.FileComp
             if (s.rightModified > 0) df.format(Date(s.rightModified)) else "—"
         )
         Spacer(modifier = Modifier.height(8.dp))
-        Text("Checksums", style = MaterialTheme.typography.labelMedium, color = FlInk3)
+        Text(stringResource(R.string.compare_section_checksums), style = MaterialTheme.typography.labelMedium, color = FlInk3)
         Spacer(modifier = Modifier.height(4.dp))
         CompareRow(
             "SHA-256",
@@ -323,11 +328,11 @@ private fun OverviewSection(result: com.filelens.commander.domain.model.FileComp
 private fun MetadataSection(entries: List<MetadataDiffEntry>) {
     val visible = entries.filter { it.kind != DiffKind.UNCHANGED }
     if (entries.isEmpty()) {
-        EmptyMessage("No metadata extracted")
+        EmptyMessage(stringResource(R.string.compare_metadata_empty))
         return
     }
     if (visible.isEmpty()) {
-        EmptyMessage("Metadata identical")
+        EmptyMessage(stringResource(R.string.compare_metadata_identical))
         return
     }
     LazyColumn(
@@ -349,7 +354,7 @@ private fun MetadataSection(entries: List<MetadataDiffEntry>) {
 @Composable
 private fun ContentSection(content: FileCompareContent) {
     when (content) {
-        FileCompareContent.None -> EmptyMessage("No content available")
+        FileCompareContent.None -> EmptyMessage(stringResource(R.string.compare_content_empty))
         is FileCompareContent.Binary -> EmptyMessage(content.message)
         is FileCompareContent.Structural -> StructuralDiffList(content.diff.entries, format = content.diff.format)
         is FileCompareContent.Text -> TextDiffList(content.diff.lines, truncated = content.diff.truncated)
@@ -359,7 +364,7 @@ private fun ContentSection(content: FileCompareContent) {
 @Composable
 private fun StructuralDiffList(entries: List<StructuralDiffEntry>, format: String) {
     if (entries.isEmpty()) {
-        EmptyMessage("$format structurally identical")
+        EmptyMessage(stringResource(R.string.compare_structurally_identical, format))
         return
     }
     LazyColumn(
@@ -389,7 +394,7 @@ private fun TextDiffList(lines: List<TextDiffLine>, truncated: Boolean) {
         if (truncated) {
             item {
                 Pill(
-                    text = "Diff truncated — showing first 5,000 lines",
+                    text = stringResource(R.string.compare_diff_truncated),
                     background = RiskWarningTint,
                     foreground = RiskWarning
                 )
@@ -516,12 +521,12 @@ private fun EmptyMessage(text: String) {
     }
 }
 
-private enum class FolderFilter(val title: String, val kind: FolderEntryDiffKind?) {
-    ALL("All", null),
-    LEFT_ONLY("Left only", FolderEntryDiffKind.LEFT_ONLY),
-    RIGHT_ONLY("Right only", FolderEntryDiffKind.RIGHT_ONLY),
-    CHANGED("Changed", FolderEntryDiffKind.BOTH_CHANGED),
-    SAME("Same", FolderEntryDiffKind.BOTH_SAME)
+private enum class FolderFilter(val kind: FolderEntryDiffKind?) {
+    ALL(null),
+    LEFT_ONLY(FolderEntryDiffKind.LEFT_ONLY),
+    RIGHT_ONLY(FolderEntryDiffKind.RIGHT_ONLY),
+    CHANGED(FolderEntryDiffKind.BOTH_CHANGED),
+    SAME(FolderEntryDiffKind.BOTH_SAME)
 }
 
 @Composable
@@ -534,8 +539,8 @@ private fun FolderSummaryBanner(
     val leftOnly = counts[FolderEntryDiffKind.LEFT_ONLY] ?: 0
     val rightOnly = counts[FolderEntryDiffKind.RIGHT_ONLY] ?: 0
     val total = same + changed + leftOnly + rightOnly
-    val matchText = if (total > 0) "$same / $total match" else "Both folders are empty"
-    val suffix = if (deepVerify) " · checksum verified" else ""
+    val matchText = if (total > 0) stringResource(R.string.compare_folder_match_count, same, total) else stringResource(R.string.compare_folder_both_empty)
+    val suffix = if (deepVerify) stringResource(R.string.compare_folder_checksum_verified) else ""
 
     Column(
         modifier = Modifier
@@ -552,9 +557,7 @@ private fun FolderSummaryBanner(
         )
         Spacer(modifier = Modifier.height(2.dp))
         Text(
-            text = buildString {
-                append("$changed changed · $leftOnly left only · $rightOnly right only")
-            },
+            text = stringResource(R.string.compare_folder_diff_summary, changed, leftOnly, rightOnly),
             style = MaterialTheme.typography.labelMedium,
             color = FlInk3
         )
@@ -593,7 +596,7 @@ private fun FolderCompareView(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                "Verify by checksum",
+                stringResource(R.string.compare_folder_verify_checksum),
                 style = MaterialTheme.typography.labelMedium,
                 color = FlInk2,
                 modifier = Modifier.weight(1f)
@@ -619,11 +622,18 @@ private fun FolderCompareView(
                 val count = if (f == FolderFilter.ALL) {
                     result.entries.count { it.kind != FolderEntryDiffKind.BOTH_SAME }
                 } else counts[f.kind] ?: 0
+                val filterTitle = when (f) {
+                    FolderFilter.ALL -> stringResource(R.string.compare_filter_all)
+                    FolderFilter.LEFT_ONLY -> stringResource(R.string.compare_filter_left_only)
+                    FolderFilter.RIGHT_ONLY -> stringResource(R.string.compare_filter_right_only)
+                    FolderFilter.CHANGED -> stringResource(R.string.compare_filter_changed)
+                    FolderFilter.SAME -> stringResource(R.string.compare_filter_same)
+                }
                 Spacer(modifier = Modifier.width(4.dp))
                 FilterChip(
                     selected = filter == f,
                     onClick = { filter = f },
-                    label = { Text("${f.title} · $count") },
+                    label = { Text("$filterTitle · $count") },
                     colors = FilterChipDefaults.filterChipColors(
                         selectedContainerColor = FlAccentTint,
                         selectedLabelColor = FlAccent
@@ -642,25 +652,25 @@ private fun FolderCompareView(
             TextButton(
                 onClick = { onCopyMissing(SyncDirection.LEFT_TO_RIGHT) },
                 enabled = !syncInProgress
-            ) { Text("Copy → right") }
+            ) { Text(stringResource(R.string.compare_folder_copy_to_right)) }
             TextButton(
                 onClick = { onCopyMissing(SyncDirection.RIGHT_TO_LEFT) },
                 enabled = !syncInProgress
-            ) { Text("Copy ← left") }
+            ) { Text(stringResource(R.string.compare_folder_copy_to_left)) }
             TextButton(
                 onClick = { onOverwriteChanged(SyncDirection.LEFT_TO_RIGHT) },
                 enabled = !syncInProgress
-            ) { Text("Overwrite →") }
+            ) { Text(stringResource(R.string.compare_folder_overwrite_right)) }
             TextButton(
                 onClick = { onOverwriteChanged(SyncDirection.RIGHT_TO_LEFT) },
                 enabled = !syncInProgress
-            ) { Text("← Overwrite") }
+            ) { Text(stringResource(R.string.compare_folder_overwrite_left)) }
         }
 
         if (result.renamedCandidates.isNotEmpty()) {
             Column(modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)) {
                 Text(
-                    "Same content, different paths (${result.renamedCandidates.size})",
+                    stringResource(R.string.compare_renamed_candidates, result.renamedCandidates.size),
                     style = MaterialTheme.typography.labelMedium,
                     color = FlInk3
                 )
@@ -676,7 +686,7 @@ private fun FolderCompareView(
                 }
                 if (result.renamedCandidates.size > 5) {
                     Text(
-                        "…and ${result.renamedCandidates.size - 5} more",
+                        stringResource(R.string.compare_and_more, result.renamedCandidates.size - 5),
                         style = MaterialTheme.typography.labelSmall,
                         color = FlInk3
                     )
@@ -685,7 +695,7 @@ private fun FolderCompareView(
         }
 
         if (visible.isEmpty()) {
-            EmptyMessage("No entries match this filter")
+            EmptyMessage(stringResource(R.string.compare_no_entries))
         } else {
             LazyColumn(modifier = Modifier.fillMaxSize().padding(horizontal = 12.dp)) {
                 items(visible, key = { it.relativePath + it.kind }) { entry ->
@@ -700,10 +710,10 @@ private fun FolderCompareView(
 private fun FolderEntryRow(entry: FolderEntryDiff) {
     val units = LocalSizeUnits.current
     val (tint, label) = when (entry.kind) {
-        FolderEntryDiffKind.LEFT_ONLY -> RiskInfoTint to "Left only"
-        FolderEntryDiffKind.RIGHT_ONLY -> RiskSafeTint to "Right only"
-        FolderEntryDiffKind.BOTH_CHANGED -> RiskWarningTint to "Changed"
-        FolderEntryDiffKind.BOTH_SAME -> Color.Transparent to "Same"
+        FolderEntryDiffKind.LEFT_ONLY -> RiskInfoTint to stringResource(R.string.compare_diff_label_left_only)
+        FolderEntryDiffKind.RIGHT_ONLY -> RiskSafeTint to stringResource(R.string.compare_diff_label_right_only)
+        FolderEntryDiffKind.BOTH_CHANGED -> RiskWarningTint to stringResource(R.string.compare_diff_label_changed)
+        FolderEntryDiffKind.BOTH_SAME -> Color.Transparent to stringResource(R.string.compare_diff_label_same)
     }
     val fg = when (entry.kind) {
         FolderEntryDiffKind.LEFT_ONLY -> RiskInfo
@@ -732,7 +742,7 @@ private fun FolderEntryRow(entry: FolderEntryDiff) {
                 val leftSize = entry.leftSize?.let { formatFileSize(it, units) } ?: "—"
                 val rightSize = entry.rightSize?.let { formatFileSize(it, units) } ?: "—"
                 Text(
-                    "L: $leftSize · R: $rightSize",
+                    stringResource(R.string.compare_sizes_lr, leftSize, rightSize),
                     style = MaterialTheme.typography.labelSmall,
                     color = FlInk3
                 )

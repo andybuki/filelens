@@ -41,7 +41,9 @@ import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.filelens.commander.R
 import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -118,7 +120,7 @@ fun MainScreen(
                 path = path,
                 displayName = path.substringAfterLast('/').ifEmpty { "/" }
             )
-            mainScope.launch { snackbarHostState.showSnackbar("Bookmark added") }
+            mainScope.launch { snackbarHostState.showSnackbar(context.getString(R.string.main_bookmark_added)) }
         }
     }
 
@@ -181,7 +183,7 @@ fun MainScreen(
                     putExtra(Intent.EXTRA_STREAM, uri)
                     addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 }
-                context.startActivity(Intent.createChooser(shareIntent, "Share cleaned files"))
+                context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.main_chooser_share_cleaned_files)))
             },
             onClearCleanedZip = { batchScanViewModel.clearCleanedZip() },
             onDismiss = { batchScanViewModel.dismiss() }
@@ -242,7 +244,7 @@ fun MainScreen(
                         setDataAndType(uri, info.mimeType ?: "*/*")
                         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     }
-                    context.startActivity(Intent.createChooser(intent, "Open with"))
+                    context.startActivity(Intent.createChooser(intent, context.getString(R.string.main_chooser_open_with)))
                 } catch (_: Exception) {
                 }
             }
@@ -283,7 +285,7 @@ fun MainScreen(
                             putExtra(Intent.EXTRA_STREAM, uri)
                             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                         }
-                        context.startActivity(Intent.createChooser(intent, "Share cleaned copy"))
+                        context.startActivity(Intent.createChooser(intent, context.getString(R.string.main_chooser_share_cleaned)))
                     } catch (_: Exception) {}
                 }
             }
@@ -322,7 +324,7 @@ fun MainScreen(
             onDismiss = { commanderViewModel.dismissDialog() }
         )
         DialogType.COPY, DialogType.MOVE -> {
-            val op = if (commanderState.activeDialog == DialogType.COPY) "Copy" else "Move"
+            val op = if (commanderState.activeDialog == DialogType.COPY) stringResource(R.string.cmd_copy) else stringResource(R.string.cmd_move)
             CopyMoveDialog(
                 operation = op,
                 fileNames = selectedNames,
@@ -656,7 +658,7 @@ private fun exportAndShareReport(
             putExtra(Intent.EXTRA_STREAM, uri)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
-        context.startActivity(Intent.createChooser(shareIntent, "Share report"))
+        context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.main_chooser_share_report)))
     }
 }
 
@@ -871,7 +873,7 @@ private fun ExpandedLayout(
                         else com.filelens.commander.domain.model.PanelMode.INSPECTOR
                     )
                 },
-                label = { androidx.compose.material3.Text(if (dualPanel) "Dual panel" else "Inspector") }
+                label = { androidx.compose.material3.Text(stringResource(if (dualPanel) R.string.main_panel_dual else R.string.main_panel_inspector)) }
             )
         }
 
