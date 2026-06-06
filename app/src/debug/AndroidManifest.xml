@@ -12,6 +12,7 @@
         <activity
             android:name="leakcanary.internal.activity.LeakLauncherActivity"
             android:enabled="false"
-            tools:replace="android:enabled" />
+            tools:replace="android:enabled"
+            tools:ignore="MissingClass" />
     </application>
 </manifest>
