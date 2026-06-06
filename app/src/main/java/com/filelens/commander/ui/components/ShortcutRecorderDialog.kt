@@ -28,7 +28,7 @@ import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.filelens.commander.R
+import app.com.filelens.R
 import com.filelens.commander.domain.model.ShortcutAction
 import com.filelens.commander.domain.model.ShortcutBinding
 import com.filelens.commander.ui.theme.FlInk3

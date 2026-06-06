@@ -33,7 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.filelens.commander.R
+import app.com.filelens.R
 import com.filelens.commander.domain.model.SearchHit
 import com.filelens.commander.domain.model.SearchHitKind
 import com.filelens.commander.ui.theme.RobotoMono

@@ -38,7 +38,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.filelens.commander.R
+import app.com.filelens.R
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.filelens.commander.domain.model.ShortcutAction
 import com.filelens.commander.ui.components.ShortcutRecorderDialog

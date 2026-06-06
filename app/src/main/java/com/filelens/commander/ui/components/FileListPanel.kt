@@ -74,7 +74,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import com.filelens.commander.R
+import app.com.filelens.R
 import com.filelens.commander.domain.model.FileItem
 import com.filelens.commander.domain.model.SortDirection
 import com.filelens.commander.domain.model.SortField

@@ -92,7 +92,7 @@ import com.filelens.commander.ui.theme.RobotoMono
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
-import com.filelens.commander.R
+import app.com.filelens.R
 
 enum class InspectorTab { OVERVIEW, PREVIEW, STRUCTURE, METADATA, RISKS }
 

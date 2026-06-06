@@ -57,7 +57,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.filelens.commander.R
+import app.com.filelens.R
 import com.filelens.commander.domain.model.RemoteConnection
 import com.filelens.commander.domain.model.RemoteProtocol
 import com.filelens.commander.viewmodel.RemoteServersViewModel
