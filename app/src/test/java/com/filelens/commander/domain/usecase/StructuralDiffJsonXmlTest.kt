@@ -6,6 +6,7 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
+import android.app.Application
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
@@ -15,7 +16,7 @@ import org.robolectric.annotation.Config
  * keyValue branch is covered in StructuralDiffUseCaseTest.
  */
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [34])
+@Config(sdk = [34], application = Application::class)
 class StructuralDiffJsonXmlTest {
 
     private val useCase = StructuralDiffUseCase()

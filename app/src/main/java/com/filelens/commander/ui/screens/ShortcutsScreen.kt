@@ -35,7 +35,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -44,6 +43,7 @@ import com.filelens.commander.ui.components.ShortcutRecorderDialog
 import com.filelens.commander.ui.theme.FlInk2
 import com.filelens.commander.ui.theme.FlInk3
 import com.filelens.commander.viewmodel.ShortcutsViewModel
+import com.filelens.commander.ui.theme.RobotoMono
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -120,7 +120,7 @@ fun ShortcutsScreen(
                     }
                     Text(
                         text = binding.displayString(),
-                        style = MaterialTheme.typography.bodyMedium.copy(fontFamily = FontFamily.Monospace),
+                        style = MaterialTheme.typography.bodyMedium.copy(fontFamily = RobotoMono),
                         color = FlInk2
                     )
                 }

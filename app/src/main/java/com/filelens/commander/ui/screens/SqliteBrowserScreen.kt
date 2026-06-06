@@ -39,7 +39,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -50,6 +49,7 @@ import com.filelens.commander.ui.theme.FlInk2
 import com.filelens.commander.ui.theme.FlInk3
 import com.filelens.commander.ui.theme.RiskDanger
 import com.filelens.commander.viewmodel.SqliteBrowserViewModel
+import com.filelens.commander.ui.theme.RobotoMono
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -118,7 +118,7 @@ fun SqliteBrowserScreen(
                 onValueChange = viewModel::setQuery,
                 placeholder = { Text("SELECT … FROM …") },
                 modifier = Modifier.weight(1f),
-                textStyle = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                textStyle = MaterialTheme.typography.bodySmall.copy(fontFamily = RobotoMono),
                 singleLine = false,
                 maxLines = 4
             )
@@ -180,7 +180,7 @@ private fun ResultGrid(result: com.filelens.commander.domain.usecase.SqliteQuery
                     Text(
                         text = col,
                         style = MaterialTheme.typography.labelMedium,
-                        fontFamily = FontFamily.Monospace,
+                        fontFamily = RobotoMono,
                         modifier = Modifier.width(140.dp).padding(horizontal = 6.dp),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
@@ -199,7 +199,7 @@ private fun ResultGrid(result: com.filelens.commander.domain.usecase.SqliteQuery
                             Text(
                                 text = cell ?: "<null>",
                                 style = MaterialTheme.typography.bodySmall,
-                                fontFamily = FontFamily.Monospace,
+                                fontFamily = RobotoMono,
                                 color = if (cell == null) FlInk3 else MaterialTheme.colorScheme.onSurface,
                                 modifier = Modifier.width(140.dp).padding(horizontal = 6.dp),
                                 maxLines = 2,
