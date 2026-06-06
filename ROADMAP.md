@@ -415,3 +415,158 @@ Combines file manager + quick preview + metadata inspector + archive explorer + 
 5. **Streaming over loading**: Never load full files into memory. Stream and parse incrementally. Critical for large archives and limited mobile RAM.
 
 6. **Offline-first**: No network required. No accounts. No analytics beyond basic crash reporting. Privacy-focused positioning matches the app's ethos.
+
+---
+
+## Phase 9: Pre-Launch — 14-Day Release Plan
+
+**Goal:** ship a polished v1.0 that survives first-impression scrutiny against established competitors. Tasks below are derived from a competitive review of the leading Android file-manager apps, then ordered by impact × effort × token cost so heavy work (localization, theme migration, visuals) starts on Day 1 and small polish lands near the end.
+
+### 9.0 Competitive Reference
+
+Reviewed direct and adjacent competitors to anchor expectations:
+
+| App | What users expect from it | Where FileLens already wins | What we must match |
+|-----|---------------------------|------------------------------|--------------------|
+| Solid Explorer | Paid, premium polish, dual-pane, cloud, vault | Inspector depth, trust score, risk cards | Visual polish, onboarding, smooth animations |
+| X-plore | Dual-pane, hex viewer, SMB/FTP, deep tools | Better inspector tabs, secret scanner, OOXML/PDF intel | App-manager, cloud accounts UI |
+| Files by Google | Clean UI, junk cleaner, share nearby, multi-lingual | Privacy depth, archive browsing without extracting | Localization breadth, onboarding clarity, empty-state polish |
+| Total Commander / MiXplorer | Power-user features, customization, plugins | Modern Compose UI, explainable risks | Customization surface, plugin-like "Open as…" |
+| ZArchiver | Best-in-class archive UX | Inspect-before-extract, nested archives | RAR/7z extraction parity (post-launch) |
+| Cx File Explorer | Friendly defaults, recents/favorites | Trust + provenance + safe share | Smooth first-run, "Recent" home tab |
+| FX File Explorer | Network features, themes | Inspector and report exports | Theming consistency (light only now) |
+
+### 9.1 Killer Features Users Expect (Gap Analysis)
+
+What every category leader has that FileLens must ship at v1.0:
+
+- **Onboarding flow** — 3–4 slides with value proposition, permission rationale, sample inspection. _(Missing.)_
+- **Polished light theme everywhere** — no dark remnants on inspector, dialogs, sheets. _(Partially done; audit needed.)_
+- **Localization** — competitors ship 20+ languages. _(English only.)_
+- **Home / Quick-access tab** — Recent · Favorites · Categories (Images / Videos / Docs / APKs / Archives / Downloads). _(Recent/Bookmarks exist; surface them as a home screen.)_
+- **Storage / category overview** — visual storage usage with category breakdown. _(Treemap exists; needs friendlier entry point.)_
+- **Hidden vault / locked folder** — biometric- or PIN-protected area for sensitive files. _(Missing — high-trust feature.)_
+- **Search across device** — fast indexed search by name, type, content. _(Within-folder exists; needs global search.)_
+- **App manager** — list installed apps, extract APKs, share. _(Partial via APK inspector — add direct app list.)_
+- **Per-session bin / recycle UI** — accessible from a top-level entry, not just inspector. _(.trash exists; expose it.)_
+- **Trust indicators on the store page** — "No ads · No accounts · No tracking · Open about what we collect" — repeated in app About screen.
+
+**Identified killer differentiators (already in FileLens — must be front-and-centre in store assets and onboarding):**
+
+1. **Inspect before opening** — the unique positioning. Show this in slide 1 of onboarding and screenshot 1.
+2. **Trust score with explainable risk cards** — no competitor surfaces this. Lead screenshot.
+3. **Safe Share** — strip GPS / author / OOXML metadata. Use as the demo flow in onboarding.
+4. **Secret scanner across configs/logs/archives** — developer audience hook.
+5. **Browse archives & APKs without extracting** — ZArchiver-grade but with risk context.
+6. **Offline · No accounts · No analytics** — repeat in every store paragraph and About screen.
+
+### 9.2 14-Day Plan
+
+Prioritised so heavy / high-token tasks land early and risk is front-loaded; final days are reserved for polish, store assets, and beta verification. Each day lists a primary deliverable; tasks tagged **[parallel]** can run alongside the main thread without blocking.
+
+#### Week 1 — Foundations (Design, Theme, Localization)
+
+- [ ] **Day 1 — Design direction lock-in**
+  - [ ] Delete dark-only assumptions from `README.md` design system; rewrite as light-first.
+  - [ ] Decide light palette: canvas `#F7F7F8`, surface `#FFFFFF`, surface-2 `#F0F1F4`, ink `#1A1B1F` / `#5A5E66` / `#9098A2`, keep violet accent `#7C3AED` (deeper for light contrast).
+  - [ ] Strip "theme" selector from settings (preserve preference key for migration only).
+- [ ] **Day 2 — New logo + brand mark**
+  - [ ] Redraw `assets/lens_mark.svg` and `assets/app_icon.svg` against the new light identity.
+  - [ ] Adaptive launcher icon (foreground + monochrome).
+  - [ ] Replace in-app brand chip and splash.
+- [ ] **Day 3 — Light-theme migration pass 1**
+  - [ ] Audit every Compose screen for hardcoded dark surfaces / colors.
+  - [ ] Rebuild `ui/theme/Color.kt` and `Type.kt` against the new light tokens.
+  - [ ] Remove dark/system theme branches from `MainScreen.kt`, `SettingsScreen.kt`, bottom sheets, dialogs.
+- [ ] **Day 4 — Light-theme migration pass 2 (deep screens)**
+  - [ ] Inspector tabs (Overview / Preview / Structure / Metadata / Risks).
+  - [ ] Risk cards, trust chip, severity dots, category badges — verify contrast on light.
+  - [ ] Compare mode, batch scan dialog, safe-share sheet, batch privacy audit review.
+  - [ ] Hex view, code view, tree view — re-tune syntax colors for light background.
+- [ ] **Day 5 — Localization framework**
+  - [ ] Migrate all hardcoded UI strings to `strings.xml`.
+  - [ ] Extract risk-card copy, provenance hints, trust tier labels, error messages.
+  - [ ] Set up `values-<lang>/` structure and lint rule for hardcoded strings.
+  - [ ] Plural / quantity strings via `<plurals>` for counts ("3 files", "%d risks").
+- [ ] **Day 6 — Translate to 12 launch languages**
+  - [ ] Languages: **en, es, pt-BR, fr, de, it, ru, uk, tr, pl, ja, ko, zh-CN, hi, ar (RTL)**.
+  - [ ] Use a single translation pass per language; review locale-sensitive items (units, dates, RTL layouts).
+  - [ ] Verify RTL mirroring on the inspector and commander panels.
+- [ ] **Day 7 — Onboarding flow** (new)
+  - [ ] 4-slide welcome: _Inspect before opening · Trust score & risk cards · Safe Share · Privacy promise_.
+  - [ ] Permission rationale screens for storage; defer optional permissions until used.
+  - [ ] "Try it" demo: bundled sample photo with GPS → run Safe Share live.
+  - [ ] Show only on first launch + reachable from About.
+
+#### Week 2 — Differentiators, Polish, Store
+
+- [ ] **Day 8 — Home / Quick-access tab**
+  - [ ] New top-level "Home" destination: Recent · Favorites · Categories grid (Images / Video / Audio / Docs / APKs / Archives / Downloads / Large files).
+  - [ ] Wire to existing Recent and Bookmarks state.
+- [ ] **Day 9 — Hidden vault (locked folder)**
+  - [ ] Biometric / device-credential gated vault directory under app-private storage.
+  - [ ] Move-in / move-out flow; vault items excluded from search & MediaStore.
+  - [ ] Surface as a Settings entry and on the Home tab.
+- [ ] **Day 10 — Global search + App manager**
+  - [ ] Global search across indexed folders (name + extension + type), cancellable.
+  - [ ] App manager screen: list user/system apps, extract APK, share, jump to APK inspector.
+  - [ ] Surface recycle bin (`.trash/`) as a top-level destination with restore-all.
+- [ ] **Day 11 — Settings overhaul**
+  - [ ] Compare with Solid Explorer / Files by Google / X-plore settings.
+  - [ ] Remove: theme switcher.
+  - [ ] Add: language override, default home tab, "ask before delete" toggle, vault PIN/biometric setup, search-included folders, telemetry opt-out (default off), root storage warning.
+  - [ ] Reorder into sections: General · Files · Inspector · Safety · Keyboard · Backup · About.
+  - [ ] About screen: privacy promise, no-ads/no-accounts/no-tracking statement, open licenses, version.
+- [ ] **Day 12 — UX polish sweep**
+  - [ ] Empty states with illustrations (no files, no risks, no results).
+  - [ ] Loading skeletons for inspector and folder scan.
+  - [ ] Friendly error toasts (permission denied, file gone, unsupported).
+  - [ ] Smooth animations: sheet open 200ms, tab switch 120ms, list crossfade.
+  - [ ] Accessibility pass: TalkBack labels on icons, 48dp touch targets, font scaling, contrast.
+- [ ] **Day 13 — Store assets + marketing copy**
+  - [ ] Feature graphic **1024 × 500** built from the new light identity (lens mark + tagline _"Peek inside before you open."_ + 3 device mocks of inspector / trust score / safe share).
+  - [ ] 8 phone screenshots, 4 tablet screenshots (Home · Inspector overview · Risk cards · Trust score · Safe Share · Commander dual-pane · Compare · Search).
+  - [ ] Rewrite store copy in English: **title** (≤30 chars), **short description** (≤80 chars), **full description** (≤4000 chars) — lead with "Inspect before opening", end with privacy promise.
+  - [ ] Translate store copy into the 12 launch languages.
+  - [ ] Release notes for v1.0.0.
+- [ ] **Day 14 — Beta, fixes, ship**
+  - [ ] Closed beta to 10–20 testers across phone / tablet / DeX.
+  - [ ] Triage P0/P1 bugs only; defer everything else.
+  - [ ] Verify install size, cold-start time, large-folder scroll, big-archive open, RTL layout, font scaling, TalkBack.
+  - [ ] Tag `v1.0.0`, upload AAB, submit for review.
+
+### 9.3 Effort × Impact × Token-Cost Matrix
+
+| Task | Effort | Impact | Token-cost (Claude-assisted dev) | Day |
+|------|--------|--------|----------------------------------|-----|
+| Localization framework + 12 langs | High | Very High | High (many files) | 5–6 |
+| Light-theme migration | High | Very High | Medium | 3–4 |
+| New logo + brand | Low | High | Low | 2 |
+| Onboarding flow | Medium | Very High | Medium | 7 |
+| Hidden vault | Medium | High | Medium | 9 |
+| Home / Quick-access tab | Medium | High | Low | 8 |
+| Global search + App manager | Medium | High | Medium | 10 |
+| Settings overhaul | Low | Medium | Low | 11 |
+| UX polish sweep | Medium | High | Medium | 12 |
+| Store assets + copy + i18n copy | Medium | Very High | Low | 13 |
+| Beta + fixes | Medium | Critical | Medium | 14 |
+
+### 9.4 Out-of-Scope for v1.0 (post-launch)
+
+- RAR / 7z **extraction** (browsing already covered).
+- Cloud accounts (Drive, Dropbox, OneDrive) — SAF gives us reach without account UI.
+- AI file description ("This looks like a bank statement") — keep as differentiated v1.1 feature.
+- Plugin system for custom inspectors.
+- Root-mode browsing.
+
+### 9.5 Definition of Done for v1.0
+
+- Light theme only; no dark surfaces visible on any screen, dialog, sheet, or empty state.
+- All UI strings localized to 12+ languages; RTL verified in Arabic.
+- First launch shows onboarding; permission rationale is inline and skippable.
+- Trust score, risk cards, and Safe Share are reachable within 2 taps from the file list.
+- Home tab is the default destination; Recent / Favorites / Categories populated.
+- Store listing: new logo, 1024×500 feature graphic, 8+ screenshots, copy translated to the launch languages.
+- Closed-beta sign-off on at least 5 device profiles (phone, large phone, tablet, foldable, DeX).
+- Crash-free sessions ≥ 99% on beta build.
+
