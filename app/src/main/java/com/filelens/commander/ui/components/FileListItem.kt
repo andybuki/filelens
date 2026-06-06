@@ -190,13 +190,12 @@ private fun buildA11yDescription(
     return parts.joinToString(", ")
 }
 
-private fun buildSubtitle(item: FileItem, units: SizeUnits): String {
+private fun buildSubtitle(context: android.content.Context, item: FileItem, units: SizeUnits): String {
     if (item.fileCategory == FileCategory.DIRECTORY) {
         return when (val count = item.childCount) {
             null -> item.lastModified?.let { formatDate(it) } ?: ""
             0 -> "Empty"
-            1 -> "1 item"
-            else -> "$count items"
+            else -> context.resources.getQuantityString(R.plurals.plural_item_count, count, count)
         }
     }
     val parts = mutableListOf<String>()
