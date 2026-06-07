@@ -488,15 +488,15 @@ Prioritised so heavy / high-token tasks land early and risk is front-loaded; fin
   - [x] Extract risk-card copy, provenance hints, trust tier labels, error messages.
   - [x] Set up `values-<lang>/` structure and lint rule for hardcoded strings.
   - [x] Plural / quantity strings via `<plurals>` for counts ("3 files", "%d risks").
-- [ ] **Day 6 — Translate to 12 launch languages**
-  - [ ] Languages: **en, es, pt-BR, fr, de, it, ru, uk, tr, pl, ja, ko, zh-CN, hi, ar (RTL)**.
-  - [ ] Use a single translation pass per language; review locale-sensitive items (units, dates, RTL layouts).
-  - [ ] Verify RTL mirroring on the inspector and commander panels.
-- [ ] **Day 7 — Onboarding flow** (new)
-  - [ ] 4-slide welcome: _Inspect before opening · Trust score & risk cards · Safe Share · Privacy promise_.
-  - [ ] Permission rationale screens for storage; defer optional permissions until used.
+- [x] **Day 6 — Translate to 12 launch languages**
+  - [x] Languages: **en, es, pt-BR, fr, de, it, ru, uk, tr, pl, ja, ko, zh-CN, hi, ar (RTL)**.
+  - [x] Use a single translation pass per language; review locale-sensitive items (units, dates, RTL layouts).
+  - [x] Verify RTL mirroring on the inspector and commander panels.
+- [x] **Day 7 — Onboarding flow** (new)
+  - [x] 4-slide welcome: _Inspect before opening · Trust score & risk cards · Safe Share · Privacy promise_.
+  - [x] Permission rationale screens for storage; defer optional permissions until used.
   - [ ] "Try it" demo: bundled sample photo with GPS → run Safe Share live.
-  - [ ] Show only on first launch + reachable from About.
+  - [x] Show only on first launch + reachable from About.
 
 #### Week 2 — Differentiators, Polish, Store
 

@@ -504,4 +504,27 @@
         <item quantity="other">%1$d visits</item>
     </plurals>
 
+    <!-- ====================================================================
+         Onboarding
+         ==================================================================== -->
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_get_started">Get Started</string>
+
+    <string name="onboarding_title_inspect">Inspect before opening</string>
+    <string name="onboarding_body_inspect">Peek inside any file without opening it. See metadata, structure, and hidden content — photos, archives, APKs, documents, code, and more.</string>
+
+    <string name="onboarding_title_trust">Trust score &amp; risk cards</string>
+    <string name="onboarding_body_trust">Every file gets a trust score based on what\'s inside. Risk cards explain what was found, why it matters, and what you can do about it.</string>
+
+    <string name="onboarding_title_safe_share">Safe Share</string>
+    <string name="onboarding_body_safe_share">Strip GPS location, author info, and hidden metadata before sharing. Share a clean copy — keep the original untouched.</string>
+
+    <string name="onboarding_title_privacy">Your files, your device</string>
+    <string name="onboarding_body_privacy">No ads. No accounts. No tracking. No cloud uploads. Everything happens on your device — FileLens never sends your files anywhere.</string>
+
+    <string name="settings_show_onboarding">Show welcome guide</string>
+    <string name="settings_show_onboarding_desc">Show the onboarding slides on next launch</string>
+    <string name="settings_onboarding_reset_toast">Welcome guide will show on next launch</string>
+
 </resources>

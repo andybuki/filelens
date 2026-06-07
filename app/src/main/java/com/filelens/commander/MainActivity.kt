@@ -72,8 +72,11 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     if (hasStoragePermission) {
                         val navController = rememberNavController()
+                        val hasSeenOnboarding by settingsViewModel.hasSeenOnboarding.collectAsStateWithLifecycle()
                         FileLensNavGraph(
                             navController = navController,
+                            showOnboarding = !hasSeenOnboarding,
+                            onOnboardingComplete = { settingsViewModel.completeOnboarding() },
                             modifier = Modifier.padding(innerPadding)
                         )
                     } else {

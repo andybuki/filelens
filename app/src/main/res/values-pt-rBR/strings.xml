@@ -516,4 +516,22 @@
         <item quantity="other">%1$d visitas</item>
     </plurals>
 
+    <!-- ====================================================================
+         Onboarding
+         ==================================================================== -->
+    <string name="onboarding_skip">Pular</string>
+    <string name="onboarding_next">Avançar</string>
+    <string name="onboarding_get_started">Começar</string>
+    <string name="onboarding_title_inspect">Inspecione antes de abrir</string>
+    <string name="onboarding_body_inspect">Espie dentro de qualquer arquivo sem abri-lo. Veja metadados, estrutura e conteúdo oculto — fotos, arquivos compactados, APKs, documentos, código e mais.</string>
+    <string name="onboarding_title_trust">Pontuação de confiança &amp; cartões de risco</string>
+    <string name="onboarding_body_trust">Cada arquivo recebe uma pontuação de confiança com base no seu conteúdo. Os cartões de risco explicam o que foi encontrado, por que importa e o que você pode fazer a respeito.</string>
+    <string name="onboarding_title_safe_share">Compartilhamento seguro</string>
+    <string name="onboarding_body_safe_share">Remova localização GPS, informações do autor e metadados ocultos antes de compartilhar. Compartilhe uma cópia limpa — mantenha o original intacto.</string>
+    <string name="onboarding_title_privacy">Seus arquivos, seu dispositivo</string>
+    <string name="onboarding_body_privacy">Sem anúncios. Sem contas. Sem rastreamento. Sem upload para a nuvem. Tudo acontece no seu dispositivo — o FileLens nunca envia seus arquivos para lugar nenhum.</string>
+    <string name="settings_show_onboarding">Mostrar guia de boas-vindas</string>
+    <string name="settings_show_onboarding_desc">Mostrar os slides de introdução na próxima inicialização</string>
+    <string name="settings_onboarding_reset_toast">O guia de boas-vindas será exibido na próxima inicialização</string>
+
 </resources>

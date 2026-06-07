@@ -505,4 +505,22 @@
         <item quantity="other">%1$d ziyaret</item>
     </plurals>
 
+    <!-- ====================================================================
+         Onboarding
+         ==================================================================== -->
+    <string name="onboarding_skip">Atla</string>
+    <string name="onboarding_next">İleri</string>
+    <string name="onboarding_get_started">Başla</string>
+    <string name="onboarding_title_inspect">Açmadan önce inceleyin</string>
+    <string name="onboarding_body_inspect">Herhangi bir dosyanın içine açmadan göz atın. Meta verileri, yapıyı ve gizli içerikleri görün — fotoğraflar, arşivler, APK\'ler, belgeler, kod ve daha fazlası.</string>
+    <string name="onboarding_title_trust">Güven puanı &amp; risk kartları</string>
+    <string name="onboarding_body_trust">Her dosya, içeriğine göre bir güven puanı alır. Risk kartları neyin bulunduğunu, neden önemli olduğunu ve ne yapabileceğinizi açıklar.</string>
+    <string name="onboarding_title_safe_share">Güvenli paylaşım</string>
+    <string name="onboarding_body_safe_share">Paylaşmadan önce GPS konumunu, yazar bilgisini ve gizli meta verileri kaldırın. Temiz bir kopya paylaşın — orijinal dokunulmadan kalsın.</string>
+    <string name="onboarding_title_privacy">Dosyalarınız, cihazınız</string>
+    <string name="onboarding_body_privacy">Reklam yok. Hesap yok. İzleme yok. Bulut yüklemesi yok. Her şey cihazınızda gerçekleşir — FileLens dosyalarınızı hiçbir yere göndermez.</string>
+    <string name="settings_show_onboarding">Karşılama rehberini göster</string>
+    <string name="settings_show_onboarding_desc">Sonraki başlatmada tanıtım slaytlarını göster</string>
+    <string name="settings_onboarding_reset_toast">Karşılama rehberi sonraki başlatmada gösterilecek</string>
+
 </resources>
