@@ -36,7 +36,6 @@ import androidx.compose.material.icons.filled.NorthWest
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.SwapVert
-import androidx.compose.material.icons.filled.TravelExplore
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material.icons.filled.Upload
 import androidx.compose.material.icons.filled.Visibility
@@ -305,10 +304,10 @@ private fun MinimalHeader(
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    Icons.Filled.TravelExplore,
+                    painter = androidx.compose.ui.res.painterResource(R.drawable.ic_lens_mark),
                     contentDescription = null,
                     tint = HeaderInk,
-                    modifier = Modifier.size(18.dp)
+                    modifier = Modifier.size(20.dp)
                 )
             }
             Spacer(modifier = Modifier.width(12.dp))
