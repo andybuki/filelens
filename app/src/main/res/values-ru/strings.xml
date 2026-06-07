@@ -458,7 +458,7 @@
     </plurals>
 
     <plurals name="plural_item_count">
-        <item quantity="one">1 элемент</item>
+        <item quantity="one">%1$d элемент</item>
         <item quantity="few">%1$d элемента</item>
         <item quantity="many">%1$d элементов</item>
         <item quantity="other">%1$d элементов</item>
@@ -521,7 +521,7 @@
     </plurals>
 
     <plurals name="plural_visit_count">
-        <item quantity="one">1 посещение</item>
+        <item quantity="one">%1$d посещение</item>
         <item quantity="few">%1$d посещения</item>
         <item quantity="many">%1$d посещений</item>
         <item quantity="other">%1$d посещений</item>
