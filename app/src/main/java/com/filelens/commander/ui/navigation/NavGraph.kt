@@ -74,7 +74,6 @@ fun FileLensNavGraph(
         composable(Routes.SETTINGS) {
             SettingsScreen(
                 onBack = { navController.popBackStack() },
-                onOpenShortcuts = { navController.navigate(Routes.SHORTCUTS) },
                 onOpenRemoteServers = { navController.navigate(Routes.REMOTE_SERVERS) }
             )
         }

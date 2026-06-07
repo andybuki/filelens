@@ -39,7 +39,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -66,7 +65,6 @@ import com.filelens.commander.viewmodel.SettingsViewModel
 @Composable
 fun SettingsScreen(
     onBack: () -> Unit,
-    onOpenShortcuts: () -> Unit = {},
     onOpenRemoteServers: () -> Unit = {},
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
@@ -165,27 +163,6 @@ fun SettingsScreen(
                 )
             }
 
-            SectionHeader(stringResource(R.string.settings_section_input))
-            SettingsCard {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable(onClick = onOpenShortcuts)
-                        .padding(horizontal = 14.dp, vertical = 14.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(stringResource(R.string.settings_keyboard_shortcuts), style = MaterialTheme.typography.titleSmall)
-                        Text(
-                            stringResource(R.string.settings_keyboard_shortcuts_desc),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = FlInk3
-                        )
-                    }
-                    Text("›", style = MaterialTheme.typography.titleMedium, color = FlInk3)
-                }
-            }
-
             SectionHeader(stringResource(R.string.settings_section_remote))
             SettingsCard {
                 Row(
@@ -236,53 +213,6 @@ fun SettingsScreen(
             SectionHeader(stringResource(R.string.settings_section_about))
             SettingsCard {
                 StaticRow(stringResource(R.string.settings_about_app_name), stringResource(R.string.settings_about_version))
-                Divider()
-                StaticRow(
-                    stringResource(R.string.settings_about_vision_label),
-                    stringResource(R.string.settings_about_vision_text)
-                )
-                Divider()
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            viewModel.resetOnboarding()
-                            scope.launch { snackbar.showSnackbar(context.getString(R.string.settings_onboarding_reset_toast)) }
-                        }
-                        .padding(horizontal = 14.dp, vertical = 14.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(stringResource(R.string.settings_show_onboarding), style = MaterialTheme.typography.titleSmall)
-                        Text(
-                            stringResource(R.string.settings_show_onboarding_desc),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = FlInk3
-                        )
-                    }
-                    Text("›", style = MaterialTheme.typography.titleMedium, color = FlInk3)
-                }
-            }
-
-            var showLicenses by remember { mutableStateOf(false) }
-            SectionHeader(stringResource(R.string.settings_section_licenses))
-            SettingsCard {
-                Column(modifier = Modifier.padding(14.dp)) {
-                    Text(
-                        stringResource(R.string.settings_licenses_intro),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = FlInk3
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    OutlinedButton(
-                        onClick = { showLicenses = !showLicenses },
-                        modifier = Modifier.fillMaxWidth()
-                    ) { Text(if (showLicenses) stringResource(R.string.settings_licenses_hide) else stringResource(R.string.settings_licenses_show)) }
-                    if (showLicenses) {
-                        Spacer(modifier = Modifier.height(10.dp))
-                        OssLicensesList()
-                    }
-                }
             }
             Spacer(modifier = Modifier.height(32.dp))
         }
@@ -386,43 +316,6 @@ private fun ChoiceRow(
         if (inlinePicker != null) {
             Box(modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)) {
                 inlinePicker()
-            }
-        }
-    }
-}
-
-private data class OssLicense(
-    val name: String,
-    val license: String,
-    val url: String
-)
-
-private val ossLicenses = listOf(
-    OssLicense("Kotlin", "Apache License 2.0", "https://github.com/JetBrains/kotlin"),
-    OssLicense("Jetpack Compose", "Apache License 2.0", "https://developer.android.com/jetpack/compose"),
-    OssLicense("Material 3", "Apache License 2.0", "https://m3.material.io"),
-    OssLicense("AndroidX Core, Lifecycle, Navigation, DataStore, ExifInterface", "Apache License 2.0", "https://developer.android.com/jetpack"),
-    OssLicense("Hilt", "Apache License 2.0", "https://github.com/google/dagger"),
-    OssLicense("kotlinx.coroutines", "Apache License 2.0", "https://github.com/Kotlin/kotlinx.coroutines"),
-    OssLicense("Coil", "Apache License 2.0", "https://github.com/coil-kt/coil"),
-    OssLicense("Roboto", "Apache License 2.0", "https://fonts.google.com/specimen/Roboto"),
-    OssLicense("Material Icons", "Apache License 2.0", "https://fonts.google.com/icons")
-)
-
-@Composable
-private fun OssLicensesList() {
-    Column {
-        ossLicenses.forEach { entry ->
-            Column(modifier = Modifier.padding(vertical = 4.dp)) {
-                Text(entry.name, style = MaterialTheme.typography.titleSmall)
-                Text(entry.license, style = MaterialTheme.typography.bodySmall, color = FlInk3)
-                Text(
-                    entry.url,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = FlInk3,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
             }
         }
     }

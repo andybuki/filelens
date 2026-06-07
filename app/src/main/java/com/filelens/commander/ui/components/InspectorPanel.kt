@@ -7,6 +7,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -36,13 +37,11 @@ import androidx.compose.material.icons.filled.Tag
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -54,6 +53,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -76,7 +76,10 @@ import com.filelens.commander.domain.model.SecretMatch
 import com.filelens.commander.domain.model.TrustLevel
 import com.filelens.commander.domain.model.TrustScore
 import com.filelens.commander.ui.theme.Eyebrow
+import com.filelens.commander.ui.theme.FlAccent
+import com.filelens.commander.ui.theme.FlBorder
 import com.filelens.commander.ui.theme.FlInk3
+import com.filelens.commander.ui.theme.FlMuted
 import com.filelens.commander.ui.theme.FlSurface3
 import com.filelens.commander.ui.theme.MonoSmall
 import com.filelens.commander.ui.theme.RiskDanger
@@ -126,64 +129,92 @@ fun InspectorPanel(
     var selectedTab by remember { mutableIntStateOf(0) }
     val tabs = InspectorTab.entries.toList()
 
-    Column(modifier = modifier.fillMaxSize()) {
+    Column(
+        modifier = modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.height(8.dp))
+        Box(
+            modifier = Modifier
+                .width(38.dp)
+                .height(4.dp)
+                .clip(RoundedCornerShape(2.dp))
+                .background(FlBorder)
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(horizontal = 20.dp, vertical = 4.dp),
+            verticalAlignment = Alignment.Top
         ) {
-            Column(modifier = Modifier.weight(1f)) {
+            CategoryTile(
+                category = info.category,
+                extension = info.extension,
+                childCount = null,
+                tileSize = 48.dp
+            )
+            Spacer(modifier = Modifier.width(14.dp))
+            Column(modifier = Modifier.weight(1f).padding(top = 1.dp)) {
                 Text(
                     text = info.name,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = (-0.3).sp
+                    ),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
+                Spacer(modifier = Modifier.height(6.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
                         text = info.category.displayName(),
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = FlMuted
                     )
                     if (isAnalyzing) {
                         Spacer(modifier = Modifier.width(8.dp))
                         CircularProgressIndicator(modifier = Modifier.size(12.dp), strokeWidth = 2.dp)
                     }
                     result?.trustScore?.let { score ->
-                        Spacer(modifier = Modifier.width(8.dp))
+                        Spacer(modifier = Modifier.width(10.dp))
                         TrustChip(score)
                     }
-                    val visibleRisks = result?.risks?.filter { it.id.isEmpty() || it.id !in ignoredRiskIds } ?: emptyList()
-                    val riskCount = visibleRisks.size
-                    if (riskCount > 0) {
-                        Spacer(modifier = Modifier.width(8.dp))
-                        val hasWarning = visibleRisks.any { it.severity == RiskSeverity.WARNING || it.severity == RiskSeverity.DANGER }
-                        Text(
-                            text = pluralStringResource(R.plurals.plural_risk_count, riskCount, riskCount),
-                            style = MaterialTheme.typography.labelSmall,
-                            color = if (hasWarning) RiskWarning else RiskInfo,
-                            modifier = Modifier
-                                .background(
-                                    color = (if (hasWarning) RiskWarning else RiskInfo).copy(alpha = 0.1f),
-                                    shape = RoundedCornerShape(4.dp)
-                                )
-                                .padding(horizontal = 6.dp, vertical = 2.dp)
+                }
+            }
+            Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+                if (onOpenAs != null) {
+                    OpenAsMenu(onOpenAs, onReinspect, forcedCategory, detectedCategory)
+                }
+                if (onDismiss != null) {
+                    Box(
+                        modifier = Modifier
+                            .size(36.dp)
+                            .clip(RoundedCornerShape(999.dp))
+                            .clickable(onClick = onDismiss),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            Icons.Filled.Close,
+                            contentDescription = stringResource(R.string.cd_close),
+                            tint = FlInk3,
+                            modifier = Modifier.size(21.dp)
                         )
                     }
                 }
             }
-            if (onOpenAs != null) {
-                OpenAsMenu(onOpenAs, onReinspect, forcedCategory, detectedCategory)
-            }
-            if (onDismiss != null) {
-                IconButton(onClick = onDismiss) {
-                    Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.cd_close))
-                }
-            }
         }
 
-        TabRow(selectedTabIndex = selectedTab) {
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState())
+                .padding(horizontal = 14.dp),
+            horizontalArrangement = Arrangement.spacedBy(2.dp)
+        ) {
             tabs.forEachIndexed { index, tab ->
                 val tabLabel = when (tab) {
                     InspectorTab.OVERVIEW -> stringResource(R.string.inspector_tab_overview)
@@ -192,13 +223,32 @@ fun InspectorPanel(
                     InspectorTab.METADATA -> stringResource(R.string.inspector_tab_metadata)
                     InspectorTab.RISKS -> stringResource(R.string.inspector_tab_risks)
                 }
-                Tab(
-                    selected = selectedTab == index,
-                    onClick = { selectedTab = index },
-                    text = { Text(tabLabel, style = MaterialTheme.typography.labelMedium) }
-                )
+                val selected = selectedTab == index
+                Column(
+                    modifier = Modifier
+                        .clickable { selectedTab = index }
+                        .padding(horizontal = 12.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = tabLabel,
+                        style = MaterialTheme.typography.labelLarge.copy(
+                            fontWeight = FontWeight.SemiBold
+                        ),
+                        color = if (selected) FlAccent else FlMuted,
+                        modifier = Modifier.padding(vertical = 12.dp)
+                    )
+                    Box(
+                        modifier = Modifier
+                            .height(2.dp)
+                            .width(40.dp)
+                            .clip(RoundedCornerShape(1.dp))
+                            .background(if (selected) FlAccent else androidx.compose.ui.graphics.Color.Transparent)
+                    )
+                }
             }
         }
+        HorizontalDivider(color = FlBorder)
 
         AnimatedContent(
             targetState = tabs[selectedTab],
@@ -247,31 +297,63 @@ private fun OverviewTab(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(16.dp)
+            .padding(horizontal = 20.dp, vertical = 18.dp)
     ) {
         result?.trustScore?.let {
             TrustScoreCard(it)
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(16.dp))
         }
         result?.provenance?.let {
             ProvenanceCard(it)
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(16.dp))
         }
         if (result?.secrets?.isNotEmpty() == true) {
             SecretsCard(result.secrets)
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(16.dp))
         }
-        InfoRow(stringResource(R.string.row_label_file), info.name)
-        InfoRow(stringResource(R.string.row_label_type), info.category.displayName())
-        if (info.extension.isNotEmpty()) {
-            InfoRow(stringResource(R.string.row_label_extension), ".${info.extension}")
-        }
-        info.mimeType?.let { InfoRow(stringResource(R.string.row_label_mime), it) }
-        info.size?.let { InfoRow(stringResource(R.string.row_label_size), formatFileSize(it, LocalSizeUnits.current)) }
-        info.lastModified?.let { InfoRow(stringResource(R.string.row_label_modified), formatDate(it)) }
 
-        result?.overview?.forEach { (key, value) ->
-            InfoRow(key, value)
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(10.dp))
+                .background(MaterialTheme.colorScheme.surface)
+        ) {
+            val rows = buildList {
+                add(stringResource(R.string.row_label_file) to info.name)
+                add(stringResource(R.string.row_label_type) to info.category.displayName())
+                if (info.extension.isNotEmpty()) {
+                    add(stringResource(R.string.row_label_extension) to ".${info.extension}")
+                }
+                info.mimeType?.let { add(stringResource(R.string.row_label_mime) to it) }
+                info.size?.let { add(stringResource(R.string.row_label_size) to formatFileSize(it, LocalSizeUnits.current)) }
+                info.lastModified?.let { add(stringResource(R.string.row_label_modified) to formatDate(it)) }
+                result?.overview?.forEach { (key, value) -> add(key to value) }
+            }
+            rows.forEachIndexed { index, (label, value) ->
+                if (index > 0) {
+                    HorizontalDivider(color = FlBorder)
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 13.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = label,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = FlInk3
+                    )
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(
+                        text = value,
+                        style = MonoSmall,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -279,138 +361,110 @@ private fun OverviewTab(
         val gpsLat = result?.metadata?.get("GPS latitude")?.toDoubleOrNull()
         val gpsLon = result?.metadata?.get("GPS longitude")?.toDoubleOrNull()
         if (gpsLat != null && gpsLon != null && onViewOnMap != null) {
-            Button(
-                onClick = { onViewOnMap(gpsLat, gpsLon) },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Icon(Icons.Filled.Map, contentDescription = null, modifier = Modifier.size(18.dp))
-                Spacer(modifier = Modifier.size(8.dp))
-                Text("View on map")
-            }
+            ActionButton(
+                label = "View on map",
+                icon = Icons.Filled.Map,
+                onClick = { onViewOnMap(gpsLat, gpsLon) }
+            )
             Spacer(modifier = Modifier.height(8.dp))
         }
 
         Text(
             text = stringResource(R.string.section_safe_actions),
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(bottom = 4.dp)
+            style = Eyebrow,
+            color = FlInk3,
+            modifier = Modifier.padding(bottom = 8.dp)
         )
 
         if (onSwitchTab != null) {
             val hasPreview = result?.previewContent != null
             if (hasPreview) {
-                androidx.compose.material3.OutlinedButton(
-                    onClick = { onSwitchTab(InspectorTab.PREVIEW) },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(stringResource(R.string.action_preview_only))
-                }
-                Spacer(modifier = Modifier.height(6.dp))
-            }
-            val hasMetadata = (result?.metadata?.isNotEmpty() == true)
-            if (hasMetadata) {
-                androidx.compose.material3.OutlinedButton(
-                    onClick = { onSwitchTab(InspectorTab.METADATA) },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(stringResource(R.string.action_inspect_metadata))
-                }
-                Spacer(modifier = Modifier.height(6.dp))
+                ActionButton(
+                    label = stringResource(R.string.action_preview_only),
+                    onClick = { onSwitchTab(InspectorTab.PREVIEW) }
+                )
+                Spacer(modifier = Modifier.height(8.dp))
             }
             val hasStructure = result?.structure != null
             if (hasStructure) {
-                androidx.compose.material3.OutlinedButton(
-                    onClick = { onSwitchTab(InspectorTab.STRUCTURE) },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        when (info.category) {
-                            FileCategory.ARCHIVE, FileCategory.APK -> stringResource(R.string.action_browse_archive)
-                            FileCategory.DOCUMENT, FileCategory.SPREADSHEET, FileCategory.PRESENTATION -> stringResource(R.string.action_inspect_doc_structure)
-                            else -> stringResource(R.string.action_inspect_structure)
-                        }
-                    )
-                }
-                Spacer(modifier = Modifier.height(6.dp))
+                ActionButton(
+                    label = when (info.category) {
+                        FileCategory.ARCHIVE, FileCategory.APK -> stringResource(R.string.action_browse_archive)
+                        FileCategory.DOCUMENT, FileCategory.SPREADSHEET, FileCategory.PRESENTATION -> stringResource(R.string.action_inspect_doc_structure)
+                        else -> stringResource(R.string.action_inspect_structure)
+                    },
+                    onClick = { onSwitchTab(InspectorTab.STRUCTURE) }
+                )
+                Spacer(modifier = Modifier.height(8.dp))
             }
         }
 
         if (onSearchInside != null) {
-            androidx.compose.material3.OutlinedButton(
-                onClick = onSearchInside,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(stringResource(R.string.action_search_inside))
-            }
-            Spacer(modifier = Modifier.height(6.dp))
+            ActionButton(
+                label = stringResource(R.string.action_search_inside),
+                onClick = onSearchInside
+            )
+            Spacer(modifier = Modifier.height(8.dp))
         }
 
         if (onExportReport != null) {
-            Row(modifier = Modifier.fillMaxWidth()) {
-                androidx.compose.material3.OutlinedButton(
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                ActionButton(
+                    label = stringResource(R.string.action_export_markdown),
                     onClick = { onExportReport(false) },
                     modifier = Modifier.weight(1f)
-                ) { Text(stringResource(R.string.action_export_markdown)) }
-                Spacer(modifier = Modifier.width(6.dp))
-                androidx.compose.material3.OutlinedButton(
+                )
+                ActionButton(
+                    label = stringResource(R.string.action_export_json),
                     onClick = { onExportReport(true) },
                     modifier = Modifier.weight(1f)
-                ) { Text(stringResource(R.string.action_export_json)) }
+                )
             }
-            Spacer(modifier = Modifier.height(6.dp))
+            Spacer(modifier = Modifier.height(8.dp))
         }
 
         if (onShareCleaned != null) {
-            androidx.compose.material3.OutlinedButton(
-                onClick = onShareCleaned,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Icon(Icons.Filled.Shield, contentDescription = null, modifier = Modifier.size(18.dp))
-                Spacer(modifier = Modifier.size(8.dp))
-                Text(stringResource(R.string.action_share_cleaned))
-            }
+            ActionButton(
+                label = stringResource(R.string.action_share_cleaned),
+                icon = Icons.Filled.Shield,
+                onClick = onShareCleaned
+            )
             Spacer(modifier = Modifier.height(8.dp))
         }
 
         if (onVerifyHash != null) {
-            androidx.compose.material3.OutlinedButton(
-                onClick = onVerifyHash,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Icon(Icons.Filled.Tag, contentDescription = null, modifier = Modifier.size(18.dp))
-                Spacer(modifier = Modifier.size(8.dp))
-                Text(stringResource(R.string.action_verify_hash))
-            }
+            ActionButton(
+                label = stringResource(R.string.action_verify_hash),
+                icon = Icons.Filled.Tag,
+                onClick = onVerifyHash
+            )
             Spacer(modifier = Modifier.height(8.dp))
         }
 
         if (onBrowseSqlite != null && info.category == FileCategory.DATABASE) {
-            androidx.compose.material3.OutlinedButton(
-                onClick = onBrowseSqlite,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Icon(Icons.Filled.Storage, contentDescription = null, modifier = Modifier.size(18.dp))
-                Spacer(modifier = Modifier.size(8.dp))
-                Text(stringResource(R.string.action_browse_rows))
-            }
+            ActionButton(
+                label = stringResource(R.string.action_browse_rows),
+                icon = Icons.Filled.Storage,
+                onClick = onBrowseSqlite
+            )
             Spacer(modifier = Modifier.height(12.dp))
         }
 
         Text(
             text = stringResource(R.string.section_external),
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(bottom = 4.dp)
+            style = Eyebrow,
+            color = FlInk3,
+            modifier = Modifier.padding(bottom = 8.dp)
         )
-        Button(
+        ActionButton(
+            label = stringResource(R.string.action_open_with),
+            icon = Icons.AutoMirrored.Filled.OpenInNew,
             onClick = onOpenWith,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Icon(Icons.AutoMirrored.Filled.OpenInNew, contentDescription = null, modifier = Modifier.size(18.dp))
-            Spacer(modifier = Modifier.size(8.dp))
-            Text(stringResource(R.string.action_open_with))
-        }
+            isPrimary = true
+        )
     }
 }
 
@@ -626,10 +680,40 @@ private fun MetadataTab(result: InspectorResult?) {
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(16.dp)
+            .padding(18.dp)
     ) {
-        metadata.forEach { (key, value) ->
-            InfoRow(key, value)
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(10.dp))
+                .background(MaterialTheme.colorScheme.surface)
+        ) {
+            val entries = metadata.entries.toList()
+            entries.forEachIndexed { index, (key, value) ->
+                if (index > 0) {
+                    HorizontalDivider(color = FlBorder)
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 13.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = key,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = FlInk3
+                    )
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(
+                        text = value,
+                        style = MonoSmall,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        maxLines = 3,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            }
         }
     }
 }
@@ -973,21 +1057,37 @@ private fun RisksTab(
 
     if (allRisks.isEmpty()) {
         Column(
-            modifier = Modifier.fillMaxSize().padding(32.dp),
+            modifier = Modifier.fillMaxSize().padding(40.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Icon(
-                Icons.Filled.Shield,
-                contentDescription = null,
-                modifier = Modifier.size(48.dp),
-                tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
-            )
+            Box(
+                modifier = Modifier
+                    .size(56.dp)
+                    .clip(RoundedCornerShape(999.dp))
+                    .background(TrustTrusted.copy(alpha = 0.12f)),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    Icons.Filled.Shield,
+                    contentDescription = null,
+                    modifier = Modifier.size(28.dp),
+                    tint = TrustTrusted
+                )
+            }
             Spacer(modifier = Modifier.height(12.dp))
             Text(
                 stringResource(R.string.risks_none_detected),
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Spacer(modifier = Modifier.height(6.dp))
+            Text(
+                "This file looks safe to open. We checked privacy, secrets, active content and integrity.",
+                style = MaterialTheme.typography.bodySmall,
+                color = FlInk3,
+                modifier = Modifier.padding(horizontal = 24.dp),
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center
             )
         }
         return
@@ -1233,25 +1333,40 @@ private fun RiskCard(
 }
 
 @Composable
-private fun InfoRow(label: String, value: String) {
+private fun ActionButton(
+    label: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    icon: androidx.compose.ui.graphics.vector.ImageVector? = null,
+    isPrimary: Boolean = false
+) {
+    val bg = if (isPrimary) FlAccent else MaterialTheme.colorScheme.surface
+    val fg = if (isPrimary) androidx.compose.ui.graphics.Color.White else MaterialTheme.colorScheme.onSurface
+    val iconColor = if (isPrimary) androidx.compose.ui.graphics.Color.White else FlAccent
+    val borderColor = if (isPrimary) FlAccent else FlBorder
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 6.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
+            .clip(RoundedCornerShape(10.dp))
+            .background(bg)
+            .clickable(onClick = onClick)
+            .padding(vertical = 14.dp, horizontal = 16.dp),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
     ) {
+        if (icon != null) {
+            Icon(
+                icon,
+                contentDescription = null,
+                tint = iconColor,
+                modifier = Modifier.size(18.dp)
+            )
+            Spacer(modifier = Modifier.width(10.dp))
+        }
         Text(
             text = label,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.weight(0.35f)
-        )
-        Text(
-            text = value,
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.weight(0.65f),
-            maxLines = 5,
-            overflow = TextOverflow.Ellipsis
+            style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.SemiBold),
+            color = fg
         )
     }
 }
