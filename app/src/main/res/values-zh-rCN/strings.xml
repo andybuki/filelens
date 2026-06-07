@@ -495,4 +495,22 @@
         <item quantity="other">%1$d 次访问</item>
     </plurals>
 
+    <!-- ====================================================================
+         Onboarding
+         ==================================================================== -->
+    <string name="onboarding_skip">跳过</string>
+    <string name="onboarding_next">下一步</string>
+    <string name="onboarding_get_started">开始使用</string>
+    <string name="onboarding_title_inspect">打开前先检查</string>
+    <string name="onboarding_body_inspect">无需打开即可查看任何文件的内部。查看元数据、结构和隐藏内容——照片、压缩包、APK、文档、代码等。</string>
+    <string name="onboarding_title_trust">信任评分 &amp; 风险卡片</string>
+    <string name="onboarding_body_trust">每个文件都会根据其内容获得信任评分。风险卡片会说明发现了什么、为何重要以及您可以采取的措施。</string>
+    <string name="onboarding_title_safe_share">安全分享</string>
+    <string name="onboarding_body_safe_share">分享前移除 GPS 位置、作者信息和隐藏的元数据。分享一份干净的副本——原件保持不变。</string>
+    <string name="onboarding_title_privacy">您的文件，您的设备</string>
+    <string name="onboarding_body_privacy">无广告。无账号。无追踪。无云端上传。一切都在您的设备上完成——FileLens 绝不会将您的文件发送到任何地方。</string>
+    <string name="settings_show_onboarding">显示欢迎引导</string>
+    <string name="settings_show_onboarding_desc">在下次启动时显示引导页</string>
+    <string name="settings_onboarding_reset_toast">欢迎引导将在下次启动时显示</string>
+
 </resources>

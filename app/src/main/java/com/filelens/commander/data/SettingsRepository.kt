@@ -60,6 +60,14 @@ class SettingsRepository @Inject constructor(
         }
     }
 
+    val hasSeenOnboarding: Flow<Boolean> = store.data.map { p ->
+        p[KEY_HAS_SEEN_ONBOARDING] ?: false
+    }
+
+    suspend fun setHasSeenOnboarding(value: Boolean) {
+        store.edit { it[KEY_HAS_SEEN_ONBOARDING] = value }
+    }
+
     private companion object {
         // KEY_THEME ("theme_mode") was removed in v1.0 when FileLens went
         // light-only. The stored value is intentionally not migrated; old
@@ -70,5 +78,6 @@ class SettingsRepository @Inject constructor(
         val KEY_SORT_FIELD = stringPreferencesKey("sort_field")
         val KEY_SORT_DIRECTION = stringPreferencesKey("sort_direction")
         val KEY_PANEL_MODE = stringPreferencesKey("panel_mode")
+        val KEY_HAS_SEEN_ONBOARDING = booleanPreferencesKey("has_seen_onboarding")
     }
 }

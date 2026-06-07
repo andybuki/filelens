@@ -48,4 +48,13 @@ class SettingsViewModel @Inject constructor(
     fun setDefaultSort(field: SortField, direction: SortDirection) = viewModelScope.launch {
         repo.setDefaultSort(field, direction)
     }
+
+    val hasSeenOnboarding: StateFlow<Boolean> = repo.hasSeenOnboarding.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Eagerly,
+        initialValue = true
+    )
+
+    fun completeOnboarding() = viewModelScope.launch { repo.setHasSeenOnboarding(true) }
+    fun resetOnboarding() = viewModelScope.launch { repo.setHasSeenOnboarding(false) }
 }

@@ -549,4 +549,22 @@
         <item quantity="other">%1$d زيارة</item>
     </plurals>
 
+    <!-- ====================================================================
+         Onboarding
+         ==================================================================== -->
+    <string name="onboarding_skip">تخطي</string>
+    <string name="onboarding_next">التالي</string>
+    <string name="onboarding_get_started">ابدأ الآن</string>
+    <string name="onboarding_title_inspect">افحص قبل الفتح</string>
+    <string name="onboarding_body_inspect">ألقِ نظرة داخل أي ملف دون فتحه. اطّلع على البيانات الوصفية والبنية والمحتوى المخفي — الصور والأرشيفات وملفات APK والمستندات والأكواد والمزيد.</string>
+    <string name="onboarding_title_trust">درجة الثقة &amp; بطاقات المخاطر</string>
+    <string name="onboarding_body_trust">يحصل كل ملف على درجة ثقة بناءً على محتواه. توضح بطاقات المخاطر ما تم العثور عليه، ولماذا هو مهم، وما يمكنك فعله حيال ذلك.</string>
+    <string name="onboarding_title_safe_share">مشاركة آمنة</string>
+    <string name="onboarding_body_safe_share">أزل موقع GPS ومعلومات المؤلف والبيانات الوصفية المخفية قبل المشاركة. شارك نسخة نظيفة — واحتفظ بالأصل دون تعديل.</string>
+    <string name="onboarding_title_privacy">ملفاتك، جهازك</string>
+    <string name="onboarding_body_privacy">لا إعلانات. لا حسابات. لا تتبع. لا رفع سحابي. كل شيء يحدث على جهازك — FileLens لا يرسل ملفاتك إلى أي مكان.</string>
+    <string name="settings_show_onboarding">عرض دليل الترحيب</string>
+    <string name="settings_show_onboarding_desc">عرض شرائح التعريف عند التشغيل التالي</string>
+    <string name="settings_onboarding_reset_toast">سيظهر دليل الترحيب عند التشغيل التالي</string>
+
 </resources>

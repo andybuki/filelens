@@ -241,6 +241,27 @@ fun SettingsScreen(
                     stringResource(R.string.settings_about_vision_label),
                     stringResource(R.string.settings_about_vision_text)
                 )
+                Divider()
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            viewModel.resetOnboarding()
+                            scope.launch { snackbar.showSnackbar(context.getString(R.string.settings_onboarding_reset_toast)) }
+                        }
+                        .padding(horizontal = 14.dp, vertical = 14.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(stringResource(R.string.settings_show_onboarding), style = MaterialTheme.typography.titleSmall)
+                        Text(
+                            stringResource(R.string.settings_show_onboarding_desc),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = FlInk3
+                        )
+                    }
+                    Text("›", style = MaterialTheme.typography.titleMedium, color = FlInk3)
+                }
             }
 
             var showLicenses by remember { mutableStateOf(false) }

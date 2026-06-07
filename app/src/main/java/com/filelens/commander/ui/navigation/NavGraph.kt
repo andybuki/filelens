@@ -11,12 +11,14 @@ import androidx.navigation.navArgument
 import com.filelens.commander.ui.screens.CompareScreen
 import com.filelens.commander.ui.screens.DuplicateFinderScreen
 import com.filelens.commander.ui.screens.MainScreen
+import com.filelens.commander.ui.screens.OnboardingScreen
 import com.filelens.commander.ui.screens.RemoteServersScreen
 import com.filelens.commander.ui.screens.SettingsScreen
 import com.filelens.commander.ui.screens.ShortcutsScreen
 import com.filelens.commander.ui.screens.SqliteBrowserScreen
 
 object Routes {
+    const val ONBOARDING = "onboarding"
     const val MAIN = "main"
     const val SETTINGS = "settings"
     const val COMPARE = "compare/{left}/{right}"
@@ -36,13 +38,25 @@ object Routes {
 @Composable
 fun FileLensNavGraph(
     navController: NavHostController,
+    showOnboarding: Boolean = false,
+    onOnboardingComplete: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     NavHost(
         navController = navController,
-        startDestination = Routes.MAIN,
+        startDestination = if (showOnboarding) Routes.ONBOARDING else Routes.MAIN,
         modifier = modifier
     ) {
+        composable(Routes.ONBOARDING) {
+            OnboardingScreen(
+                onFinish = {
+                    onOnboardingComplete()
+                    navController.navigate(Routes.MAIN) {
+                        popUpTo(Routes.ONBOARDING) { inclusive = true }
+                    }
+                }
+            )
+        }
         composable(Routes.MAIN) {
             MainScreen(
                 onOpenSettings = { navController.navigate(Routes.SETTINGS) },

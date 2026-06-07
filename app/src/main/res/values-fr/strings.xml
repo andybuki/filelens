@@ -445,4 +445,20 @@
         <item quantity="other">%1$d visites</item>
     </plurals>
 
+    <!-- Onboarding -->
+    <string name="onboarding_skip">Ignorer</string>
+    <string name="onboarding_next">Suivant</string>
+    <string name="onboarding_get_started">Commencer</string>
+    <string name="onboarding_title_inspect">Inspecter avant d\'ouvrir</string>
+    <string name="onboarding_body_inspect">Jetez un œil dans n\'importe quel fichier sans l\'ouvrir. Voyez les métadonnées, la structure et le contenu caché — photos, archives, APK, documents, code et plus encore.</string>
+    <string name="onboarding_title_trust">Score de confiance &amp; fiches de risques</string>
+    <string name="onboarding_body_trust">Chaque fichier reçoit un score de confiance basé sur son contenu. Les fiches de risques expliquent ce qui a été trouvé, pourquoi c\'est important et ce que vous pouvez faire.</string>
+    <string name="onboarding_title_safe_share">Partage sécurisé</string>
+    <string name="onboarding_body_safe_share">Supprimez la localisation GPS, les informations d\'auteur et les métadonnées cachées avant de partager. Partagez une copie nettoyée — l\'original reste intact.</string>
+    <string name="onboarding_title_privacy">Vos fichiers, votre appareil</string>
+    <string name="onboarding_body_privacy">Pas de publicité. Pas de comptes. Pas de pistage. Pas de téléchargement cloud. Tout se passe sur votre appareil — FileLens n\'envoie jamais vos fichiers nulle part.</string>
+    <string name="settings_show_onboarding">Afficher le guide de bienvenue</string>
+    <string name="settings_show_onboarding_desc">Afficher les diapositives d\'introduction au prochain lancement</string>
+    <string name="settings_onboarding_reset_toast">Le guide de bienvenue s\'affichera au prochain lancement</string>
+
 </resources>

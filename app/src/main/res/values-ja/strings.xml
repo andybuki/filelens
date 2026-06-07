@@ -494,4 +494,22 @@
         <item quantity="other">%1$d 回訪問</item>
     </plurals>
 
+    <!-- ====================================================================
+         Onboarding
+         ==================================================================== -->
+    <string name="onboarding_skip">スキップ</string>
+    <string name="onboarding_next">次へ</string>
+    <string name="onboarding_get_started">はじめる</string>
+    <string name="onboarding_title_inspect">開く前に中身を確認</string>
+    <string name="onboarding_body_inspect">ファイルを開かずに中身をのぞけます。メタデータ、構造、隠しコンテンツを確認 — 写真、アーカイブ、APK、ドキュメント、コードなど。</string>
+    <string name="onboarding_title_trust">信頼スコア &amp; リスクカード</string>
+    <string name="onboarding_body_trust">すべてのファイルに中身に基づいた信頼スコアが付きます。リスクカードは何が見つかったか、なぜ重要か、どう対処できるかを説明します。</string>
+    <string name="onboarding_title_safe_share">安全に共有</string>
+    <string name="onboarding_body_safe_share">共有する前にGPS位置情報、作成者情報、隠しメタデータを削除します。クリーンなコピーを共有 — オリジナルはそのまま保持されます。</string>
+    <string name="onboarding_title_privacy">あなたのファイル、あなたのデバイス</string>
+    <string name="onboarding_body_privacy">広告なし。アカウント不要。トラッキングなし。クラウドへのアップロードなし。すべてデバイス上で処理 — FileLens はファイルをどこにも送信しません。</string>
+    <string name="settings_show_onboarding">ウェルカムガイドを表示</string>
+    <string name="settings_show_onboarding_desc">次回起動時にオンボーディングスライドを表示</string>
+    <string name="settings_onboarding_reset_toast">次回起動時にウェルカムガイドが表示されます</string>
+
 </resources>
