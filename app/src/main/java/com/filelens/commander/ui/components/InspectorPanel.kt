@@ -7,6 +7,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -52,6 +53,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -78,8 +80,12 @@ import com.filelens.commander.domain.model.TrustScore
 import com.filelens.commander.ui.theme.Eyebrow
 import com.filelens.commander.ui.theme.FlAccent
 import com.filelens.commander.ui.theme.FlBorder
+import com.filelens.commander.ui.theme.FlBorder2
+import com.filelens.commander.ui.theme.FlInk
 import com.filelens.commander.ui.theme.FlInk3
 import com.filelens.commander.ui.theme.FlMuted
+import com.filelens.commander.ui.theme.FlSurface
+import com.filelens.commander.ui.theme.FlSurface2
 import com.filelens.commander.ui.theme.FlSurface3
 import com.filelens.commander.ui.theme.MonoSmall
 import com.filelens.commander.ui.theme.RiskDanger
@@ -243,7 +249,7 @@ fun InspectorPanel(
                             .height(2.dp)
                             .width(40.dp)
                             .clip(RoundedCornerShape(1.dp))
-                            .background(if (selected) FlAccent else androidx.compose.ui.graphics.Color.Transparent)
+                            .background(if (selected) FlAccent else Color.Transparent)
                     )
                 }
             }
@@ -486,35 +492,57 @@ private fun PreviewTab(result: InspectorResult?) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(12.dp)
+                    .padding(18.dp)
             ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    if (preview.language != null) {
-                        Text(
-                            text = preview.language,
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                    }
-                    Spacer(modifier = Modifier.weight(1f))
-                    if (preview.rawContent != null) {
-                        androidx.compose.material3.TextButton(onClick = { showRaw = !showRaw }) {
-                            Text(if (showRaw) stringResource(R.string.preview_pretty) else stringResource(R.string.preview_raw), style = MaterialTheme.typography.labelMedium)
-                        }
-                    }
-                }
-                Spacer(modifier = Modifier.height(4.dp))
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
-                        .horizontalScroll(rememberScrollState())
+                        .clip(RoundedCornerShape(10.dp))
+                        .background(FlSurface2)
                 ) {
-                    Text(
-                        text = highlighted,
-                        style = MaterialTheme.typography.bodySmall.copy(fontFamily = RobotoMono),
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(FlSurface3)
+                            .padding(horizontal = 14.dp, vertical = 9.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                            Box(modifier = Modifier.size(9.dp).clip(RoundedCornerShape(50)).background(Color(0xFFF87171)))
+                            Box(modifier = Modifier.size(9.dp).clip(RoundedCornerShape(50)).background(Color(0xFFFBBF24)))
+                            Box(modifier = Modifier.size(9.dp).clip(RoundedCornerShape(50)).background(Color(0xFF34D399)))
+                        }
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Text(
+                            text = buildString {
+                                append(preview.language ?: "")
+                                if (preview.language != null) append(" · ")
+                                append("${displayed.lines().size} lines")
+                            },
+                            style = MonoSmall,
+                            color = FlInk3
+                        )
+                        Spacer(modifier = Modifier.weight(1f))
+                        if (preview.rawContent != null) {
+                            androidx.compose.material3.TextButton(onClick = { showRaw = !showRaw }) {
+                                Text(if (showRaw) stringResource(R.string.preview_pretty) else stringResource(R.string.preview_raw), style = MaterialTheme.typography.labelMedium)
+                            }
+                        }
+                    }
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(FlSurface)
+                            .verticalScroll(rememberScrollState())
+                            .horizontalScroll(rememberScrollState())
+                            .padding(14.dp)
+                    ) {
+                        Text(
+                            text = highlighted,
+                            style = MaterialTheme.typography.bodySmall.copy(fontFamily = RobotoMono),
+                            color = FlInk
+                        )
+                    }
                 }
             }
         }
@@ -793,7 +821,7 @@ private fun OpenAsMenu(
     }
 }
 
-private fun trustColor(level: TrustLevel): androidx.compose.ui.graphics.Color = when (level) {
+private fun trustColor(level: TrustLevel): Color = when (level) {
     TrustLevel.TRUSTED -> TrustTrusted
     TrustLevel.LOW_RISK -> TrustLow
     TrustLevel.MEDIUM_RISK -> TrustMedium
@@ -1341,14 +1369,19 @@ private fun ActionButton(
     isPrimary: Boolean = false
 ) {
     val bg = if (isPrimary) FlAccent else MaterialTheme.colorScheme.surface
-    val fg = if (isPrimary) androidx.compose.ui.graphics.Color.White else MaterialTheme.colorScheme.onSurface
-    val iconColor = if (isPrimary) androidx.compose.ui.graphics.Color.White else FlAccent
-    val borderColor = if (isPrimary) FlAccent else FlBorder
+    val fg = if (isPrimary) Color.White else MaterialTheme.colorScheme.onSurface
+    val iconColor = if (isPrimary) Color.White else FlAccent
+    val borderColor = if (isPrimary) FlAccent else FlBorder2
+    val shape = RoundedCornerShape(10.dp)
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(10.dp))
+            .clip(shape)
             .background(bg)
+            .then(
+                if (!isPrimary) Modifier.border(1.dp, borderColor, shape)
+                else Modifier
+            )
             .clickable(onClick = onClick)
             .padding(vertical = 14.dp, horizontal = 16.dp),
         horizontalArrangement = Arrangement.Center,
