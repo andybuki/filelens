@@ -452,56 +452,67 @@
          ==================================================================== -->
     <plurals name="plural_file_count">
         <item quantity="one">%1$d arquivo</item>
+        <item quantity="many">%1$d de arquivos</item>
         <item quantity="other">%1$d arquivos</item>
     </plurals>
 
     <plurals name="plural_item_count">
-        <item quantity="one">1 item</item>
+        <item quantity="one">%1$d item</item>
+        <item quantity="many">%1$d de itens</item>
         <item quantity="other">%1$d itens</item>
     </plurals>
 
     <plurals name="plural_risk_count">
         <item quantity="one">%1$d risco</item>
+        <item quantity="many">%1$d de riscos</item>
         <item quantity="other">%1$d riscos</item>
     </plurals>
 
     <plurals name="plural_match_count">
         <item quantity="one">%1$d correspondência</item>
+        <item quantity="many">%1$d de correspondências</item>
         <item quantity="other">%1$d correspondências</item>
     </plurals>
 
     <plurals name="plural_secret_count">
         <item quantity="one">Possível segredo (%1$d)</item>
+        <item quantity="many">Possíveis segredos (%1$d)</item>
         <item quantity="other">Possíveis segredos (%1$d)</item>
     </plurals>
 
     <plurals name="plural_ignored_count">
         <item quantity="one">%1$d ignorado — mostrar</item>
+        <item quantity="many">%1$d ignorados — mostrar</item>
         <item quantity="other">%1$d ignorados — mostrar</item>
     </plurals>
 
     <plurals name="plural_selected_count">
         <item quantity="one">%1$d selecionado</item>
+        <item quantity="many">%1$d de selecionados</item>
         <item quantity="other">%1$d selecionados</item>
     </plurals>
 
     <plurals name="plural_collision_count">
         <item quantity="one">%1$d conflito de nome</item>
+        <item quantity="many">%1$d de conflitos de nome</item>
         <item quantity="other">%1$d conflitos de nome</item>
     </plurals>
 
     <plurals name="plural_rename_action">
         <item quantity="one">Renomear %1$d</item>
+        <item quantity="many">Renomear %1$d</item>
         <item quantity="other">Renomear %1$d</item>
     </plurals>
 
     <plurals name="plural_delete_action">
         <item quantity="one">Excluir %1$d</item>
+        <item quantity="many">Excluir %1$d</item>
         <item quantity="other">Excluir %1$d</item>
     </plurals>
 
     <plurals name="plural_visit_count">
-        <item quantity="one">1 visita</item>
+        <item quantity="one">%1$d visita</item>
+        <item quantity="many">%1$d de visitas</item>
         <item quantity="other">%1$d visitas</item>
     </plurals>
 

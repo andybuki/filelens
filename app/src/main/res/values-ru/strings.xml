@@ -453,66 +453,77 @@
     <plurals name="plural_file_count">
         <item quantity="one">%1$d файл</item>
         <item quantity="few">%1$d файла</item>
+        <item quantity="many">%1$d файлов</item>
         <item quantity="other">%1$d файлов</item>
     </plurals>
 
     <plurals name="plural_item_count">
-        <item quantity="one">1 элемент</item>
+        <item quantity="one">%1$d элемент</item>
         <item quantity="few">%1$d элемента</item>
+        <item quantity="many">%1$d элементов</item>
         <item quantity="other">%1$d элементов</item>
     </plurals>
 
     <plurals name="plural_risk_count">
         <item quantity="one">%1$d риск</item>
         <item quantity="few">%1$d риска</item>
+        <item quantity="many">%1$d рисков</item>
         <item quantity="other">%1$d рисков</item>
     </plurals>
 
     <plurals name="plural_match_count">
         <item quantity="one">%1$d совпадение</item>
         <item quantity="few">%1$d совпадения</item>
+        <item quantity="many">%1$d совпадений</item>
         <item quantity="other">%1$d совпадений</item>
     </plurals>
 
     <plurals name="plural_secret_count">
         <item quantity="one">Возможный секрет (%1$d)</item>
         <item quantity="few">Возможные секреты (%1$d)</item>
+        <item quantity="many">Возможные секреты (%1$d)</item>
         <item quantity="other">Возможные секреты (%1$d)</item>
     </plurals>
 
     <plurals name="plural_ignored_count">
         <item quantity="one">%1$d проигнорировано — показать</item>
         <item quantity="few">%1$d проигнорировано — показать</item>
+        <item quantity="many">%1$d проигнорировано — показать</item>
         <item quantity="other">%1$d проигнорировано — показать</item>
     </plurals>
 
     <plurals name="plural_selected_count">
         <item quantity="one">%1$d выбран</item>
         <item quantity="few">%1$d выбрано</item>
+        <item quantity="many">%1$d выбрано</item>
         <item quantity="other">%1$d выбрано</item>
     </plurals>
 
     <plurals name="plural_collision_count">
         <item quantity="one">%1$d конфликт имён</item>
         <item quantity="few">%1$d конфликта имён</item>
+        <item quantity="many">%1$d конфликтов имён</item>
         <item quantity="other">%1$d конфликтов имён</item>
     </plurals>
 
     <plurals name="plural_rename_action">
         <item quantity="one">Переименовать %1$d</item>
         <item quantity="few">Переименовать %1$d</item>
+        <item quantity="many">Переименовать %1$d</item>
         <item quantity="other">Переименовать %1$d</item>
     </plurals>
 
     <plurals name="plural_delete_action">
         <item quantity="one">Удалить %1$d</item>
         <item quantity="few">Удалить %1$d</item>
+        <item quantity="many">Удалить %1$d</item>
         <item quantity="other">Удалить %1$d</item>
     </plurals>
 
     <plurals name="plural_visit_count">
-        <item quantity="one">1 посещение</item>
+        <item quantity="one">%1$d посещение</item>
         <item quantity="few">%1$d посещения</item>
+        <item quantity="many">%1$d посещений</item>
         <item quantity="other">%1$d посещений</item>
     </plurals>
 

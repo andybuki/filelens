@@ -491,7 +491,7 @@
     </plurals>
 
     <plurals name="plural_visit_count">
-        <item quantity="one">1회 방문</item>
+        <item quantity="one">%1$d회 방문</item>
         <item quantity="other">%1$d회 방문</item>
     </plurals>
 
