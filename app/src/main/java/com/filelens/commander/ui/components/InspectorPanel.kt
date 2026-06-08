@@ -27,6 +27,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.DataObject
+import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.automirrored.filled.OpenInNew
@@ -35,6 +37,8 @@ import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.Tag
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VpnKey
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Info
@@ -387,6 +391,7 @@ private fun OverviewTab(
             if (hasPreview) {
                 ActionButton(
                     label = stringResource(R.string.action_preview_only),
+                    icon = Icons.Filled.Visibility,
                     onClick = { onSwitchTab(InspectorTab.PREVIEW) }
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -399,6 +404,7 @@ private fun OverviewTab(
                         FileCategory.DOCUMENT, FileCategory.SPREADSHEET, FileCategory.PRESENTATION -> stringResource(R.string.action_inspect_doc_structure)
                         else -> stringResource(R.string.action_inspect_structure)
                     },
+                    icon = Icons.Filled.DataObject,
                     onClick = { onSwitchTab(InspectorTab.STRUCTURE) }
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -408,6 +414,7 @@ private fun OverviewTab(
         if (onSearchInside != null) {
             ActionButton(
                 label = stringResource(R.string.action_search_inside),
+                icon = Icons.Filled.Search,
                 onClick = onSearchInside
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -420,11 +427,13 @@ private fun OverviewTab(
             ) {
                 ActionButton(
                     label = stringResource(R.string.action_export_markdown),
+                    icon = Icons.Filled.Description,
                     onClick = { onExportReport(false) },
                     modifier = Modifier.weight(1f)
                 )
                 ActionButton(
                     label = stringResource(R.string.action_export_json),
+                    icon = Icons.Filled.DataObject,
                     onClick = { onExportReport(true) },
                     modifier = Modifier.weight(1f)
                 )
@@ -444,7 +453,7 @@ private fun OverviewTab(
         if (onVerifyHash != null) {
             ActionButton(
                 label = stringResource(R.string.action_verify_hash),
-                icon = Icons.Filled.Tag,
+                icon = Icons.Filled.VpnKey,
                 onClick = onVerifyHash
             )
             Spacer(modifier = Modifier.height(8.dp))

@@ -27,14 +27,16 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Analytics
 import androidx.compose.material.icons.filled.BookmarkAdd
 import androidx.compose.material.icons.filled.Bookmarks
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.FileCopy
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.NorthWest
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.SwapVert
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material.icons.filled.Upload
@@ -349,7 +351,7 @@ private fun MinimalHeader(
                 DropdownMenuItem(
                     text = {
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(Icons.Filled.Shield, contentDescription = null)
+                            Icon(Icons.Filled.Security, contentDescription = null)
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(stringResource(R.string.menu_scan_folder))
                         }
@@ -359,7 +361,7 @@ private fun MinimalHeader(
                 DropdownMenuItem(
                     text = {
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(Icons.Filled.Shield, contentDescription = null)
+                            Icon(Icons.Filled.Analytics, contentDescription = null)
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(stringResource(R.string.menu_analyze_folder))
                         }
@@ -369,7 +371,7 @@ private fun MinimalHeader(
                 DropdownMenuItem(
                     text = {
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(Icons.Filled.Shield, contentDescription = null)
+                            Icon(Icons.Filled.FileCopy, contentDescription = null)
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(stringResource(R.string.menu_find_duplicates))
                         }
