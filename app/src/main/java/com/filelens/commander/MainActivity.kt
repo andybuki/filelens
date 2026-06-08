@@ -34,6 +34,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import com.filelens.commander.ui.navigation.FileLensNavGraph
 import com.filelens.commander.ui.theme.FileLensTheme
+import com.filelens.commander.ui.theme.FlNavy
 import com.filelens.commander.viewmodel.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -72,7 +73,10 @@ class MainActivity : ComponentActivity() {
                 androidx.compose.runtime.CompositionLocalProvider(
                     com.filelens.commander.ui.util.LocalSizeUnits provides settings.sizeUnits
                 ) {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    containerColor = FlNavy
+                ) { innerPadding ->
                     if (hasStoragePermission) {
                         val navController = rememberNavController()
                         val hasSeenOnboarding by settingsViewModel.hasSeenOnboarding.collectAsStateWithLifecycle()
