@@ -13,10 +13,13 @@ import androidx.activity.compose.setContent
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -73,19 +76,24 @@ class MainActivity : ComponentActivity() {
                 androidx.compose.runtime.CompositionLocalProvider(
                     com.filelens.commander.ui.util.LocalSizeUnits provides settings.sizeUnits
                 ) {
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    containerColor = FlNavy
-                ) { innerPadding ->
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     if (hasStoragePermission) {
                         val navController = rememberNavController()
                         val hasSeenOnboarding by settingsViewModel.hasSeenOnboarding.collectAsStateWithLifecycle()
-                        FileLensNavGraph(
-                            navController = navController,
-                            showOnboarding = !hasSeenOnboarding,
-                            onOnboardingComplete = { settingsViewModel.completeOnboarding() },
-                            modifier = Modifier.padding(innerPadding)
-                        )
+                        Box(modifier = Modifier.fillMaxSize()) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(innerPadding.calculateTopPadding())
+                                    .background(FlNavy)
+                            )
+                            FileLensNavGraph(
+                                navController = navController,
+                                showOnboarding = !hasSeenOnboarding,
+                                onOnboardingComplete = { settingsViewModel.completeOnboarding() },
+                                modifier = Modifier.padding(innerPadding)
+                            )
+                        }
                     } else {
                         Column(
                             modifier = Modifier
