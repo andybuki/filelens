@@ -326,8 +326,10 @@
     <string name="settings_about_vision_label">Vision</string>
     <string name="settings_about_vision_text">Dateien durchsuchen, hineinsehen, verstehen vor dem Öffnen. Offline, auf dem Gerät, ohne Konten.</string>
     <string name="settings_licenses_intro">FileLens basiert auf diesen Open-Source-Bibliotheken:</string>
+    <string name="settings_licenses_desc">FileLens basiert auf Open-Source-Bibliotheken.</string>
     <string name="settings_licenses_show">Lizenzen anzeigen</string>
     <string name="settings_licenses_hide">Lizenzen ausblenden</string>
+    <string name="settings_footer_tagline">auf dem Gerät · kein Tracking</string>
 
     <string name="settings_backup_saved">Backup gespeichert</string>
     <string name="settings_export_failed">Export fehlgeschlagen: %1$s</string>

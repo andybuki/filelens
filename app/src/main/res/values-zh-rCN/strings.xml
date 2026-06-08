@@ -326,8 +326,10 @@
     <string name="settings_about_vision_label">愿景</string>
     <string name="settings_about_vision_text">浏览文件，窥视内部，打开前先了解。离线、设备端、无需账号。</string>
     <string name="settings_licenses_intro">FileLens 基于以下开源库构建：</string>
+    <string name="settings_licenses_desc">FileLens 基于开源库构建。</string>
     <string name="settings_licenses_show">显示许可证</string>
     <string name="settings_licenses_hide">隐藏许可证</string>
+    <string name="settings_footer_tagline">本地处理 · 无追踪</string>
 
     <string name="settings_backup_saved">备份已保存</string>
     <string name="settings_export_failed">导出失败：%1$s</string>

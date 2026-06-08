@@ -326,8 +326,10 @@
     <string name="settings_about_vision_label">Visão</string>
     <string name="settings_about_vision_text">Navegue por arquivos, veja o interior, entenda antes de abrir. Offline, no dispositivo, sem contas.</string>
     <string name="settings_licenses_intro">O FileLens é construído sobre estas bibliotecas de código aberto:</string>
+    <string name="settings_licenses_desc">O FileLens é construído sobre bibliotecas de código aberto.</string>
     <string name="settings_licenses_show">Mostrar licenças</string>
     <string name="settings_licenses_hide">Ocultar licenças</string>
+    <string name="settings_footer_tagline">no dispositivo · sem rastreamento</string>
 
     <string name="settings_backup_saved">Backup salvo</string>
     <string name="settings_export_failed">Falha na exportação: %1$s</string>

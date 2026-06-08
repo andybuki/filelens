@@ -1,6 +1,5 @@
 package com.filelens.commander.ui.screens
 
-import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -22,8 +21,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Article
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Storage
+import androidx.compose.material.icons.filled.Upload
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.SnackbarHost
@@ -34,8 +40,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -46,10 +50,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import app.com.filelens.R
 import kotlinx.coroutines.launch
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -58,8 +65,13 @@ import com.filelens.commander.domain.model.PanelMode
 import com.filelens.commander.domain.model.SizeUnits
 import com.filelens.commander.ui.theme.Eyebrow
 import com.filelens.commander.ui.theme.FlAccent
+import com.filelens.commander.ui.theme.FlBlue50
 import com.filelens.commander.ui.theme.FlInk3
+import com.filelens.commander.ui.theme.FlNavy
+import com.filelens.commander.ui.theme.FlOnAccent
 import com.filelens.commander.viewmodel.SettingsViewModel
+
+private val HeaderInk = FlOnAccent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -109,23 +121,19 @@ fun SettingsScreen(
         }
     }
 
+    val licensesIntro = stringResource(R.string.settings_licenses_intro)
+
     Column(modifier = Modifier.fillMaxSize()) {
-        TopAppBar(
-            title = { Text(stringResource(R.string.settings_title), style = MaterialTheme.typography.titleLarge) },
-            navigationIcon = {
-                IconButton(onClick = onBack) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.cd_back))
-                }
-            },
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.background
-            )
+        NavyHeader(
+            title = stringResource(R.string.settings_title),
+            onBack = onBack
         )
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .padding(horizontal = 16.dp)
+                .padding(top = 8.dp, bottom = 36.dp)
         ) {
             SectionHeader(stringResource(R.string.settings_section_browsing))
             SettingsCard {
@@ -165,58 +173,109 @@ fun SettingsScreen(
 
             SectionHeader(stringResource(R.string.settings_section_remote))
             SettingsCard {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable(onClick = onOpenRemoteServers)
-                        .padding(horizontal = 14.dp, vertical = 14.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(stringResource(R.string.settings_remote_servers), style = MaterialTheme.typography.titleSmall)
-                        Text(
-                            stringResource(R.string.settings_remote_servers_desc),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = FlInk3
-                        )
-                    }
-                    Text("›", style = MaterialTheme.typography.titleMedium, color = FlInk3)
-                }
+                DisclosureRow(
+                    icon = Icons.Filled.Storage,
+                    label = stringResource(R.string.settings_remote_servers),
+                    description = stringResource(R.string.settings_remote_servers_desc),
+                    onClick = onOpenRemoteServers
+                )
             }
 
             SectionHeader(stringResource(R.string.settings_section_backup))
             SettingsCard {
-                Column(modifier = Modifier.padding(14.dp)) {
+                Column(modifier = Modifier.padding(16.dp)) {
                     Text(
                         stringResource(R.string.settings_backup_desc),
                         style = MaterialTheme.typography.bodySmall,
                         color = FlInk3
                     )
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Spacer(modifier = Modifier.height(14.dp))
+                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                         Button(
-                            onClick = {
-                                exportLauncher.launch("filelens-backup.json")
-                            },
-                            modifier = Modifier.weight(1f)
-                        ) { Text(stringResource(R.string.action_export)) }
+                            onClick = { exportLauncher.launch("filelens-backup.json") },
+                            modifier = Modifier.weight(1f),
+                            colors = ButtonDefaults.buttonColors(containerColor = FlAccent)
+                        ) {
+                            Icon(
+                                Icons.Filled.Download,
+                                contentDescription = null,
+                                modifier = Modifier.size(17.dp)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(stringResource(R.string.action_export))
+                        }
                         OutlinedButton(
                             onClick = {
                                 importLauncher.launch(arrayOf("application/json", "text/plain", "*/*"))
                             },
                             modifier = Modifier.weight(1f)
-                        ) { Text(stringResource(R.string.action_import)) }
+                        ) {
+                            Icon(
+                                Icons.Filled.Upload,
+                                contentDescription = null,
+                                modifier = Modifier.size(17.dp)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(stringResource(R.string.action_import))
+                        }
                     }
                 }
             }
 
             SectionHeader(stringResource(R.string.settings_section_about))
             SettingsCard {
-                StaticRow(stringResource(R.string.settings_about_app_name), stringResource(R.string.settings_about_version))
+                StaticRow(
+                    label = stringResource(R.string.settings_about_app_name),
+                    value = stringResource(R.string.settings_about_version)
+                )
+                Divider()
+                VisionBlock(
+                    label = stringResource(R.string.settings_about_vision_label),
+                    text = stringResource(R.string.settings_about_vision_text)
+                )
+                Divider()
+                DisclosureRow(
+                    icon = Icons.AutoMirrored.Filled.Article,
+                    label = stringResource(R.string.settings_section_licenses),
+                    description = stringResource(R.string.settings_licenses_desc),
+                    onClick = {
+                        scope.launch { snackbar.showSnackbar(licensesIntro) }
+                    }
+                )
             }
-            Spacer(modifier = Modifier.height(32.dp))
+
+            BrandFooter()
         }
         SnackbarHost(hostState = snackbar, modifier = Modifier.fillMaxWidth())
+    }
+}
+
+@Composable
+private fun NavyHeader(title: String, onBack: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(FlNavy)
+            .padding(start = 4.dp, end = 12.dp, top = 6.dp, bottom = 12.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(onClick = onBack) {
+                Icon(
+                    Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = stringResource(R.string.cd_back),
+                    tint = HeaderInk
+                )
+            }
+            Spacer(modifier = Modifier.width(2.dp))
+            Text(
+                text = title,
+                color = HeaderInk,
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
     }
 }
 
@@ -226,7 +285,7 @@ private fun SectionHeader(label: String) {
         text = label.uppercase(),
         style = Eyebrow,
         color = FlInk3,
-        modifier = Modifier.padding(start = 4.dp, top = 20.dp, bottom = 8.dp)
+        modifier = Modifier.padding(start = 6.dp, top = 20.dp, bottom = 8.dp)
     )
 }
 
@@ -235,7 +294,7 @@ private fun SettingsCard(content: @Composable () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(14.dp))
+            .clip(RoundedCornerShape(16.dp))
             .background(MaterialTheme.colorScheme.surfaceVariant)
     ) {
         content()
@@ -247,6 +306,7 @@ private fun Divider() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(horizontal = 14.dp)
             .height(1.dp)
             .background(MaterialTheme.colorScheme.outline)
     )
@@ -263,13 +323,13 @@ private fun SwitchRow(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onCheckedChange(!checked) }
-            .padding(horizontal = 14.dp, vertical = 12.dp),
+            .padding(horizontal = 14.dp, vertical = 14.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(label, style = MaterialTheme.typography.titleSmall)
             if (description != null) {
-                Spacer(modifier = Modifier.height(2.dp))
+                Spacer(modifier = Modifier.height(3.dp))
                 Text(
                     description,
                     style = MaterialTheme.typography.bodySmall,
@@ -303,21 +363,75 @@ private fun ChoiceRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .let { if (onClick != null) it.clickable(onClick = onClick) else it }
-                .padding(horizontal = 14.dp, vertical = 12.dp),
+                .padding(horizontal = 14.dp, vertical = 14.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(label, style = MaterialTheme.typography.titleSmall)
-                Spacer(modifier = Modifier.height(2.dp))
-                Text(value, style = MaterialTheme.typography.bodySmall, color = FlInk3)
+                Spacer(modifier = Modifier.height(3.dp))
+                Text(
+                    value,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = FlAccent,
+                    fontWeight = FontWeight.SemiBold
+                )
             }
             if (trailing != null) trailing()
         }
         if (inlinePicker != null) {
-            Box(modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)) {
+            Box(modifier = Modifier.padding(horizontal = 14.dp).padding(bottom = 14.dp)) {
                 inlinePicker()
             }
         }
+    }
+}
+
+@Composable
+private fun DisclosureRow(
+    icon: ImageVector,
+    label: String,
+    description: String,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(horizontal = 14.dp, vertical = 14.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .size(36.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(FlBlue50),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                icon,
+                contentDescription = null,
+                tint = FlAccent,
+                modifier = Modifier.size(19.dp)
+            )
+        }
+        Spacer(modifier = Modifier.width(14.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            Text(label, style = MaterialTheme.typography.titleSmall)
+            Spacer(modifier = Modifier.height(3.dp))
+            Text(
+                description,
+                style = MaterialTheme.typography.bodySmall,
+                color = FlInk3,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+        Icon(
+            Icons.Filled.ChevronRight,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.outline,
+            modifier = Modifier.size(20.dp)
+        )
     }
 }
 
@@ -326,11 +440,76 @@ private fun StaticRow(label: String, value: String) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 14.dp, vertical = 12.dp)
+            .padding(horizontal = 14.dp, vertical = 14.dp)
     ) {
         Text(label, style = MaterialTheme.typography.titleSmall)
-        Spacer(modifier = Modifier.height(2.dp))
+        Spacer(modifier = Modifier.height(3.dp))
         Text(value, style = MaterialTheme.typography.bodySmall, color = FlInk3)
+    }
+}
+
+@Composable
+private fun VisionBlock(label: String, text: String) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(14.dp)
+    ) {
+        Text(
+            text = label.uppercase(),
+            style = Eyebrow,
+            color = FlAccent
+        )
+        Spacer(modifier = Modifier.height(7.dp))
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+    }
+}
+
+@Composable
+private fun BrandFooter() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 28.dp, bottom = 8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .size(44.dp)
+                .clip(RoundedCornerShape(13.dp))
+                .background(FlNavy),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                Icons.Filled.Search,
+                contentDescription = null,
+                tint = HeaderInk,
+                modifier = Modifier.size(24.dp)
+            )
+        }
+        Row {
+            Text(
+                stringResource(R.string.brand_name),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                "  ·  ",
+                style = MaterialTheme.typography.bodySmall,
+                color = FlInk3
+            )
+            Text(
+                stringResource(R.string.settings_footer_tagline),
+                style = MaterialTheme.typography.bodySmall,
+                color = FlInk3
+            )
+        }
     }
 }
 
@@ -361,7 +540,7 @@ private fun <T> SegmentRow(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(11.dp))
+            .clip(RoundedCornerShape(12.dp))
             .background(MaterialTheme.colorScheme.surface)
             .padding(4.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp)
@@ -374,7 +553,7 @@ private fun <T> SegmentRow(
                     .clip(RoundedCornerShape(8.dp))
                     .background(if (selected) FlAccent else Color.Transparent)
                     .clickable { onSelect(value) }
-                    .padding(horizontal = 10.dp, vertical = 8.dp),
+                    .padding(horizontal = 10.dp, vertical = 9.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
