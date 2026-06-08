@@ -326,8 +326,10 @@
     <string name="settings_about_vision_label">दृष्टिकोण</string>
     <string name="settings_about_vision_text">फ़ाइलें ब्राउज़ करें, अंदर झाँकें, खोलने से पहले समझें। ऑफ़लाइन, डिवाइस पर, बिना खाते के।</string>
     <string name="settings_licenses_intro">FileLens इन ओपन सोर्स लाइब्रेरी पर बना है:</string>
+    <string name="settings_licenses_desc">FileLens ओपन सोर्स लाइब्रेरी पर बना है.</string>
     <string name="settings_licenses_show">लाइसेंस दिखाएं</string>
     <string name="settings_licenses_hide">लाइसेंस छुपाएं</string>
+    <string name="settings_footer_tagline">डिवाइस पर · कोई ट्रैकिंग नहीं</string>
 
     <string name="settings_backup_saved">बैकअप सहेजा गया</string>
     <string name="settings_export_failed">निर्यात विफल: %1$s</string>

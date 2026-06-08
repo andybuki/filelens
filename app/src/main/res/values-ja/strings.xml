@@ -326,8 +326,10 @@
     <string name="settings_about_vision_label">ビジョン</string>
     <string name="settings_about_vision_text">ファイルを参照し、中身をのぞき、開く前に理解する。オフライン、デバイス上、アカウント不要。</string>
     <string name="settings_licenses_intro">FileLens は以下のオープンソースライブラリを使用しています:</string>
+    <string name="settings_licenses_desc">FileLens はオープンソースライブラリを使用しています。</string>
     <string name="settings_licenses_show">ライセンスを表示</string>
     <string name="settings_licenses_hide">ライセンスを非表示</string>
+    <string name="settings_footer_tagline">オンデバイス · トラッキングなし</string>
 
     <string name="settings_backup_saved">バックアップを保存しました</string>
     <string name="settings_export_failed">エクスポートに失敗しました: %1$s</string>

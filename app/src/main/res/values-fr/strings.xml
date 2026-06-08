@@ -273,8 +273,10 @@
     <string name="settings_about_vision_label">Vision</string>
     <string name="settings_about_vision_text">Parcourez les fichiers, regardez à l\'intérieur, comprenez avant d\'ouvrir. Hors ligne, sur l\'appareil, sans comptes.</string>
     <string name="settings_licenses_intro">FileLens est construit sur ces bibliothèques open source :</string>
+    <string name="settings_licenses_desc">FileLens est construit sur des bibliothèques open source.</string>
     <string name="settings_licenses_show">Afficher les licences</string>
     <string name="settings_licenses_hide">Masquer les licences</string>
+    <string name="settings_footer_tagline">sur l\'appareil · sans suivi</string>
     <string name="settings_backup_saved">Sauvegarde enregistrée</string>
     <string name="settings_export_failed">Échec de l\'exportation : %1$s</string>
     <string name="settings_import_failed">Échec de l\'importation : %1$s</string>

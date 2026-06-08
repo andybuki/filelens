@@ -326,8 +326,10 @@
     <string name="settings_about_vision_label">비전</string>
     <string name="settings_about_vision_text">파일을 탐색하고, 내부를 엿보고, 열기 전에 이해하세요. 오프라인, 기기 내, 계정 불필요.</string>
     <string name="settings_licenses_intro">FileLens는 다음 오픈 소스 라이브러리를 기반으로 합니다:</string>
+    <string name="settings_licenses_desc">FileLens는 오픈 소스 라이브러리를 기반으로 합니다.</string>
     <string name="settings_licenses_show">라이선스 표시</string>
     <string name="settings_licenses_hide">라이선스 숨기기</string>
+    <string name="settings_footer_tagline">기기 내 처리 · 추적 없음</string>
 
     <string name="settings_backup_saved">백업 저장됨</string>
     <string name="settings_export_failed">내보내기 실패: %1$s</string>

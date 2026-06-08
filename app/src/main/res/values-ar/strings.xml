@@ -326,8 +326,10 @@
     <string name="settings_about_vision_label">الرؤية</string>
     <string name="settings_about_vision_text">تصفح الملفات، اطلع على محتواها، افهمها قبل الفتح. غير متصل بالإنترنت، على الجهاز، بدون حسابات.</string>
     <string name="settings_licenses_intro">FileLens مبني على هذه المكتبات مفتوحة المصدر:</string>
+    <string name="settings_licenses_desc">FileLens مبني على مكتبات مفتوحة المصدر.</string>
     <string name="settings_licenses_show">إظهار التراخيص</string>
     <string name="settings_licenses_hide">إخفاء التراخيص</string>
+    <string name="settings_footer_tagline">على الجهاز · بدون تتبع</string>
 
     <string name="settings_backup_saved">تم حفظ النسخة الاحتياطية</string>
     <string name="settings_export_failed">فشل التصدير: %1$s</string>

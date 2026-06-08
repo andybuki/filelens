@@ -326,8 +326,10 @@
     <string name="settings_about_vision_label">Vizyon</string>
     <string name="settings_about_vision_text">Dosyalara gözat, içine bak, açmadan önce anla. Çevrimdışı, cihazda, hesap gerektirmez.</string>
     <string name="settings_licenses_intro">FileLens şu açık kaynak kütüphaneler üzerine kurulmuştur:</string>
+    <string name="settings_licenses_desc">FileLens açık kaynak kütüphaneler üzerine kurulmuştur.</string>
     <string name="settings_licenses_show">Lisansları göster</string>
     <string name="settings_licenses_hide">Lisansları gizle</string>
+    <string name="settings_footer_tagline">cihazda · takip yok</string>
 
     <string name="settings_backup_saved">Yedek kaydedildi</string>
     <string name="settings_export_failed">Dışa aktarma başarısız: %1$s</string>

@@ -326,8 +326,10 @@
     <string name="settings_about_vision_label">Концепция</string>
     <string name="settings_about_vision_text">Просматривайте файлы, заглядывайте внутрь, понимайте перед открытием. Офлайн, на устройстве, без учётных записей.</string>
     <string name="settings_licenses_intro">FileLens создан на основе следующих библиотек с открытым исходным кодом:</string>
+    <string name="settings_licenses_desc">FileLens создан на библиотеках с открытым исходным кодом.</string>
     <string name="settings_licenses_show">Показать лицензии</string>
     <string name="settings_licenses_hide">Скрыть лицензии</string>
+    <string name="settings_footer_tagline">на устройстве · без отслеживания</string>
 
     <string name="settings_backup_saved">Резервная копия сохранена</string>
     <string name="settings_export_failed">Ошибка экспорта: %1$s</string>
