@@ -296,20 +296,13 @@ private fun MinimalHeader(
             .padding(start = 16.dp, end = 8.dp, top = 6.dp, bottom = 12.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Box(
+            androidx.compose.foundation.Image(
+                painter = androidx.compose.ui.res.painterResource(R.drawable.ic_brand_mark),
+                contentDescription = null,
                 modifier = Modifier
-                    .size(30.dp)
+                    .size(34.dp)
                     .clip(RoundedCornerShape(9.dp))
-                    .background(MaterialTheme.colorScheme.primary),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    painter = androidx.compose.ui.res.painterResource(R.drawable.ic_lens_mark),
-                    contentDescription = null,
-                    tint = HeaderInk,
-                    modifier = Modifier.size(20.dp)
-                )
-            }
+            )
             Spacer(modifier = Modifier.width(12.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
