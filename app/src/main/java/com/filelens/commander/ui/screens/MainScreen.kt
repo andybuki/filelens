@@ -68,16 +68,20 @@ import com.filelens.commander.viewmodel.FileListState
 import com.filelens.commander.viewmodel.FileListViewModel
 import com.filelens.commander.viewmodel.InspectorState
 import com.filelens.commander.viewmodel.InspectorViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun MainScreen(
+    initialPath: String? = null,
+    initialCategory: com.filelens.commander.domain.model.HomeCategory? = null,
     onOpenSettings: () -> Unit = {},
     onCompare: (String, String) -> Unit = { _, _ -> },
     onFindDuplicates: (String) -> Unit = {},
     onBrowseSqlite: (String) -> Unit = {},
+    onOpenHome: () -> Unit = {},
     fileListViewModel: FileListViewModel = hiltViewModel(),
     inspectorViewModel: InspectorViewModel = hiltViewModel(),
     commanderViewModel: CommanderViewModel = hiltViewModel(),
@@ -103,6 +107,22 @@ fun MainScreen(
 
     LaunchedEffect(remoteOpenBus) {
         remoteOpenBus.events.collect { id -> fileListViewModel.openRemoteConnection(id) }
+    }
+
+    // Fire the initial Home-tab intent exactly once per navigation entry.
+    // We wait until the VM's init coroutine has settled (currentPath set,
+    // not loading) so our navigation isn't clobbered by the default
+    // "land at home root" navigation that runs on first construction.
+    var consumedInitial by remember { mutableStateOf(false) }
+    LaunchedEffect(initialPath, initialCategory) {
+        if (consumedInitial) return@LaunchedEffect
+        if (initialCategory == null && initialPath.isNullOrBlank()) return@LaunchedEffect
+        fileListViewModel.state.first { it.currentPath.isNotEmpty() && !it.isLoading }
+        when {
+            initialCategory != null -> fileListViewModel.browseCategory(initialCategory)
+            !initialPath.isNullOrBlank() -> fileListViewModel.navigateTo(initialPath)
+        }
+        consumedInitial = true
     }
 
     LaunchedEffect(fileListState.remoteNotice) {
@@ -428,6 +448,7 @@ fun MainScreen(
                 onFolderDashboard = onFolderDashboard,
                 onFindDuplicates = onFindDuplicatesLocal,
                 onOpenSettings = onOpenSettings,
+                onOpenHome = onOpenHome,
                 onBookmarkFolder = bookmarkCurrentFolder,
                 onShowBookmarks = { showBookmarksSheet = true },
                 onShowRecents = { showRecentsSheet = true },
@@ -459,6 +480,7 @@ fun MainScreen(
                 onFolderDashboard = onFolderDashboard,
                 onFindDuplicates = onFindDuplicatesLocal,
                 onOpenSettings = onOpenSettings,
+                onOpenHome = onOpenHome,
                 onBookmarkFolder = bookmarkCurrentFolder,
                 onShowBookmarks = { showBookmarksSheet = true },
                 onShowRecents = { showRecentsSheet = true },
@@ -494,6 +516,7 @@ private fun CompactLayout(
     onFolderDashboard: () -> Unit,
     onFindDuplicates: () -> Unit,
     onOpenSettings: () -> Unit,
+    onOpenHome: () -> Unit,
     onBookmarkFolder: () -> Unit,
     onShowBookmarks: () -> Unit,
     onShowRecents: () -> Unit,
@@ -610,6 +633,7 @@ private fun CompactLayout(
                 onFolderDashboard = onFolderDashboard,
                 onFindDuplicates = onFindDuplicates,
                 onOpenSettings = onOpenSettings,
+                onOpenHome = onOpenHome,
                 onBookmarkFolder = onBookmarkFolder,
                 onShowBookmarks = onShowBookmarks,
                 onShowRecents = onShowRecents,
@@ -689,6 +713,7 @@ private fun ExpandedLayout(
     onFolderDashboard: () -> Unit,
     onFindDuplicates: () -> Unit,
     onOpenSettings: () -> Unit,
+    onOpenHome: () -> Unit,
     onBookmarkFolder: () -> Unit,
     onShowBookmarks: () -> Unit,
     onShowRecents: () -> Unit,
@@ -774,6 +799,7 @@ private fun ExpandedLayout(
                 onFolderDashboard = onFolderDashboard,
                 onFindDuplicates = onFindDuplicates,
                 onOpenSettings = onOpenSettings,
+                onOpenHome = onOpenHome,
                 onBookmarkFolder = onBookmarkFolder,
                 onShowBookmarks = onShowBookmarks,
                 onShowRecents = onShowRecents,
@@ -824,6 +850,7 @@ private fun ExpandedLayout(
                     onSearchRecursive = { rightViewModel.searchRecursive(it) },
                     onRefresh = { rightViewModel.refresh() },
                     onOpenSettings = onOpenSettings,
+                    onOpenHome = onOpenHome,
                     onBookmarkFolder = onBookmarkFolder,
                     onShowBookmarks = onShowBookmarks,
                     onShowRecents = onShowRecents,

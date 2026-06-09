@@ -42,6 +42,7 @@
     <string name="cd_collapse">Collapse</string>
     <string name="cd_clear_selection">Clear selection</string>
     <string name="cd_remove_bookmark">Remove bookmark</string>
+    <string name="cd_open_home">Open Home</string>
     <string name="cd_connect">Connect</string>
     <string name="cd_edit">Edit</string>
     <string name="cd_delete">Delete</string>
@@ -73,6 +74,25 @@
     <string name="empty_folder_subtitle">Nothing here yet. Add files, or import a statement to inspect it before opening.</string>
     <string name="empty_folder_action">Import a file</string>
     <string name="active_panel_indicator">Active panel</string>
+
+    <!-- ====================================================================
+         Home tab
+         ==================================================================== -->
+    <string name="home_subtitle">Recent · Favorites · Categories</string>
+    <string name="home_section_categories">Categories</string>
+    <string name="home_section_recent">Recent files</string>
+    <string name="home_section_favorites">Favorites</string>
+    <string name="home_section_frequent">Frequent folders</string>
+    <string name="home_category_images">Images</string>
+    <string name="home_category_video">Video</string>
+    <string name="home_category_audio">Audio</string>
+    <string name="home_category_docs">Docs</string>
+    <string name="home_category_apks">APKs</string>
+    <string name="home_category_archives">Archives</string>
+    <string name="home_category_downloads">Downloads</string>
+    <string name="home_category_large">Large files</string>
+    <string name="home_empty_headline">Nothing here yet</string>
+    <string name="home_empty_subtitle">Open files and bookmark folders to fill your Home tab. Tap a category above to jump straight to your media.</string>
 
     <!-- ====================================================================
          File list item (accessibility)

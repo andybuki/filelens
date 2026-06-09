@@ -1,0 +1,440 @@
+package com.filelens.commander.ui.screens
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
+import androidx.compose.material.icons.filled.Android
+import androidx.compose.material.icons.filled.Archive
+import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.Description
+import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.Folder
+import androidx.compose.material.icons.filled.History
+import androidx.compose.material.icons.filled.Image
+import androidx.compose.material.icons.filled.MusicNote
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Storage
+import androidx.compose.material.icons.filled.Videocam
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import app.com.filelens.R
+import com.filelens.commander.domain.model.Bookmark
+import com.filelens.commander.domain.model.FrequentFolder
+import com.filelens.commander.domain.model.HomeCategory
+import com.filelens.commander.domain.model.RecentFile
+import com.filelens.commander.ui.theme.CategoryApk
+import com.filelens.commander.ui.theme.CategoryArchive
+import com.filelens.commander.ui.theme.CategoryAudio
+import com.filelens.commander.ui.theme.CategoryDirectory
+import com.filelens.commander.ui.theme.CategoryDocument
+import com.filelens.commander.ui.theme.CategoryImage
+import com.filelens.commander.ui.theme.CategoryVideo
+import com.filelens.commander.ui.theme.Eyebrow
+import com.filelens.commander.ui.theme.FlAccent
+import com.filelens.commander.ui.theme.FlAccentTint
+import com.filelens.commander.ui.theme.FlBg
+import com.filelens.commander.ui.theme.FlInk
+import com.filelens.commander.ui.theme.FlInk3
+import com.filelens.commander.ui.theme.FlNavy
+import com.filelens.commander.ui.theme.FlOnAccent
+import com.filelens.commander.ui.theme.FlSurface
+import com.filelens.commander.ui.theme.FlText
+import com.filelens.commander.ui.theme.MonoSmall
+
+private data class CategoryTile(
+    val category: HomeCategory,
+    val icon: ImageVector,
+    val labelRes: Int,
+    val color: Color
+)
+
+private val CategoryTiles = listOf(
+    CategoryTile(HomeCategory.IMAGES, Icons.Filled.Image, R.string.home_category_images, CategoryImage),
+    CategoryTile(HomeCategory.VIDEO, Icons.Filled.Videocam, R.string.home_category_video, CategoryVideo),
+    CategoryTile(HomeCategory.AUDIO, Icons.Filled.MusicNote, R.string.home_category_audio, CategoryAudio),
+    CategoryTile(HomeCategory.DOCUMENTS, Icons.Filled.Description, R.string.home_category_docs, CategoryDocument),
+    CategoryTile(HomeCategory.APKS, Icons.Filled.Android, R.string.home_category_apks, CategoryApk),
+    CategoryTile(HomeCategory.ARCHIVES, Icons.Filled.Archive, R.string.home_category_archives, CategoryArchive),
+    CategoryTile(HomeCategory.DOWNLOADS, Icons.Filled.Download, R.string.home_category_downloads, CategoryDirectory),
+    CategoryTile(HomeCategory.LARGE_FILES, Icons.Filled.Storage, R.string.home_category_large, FlAccent)
+)
+
+@Composable
+fun HomeScreen(
+    onOpenCategory: (HomeCategory) -> Unit,
+    onOpenPath: (String) -> Unit,
+    onOpenFiles: () -> Unit,
+    onOpenSettings: () -> Unit,
+    bookmarksViewModel: com.filelens.commander.viewmodel.BookmarksViewModel = hiltViewModel(),
+    recentsViewModel: com.filelens.commander.viewmodel.RecentsViewModel = hiltViewModel()
+) {
+    val bookmarks by bookmarksViewModel.bookmarks.collectAsStateWithLifecycle()
+    val recentFiles by recentsViewModel.recentFiles.collectAsStateWithLifecycle()
+    val frequentFolders by recentsViewModel.frequentFolders.collectAsStateWithLifecycle()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(FlBg)
+    ) {
+        HomeHeader(onOpenSettings = onOpenSettings)
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = androidx.compose.foundation.layout.PaddingValues(
+                start = 16.dp, end = 16.dp, top = 16.dp, bottom = 32.dp
+            ),
+            verticalArrangement = Arrangement.spacedBy(20.dp)
+        ) {
+            item {
+                CategoriesSection(onOpenCategory = onOpenCategory)
+            }
+            if (recentFiles.isNotEmpty()) {
+                item {
+                    RecentSection(
+                        recentFiles = recentFiles.take(6),
+                        onOpenFile = { file ->
+                            val parent = file.path.substringBeforeLast('/', "")
+                            if (parent.isNotEmpty()) onOpenPath(parent) else onOpenFiles()
+                        }
+                    )
+                }
+            }
+            if (bookmarks.isNotEmpty()) {
+                item {
+                    FavoritesSection(
+                        bookmarks = bookmarks.sortedByDescending { it.addedAt }.take(6),
+                        onOpenBookmark = { onOpenPath(it.path) }
+                    )
+                }
+            }
+            if (frequentFolders.isNotEmpty()) {
+                item {
+                    FrequentSection(
+                        folders = frequentFolders.take(6),
+                        onOpenFolder = { onOpenPath(it.path) }
+                    )
+                }
+            }
+            if (recentFiles.isEmpty() && bookmarks.isEmpty() && frequentFolders.isEmpty()) {
+                item {
+                    EmptyHomeHint(onOpenFiles = onOpenFiles)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun HomeHeader(onOpenSettings: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(FlNavy)
+            .padding(start = 16.dp, end = 8.dp, top = 6.dp, bottom = 14.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        androidx.compose.foundation.Image(
+            painter = painterResource(R.drawable.ic_brand_mark),
+            contentDescription = null,
+            modifier = Modifier
+                .size(34.dp)
+                .clip(RoundedCornerShape(9.dp))
+        )
+        Spacer(modifier = Modifier.width(12.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = stringResource(R.string.brand_name),
+                style = MaterialTheme.typography.titleLarge,
+                color = FlOnAccent
+            )
+            Text(
+                text = stringResource(R.string.home_subtitle),
+                style = MaterialTheme.typography.labelSmall,
+                color = Color(0xFFE5E7EB)
+            )
+        }
+        IconButton(onClick = onOpenSettings) {
+            Icon(
+                Icons.Filled.Settings,
+                contentDescription = stringResource(R.string.cd_settings),
+                tint = Color(0xFFE5E7EB)
+            )
+        }
+    }
+}
+
+@Composable
+private fun SectionHeader(label: String) {
+    Text(
+        text = label.uppercase(),
+        style = Eyebrow,
+        color = FlInk3,
+        modifier = Modifier.padding(start = 4.dp, bottom = 10.dp)
+    )
+}
+
+@Composable
+private fun CategoriesSection(onOpenCategory: (HomeCategory) -> Unit) {
+    Column {
+        SectionHeader(stringResource(R.string.home_section_categories))
+        CategoryTiles.chunked(4).forEachIndexed { index, row ->
+            if (index > 0) Spacer(modifier = Modifier.height(10.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                row.forEach { tile ->
+                    CategoryTileView(
+                        tile = tile,
+                        onClick = { onOpenCategory(tile.category) },
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+                // Pad the trailing row so tile widths stay aligned with the
+                // first row even if the count isn't a multiple of four.
+                repeat(4 - row.size) {
+                    Spacer(modifier = Modifier.weight(1f))
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun CategoryTileView(
+    tile: CategoryTile,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .clip(RoundedCornerShape(14.dp))
+            .background(FlSurface)
+            .clickable(onClick = onClick)
+            .padding(vertical = 12.dp, horizontal = 6.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Box(
+            modifier = Modifier
+                .size(44.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .background(tile.color.copy(alpha = 0.14f)),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = tile.icon,
+                contentDescription = null,
+                tint = tile.color,
+                modifier = Modifier.size(22.dp)
+            )
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = stringResource(tile.labelRes),
+            style = MaterialTheme.typography.labelMedium,
+            color = FlInk,
+            fontWeight = FontWeight.Medium,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+    }
+}
+
+@Composable
+private fun RecentSection(
+    recentFiles: List<RecentFile>,
+    onOpenFile: (RecentFile) -> Unit
+) {
+    Column {
+        SectionHeader(stringResource(R.string.home_section_recent))
+        recentFiles.forEach { file ->
+            EntryRow(
+                title = file.displayName,
+                subtitle = compactPath(file.path),
+                icon = Icons.AutoMirrored.Filled.InsertDriveFile,
+                iconTint = FlAccent,
+                iconBackground = FlAccentTint,
+                onClick = { onOpenFile(file) }
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+    }
+}
+
+@Composable
+private fun FavoritesSection(
+    bookmarks: List<Bookmark>,
+    onOpenBookmark: (Bookmark) -> Unit
+) {
+    Column {
+        SectionHeader(stringResource(R.string.home_section_favorites))
+        bookmarks.forEach { bookmark ->
+            EntryRow(
+                title = bookmark.displayName,
+                subtitle = compactPath(bookmark.path),
+                icon = Icons.Filled.Bookmark,
+                iconTint = FlAccent,
+                iconBackground = FlAccentTint,
+                onClick = { onOpenBookmark(bookmark) }
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+    }
+}
+
+@Composable
+private fun FrequentSection(
+    folders: List<FrequentFolder>,
+    onOpenFolder: (FrequentFolder) -> Unit
+) {
+    Column {
+        SectionHeader(stringResource(R.string.home_section_frequent))
+        folders.forEach { folder ->
+            val visitsLabel = pluralStringResource(
+                R.plurals.plural_visit_count,
+                folder.visitCount,
+                folder.visitCount
+            )
+            EntryRow(
+                title = folder.displayName,
+                subtitle = "${compactPath(folder.path)} · $visitsLabel",
+                icon = Icons.Filled.Folder,
+                iconTint = CategoryDirectory,
+                iconBackground = CategoryDirectory.copy(alpha = 0.14f),
+                onClick = { onOpenFolder(folder) }
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+    }
+}
+
+@Composable
+private fun EntryRow(
+    title: String,
+    subtitle: String,
+    icon: ImageVector,
+    iconTint: Color,
+    iconBackground: Color,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .background(FlSurface)
+            .clickable(onClick = onClick)
+            .padding(horizontal = 12.dp, vertical = 11.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .size(36.dp)
+                .clip(RoundedCornerShape(10.dp))
+                .background(iconBackground),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = iconTint,
+                modifier = Modifier.size(19.dp)
+            )
+        }
+        Spacer(modifier = Modifier.width(12.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleSmall,
+                color = FlInk,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Text(
+                text = subtitle,
+                style = MonoSmall,
+                color = FlText,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(top = 2.dp)
+            )
+        }
+    }
+}
+
+@Composable
+private fun EmptyHomeHint(onOpenFiles: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(14.dp))
+            .background(FlSurface)
+            .clickable(onClick = onOpenFiles)
+            .padding(20.dp),
+        horizontalAlignment = Alignment.Start
+    ) {
+        Box(
+            modifier = Modifier
+                .size(40.dp)
+                .clip(RoundedCornerShape(11.dp))
+                .background(FlAccentTint),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                Icons.Filled.History,
+                contentDescription = null,
+                tint = FlAccent,
+                modifier = Modifier.size(20.dp)
+            )
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(
+            text = stringResource(R.string.home_empty_headline),
+            style = MaterialTheme.typography.titleSmall,
+            color = FlInk
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = stringResource(R.string.home_empty_subtitle),
+            style = MaterialTheme.typography.bodySmall,
+            color = FlInk3
+        )
+    }
+}
+
+private fun compactPath(path: String): String {
+    val parts = path.split("/").filter { it.isNotEmpty() }
+    if (parts.size <= 3) return path
+    return ".../" + parts.takeLast(3).joinToString("/")
+}

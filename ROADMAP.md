@@ -500,9 +500,9 @@ Prioritised so heavy / high-token tasks land early and risk is front-loaded; fin
 
 #### Week 2 — Differentiators, Polish, Store
 
-- [ ] **Day 8 — Home / Quick-access tab**
-  - [ ] New top-level "Home" destination: Recent · Favorites · Categories grid (Images / Video / Audio / Docs / APKs / Archives / Downloads / Large files).
-  - [ ] Wire to existing Recent and Bookmarks state.
+- [x] **Day 8 — Home / Quick-access tab**
+  - [x] New top-level "Home" destination: Recent · Favorites · Categories grid (Images / Video / Audio / Docs / APKs / Archives / Downloads / Large files).
+  - [x] Wire to existing Recent and Bookmarks state.
 - [ ] **Day 9 — Hidden vault (locked folder)**
   - [ ] Biometric / device-credential gated vault directory under app-private storage.
   - [ ] Move-in / move-out flow; vault items excluded from search & MediaStore.
