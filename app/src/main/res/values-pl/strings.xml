@@ -589,7 +589,9 @@
     <string name="settings_vault_desc">Folder z blokadą biometryczną w prywatnym magazynie aplikacji. Pliki tutaj są wykluczone z wyszukiwania i galerii.</string>
     <plurals name="plural_vault_item_count">
         <item quantity="one">%1$d element w sejfie</item>
-        <item quantity="other">%1$d elementów w sejfie</item>
+        <item quantity="few">%1$d elementy w sejfie</item>
+        <item quantity="many">%1$d elementów w sejfie</item>
+        <item quantity="other">%1$d elementu w sejfie</item>
     </plurals>
 
 </resources>

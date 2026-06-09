@@ -589,7 +589,9 @@
     <string name="settings_vault_desc">Папка с биометрической блокировкой в приватном хранилище приложения. Файлы здесь исключены из поиска и галереи.</string>
     <plurals name="plural_vault_item_count">
         <item quantity="one">%1$d элемент в хранилище</item>
-        <item quantity="other">%1$d элементов в хранилище</item>
+        <item quantity="few">%1$d элемента в хранилище</item>
+        <item quantity="many">%1$d элементов в хранилище</item>
+        <item quantity="other">%1$d элемента в хранилище</item>
     </plurals>
 
 </resources>

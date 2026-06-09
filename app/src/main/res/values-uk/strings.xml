@@ -589,7 +589,9 @@
     <string name="settings_vault_desc">Папка з біометричним блокуванням у приватному сховищі додатка. Файли тут виключені з пошуку та галереї.</string>
     <plurals name="plural_vault_item_count">
         <item quantity="one">%1$d елемент у сховищі</item>
-        <item quantity="other">%1$d елементів у сховищі</item>
+        <item quantity="few">%1$d елементи у сховищі</item>
+        <item quantity="many">%1$d елементів у сховищі</item>
+        <item quantity="other">%1$d елемента у сховищі</item>
     </plurals>
 
 </resources>
