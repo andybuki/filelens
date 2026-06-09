@@ -33,6 +33,7 @@ import androidx.compose.material.icons.filled.Bookmarks
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.FileCopy
 import androidx.compose.material.icons.filled.History
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.NorthWest
 import androidx.compose.material.icons.filled.Search
@@ -125,6 +126,7 @@ fun FileListPanel(
     onFolderDashboard: () -> Unit = {},
     onFindDuplicates: () -> Unit = {},
     onOpenSettings: () -> Unit = {},
+    onOpenHome: () -> Unit = {},
     onBookmarkFolder: () -> Unit = {},
     onShowBookmarks: () -> Unit = {},
     onShowRecents: () -> Unit = {},
@@ -153,6 +155,7 @@ fun FileListPanel(
                 onShowBookmarks = onShowBookmarks,
                 onShowRecents = onShowRecents,
                 onOpenSettings = onOpenSettings,
+                onOpenHome = onOpenHome,
                 onNavigateUp = onNavigateUp,
                 onNavigateToPath = onNavigateToPath
             )
@@ -286,6 +289,7 @@ private fun MinimalHeader(
     onShowBookmarks: () -> Unit,
     onShowRecents: () -> Unit,
     onOpenSettings: () -> Unit,
+    onOpenHome: () -> Unit,
     onNavigateUp: () -> Unit,
     onNavigateToPath: (String) -> Unit
 ) {
@@ -320,6 +324,13 @@ private fun MinimalHeader(
                         maxLines = 1
                     )
                 }
+            }
+            HeaderIconButton(onClick = onOpenHome) {
+                Icon(
+                    Icons.Filled.Home,
+                    contentDescription = stringResource(R.string.cd_open_home),
+                    tint = HeaderInk2
+                )
             }
             HeaderIconButton(onClick = onToggleSearch) {
                 Icon(

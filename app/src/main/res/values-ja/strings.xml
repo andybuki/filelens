@@ -514,4 +514,21 @@
     <string name="settings_show_onboarding_desc">次回起動時にオンボーディングスライドを表示</string>
     <string name="settings_onboarding_reset_toast">次回起動時にウェルカムガイドが表示されます</string>
 
+    <string name="cd_open_home">ホームを開く</string>
+    <string name="home_subtitle">最近 · お気に入り · カテゴリ</string>
+    <string name="home_section_categories">カテゴリ</string>
+    <string name="home_section_recent">最近のファイル</string>
+    <string name="home_section_favorites">お気に入り</string>
+    <string name="home_section_frequent">よく使うフォルダ</string>
+    <string name="home_category_images">画像</string>
+    <string name="home_category_video">動画</string>
+    <string name="home_category_audio">音楽</string>
+    <string name="home_category_docs">文書</string>
+    <string name="home_category_apks">APK</string>
+    <string name="home_category_archives">アーカイブ</string>
+    <string name="home_category_downloads">ダウンロード</string>
+    <string name="home_category_large">大容量ファイル</string>
+    <string name="home_empty_headline">まだ何もありません</string>
+    <string name="home_empty_subtitle">ファイルを開いたりフォルダをブックマークすると、ホームタブに表示されます。カテゴリをタップすると、メディアに直接移動できます。</string>
+
 </resources>

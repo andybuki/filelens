@@ -8,8 +8,10 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.filelens.commander.domain.model.HomeCategory
 import com.filelens.commander.ui.screens.CompareScreen
 import com.filelens.commander.ui.screens.DuplicateFinderScreen
+import com.filelens.commander.ui.screens.HomeScreen
 import com.filelens.commander.ui.screens.MainScreen
 import com.filelens.commander.ui.screens.OnboardingScreen
 import com.filelens.commander.ui.screens.RemoteServersScreen
@@ -19,13 +21,22 @@ import com.filelens.commander.ui.screens.SqliteBrowserScreen
 
 object Routes {
     const val ONBOARDING = "onboarding"
-    const val MAIN = "main"
+    const val HOME = "home"
+    // Both arguments are optional and URL-encoded; an empty value means "no
+    // initial action — show the home folder as usual".
+    const val MAIN = "main?path={path}&category={category}"
     const val SETTINGS = "settings"
     const val COMPARE = "compare/{left}/{right}"
     const val DUPLICATES = "duplicates/{root}"
     const val SQLITE = "sqlite/{db}"
     const val SHORTCUTS = "shortcuts"
     const val REMOTE_SERVERS = "remote_servers"
+
+    fun main(path: String? = null, category: HomeCategory? = null): String {
+        val pathArg = path?.let { Uri.encode(it) } ?: ""
+        val categoryArg = category?.name ?: ""
+        return "main?path=$pathArg&category=$categoryArg"
+    }
 
     fun compare(leftPath: String, rightPath: String): String =
         "compare/${Uri.encode(leftPath)}/${Uri.encode(rightPath)}"
@@ -44,21 +55,51 @@ fun FileLensNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = if (showOnboarding) Routes.ONBOARDING else Routes.MAIN,
+        startDestination = if (showOnboarding) Routes.ONBOARDING else Routes.HOME,
         modifier = modifier
     ) {
         composable(Routes.ONBOARDING) {
             OnboardingScreen(
                 onFinish = {
                     onOnboardingComplete()
-                    navController.navigate(Routes.MAIN) {
+                    navController.navigate(Routes.HOME) {
                         popUpTo(Routes.ONBOARDING) { inclusive = true }
                     }
                 }
             )
         }
-        composable(Routes.MAIN) {
+        composable(Routes.HOME) {
+            HomeScreen(
+                onOpenCategory = { category ->
+                    navController.navigate(Routes.main(category = category))
+                },
+                onOpenPath = { path ->
+                    navController.navigate(Routes.main(path = path))
+                },
+                onOpenFiles = { navController.navigate(Routes.main()) },
+                onOpenSettings = { navController.navigate(Routes.SETTINGS) }
+            )
+        }
+        composable(
+            route = Routes.MAIN,
+            arguments = listOf(
+                navArgument("path") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                },
+                navArgument("category") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                }
+            )
+        ) { backStackEntry ->
+            val rawPath = backStackEntry.arguments?.getString("path").orEmpty()
+            val initialPath = if (rawPath.isEmpty()) null else rawPath
+            val categoryName = backStackEntry.arguments?.getString("category").orEmpty()
+            val initialCategory = HomeCategory.entries.firstOrNull { it.name == categoryName }
             MainScreen(
+                initialPath = initialPath,
+                initialCategory = initialCategory,
                 onOpenSettings = { navController.navigate(Routes.SETTINGS) },
                 onCompare = { left, right ->
                     navController.navigate(Routes.compare(left, right))
@@ -68,6 +109,12 @@ fun FileLensNavGraph(
                 },
                 onBrowseSqlite = { db ->
                     navController.navigate(Routes.sqlite(db))
+                },
+                onOpenHome = {
+                    navController.navigate(Routes.HOME) {
+                        popUpTo(Routes.HOME) { inclusive = false }
+                        launchSingleTop = true
+                    }
                 }
             )
         }

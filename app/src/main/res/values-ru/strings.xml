@@ -547,4 +547,21 @@
     <string name="settings_show_onboarding_desc">Показать вводные слайды при следующем запуске</string>
     <string name="settings_onboarding_reset_toast">Приветственный гид появится при следующем запуске</string>
 
+    <string name="cd_open_home">Открыть Главную</string>
+    <string name="home_subtitle">Недавние · Избранное · Категории</string>
+    <string name="home_section_categories">Категории</string>
+    <string name="home_section_recent">Недавние файлы</string>
+    <string name="home_section_favorites">Избранное</string>
+    <string name="home_section_frequent">Частые папки</string>
+    <string name="home_category_images">Изображения</string>
+    <string name="home_category_video">Видео</string>
+    <string name="home_category_audio">Аудио</string>
+    <string name="home_category_docs">Документы</string>
+    <string name="home_category_apks">APK</string>
+    <string name="home_category_archives">Архивы</string>
+    <string name="home_category_downloads">Загрузки</string>
+    <string name="home_category_large">Большие файлы</string>
+    <string name="home_empty_headline">Пока здесь пусто</string>
+    <string name="home_empty_subtitle">Открывайте файлы и добавляйте папки в избранное, чтобы заполнить вкладку «Главная». Нажмите на категорию, чтобы перейти к своим медиафайлам.</string>
+
 </resources>

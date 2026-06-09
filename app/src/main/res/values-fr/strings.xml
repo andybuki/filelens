@@ -463,4 +463,21 @@
     <string name="settings_show_onboarding_desc">Afficher les diapositives d\'introduction au prochain lancement</string>
     <string name="settings_onboarding_reset_toast">Le guide de bienvenue s\'affichera au prochain lancement</string>
 
+    <string name="cd_open_home">Ouvrir Accueil</string>
+    <string name="home_subtitle">Récents · Favoris · Catégories</string>
+    <string name="home_section_categories">Catégories</string>
+    <string name="home_section_recent">Fichiers récents</string>
+    <string name="home_section_favorites">Favoris</string>
+    <string name="home_section_frequent">Dossiers fréquents</string>
+    <string name="home_category_images">Images</string>
+    <string name="home_category_video">Vidéo</string>
+    <string name="home_category_audio">Audio</string>
+    <string name="home_category_docs">Documents</string>
+    <string name="home_category_apks">APK</string>
+    <string name="home_category_archives">Archives</string>
+    <string name="home_category_downloads">Téléchargements</string>
+    <string name="home_category_large">Gros fichiers</string>
+    <string name="home_empty_headline">Rien ici pour le moment</string>
+    <string name="home_empty_subtitle">Ouvrez des fichiers et ajoutez des dossiers en favoris pour remplir votre onglet Accueil. Appuyez sur une catégorie pour accéder directement à vos médias.</string>
+
 </resources>

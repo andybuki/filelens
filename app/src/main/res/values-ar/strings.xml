@@ -569,4 +569,21 @@
     <string name="settings_show_onboarding_desc">عرض شرائح التعريف عند التشغيل التالي</string>
     <string name="settings_onboarding_reset_toast">سيظهر دليل الترحيب عند التشغيل التالي</string>
 
+    <string name="cd_open_home">فتح الرئيسية</string>
+    <string name="home_subtitle">الأخيرة · المفضلة · الفئات</string>
+    <string name="home_section_categories">الفئات</string>
+    <string name="home_section_recent">الملفات الأخيرة</string>
+    <string name="home_section_favorites">المفضلة</string>
+    <string name="home_section_frequent">المجلدات المتكررة</string>
+    <string name="home_category_images">الصور</string>
+    <string name="home_category_video">الفيديو</string>
+    <string name="home_category_audio">الصوت</string>
+    <string name="home_category_docs">المستندات</string>
+    <string name="home_category_apks">APK</string>
+    <string name="home_category_archives">الأرشيفات</string>
+    <string name="home_category_downloads">التنزيلات</string>
+    <string name="home_category_large">الملفات الكبيرة</string>
+    <string name="home_empty_headline">لا يوجد شيء هنا بعد</string>
+    <string name="home_empty_subtitle">افتح الملفات وأضف المجلدات إلى المفضلة لملء علامة تبويب الرئيسية. انقر على فئة للانتقال مباشرة إلى وسائطك.</string>
+
 </resources>

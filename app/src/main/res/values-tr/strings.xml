@@ -525,4 +525,21 @@
     <string name="settings_show_onboarding_desc">Sonraki başlatmada tanıtım slaytlarını göster</string>
     <string name="settings_onboarding_reset_toast">Karşılama rehberi sonraki başlatmada gösterilecek</string>
 
+    <string name="cd_open_home">Ana Sayfayı Aç</string>
+    <string name="home_subtitle">Son · Sık Kullanılanlar · Kategoriler</string>
+    <string name="home_section_categories">Kategoriler</string>
+    <string name="home_section_recent">Son dosyalar</string>
+    <string name="home_section_favorites">Sık kullanılanlar</string>
+    <string name="home_section_frequent">Sık klasörler</string>
+    <string name="home_category_images">Resimler</string>
+    <string name="home_category_video">Video</string>
+    <string name="home_category_audio">Ses</string>
+    <string name="home_category_docs">Belgeler</string>
+    <string name="home_category_apks">APK\'ler</string>
+    <string name="home_category_archives">Arşivler</string>
+    <string name="home_category_downloads">İndirilenler</string>
+    <string name="home_category_large">Büyük dosyalar</string>
+    <string name="home_empty_headline">Burada henüz bir şey yok</string>
+    <string name="home_empty_subtitle">Dosyaları açın ve klasörleri yer imlerine ekleyerek Ana Sayfa sekmenizi doldurun. Medyanıza doğrudan gitmek için bir kategoriye dokunun.</string>
+
 </resources>

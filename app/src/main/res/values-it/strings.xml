@@ -536,4 +536,21 @@
     <string name="settings_show_onboarding_desc">Mostra le diapositive introduttive al prossimo avvio</string>
     <string name="settings_onboarding_reset_toast">La guida di benvenuto verrà mostrata al prossimo avvio</string>
 
+    <string name="cd_open_home">Apri Home</string>
+    <string name="home_subtitle">Recenti · Preferiti · Categorie</string>
+    <string name="home_section_categories">Categorie</string>
+    <string name="home_section_recent">File recenti</string>
+    <string name="home_section_favorites">Preferiti</string>
+    <string name="home_section_frequent">Cartelle frequenti</string>
+    <string name="home_category_images">Immagini</string>
+    <string name="home_category_video">Video</string>
+    <string name="home_category_audio">Audio</string>
+    <string name="home_category_docs">Documenti</string>
+    <string name="home_category_apks">APK</string>
+    <string name="home_category_archives">Archivi</string>
+    <string name="home_category_downloads">Download</string>
+    <string name="home_category_large">File grandi</string>
+    <string name="home_empty_headline">Ancora niente qui</string>
+    <string name="home_empty_subtitle">Apri file e aggiungi cartelle ai preferiti per riempire la scheda Home. Tocca una categoria per andare direttamente ai tuoi media.</string>
+
 </resources>

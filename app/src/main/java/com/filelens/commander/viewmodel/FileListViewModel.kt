@@ -100,6 +100,121 @@ class FileListViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Drives a Home-tab category tile. Standard-folder categories navigate
+     * directly to the typical external-storage location for that content;
+     * type- and size-based categories trigger a recursive scan from the
+     * home root and present the matches as a flat list under the existing
+     * search UI.
+     */
+    fun browseCategory(category: com.filelens.commander.domain.model.HomeCategory) {
+        viewModelScope.launch {
+            val ext = Environment.getExternalStorageDirectory()
+            when (category) {
+                com.filelens.commander.domain.model.HomeCategory.IMAGES ->
+                    navigateToFirstExisting(
+                        listOf(Environment.DIRECTORY_PICTURES, Environment.DIRECTORY_DCIM),
+                        ext
+                    )
+                com.filelens.commander.domain.model.HomeCategory.VIDEO ->
+                    navigateToFirstExisting(
+                        listOf(Environment.DIRECTORY_MOVIES, Environment.DIRECTORY_DCIM),
+                        ext
+                    )
+                com.filelens.commander.domain.model.HomeCategory.AUDIO ->
+                    navigateToFirstExisting(listOf(Environment.DIRECTORY_MUSIC), ext)
+                com.filelens.commander.domain.model.HomeCategory.DOCUMENTS ->
+                    navigateToFirstExisting(listOf(Environment.DIRECTORY_DOCUMENTS), ext)
+                com.filelens.commander.domain.model.HomeCategory.DOWNLOADS ->
+                    navigateToFirstExisting(listOf(Environment.DIRECTORY_DOWNLOADS), ext)
+                com.filelens.commander.domain.model.HomeCategory.APKS ->
+                    runCategoryScan { it.isFile && it.extension.equals("apk", ignoreCase = true) }
+                com.filelens.commander.domain.model.HomeCategory.ARCHIVES ->
+                    runCategoryScan { f ->
+                        f.isFile && f.extension.lowercase() in ARCHIVE_EXTS ||
+                            f.isFile && f.name.lowercase().let { it.endsWith(".tar.gz") || it.endsWith(".tgz") }
+                    }
+                com.filelens.commander.domain.model.HomeCategory.LARGE_FILES ->
+                    runCategoryScan(sortBySizeDesc = true) { it.isFile && it.length() >= LARGE_FILE_BYTES }
+            }
+        }
+    }
+
+    private suspend fun navigateToFirstExisting(subdirs: List<String>, ext: File) {
+        val target = subdirs
+            .map { File(ext, it) }
+            .firstOrNull { it.exists() && it.isDirectory }
+            ?: ext
+        val node = LocalFileNode(target)
+        navigateToNode(node, replaceStack = true)
+    }
+
+    private suspend fun runCategoryScan(
+        sortBySizeDesc: Boolean = false,
+        predicate: (File) -> Boolean
+    ) {
+        val root = if (homePath.isNotEmpty()) File(homePath) else Environment.getExternalStorageDirectory()
+        val rootNode = LocalFileNode(root)
+        // Land at the home root first so navigateUp and breadcrumbs still
+        // have a sensible parent state once the user dismisses the scan.
+        navigateToNode(rootNode, replaceStack = true)
+        _state.value = _state.value.copy(
+            isSearchActive = true,
+            isSearching = true,
+            searchQuery = ""
+        )
+        try {
+            val results = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                val found = mutableListOf<FileItem>()
+                scanByPredicate(root, predicate, found, maxDepth = 6)
+                if (sortBySizeDesc) found.sortByDescending { it.size ?: 0L }
+                found
+            }
+            _state.value = _state.value.copy(files = results, isSearching = false)
+        } catch (_: Exception) {
+            _state.value = _state.value.copy(isSearching = false)
+        }
+    }
+
+    private fun scanByPredicate(
+        dir: File,
+        predicate: (File) -> Boolean,
+        results: MutableList<FileItem>,
+        maxDepth: Int,
+        depth: Int = 0
+    ) {
+        if (depth > maxDepth) return
+        val children = dir.listFiles() ?: return
+        for (file in children) {
+            if (predicate(file)) {
+                val ext = file.extension
+                val category = if (file.isDirectory) FileCategory.DIRECTORY
+                    else com.filelens.commander.domain.model.classifyByExtension(ext)
+                results.add(
+                    FileItem(
+                        name = file.name,
+                        path = file.absolutePath,
+                        nodeType = if (file.isDirectory) NodeType.DIRECTORY else NodeType.FILE,
+                        size = if (file.isFile) file.length() else null,
+                        lastModified = file.lastModified(),
+                        isReadable = file.canRead(),
+                        isHidden = file.isHidden,
+                        fileCategory = category,
+                        extension = ext
+                    )
+                )
+            }
+            if (file.isDirectory && file.canRead()) {
+                scanByPredicate(file, predicate, results, maxDepth, depth + 1)
+            }
+        }
+    }
+
+    private companion object {
+        val ARCHIVE_EXTS = setOf("zip", "rar", "7z", "tar", "gz", "bz2", "xz", "zst", "lz4", "jar", "war", "ear")
+        const val LARGE_FILE_BYTES = 50L * 1024 * 1024
+    }
+
     private fun navigateToDirectory(path: String) {
         viewModelScope.launch {
             val node = LocalFileNode(File(path))
