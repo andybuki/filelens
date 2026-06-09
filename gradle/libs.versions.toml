@@ -23,6 +23,7 @@ commonsNet = "3.11.1"
 jsch = "0.2.21"
 smbj = "0.14.0"
 securityCrypto = "1.1.0-alpha06"
+biometric = "1.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -57,6 +58,7 @@ commons-net = { group = "commons-net", name = "commons-net", version.ref = "comm
 jsch = { group = "com.github.mwiede", name = "jsch", version.ref = "jsch" }
 smbj = { group = "com.hierynomus", name = "smbj", version.ref = "smbj" }
 androidx-security-crypto = { group = "androidx.security", name = "security-crypto", version.ref = "securityCrypto" }
+androidx-biometric = { group = "androidx.biometric", name = "biometric", version.ref = "biometric" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

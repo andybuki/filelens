@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Compare
 import androidx.compose.material.icons.filled.DriveFileRenameOutline
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -41,6 +42,8 @@ fun SelectionBar(
     onCompare: () -> Unit,
     canBatchRename: Boolean = false,
     onBatchRename: () -> Unit = {},
+    canMoveToVault: Boolean = false,
+    onMoveToVault: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     // Slide-in pill: gives the user a visible action surface the moment they
@@ -79,6 +82,17 @@ fun SelectionBar(
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(stringResource(R.string.action_rename), color = FlAccent)
+                }
+            }
+            if (canMoveToVault) {
+                TextButton(onClick = onMoveToVault) {
+                    Icon(
+                        Icons.Filled.Lock,
+                        contentDescription = null,
+                        tint = FlAccent
+                    )
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text(stringResource(R.string.selection_action_vault), color = FlAccent)
                 }
             }
             if (canCompare) {

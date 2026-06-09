@@ -110,11 +110,13 @@ fun FileListPanel(
     selectedPaths: Set<String> = emptySet(),
     canCompareSelection: Boolean = false,
     canBatchRename: Boolean = false,
+    canMoveToVault: Boolean = false,
     onFileClick: (FileItem) -> Unit,
     onFileLongClick: (FileItem) -> Unit = {},
     onClearSelection: () -> Unit = {},
     onCompareSelection: () -> Unit = {},
     onBatchRenameSelection: () -> Unit = {},
+    onMoveToVaultSelection: () -> Unit = {},
     onNavigateUp: () -> Unit,
     onSortChanged: (SortOrder) -> Unit,
     onToggleHidden: () -> Unit,
@@ -166,7 +168,9 @@ fun FileListPanel(
                 onClear = onClearSelection,
                 onCompare = onCompareSelection,
                 canBatchRename = canBatchRename,
-                onBatchRename = onBatchRenameSelection
+                onBatchRename = onBatchRenameSelection,
+                canMoveToVault = canMoveToVault,
+                onMoveToVault = onMoveToVaultSelection
             )
 
             AnimatedVisibility(
