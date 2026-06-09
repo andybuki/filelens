@@ -547,4 +547,21 @@
     <string name="settings_show_onboarding_desc">Pokaż slajdy wprowadzające przy następnym uruchomieniu</string>
     <string name="settings_onboarding_reset_toast">Przewodnik powitalny zostanie wyświetlony przy następnym uruchomieniu</string>
 
+    <string name="cd_open_home">Otwórz Stronę główną</string>
+    <string name="home_subtitle">Ostatnie · Ulubione · Kategorie</string>
+    <string name="home_section_categories">Kategorie</string>
+    <string name="home_section_recent">Ostatnie pliki</string>
+    <string name="home_section_favorites">Ulubione</string>
+    <string name="home_section_frequent">Częste foldery</string>
+    <string name="home_category_images">Zdjęcia</string>
+    <string name="home_category_video">Wideo</string>
+    <string name="home_category_audio">Muzyka</string>
+    <string name="home_category_docs">Dokumenty</string>
+    <string name="home_category_apks">APK</string>
+    <string name="home_category_archives">Archiwa</string>
+    <string name="home_category_downloads">Pobrane</string>
+    <string name="home_category_large">Duże pliki</string>
+    <string name="home_empty_headline">Jeszcze nic tu nie ma</string>
+    <string name="home_empty_subtitle">Otwieraj pliki i dodawaj foldery do ulubionych, aby wypełnić kartę Strona główna. Dotknij kategorię, aby przejść bezpośrednio do swoich mediów.</string>
+
 </resources>

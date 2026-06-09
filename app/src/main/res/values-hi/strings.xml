@@ -525,4 +525,21 @@
     <string name="settings_show_onboarding_desc">अगले लॉन्च पर परिचय स्लाइड दिखाएं</string>
     <string name="settings_onboarding_reset_toast">स्वागत गाइड अगले लॉन्च पर दिखाई देगी</string>
 
+    <string name="cd_open_home">होम खोलें</string>
+    <string name="home_subtitle">हाल के · पसंदीदा · श्रेणियाँ</string>
+    <string name="home_section_categories">श्रेणियाँ</string>
+    <string name="home_section_recent">हाल की फ़ाइलें</string>
+    <string name="home_section_favorites">पसंदीदा</string>
+    <string name="home_section_frequent">बार-बार उपयोग किए जाने वाले फ़ोल्डर</string>
+    <string name="home_category_images">चित्र</string>
+    <string name="home_category_video">वीडियो</string>
+    <string name="home_category_audio">ऑडियो</string>
+    <string name="home_category_docs">दस्तावेज़</string>
+    <string name="home_category_apks">APK</string>
+    <string name="home_category_archives">संग्रह</string>
+    <string name="home_category_downloads">डाउनलोड</string>
+    <string name="home_category_large">बड़ी फ़ाइलें</string>
+    <string name="home_empty_headline">यहाँ अभी कुछ नहीं है</string>
+    <string name="home_empty_subtitle">अपना होम टैब भरने के लिए फ़ाइलें खोलें और फ़ोल्डर को बुकमार्क करें। सीधे अपने मीडिया पर जाने के लिए किसी श्रेणी पर टैप करें।</string>
+
 </resources>

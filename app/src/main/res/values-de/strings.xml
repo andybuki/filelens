@@ -525,4 +525,21 @@
     <string name="settings_show_onboarding_desc">Die Einführungsfolien beim nächsten Start anzeigen</string>
     <string name="settings_onboarding_reset_toast">Willkommensanleitung wird beim nächsten Start angezeigt</string>
 
+    <string name="cd_open_home">Startseite öffnen</string>
+    <string name="home_subtitle">Zuletzt · Favoriten · Kategorien</string>
+    <string name="home_section_categories">Kategorien</string>
+    <string name="home_section_recent">Zuletzt geöffnet</string>
+    <string name="home_section_favorites">Favoriten</string>
+    <string name="home_section_frequent">Häufige Ordner</string>
+    <string name="home_category_images">Bilder</string>
+    <string name="home_category_video">Video</string>
+    <string name="home_category_audio">Audio</string>
+    <string name="home_category_docs">Dokumente</string>
+    <string name="home_category_apks">APKs</string>
+    <string name="home_category_archives">Archive</string>
+    <string name="home_category_downloads">Downloads</string>
+    <string name="home_category_large">Große Dateien</string>
+    <string name="home_empty_headline">Noch nichts hier</string>
+    <string name="home_empty_subtitle">Öffne Dateien und setze Lesezeichen für Ordner, um deine Startseite zu füllen. Tippe auf eine Kategorie, um direkt zu deinen Medien zu springen.</string>
+
 </resources>

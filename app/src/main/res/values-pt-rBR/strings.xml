@@ -536,4 +536,21 @@
     <string name="settings_show_onboarding_desc">Mostrar os slides de introdução na próxima inicialização</string>
     <string name="settings_onboarding_reset_toast">O guia de boas-vindas será exibido na próxima inicialização</string>
 
+    <string name="cd_open_home">Abrir Início</string>
+    <string name="home_subtitle">Recentes · Favoritos · Categorias</string>
+    <string name="home_section_categories">Categorias</string>
+    <string name="home_section_recent">Arquivos recentes</string>
+    <string name="home_section_favorites">Favoritos</string>
+    <string name="home_section_frequent">Pastas frequentes</string>
+    <string name="home_category_images">Imagens</string>
+    <string name="home_category_video">Vídeo</string>
+    <string name="home_category_audio">Áudio</string>
+    <string name="home_category_docs">Documentos</string>
+    <string name="home_category_apks">APKs</string>
+    <string name="home_category_archives">Arquivos compactados</string>
+    <string name="home_category_downloads">Downloads</string>
+    <string name="home_category_large">Arquivos grandes</string>
+    <string name="home_empty_headline">Nada aqui ainda</string>
+    <string name="home_empty_subtitle">Abra arquivos e marque pastas como favoritas para preencher a aba Início. Toque em uma categoria para ir direto às suas mídias.</string>
+
 </resources>
