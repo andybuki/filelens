@@ -531,4 +531,32 @@
     <string name="home_empty_headline">まだ何もありません</string>
     <string name="home_empty_subtitle">ファイルを開いたりフォルダをブックマークすると、ホームタブに表示されます。カテゴリをタップすると、メディアに直接移動できます。</string>
 
+    <!-- Vault -->
+    <string name="vault_title">非表示の金庫</string>
+    <string name="vault_home_empty">ロックされたフォルダ · 空</string>
+    <string name="vault_locked_headline">金庫はロック中</string>
+    <string name="vault_locked_subtitle">%1$d 個のアイテムが保存されています。ロックを解除するには認証してください。</string>
+    <string name="vault_unlock_title">金庫のロックを解除</string>
+    <string name="vault_unlock_subtitle">生体認証またはデバイスのPINを使用して隠しファイルにアクセスします。</string>
+    <string name="vault_unlock_button">ロック解除</string>
+    <string name="vault_not_enrolled">金庫を使用するには、システム設定で画面ロックまたは生体認証を設定してください。</string>
+    <string name="vault_no_hardware">このデバイスには生体認証や画面ロックがないため、金庫のロックを解除できません。</string>
+    <string name="vault_empty_headline">金庫は空です</string>
+    <string name="vault_empty_subtitle">ブラウザでファイルを長押しし、「金庫に移動」をタップしてここに隠します。</string>
+    <string name="vault_section_files">金庫内のファイル</string>
+    <string name="vault_action_lock">金庫をロック</string>
+    <string name="vault_action_restore">取り出す</string>
+    <string name="vault_action_erase">削除</string>
+    <string name="vault_action_select_all">すべて</string>
+    <string name="vault_erase_title">金庫から削除しますか？</string>
+    <string name="vault_erase_body">%1$d 個のアイテムが完全に削除されます。この操作は元に戻せません。</string>
+    <string name="selection_action_vault">金庫</string>
+    <string name="settings_section_privacy">プライバシーと安全性</string>
+    <string name="settings_vault">非表示の金庫</string>
+    <string name="settings_vault_desc">アプリのプライベートストレージ内の生体認証ロック付きフォルダ。ここのファイルは検索とギャラリーから除外されます。</string>
+    <plurals name="plural_vault_item_count">
+        <item quantity="one">金庫に %1$d 個のアイテム</item>
+        <item quantity="other">金庫に %1$d 個のアイテム</item>
+    </plurals>
+
 </resources>

@@ -553,4 +553,32 @@
     <string name="home_empty_headline">Nada aqui ainda</string>
     <string name="home_empty_subtitle">Abra arquivos e marque pastas como favoritas para preencher a aba Início. Toque em uma categoria para ir direto às suas mídias.</string>
 
+    <!-- Vault -->
+    <string name="vault_title">Cofre oculto</string>
+    <string name="vault_home_empty">Pasta bloqueada · vazia</string>
+    <string name="vault_locked_headline">Cofre bloqueado</string>
+    <string name="vault_locked_subtitle">%1$d item(ns) armazenado(s). Autentique-se para desbloquear.</string>
+    <string name="vault_unlock_title">Desbloquear cofre</string>
+    <string name="vault_unlock_subtitle">Use biometria ou o PIN do dispositivo para acessar os arquivos ocultos.</string>
+    <string name="vault_unlock_button">Desbloquear</string>
+    <string name="vault_not_enrolled">Configure um bloqueio de tela ou biometria nas Configurações do sistema para usar o cofre.</string>
+    <string name="vault_no_hardware">Este dispositivo não possui biometria ou bloqueio de tela disponível, por isso o cofre não pode ser desbloqueado.</string>
+    <string name="vault_empty_headline">O cofre está vazio</string>
+    <string name="vault_empty_subtitle">Mantenha pressionados os arquivos no navegador e toque em "Mover para o cofre" para ocultá-los aqui.</string>
+    <string name="vault_section_files">Arquivos no cofre</string>
+    <string name="vault_action_lock">Bloquear cofre</string>
+    <string name="vault_action_restore">Mover para fora</string>
+    <string name="vault_action_erase">Excluir</string>
+    <string name="vault_action_select_all">Todos</string>
+    <string name="vault_erase_title">Excluir do cofre?</string>
+    <string name="vault_erase_body">%1$d item(ns) serão excluídos permanentemente. Isso não pode ser desfeito.</string>
+    <string name="selection_action_vault">Cofre</string>
+    <string name="settings_section_privacy">Privacidade &amp; segurança</string>
+    <string name="settings_vault">Cofre oculto</string>
+    <string name="settings_vault_desc">Pasta com bloqueio biométrico no armazenamento privado do app. Arquivos aqui são excluídos da busca e da galeria.</string>
+    <plurals name="plural_vault_item_count">
+        <item quantity="one">%1$d item no cofre</item>
+        <item quantity="other">%1$d itens no cofre</item>
+    </plurals>
+
 </resources>

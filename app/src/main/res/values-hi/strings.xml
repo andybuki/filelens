@@ -542,4 +542,32 @@
     <string name="home_empty_headline">यहाँ अभी कुछ नहीं है</string>
     <string name="home_empty_subtitle">अपना होम टैब भरने के लिए फ़ाइलें खोलें और फ़ोल्डर को बुकमार्क करें। सीधे अपने मीडिया पर जाने के लिए किसी श्रेणी पर टैप करें।</string>
 
+    <!-- Vault -->
+    <string name="vault_title">छिपी तिजोरी</string>
+    <string name="vault_home_empty">लॉक किया गया फ़ोल्डर · खाली</string>
+    <string name="vault_locked_headline">तिजोरी लॉक है</string>
+    <string name="vault_locked_subtitle">%1$d आइटम संग्रहीत। अनलॉक करने के लिए प्रमाणित करें।</string>
+    <string name="vault_unlock_title">तिजोरी अनलॉक करें</string>
+    <string name="vault_unlock_subtitle">छिपी फ़ाइलों तक पहुँचने के लिए बायोमेट्रिक्स या डिवाइस PIN का उपयोग करें।</string>
+    <string name="vault_unlock_button">अनलॉक करें</string>
+    <string name="vault_not_enrolled">तिजोरी का उपयोग करने के लिए सिस्टम सेटिंग्स में स्क्रीन लॉक या बायोमेट्रिक सेट करें।</string>
+    <string name="vault_no_hardware">इस डिवाइस में बायोमेट्रिक या स्क्रीन लॉक उपलब्ध नहीं है, इसलिए तिजोरी को अनलॉक नहीं किया जा सकता।</string>
+    <string name="vault_empty_headline">तिजोरी खाली है</string>
+    <string name="vault_empty_subtitle">ब्राउज़र में फ़ाइलों को लंबे समय तक दबाएँ और उन्हें यहाँ छिपाने के लिए "तिजोरी में ले जाएँ" पर टैप करें।</string>
+    <string name="vault_section_files">तिजोरी में फ़ाइलें</string>
+    <string name="vault_action_lock">तिजोरी लॉक करें</string>
+    <string name="vault_action_restore">बाहर निकालें</string>
+    <string name="vault_action_erase">हटाएँ</string>
+    <string name="vault_action_select_all">सभी</string>
+    <string name="vault_erase_title">तिजोरी से हटाएँ?</string>
+    <string name="vault_erase_body">%1$d आइटम स्थायी रूप से हटा दिए जाएँगे। इसे पूर्ववत नहीं किया जा सकता।</string>
+    <string name="selection_action_vault">तिजोरी</string>
+    <string name="settings_section_privacy">गोपनीयता &amp; सुरक्षा</string>
+    <string name="settings_vault">छिपी तिजोरी</string>
+    <string name="settings_vault_desc">ऐप के निजी स्टोरेज में बायोमेट्रिक-लॉक फ़ोल्डर। यहाँ की फ़ाइलें खोज और गैलरी से बाहर रखी जाती हैं।</string>
+    <plurals name="plural_vault_item_count">
+        <item quantity="one">तिजोरी में %1$d आइटम</item>
+        <item quantity="other">तिजोरी में %1$d आइटम</item>
+    </plurals>
+
 </resources>

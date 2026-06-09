@@ -542,4 +542,31 @@
     <string name="home_empty_headline">Noch nichts hier</string>
     <string name="home_empty_subtitle">Öffne Dateien und setze Lesezeichen für Ordner, um deine Startseite zu füllen. Tippe auf eine Kategorie, um direkt zu deinen Medien zu springen.</string>
 
+    <!-- Vault -->
+    <string name="vault_title">Versteckter Tresor</string>
+    <string name="vault_home_empty">Gesperrter Ordner · leer</string>
+    <string name="vault_locked_headline">Tresor gesperrt</string>
+    <string name="vault_locked_subtitle">%1$d Element(e) gespeichert. Zum Entsperren authentifizieren.</string>
+    <string name="vault_unlock_title">Tresor entsperren</string>
+    <string name="vault_unlock_subtitle">Verwende Biometrie oder die Geräte-PIN, um auf versteckte Dateien zuzugreifen.</string>
+    <string name="vault_unlock_button">Entsperren</string>
+    <string name="vault_not_enrolled">Richte in den Systemeinstellungen eine Bildschirmsperre oder Biometrie ein, um den Tresor zu nutzen.</string>
+    <string name="vault_no_hardware">Dieses Gerät verfügt über keine Biometrie oder Bildschirmsperre, sodass der Tresor nicht entsperrt werden kann.</string>
+    <string name="vault_empty_headline">Tresor ist leer</string>
+    <string name="vault_empty_subtitle">Halte Dateien im Browser gedrückt und tippe auf „In Tresor verschieben", um sie hier zu verstecken.</string>
+    <string name="vault_section_files">Dateien im Tresor</string>
+    <string name="vault_action_lock">Tresor sperren</string>
+    <string name="vault_action_restore">Verschieben</string>
+    <string name="vault_action_erase">Löschen</string>
+    <string name="vault_action_select_all">Alle</string>
+    <string name="vault_erase_title">Aus Tresor löschen?</string>
+    <string name="vault_erase_body">%1$d Element(e) werden dauerhaft gelöscht. Das kann nicht rückgängig gemacht werden.</string>
+    <string name="selection_action_vault">Tresor</string>
+    <string name="settings_section_privacy">Datenschutz &amp; Sicherheit</string>
+    <string name="settings_vault">Versteckter Tresor</string>
+    <string name="settings_vault_desc">Biometrisch gesicherter Ordner im app-privaten Speicher. Dateien hier sind von Suche und Galerie ausgeschlossen.</string>
+    <plurals name="plural_vault_item_count">
+        <item quantity="one">%1$d Element im Tresor</item>
+        <item quantity="other">%1$d Elemente im Tresor</item>
+    </plurals>
 </resources>

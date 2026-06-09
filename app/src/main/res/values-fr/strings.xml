@@ -480,4 +480,32 @@
     <string name="home_empty_headline">Rien ici pour le moment</string>
     <string name="home_empty_subtitle">Ouvrez des fichiers et ajoutez des dossiers en favoris pour remplir votre onglet Accueil. Appuyez sur une catégorie pour accéder directement à vos médias.</string>
 
+    <!-- Vault -->
+    <string name="vault_title">Coffre-fort caché</string>
+    <string name="vault_home_empty">Dossier verrouillé · vide</string>
+    <string name="vault_locked_headline">Coffre-fort verrouillé</string>
+    <string name="vault_locked_subtitle">%1$d élément(s) stocké(s). Authentifiez-vous pour déverrouiller.</string>
+    <string name="vault_unlock_title">Déverrouiller le coffre-fort</string>
+    <string name="vault_unlock_subtitle">Utilisez la biométrie ou le code PIN de votre appareil pour accéder aux fichiers cachés.</string>
+    <string name="vault_unlock_button">Déverrouiller</string>
+    <string name="vault_not_enrolled">Configurez un verrouillage d\'écran ou la biométrie dans les Paramètres système pour utiliser le coffre-fort.</string>
+    <string name="vault_no_hardware">Cet appareil ne dispose pas de biométrie ni de verrouillage d\'écran, le coffre-fort ne peut donc pas être déverrouillé.</string>
+    <string name="vault_empty_headline">Le coffre-fort est vide</string>
+    <string name="vault_empty_subtitle">Appuyez longuement sur des fichiers dans le navigateur et appuyez sur « Déplacer vers le coffre-fort » pour les cacher ici.</string>
+    <string name="vault_section_files">Fichiers dans le coffre-fort</string>
+    <string name="vault_action_lock">Verrouiller le coffre-fort</string>
+    <string name="vault_action_restore">Sortir</string>
+    <string name="vault_action_erase">Supprimer</string>
+    <string name="vault_action_select_all">Tout</string>
+    <string name="vault_erase_title">Supprimer du coffre-fort ?</string>
+    <string name="vault_erase_body">%1$d élément(s) seront définitivement supprimé(s). Cette action est irréversible.</string>
+    <string name="selection_action_vault">Coffre-fort</string>
+    <string name="settings_section_privacy">Confidentialité &amp; sécurité</string>
+    <string name="settings_vault">Coffre-fort caché</string>
+    <string name="settings_vault_desc">Dossier verrouillé par biométrie dans le stockage privé de l\'app. Les fichiers ici sont exclus de la recherche et de la galerie.</string>
+    <plurals name="plural_vault_item_count">
+        <item quantity="one">%1$d élément dans le coffre-fort</item>
+        <item quantity="other">%1$d éléments dans le coffre-fort</item>
+    </plurals>
+
 </resources>

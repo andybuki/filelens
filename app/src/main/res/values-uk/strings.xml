@@ -564,4 +564,32 @@
     <string name="home_empty_headline">Тут поки нічого немає</string>
     <string name="home_empty_subtitle">Відкривайте файли та додавайте папки до обраного, щоб заповнити вкладку «Головна». Натисніть на категорію, щоб перейти до своїх медіафайлів.</string>
 
+    <!-- Vault -->
+    <string name="vault_title">Приховане сховище</string>
+    <string name="vault_home_empty">Заблокована папка · порожня</string>
+    <string name="vault_locked_headline">Сховище заблоковано</string>
+    <string name="vault_locked_subtitle">%1$d елемент(ів) збережено. Автентифікуйтесь для розблокування.</string>
+    <string name="vault_unlock_title">Розблокувати сховище</string>
+    <string name="vault_unlock_subtitle">Використовуйте біометрію або PIN-код пристрою для доступу до прихованих файлів.</string>
+    <string name="vault_unlock_button">Розблокувати</string>
+    <string name="vault_not_enrolled">Налаштуйте блокування екрана або біометрію в налаштуваннях системи, щоб використовувати сховище.</string>
+    <string name="vault_no_hardware">На цьому пристрої немає біометрії або блокування екрана, тому сховище не може бути розблоковано.</string>
+    <string name="vault_empty_headline">Сховище порожнє</string>
+    <string name="vault_empty_subtitle">Утримуйте файли в браузері та натисніть «Перемістити до сховища», щоб приховати їх тут.</string>
+    <string name="vault_section_files">Файли у сховищі</string>
+    <string name="vault_action_lock">Заблокувати сховище</string>
+    <string name="vault_action_restore">Витягнути</string>
+    <string name="vault_action_erase">Видалити</string>
+    <string name="vault_action_select_all">Усі</string>
+    <string name="vault_erase_title">Видалити зі сховища?</string>
+    <string name="vault_erase_body">%1$d елемент(ів) буде видалено назавжди. Цю дію не можна скасувати.</string>
+    <string name="selection_action_vault">Сховище</string>
+    <string name="settings_section_privacy">Конфіденційність &amp; безпека</string>
+    <string name="settings_vault">Приховане сховище</string>
+    <string name="settings_vault_desc">Папка з біометричним блокуванням у приватному сховищі додатка. Файли тут виключені з пошуку та галереї.</string>
+    <plurals name="plural_vault_item_count">
+        <item quantity="one">%1$d елемент у сховищі</item>
+        <item quantity="other">%1$d елементів у сховищі</item>
+    </plurals>
+
 </resources>

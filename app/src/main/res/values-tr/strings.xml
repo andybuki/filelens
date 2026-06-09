@@ -542,4 +542,32 @@
     <string name="home_empty_headline">Burada henüz bir şey yok</string>
     <string name="home_empty_subtitle">Dosyaları açın ve klasörleri yer imlerine ekleyerek Ana Sayfa sekmenizi doldurun. Medyanıza doğrudan gitmek için bir kategoriye dokunun.</string>
 
+    <!-- Vault -->
+    <string name="vault_title">Gizli kasa</string>
+    <string name="vault_home_empty">Kilitli klasör · boş</string>
+    <string name="vault_locked_headline">Kasa kilitli</string>
+    <string name="vault_locked_subtitle">%1$d öğe depolandı. Kilidini açmak için kimlik doğrulayın.</string>
+    <string name="vault_unlock_title">Kasayı aç</string>
+    <string name="vault_unlock_subtitle">Gizli dosyalara erişmek için biyometri veya cihaz PIN\'inizi kullanın.</string>
+    <string name="vault_unlock_button">Kilidi aç</string>
+    <string name="vault_not_enrolled">Kasayı kullanmak için sistem Ayarlarında ekran kilidi veya biyometri ayarlayın.</string>
+    <string name="vault_no_hardware">Bu cihazda biyometri veya ekran kilidi bulunmuyor, bu nedenle kasanın kilidi açılamaz.</string>
+    <string name="vault_empty_headline">Kasa boş</string>
+    <string name="vault_empty_subtitle">Tarayıcıda dosyalara uzun basın ve burada gizlemek için "Kasaya taşı" seçeneğine dokunun.</string>
+    <string name="vault_section_files">Kasadaki dosyalar</string>
+    <string name="vault_action_lock">Kasayı kilitle</string>
+    <string name="vault_action_restore">Dışarı taşı</string>
+    <string name="vault_action_erase">Sil</string>
+    <string name="vault_action_select_all">Tümü</string>
+    <string name="vault_erase_title">Kasadan silinsin mi?</string>
+    <string name="vault_erase_body">%1$d öğe kalıcı olarak silinecek. Bu geri alınamaz.</string>
+    <string name="selection_action_vault">Kasa</string>
+    <string name="settings_section_privacy">Gizlilik &amp; güvenlik</string>
+    <string name="settings_vault">Gizli kasa</string>
+    <string name="settings_vault_desc">Uygulama özel depolamasında biyometrik kilitli klasör. Buradaki dosyalar arama ve galeriden hariç tutulur.</string>
+    <plurals name="plural_vault_item_count">
+        <item quantity="one">Kasada %1$d öğe</item>
+        <item quantity="other">Kasada %1$d öğe</item>
+    </plurals>
+
 </resources>
