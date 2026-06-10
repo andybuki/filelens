@@ -28,7 +28,7 @@ object Routes {
     const val HOME = "home"
     // All arguments are optional and URL-encoded; an empty value means "no
     // initial action — show the home folder as usual".
-    const val MAIN = "main?path={path}&category={category}&inspect={inspect}"
+    const val MAIN = "main?path={path}&category={category}&inspect={inspect}&remoteId={remoteId}"
     const val SETTINGS = "settings"
     const val COMPARE = "compare/{left}/{right}"
     const val DUPLICATES = "duplicates/{root}"
@@ -43,12 +43,14 @@ object Routes {
     fun main(
         path: String? = null,
         category: HomeCategory? = null,
-        inspect: String? = null
+        inspect: String? = null,
+        remoteId: String? = null
     ): String {
         val pathArg = path?.let { Uri.encode(it) } ?: ""
         val categoryArg = category?.name ?: ""
         val inspectArg = inspect?.let { Uri.encode(it) } ?: ""
-        return "main?path=$pathArg&category=$categoryArg&inspect=$inspectArg"
+        val remoteArg = remoteId?.let { Uri.encode(it) } ?: ""
+        return "main?path=$pathArg&category=$categoryArg&inspect=$inspectArg&remoteId=$remoteArg"
     }
 
     fun compare(leftPath: String, rightPath: String): String =
@@ -111,6 +113,10 @@ fun FileLensNavGraph(
                 navArgument("inspect") {
                     type = NavType.StringType
                     defaultValue = ""
+                },
+                navArgument("remoteId") {
+                    type = NavType.StringType
+                    defaultValue = ""
                 }
             )
         ) { backStackEntry ->
@@ -120,10 +126,13 @@ fun FileLensNavGraph(
             val initialCategory = HomeCategory.entries.firstOrNull { it.name == categoryName }
             val rawInspect = backStackEntry.arguments?.getString("inspect").orEmpty()
             val initialInspectPath = if (rawInspect.isEmpty()) null else rawInspect
+            val rawRemoteId = backStackEntry.arguments?.getString("remoteId").orEmpty()
+            val initialRemoteId = if (rawRemoteId.isEmpty()) null else rawRemoteId
             MainScreen(
                 initialPath = initialPath,
                 initialCategory = initialCategory,
                 initialInspectPath = initialInspectPath,
+                initialRemoteId = initialRemoteId,
                 onOpenSettings = { navController.navigate(Routes.SETTINGS) },
                 onCompare = { left, right ->
                     navController.navigate(Routes.compare(left, right))
@@ -153,7 +162,15 @@ fun FileLensNavGraph(
             ShortcutsScreen(onBack = { navController.popBackStack() })
         }
         composable(Routes.REMOTE_SERVERS) {
-            RemoteServersScreen(onBack = { navController.popBackStack() })
+            RemoteServersScreen(
+                onBack = { navController.popBackStack() },
+                onConnect = { connectionId ->
+                    navController.navigate(Routes.main(remoteId = connectionId)) {
+                        popUpTo(Routes.HOME) { inclusive = false }
+                        launchSingleTop = true
+                    }
+                }
+            )
         }
         composable(Routes.VAULT) {
             VaultScreen(onBack = { navController.popBackStack() })

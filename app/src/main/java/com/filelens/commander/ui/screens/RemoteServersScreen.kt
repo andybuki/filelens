@@ -66,6 +66,7 @@ import com.filelens.commander.viewmodel.RemoteServersViewModel
 @Composable
 fun RemoteServersScreen(
     onBack: () -> Unit,
+    onConnect: (connectionId: String) -> Unit = { _ -> onBack() },
     viewModel: RemoteServersViewModel = hiltViewModel()
 ) {
     val connections by viewModel.connections.collectAsStateWithLifecycle()
@@ -132,8 +133,7 @@ fun RemoteServersScreen(
                     ServerRow(
                         connection = connection,
                         onConnect = {
-                            viewModel.connect(connection.id)
-                            onBack()
+                            onConnect(connection.id)
                         },
                         onEdit = { editing = connection },
                         onDelete = { pendingDelete = connection }
