@@ -508,4 +508,56 @@
         <item quantity="other">%1$d éléments dans le coffre-fort</item>
     </plurals>
 
+    <!-- ====================================================================
+         Day 10 — Search, App Manager, Trash
+         ==================================================================== -->
+    <string name="home_search_headline">Rechercher sur votre téléphone</string>
+    <string name="home_search_subtitle">Trouvez des fichiers par nom, extension ou type</string>
+    <string name="home_section_tools">Outils</string>
+    <string name="home_tool_apps_subtitle">Apps installées · extraire APK</string>
+    <string name="search_title">Recherche</string>
+    <string name="search_hint_global">Rechercher des fichiers par nom, extension ou type…</string>
+    <string name="search_cancel">Arrêter</string>
+    <string name="search_progress_status">%1$d résultats · %2$d dossiers analysés</string>
+    <string name="search_scanning_label">Analyse… %1$d dossiers jusqu\'ici</string>
+    <string name="search_no_matches">Aucune correspondance dans vos fichiers.</string>
+    <string name="search_cancelled">Recherche annulée.</string>
+    <string name="search_idle_headline">Rechercher sur votre téléphone</string>
+    <string name="search_idle_subtitle">Saisissez un nom de fichier, une extension comme \"PDF\" ou choisissez une catégorie ci-dessous pour analyser récursivement.</string>
+    <string name="search_section_filter">Ou filtrer par type</string>
+    <string name="search_chip_all">Tous</string>
+    <string name="search_chip_pdf">PDF</string>
+    <string name="search_chip_code">Code</string>
+    <string name="search_chip_text">Texte</string>
+    <string name="app_manager_title">Gestionnaire d\'apps</string>
+    <string name="app_manager_count">%1$d apps</string>
+    <string name="app_manager_search_hint">Rechercher des apps…</string>
+    <string name="app_manager_filter_user">Utilisateur</string>
+    <string name="app_manager_filter_system">Système</string>
+    <string name="app_manager_filter_all">Toutes</string>
+    <string name="app_manager_badge_system">SYSTÈME</string>
+    <string name="app_manager_action_inspect">Inspecter l\'APK</string>
+    <string name="app_manager_action_extract">Extraire l\'APK vers Téléchargements</string>
+    <string name="app_manager_action_share">Partager l\'APK</string>
+    <string name="app_manager_extracted">APK enregistré</string>
+    <string name="app_manager_extract_failed">Impossible d\'extraire l\'APK.</string>
+    <string name="app_manager_chooser_share">Partager l\'APK</string>
+    <string name="app_manager_empty">Aucune app à afficher.</string>
+    <string name="trash_title">Corbeille</string>
+    <string name="trash_home_empty">Corbeille · vide</string>
+    <string name="trash_section_files">Supprimés récemment</string>
+    <string name="trash_action_restore_all">Tout restaurer</string>
+    <string name="trash_action_empty">Vider la corbeille</string>
+    <string name="trash_empty_headline">La corbeille est vide</string>
+    <string name="trash_empty_subtitle">Les fichiers que vous supprimez de FileLens arrivent ici pour une restauration rapide. Utilisez Ctrl+Z juste après la suppression, ou revenez ici plus tard.</string>
+    <string name="trash_empty_title">Vider la corbeille ?</string>
+    <string name="trash_empty_body">%1$d élément(s) seront définitivement supprimé(s). Cette action est irréversible.</string>
+    <string name="trash_restored_format">%1$d élément(s) restauré(s)</string>
+    <string name="trash_emptied">Corbeille vidée</string>
+    <string name="trash_deleted_at">Supprimé %1$s</string>
+
+    <plurals name="plural_trash_item_count">
+        <item quantity="one">%1$d élément dans la corbeille</item>
+        <item quantity="other">%1$d éléments dans la corbeille</item>
+    </plurals>
 </resources>

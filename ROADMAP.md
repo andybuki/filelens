@@ -507,10 +507,10 @@ Prioritised so heavy / high-token tasks land early and risk is front-loaded; fin
   - [x] Biometric / device-credential gated vault directory under app-private storage.
   - [x] Move-in / move-out flow; vault items excluded from search & MediaStore.
   - [x] Surface as a Settings entry and on the Home tab.
-- [ ] **Day 10 — Global search + App manager**
-  - [ ] Global search across indexed folders (name + extension + type), cancellable.
-  - [ ] App manager screen: list user/system apps, extract APK, share, jump to APK inspector.
-  - [ ] Surface recycle bin (`.trash/`) as a top-level destination with restore-all.
+- [x] **Day 10 — Global search + App manager**
+  - [x] Global search across indexed folders (name + extension + type), cancellable. _(`GlobalSearchUseCase` streams batches via `channelFlow` and stops on coroutine cancel; new top-level `GlobalSearchScreen` reachable from Home.)_
+  - [x] App manager screen: list user/system apps, extract APK, share, jump to APK inspector. _(`AppManagerScreen` uses `PackageManager.getInstalledApplications`; APK extraction copies the base APK to `Downloads/FileLens`; inspector deep-link via new `inspect=` arg on the `main` route.)_
+  - [x] Surface recycle bin (`.trash/`) as a top-level destination with restore-all. _(`TrashScreen` reads `TrashUseCase.listTrashed()`; restore-all and empty-bin actions; Home tab shows live count.)_
 - [ ] **Day 11 — Settings overhaul**
   - [ ] Compare with Solid Explorer / Files by Google / X-plore settings.
   - [ ] Remove: theme switcher.

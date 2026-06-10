@@ -570,4 +570,57 @@
         <item quantity="other">तिजोरी में %1$d आइटम</item>
     </plurals>
 
+    <!-- ====================================================================
+         Day 10 — Search, App manager, Trash
+         ==================================================================== -->
+    <string name="home_search_headline">अपने फ़ोन में खोजें</string>
+    <string name="home_search_subtitle">नाम, एक्सटेंशन या प्रकार से फ़ाइलें खोजें</string>
+    <string name="home_section_tools">उपकरण</string>
+    <string name="home_tool_apps_subtitle">इंस्टॉल किए गए ऐप्स · APK निकालें</string>
+    <string name="search_title">खोज</string>
+    <string name="search_hint_global">नाम, एक्सटेंशन या प्रकार से फ़ाइलें खोजें…</string>
+    <string name="search_cancel">रोकें</string>
+    <string name="search_progress_status">%1$d परिणाम · %2$d फ़ोल्डर स्कैन किए</string>
+    <string name="search_scanning_label">स्कैन हो रहा है… अब तक %1$d फ़ोल्डर</string>
+    <string name="search_no_matches">आपकी फ़ाइलों में कोई मिलान नहीं।</string>
+    <string name="search_cancelled">खोज रद्द की गई।</string>
+    <string name="search_idle_headline">अपने फ़ोन में खोजें</string>
+    <string name="search_idle_subtitle">कोई फ़ाइल नाम, \"pdf\" जैसा एक्सटेंशन टाइप करें, या नीचे कोई श्रेणी चुनकर रिकर्सिव स्कैन करें।</string>
+    <string name="search_section_filter">या प्रकार से फ़िल्टर करें</string>
+    <string name="search_chip_all">सभी</string>
+    <string name="search_chip_pdf">PDF</string>
+    <string name="search_chip_code">कोड</string>
+    <string name="search_chip_text">टेक्स्ट</string>
+    <string name="app_manager_title">ऐप प्रबंधक</string>
+    <string name="app_manager_count">%1$d ऐप्स</string>
+    <string name="app_manager_search_hint">ऐप्स खोजें…</string>
+    <string name="app_manager_filter_user">उपयोगकर्ता</string>
+    <string name="app_manager_filter_system">सिस्टम</string>
+    <string name="app_manager_filter_all">सभी</string>
+    <string name="app_manager_badge_system">सिस्टम</string>
+    <string name="app_manager_action_inspect">APK जाँचें</string>
+    <string name="app_manager_action_extract">APK डाउनलोड में निकालें</string>
+    <string name="app_manager_action_share">APK साझा करें</string>
+    <string name="app_manager_extracted">APK सहेजा गया</string>
+    <string name="app_manager_extract_failed">APK नहीं निकाला जा सका।</string>
+    <string name="app_manager_chooser_share">APK साझा करें</string>
+    <string name="app_manager_empty">दिखाने के लिए कोई ऐप नहीं।</string>
+    <string name="trash_title">रीसायकल बिन</string>
+    <string name="trash_home_empty">रीसायकल बिन · खाली</string>
+    <string name="trash_section_files">हाल ही में हटाए गए</string>
+    <string name="trash_action_restore_all">सभी पुनर्स्थापित करें</string>
+    <string name="trash_action_empty">बिन खाली करें</string>
+    <string name="trash_empty_headline">बिन खाली है</string>
+    <string name="trash_empty_subtitle">FileLens से हटाई गई फ़ाइलें त्वरित पुनर्स्थापना के लिए यहाँ आती हैं। हटाने के तुरंत बाद Ctrl+Z दबाएं, या बाद में यहाँ वापस आएं।</string>
+    <string name="trash_empty_title">बिन खाली करें?</string>
+    <string name="trash_empty_body">%1$d आइटम स्थायी रूप से हटा दिए जाएँगे। इसे पूर्ववत नहीं किया जा सकता।</string>
+    <string name="trash_restored_format">%1$d आइटम पुनर्स्थापित किए गए</string>
+    <string name="trash_emptied">रीसायकल बिन खाली किया गया</string>
+    <string name="trash_deleted_at">%1$s को हटाया गया</string>
+
+    <plurals name="plural_trash_item_count">
+        <item quantity="one">बिन में %1$d आइटम</item>
+        <item quantity="other">बिन में %1$d आइटम</item>
+    </plurals>
+
 </resources>

@@ -560,4 +560,55 @@
         <item quantity="other">금고에 %1$d개 항목</item>
     </plurals>
 
+    <!-- ====================================================================
+         Day 10 — Search, App manager, Trash
+         ==================================================================== -->
+    <string name="home_search_headline">휴대폰 전체 검색</string>
+    <string name="home_search_subtitle">이름, 확장자 또는 유형으로 파일 검색</string>
+    <string name="home_section_tools">도구</string>
+    <string name="home_tool_apps_subtitle">설치된 앱 · APK 추출</string>
+    <string name="search_title">검색</string>
+    <string name="search_hint_global">이름, 확장자 또는 유형으로 파일 검색…</string>
+    <string name="search_cancel">중지</string>
+    <string name="search_progress_status">%1$d개 결과 · %2$d개 폴더 스캔</string>
+    <string name="search_scanning_label">스캔 중… 현재 %1$d개 폴더</string>
+    <string name="search_no_matches">파일에서 일치하는 항목이 없습니다.</string>
+    <string name="search_cancelled">검색이 취소되었습니다.</string>
+    <string name="search_idle_headline">휴대폰 전체 검색</string>
+    <string name="search_idle_subtitle">파일 이름, \"pdf\" 같은 확장자를 입력하거나, 아래 카테고리를 선택하여 재귀적으로 스캔합니다.</string>
+    <string name="search_section_filter">또는 유형으로 필터</string>
+    <string name="search_chip_all">전체</string>
+    <string name="search_chip_pdf">PDF</string>
+    <string name="search_chip_code">코드</string>
+    <string name="search_chip_text">텍스트</string>
+    <string name="app_manager_title">앱 관리자</string>
+    <string name="app_manager_count">%1$d개 앱</string>
+    <string name="app_manager_search_hint">앱 검색…</string>
+    <string name="app_manager_filter_user">사용자</string>
+    <string name="app_manager_filter_system">시스템</string>
+    <string name="app_manager_filter_all">전체</string>
+    <string name="app_manager_badge_system">시스템</string>
+    <string name="app_manager_action_inspect">APK 검사</string>
+    <string name="app_manager_action_extract">APK를 다운로드로 추출</string>
+    <string name="app_manager_action_share">APK 공유</string>
+    <string name="app_manager_extracted">APK 저장됨</string>
+    <string name="app_manager_extract_failed">APK를 추출할 수 없습니다.</string>
+    <string name="app_manager_chooser_share">APK 공유</string>
+    <string name="app_manager_empty">표시할 앱이 없습니다.</string>
+    <string name="trash_title">휴지통</string>
+    <string name="trash_home_empty">휴지통 · 비어 있음</string>
+    <string name="trash_section_files">최근 삭제된 파일</string>
+    <string name="trash_action_restore_all">모두 복원</string>
+    <string name="trash_action_empty">휴지통 비우기</string>
+    <string name="trash_empty_headline">휴지통이 비어 있습니다</string>
+    <string name="trash_empty_subtitle">FileLens에서 삭제한 파일은 빠른 복원을 위해 여기에 보관됩니다. 삭제 직후 Ctrl+Z를 사용하거나, 나중에 여기로 돌아오세요.</string>
+    <string name="trash_empty_title">휴지통을 비우시겠습니까?</string>
+    <string name="trash_empty_body">%1$d개 항목이 영구 삭제됩니다. 이 작업은 되돌릴 수 없습니다.</string>
+    <string name="trash_restored_format">%1$d개 항목 복원됨</string>
+    <string name="trash_emptied">휴지통 비움</string>
+    <string name="trash_deleted_at">%1$s에 삭제됨</string>
+    <plurals name="plural_trash_item_count">
+        <item quantity="other">휴지통에 %1$d개 항목</item>
+    </plurals>
+
 </resources>

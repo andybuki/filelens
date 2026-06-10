@@ -13,6 +13,13 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <!-- Needed to enumerate installed apps for the App Manager screen. The
+         user is the only consumer of this list — it never leaves the device.
+         Play Store policy expects file managers to declare this explicitly. -->
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+
     <application
         android:name="com.filelens.commander.FileLensApp"
         android:allowBackup="true"

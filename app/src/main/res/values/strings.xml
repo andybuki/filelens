@@ -93,6 +93,62 @@
     <string name="home_category_large">Large files</string>
     <string name="home_empty_headline">Nothing here yet</string>
     <string name="home_empty_subtitle">Open files and bookmark folders to fill your Home tab. Tap a category above to jump straight to your media.</string>
+    <string name="home_search_headline">Search across your phone</string>
+    <string name="home_search_subtitle">Find files by name, extension, or type</string>
+    <string name="home_section_tools">Tools</string>
+    <string name="home_tool_apps_subtitle">Installed apps · extract APK</string>
+
+    <!-- ====================================================================
+         Global search
+         ==================================================================== -->
+    <string name="search_title">Search</string>
+    <string name="search_hint_global">Search files by name, extension, or type…</string>
+    <string name="search_cancel">Stop</string>
+    <string name="search_progress_status">%1$d results · scanned %2$d folders</string>
+    <string name="search_scanning_label">Scanning… %1$d folders so far</string>
+    <string name="search_no_matches">No matches in your files.</string>
+    <string name="search_cancelled">Search cancelled.</string>
+    <string name="search_idle_headline">Search across your phone</string>
+    <string name="search_idle_subtitle">Type a filename, an extension like \"pdf\", or pick a category below to scan recursively.</string>
+    <string name="search_section_filter">Or filter by type</string>
+    <string name="search_chip_all">All</string>
+    <string name="search_chip_pdf">PDF</string>
+    <string name="search_chip_code">Code</string>
+    <string name="search_chip_text">Text</string>
+
+    <!-- ====================================================================
+         App manager
+         ==================================================================== -->
+    <string name="app_manager_title">App manager</string>
+    <string name="app_manager_count">%1$d apps</string>
+    <string name="app_manager_search_hint">Search apps…</string>
+    <string name="app_manager_filter_user">User</string>
+    <string name="app_manager_filter_system">System</string>
+    <string name="app_manager_filter_all">All</string>
+    <string name="app_manager_badge_system">SYSTEM</string>
+    <string name="app_manager_action_inspect">Inspect APK</string>
+    <string name="app_manager_action_extract">Extract APK to Downloads</string>
+    <string name="app_manager_action_share">Share APK</string>
+    <string name="app_manager_extracted">Saved APK</string>
+    <string name="app_manager_extract_failed">Could not extract APK.</string>
+    <string name="app_manager_chooser_share">Share APK</string>
+    <string name="app_manager_empty">No apps to show.</string>
+
+    <!-- ====================================================================
+         Recycle bin (.trash)
+         ==================================================================== -->
+    <string name="trash_title">Recycle bin</string>
+    <string name="trash_home_empty">Recycle bin · empty</string>
+    <string name="trash_section_files">Recently deleted</string>
+    <string name="trash_action_restore_all">Restore all</string>
+    <string name="trash_action_empty">Empty bin</string>
+    <string name="trash_empty_headline">The bin is empty</string>
+    <string name="trash_empty_subtitle">Files you delete from FileLens land here for a quick restore. Use Ctrl+Z right after deleting, or come back here later.</string>
+    <string name="trash_empty_title">Empty the bin?</string>
+    <string name="trash_empty_body">%1$d item(s) will be permanently deleted. This can\'t be undone.</string>
+    <string name="trash_restored_format">Restored %1$d item(s)</string>
+    <string name="trash_emptied">Recycle bin emptied</string>
+    <string name="trash_deleted_at">Deleted %1$s</string>
 
     <!-- ====================================================================
          Vault
@@ -535,6 +591,11 @@
     <plurals name="plural_vault_item_count">
         <item quantity="one">%1$d item in vault</item>
         <item quantity="other">%1$d items in vault</item>
+    </plurals>
+
+    <plurals name="plural_trash_item_count">
+        <item quantity="one">%1$d item in bin</item>
+        <item quantity="other">%1$d items in bin</item>
     </plurals>
 
     <plurals name="plural_collision_count">

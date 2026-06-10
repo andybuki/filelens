@@ -581,4 +581,57 @@
         <item quantity="other">%1$d itens no cofre</item>
     </plurals>
 
+    <!-- ====================================================================
+         Day 10 — Search, App manager, Trash
+         ==================================================================== -->
+    <string name="home_search_headline">Pesquise no seu telefone</string>
+    <string name="home_search_subtitle">Encontre arquivos por nome, extensão ou tipo</string>
+    <string name="home_section_tools">Ferramentas</string>
+    <string name="home_tool_apps_subtitle">Apps instalados · extrair APK</string>
+    <string name="search_title">Pesquisa</string>
+    <string name="search_hint_global">Pesquisar arquivos por nome, extensão ou tipo…</string>
+    <string name="search_cancel">Parar</string>
+    <string name="search_progress_status">%1$d resultados · %2$d pastas verificadas</string>
+    <string name="search_scanning_label">Verificando… %1$d pastas até agora</string>
+    <string name="search_no_matches">Nenhuma correspondência nos seus arquivos.</string>
+    <string name="search_cancelled">Pesquisa cancelada.</string>
+    <string name="search_idle_headline">Pesquise no seu telefone</string>
+    <string name="search_idle_subtitle">Digite um nome de arquivo, uma extensão como \"pdf\" ou escolha uma categoria abaixo para verificar recursivamente.</string>
+    <string name="search_section_filter">Ou filtre por tipo</string>
+    <string name="search_chip_all">Todos</string>
+    <string name="search_chip_pdf">PDF</string>
+    <string name="search_chip_code">Código</string>
+    <string name="search_chip_text">Texto</string>
+    <string name="app_manager_title">Gerenciador de apps</string>
+    <string name="app_manager_count">%1$d apps</string>
+    <string name="app_manager_search_hint">Pesquisar apps…</string>
+    <string name="app_manager_filter_user">Usuário</string>
+    <string name="app_manager_filter_system">Sistema</string>
+    <string name="app_manager_filter_all">Todos</string>
+    <string name="app_manager_badge_system">SISTEMA</string>
+    <string name="app_manager_action_inspect">Inspecionar APK</string>
+    <string name="app_manager_action_extract">Extrair APK para Downloads</string>
+    <string name="app_manager_action_share">Compartilhar APK</string>
+    <string name="app_manager_extracted">APK salvo</string>
+    <string name="app_manager_extract_failed">Não foi possível extrair o APK.</string>
+    <string name="app_manager_chooser_share">Compartilhar APK</string>
+    <string name="app_manager_empty">Nenhum app para exibir.</string>
+    <string name="trash_title">Lixeira</string>
+    <string name="trash_home_empty">Lixeira · vazia</string>
+    <string name="trash_section_files">Excluídos recentemente</string>
+    <string name="trash_action_restore_all">Restaurar tudo</string>
+    <string name="trash_action_empty">Esvaziar lixeira</string>
+    <string name="trash_empty_headline">A lixeira está vazia</string>
+    <string name="trash_empty_subtitle">Os arquivos excluídos do FileLens vêm para cá para uma restauração rápida. Use Ctrl+Z logo após excluir, ou volte aqui mais tarde.</string>
+    <string name="trash_empty_title">Esvaziar a lixeira?</string>
+    <string name="trash_empty_body">%1$d item(ns) serão excluídos permanentemente. Isso não pode ser desfeito.</string>
+    <string name="trash_restored_format">%1$d item(ns) restaurado(s)</string>
+    <string name="trash_emptied">Lixeira esvaziada</string>
+    <string name="trash_deleted_at">Excluído %1$s</string>
+
+    <plurals name="plural_trash_item_count">
+        <item quantity="one">%1$d item na lixeira</item>
+        <item quantity="other">%1$d itens na lixeira</item>
+    </plurals>
+
 </resources>
