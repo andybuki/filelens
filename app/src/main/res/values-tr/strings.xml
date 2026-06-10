@@ -570,4 +570,57 @@
         <item quantity="other">Kasada %1$d öğe</item>
     </plurals>
 
+    <!-- ====================================================================
+         Day 10 — Search, App manager, Trash
+         ==================================================================== -->
+    <string name="home_search_headline">Telefonunuzda arayın</string>
+    <string name="home_search_subtitle">Dosyaları ada, uzantıya veya türe göre bulun</string>
+    <string name="home_section_tools">Araçlar</string>
+    <string name="home_tool_apps_subtitle">Yüklü uygulamalar · APK çıkar</string>
+    <string name="search_title">Arama</string>
+    <string name="search_hint_global">Dosyaları ada, uzantıya veya türe göre ara…</string>
+    <string name="search_cancel">Durdur</string>
+    <string name="search_progress_status">%1$d sonuç · %2$d klasör tarandı</string>
+    <string name="search_scanning_label">Taranıyor… şu ana kadar %1$d klasör</string>
+    <string name="search_no_matches">Dosyalarınızda eşleşme yok.</string>
+    <string name="search_cancelled">Arama iptal edildi.</string>
+    <string name="search_idle_headline">Telefonunuzda arayın</string>
+    <string name="search_idle_subtitle">Bir dosya adı, \"pdf\" gibi bir uzantı yazın veya yinelemeli tarama için aşağıdan bir kategori seçin.</string>
+    <string name="search_section_filter">Veya türe göre filtrele</string>
+    <string name="search_chip_all">Tümü</string>
+    <string name="search_chip_pdf">PDF</string>
+    <string name="search_chip_code">Kod</string>
+    <string name="search_chip_text">Metin</string>
+    <string name="app_manager_title">Uygulama yöneticisi</string>
+    <string name="app_manager_count">%1$d uygulama</string>
+    <string name="app_manager_search_hint">Uygulama ara…</string>
+    <string name="app_manager_filter_user">Kullanıcı</string>
+    <string name="app_manager_filter_system">Sistem</string>
+    <string name="app_manager_filter_all">Tümü</string>
+    <string name="app_manager_badge_system">SİSTEM</string>
+    <string name="app_manager_action_inspect">APK\'yı incele</string>
+    <string name="app_manager_action_extract">APK\'yı İndirilenler\'e çıkar</string>
+    <string name="app_manager_action_share">APK\'yı paylaş</string>
+    <string name="app_manager_extracted">APK kaydedildi</string>
+    <string name="app_manager_extract_failed">APK çıkarılamadı.</string>
+    <string name="app_manager_chooser_share">APK\'yı paylaş</string>
+    <string name="app_manager_empty">Gösterilecek uygulama yok.</string>
+    <string name="trash_title">Geri dönüşüm kutusu</string>
+    <string name="trash_home_empty">Geri dönüşüm kutusu · boş</string>
+    <string name="trash_section_files">Son silinenler</string>
+    <string name="trash_action_restore_all">Tümünü geri yükle</string>
+    <string name="trash_action_empty">Kutuyu boşalt</string>
+    <string name="trash_empty_headline">Kutu boş</string>
+    <string name="trash_empty_subtitle">FileLens\'ten sildiğiniz dosyalar hızlı geri yükleme için buraya gelir. Sildikten hemen sonra Ctrl+Z kullanın veya daha sonra buraya gelin.</string>
+    <string name="trash_empty_title">Kutu boşaltılsın mı?</string>
+    <string name="trash_empty_body">%1$d öğe kalıcı olarak silinecek. Bu geri alınamaz.</string>
+    <string name="trash_restored_format">%1$d öğe geri yüklendi</string>
+    <string name="trash_emptied">Geri dönüşüm kutusu boşaltıldı</string>
+    <string name="trash_deleted_at">%1$s tarihinde silindi</string>
+
+    <plurals name="plural_trash_item_count">
+        <item quantity="one">Kutuda %1$d öğe</item>
+        <item quantity="other">Kutuda %1$d öğe</item>
+    </plurals>
+
 </resources>

@@ -594,4 +594,59 @@
         <item quantity="other">%1$d elementu w sejfie</item>
     </plurals>
 
+    <!-- ====================================================================
+         Day 10 — Search, App manager, Trash
+         ==================================================================== -->
+    <string name="home_search_headline">Przeszukaj telefon</string>
+    <string name="home_search_subtitle">Znajdź pliki po nazwie, rozszerzeniu lub typie</string>
+    <string name="home_section_tools">Narzędzia</string>
+    <string name="home_tool_apps_subtitle">Zainstalowane aplikacje · wyodrębnij APK</string>
+    <string name="search_title">Wyszukiwanie</string>
+    <string name="search_hint_global">Szukaj plików po nazwie, rozszerzeniu lub typie…</string>
+    <string name="search_cancel">Zatrzymaj</string>
+    <string name="search_progress_status">%1$d wyników · przeskanowano %2$d folderów</string>
+    <string name="search_scanning_label">Skanowanie… %1$d folderów dotychczas</string>
+    <string name="search_no_matches">Brak dopasowań w Twoich plikach.</string>
+    <string name="search_cancelled">Wyszukiwanie anulowane.</string>
+    <string name="search_idle_headline">Przeszukaj telefon</string>
+    <string name="search_idle_subtitle">Wpisz nazwę pliku, rozszerzenie takie jak \"pdf\" lub wybierz kategorię poniżej, aby skanować rekurencyjnie.</string>
+    <string name="search_section_filter">Lub filtruj według typu</string>
+    <string name="search_chip_all">Wszystkie</string>
+    <string name="search_chip_pdf">PDF</string>
+    <string name="search_chip_code">Kod</string>
+    <string name="search_chip_text">Tekst</string>
+    <string name="app_manager_title">Menedżer aplikacji</string>
+    <string name="app_manager_count">%1$d aplikacji</string>
+    <string name="app_manager_search_hint">Szukaj aplikacji…</string>
+    <string name="app_manager_filter_user">Użytkownika</string>
+    <string name="app_manager_filter_system">Systemowe</string>
+    <string name="app_manager_filter_all">Wszystkie</string>
+    <string name="app_manager_badge_system">SYSTEMOWA</string>
+    <string name="app_manager_action_inspect">Zbadaj APK</string>
+    <string name="app_manager_action_extract">Wyodrębnij APK do Pobranych</string>
+    <string name="app_manager_action_share">Udostępnij APK</string>
+    <string name="app_manager_extracted">APK zapisany</string>
+    <string name="app_manager_extract_failed">Nie udało się wyodrębnić APK.</string>
+    <string name="app_manager_chooser_share">Udostępnij APK</string>
+    <string name="app_manager_empty">Brak aplikacji do wyświetlenia.</string>
+    <string name="trash_title">Kosz</string>
+    <string name="trash_home_empty">Kosz · pusty</string>
+    <string name="trash_section_files">Ostatnio usunięte</string>
+    <string name="trash_action_restore_all">Przywróć wszystko</string>
+    <string name="trash_action_empty">Opróżnij kosz</string>
+    <string name="trash_empty_headline">Kosz jest pusty</string>
+    <string name="trash_empty_subtitle">Pliki usunięte z FileLens trafiają tutaj w celu szybkiego przywrócenia. Użyj Ctrl+Z zaraz po usunięciu lub wróć tutaj później.</string>
+    <string name="trash_empty_title">Opróżnić kosz?</string>
+    <string name="trash_empty_body">%1$d element(ów) zostanie trwale usunięte. Tego nie można cofnąć.</string>
+    <string name="trash_restored_format">Przywrócono %1$d element(ów)</string>
+    <string name="trash_emptied">Kosz opróżniony</string>
+    <string name="trash_deleted_at">Usunięto %1$s</string>
+
+    <plurals name="plural_trash_item_count">
+        <item quantity="one">%1$d element w koszu</item>
+        <item quantity="few">%1$d elementy w koszu</item>
+        <item quantity="many">%1$d elementów w koszu</item>
+        <item quantity="other">%1$d elementu w koszu</item>
+    </plurals>
+
 </resources>

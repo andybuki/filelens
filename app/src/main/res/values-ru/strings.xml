@@ -594,4 +594,59 @@
         <item quantity="other">%1$d элемента в хранилище</item>
     </plurals>
 
+    <!-- ====================================================================
+         Day 10 — Search, App manager, Trash
+         ==================================================================== -->
+    <string name="home_search_headline">Поиск по телефону</string>
+    <string name="home_search_subtitle">Находите файлы по имени, расширению или типу</string>
+    <string name="home_section_tools">Инструменты</string>
+    <string name="home_tool_apps_subtitle">Установленные приложения · извлечь APK</string>
+    <string name="search_title">Поиск</string>
+    <string name="search_hint_global">Поиск файлов по имени, расширению или типу…</string>
+    <string name="search_cancel">Остановить</string>
+    <string name="search_progress_status">%1$d результатов · просканировано %2$d папок</string>
+    <string name="search_scanning_label">Сканирование… %1$d папок</string>
+    <string name="search_no_matches">Совпадений в ваших файлах нет.</string>
+    <string name="search_cancelled">Поиск отменён.</string>
+    <string name="search_idle_headline">Поиск по телефону</string>
+    <string name="search_idle_subtitle">Введите имя файла, расширение вроде \"pdf\" или выберите категорию ниже для рекурсивного сканирования.</string>
+    <string name="search_section_filter">Или отфильтруйте по типу</string>
+    <string name="search_chip_all">Все</string>
+    <string name="search_chip_pdf">PDF</string>
+    <string name="search_chip_code">Код</string>
+    <string name="search_chip_text">Текст</string>
+    <string name="app_manager_title">Менеджер приложений</string>
+    <string name="app_manager_count">%1$d приложений</string>
+    <string name="app_manager_search_hint">Поиск приложений…</string>
+    <string name="app_manager_filter_user">Пользовательские</string>
+    <string name="app_manager_filter_system">Системные</string>
+    <string name="app_manager_filter_all">Все</string>
+    <string name="app_manager_badge_system">СИСТЕМНОЕ</string>
+    <string name="app_manager_action_inspect">Проверить APK</string>
+    <string name="app_manager_action_extract">Извлечь APK в Загрузки</string>
+    <string name="app_manager_action_share">Поделиться APK</string>
+    <string name="app_manager_extracted">APK сохранён</string>
+    <string name="app_manager_extract_failed">Не удалось извлечь APK.</string>
+    <string name="app_manager_chooser_share">Поделиться APK</string>
+    <string name="app_manager_empty">Нет приложений для отображения.</string>
+    <string name="trash_title">Корзина</string>
+    <string name="trash_home_empty">Корзина · пусто</string>
+    <string name="trash_section_files">Недавно удалённые</string>
+    <string name="trash_action_restore_all">Восстановить всё</string>
+    <string name="trash_action_empty">Очистить корзину</string>
+    <string name="trash_empty_headline">Корзина пуста</string>
+    <string name="trash_empty_subtitle">Файлы, удалённые из FileLens, попадают сюда для быстрого восстановления. Используйте Ctrl+Z сразу после удаления или вернитесь сюда позже.</string>
+    <string name="trash_empty_title">Очистить корзину?</string>
+    <string name="trash_empty_body">%1$d элемент(ов) будет удалено навсегда. Это действие нельзя отменить.</string>
+    <string name="trash_restored_format">Восстановлено элементов: %1$d</string>
+    <string name="trash_emptied">Корзина очищена</string>
+    <string name="trash_deleted_at">Удалено %1$s</string>
+
+    <plurals name="plural_trash_item_count">
+        <item quantity="one">%1$d элемент в корзине</item>
+        <item quantity="few">%1$d элемента в корзине</item>
+        <item quantity="many">%1$d элементов в корзине</item>
+        <item quantity="other">%1$d элемента в корзине</item>
+    </plurals>
+
 </resources>

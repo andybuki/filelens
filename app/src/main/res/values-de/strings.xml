@@ -569,4 +569,56 @@
         <item quantity="one">%1$d Element im Tresor</item>
         <item quantity="other">%1$d Elemente im Tresor</item>
     </plurals>
+    <!-- ====================================================================
+         Day 10 — Search, App Manager, Trash
+         ==================================================================== -->
+    <string name="home_search_headline">Auf dem Telefon suchen</string>
+    <string name="home_search_subtitle">Dateien nach Name, Erweiterung oder Typ finden</string>
+    <string name="home_section_tools">Werkzeuge</string>
+    <string name="home_tool_apps_subtitle">Installierte Apps · APK extrahieren</string>
+    <string name="search_title">Suche</string>
+    <string name="search_hint_global">Dateien nach Name, Erweiterung oder Typ suchen…</string>
+    <string name="search_cancel">Stopp</string>
+    <string name="search_progress_status">%1$d Ergebnisse · %2$d Ordner durchsucht</string>
+    <string name="search_scanning_label">Scannen… %1$d Ordner bisher</string>
+    <string name="search_no_matches">Keine Treffer in Ihren Dateien.</string>
+    <string name="search_cancelled">Suche abgebrochen.</string>
+    <string name="search_idle_headline">Auf dem Telefon suchen</string>
+    <string name="search_idle_subtitle">Geben Sie einen Dateinamen, eine Erweiterung wie \"PDF\" ein oder wählen Sie unten eine Kategorie, um rekursiv zu scannen.</string>
+    <string name="search_section_filter">Oder nach Typ filtern</string>
+    <string name="search_chip_all">Alle</string>
+    <string name="search_chip_pdf">PDF</string>
+    <string name="search_chip_code">Code</string>
+    <string name="search_chip_text">Text</string>
+    <string name="app_manager_title">App-Manager</string>
+    <string name="app_manager_count">%1$d Apps</string>
+    <string name="app_manager_search_hint">Apps suchen…</string>
+    <string name="app_manager_filter_user">Benutzer</string>
+    <string name="app_manager_filter_system">System</string>
+    <string name="app_manager_filter_all">Alle</string>
+    <string name="app_manager_badge_system">SYSTEM</string>
+    <string name="app_manager_action_inspect">APK inspizieren</string>
+    <string name="app_manager_action_extract">APK in Downloads extrahieren</string>
+    <string name="app_manager_action_share">APK teilen</string>
+    <string name="app_manager_extracted">APK gespeichert</string>
+    <string name="app_manager_extract_failed">APK konnte nicht extrahiert werden.</string>
+    <string name="app_manager_chooser_share">APK teilen</string>
+    <string name="app_manager_empty">Keine Apps anzuzeigen.</string>
+    <string name="trash_title">Papierkorb</string>
+    <string name="trash_home_empty">Papierkorb · leer</string>
+    <string name="trash_section_files">Kürzlich gelöscht</string>
+    <string name="trash_action_restore_all">Alle wiederherstellen</string>
+    <string name="trash_action_empty">Papierkorb leeren</string>
+    <string name="trash_empty_headline">Der Papierkorb ist leer</string>
+    <string name="trash_empty_subtitle">Dateien, die Sie aus FileLens löschen, landen hier zur schnellen Wiederherstellung. Verwenden Sie Strg+Z direkt nach dem Löschen oder kommen Sie später hierher zurück.</string>
+    <string name="trash_empty_title">Papierkorb leeren?</string>
+    <string name="trash_empty_body">%1$d Element(e) werden dauerhaft gelöscht. Das kann nicht rückgängig gemacht werden.</string>
+    <string name="trash_restored_format">%1$d Element(e) wiederhergestellt</string>
+    <string name="trash_emptied">Papierkorb geleert</string>
+    <string name="trash_deleted_at">Gelöscht %1$s</string>
+
+    <plurals name="plural_trash_item_count">
+        <item quantity="one">%1$d Element im Papierkorb</item>
+        <item quantity="other">%1$d Elemente im Papierkorb</item>
+    </plurals>
 </resources>

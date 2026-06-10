@@ -581,4 +581,57 @@
         <item quantity="other">%1$d elementi nella cassaforte</item>
     </plurals>
 
+    <!-- ====================================================================
+         Day 10 — Search, App manager, Trash
+         ==================================================================== -->
+    <string name="home_search_headline">Cerca nel tuo telefono</string>
+    <string name="home_search_subtitle">Trova file per nome, estensione o tipo</string>
+    <string name="home_section_tools">Strumenti</string>
+    <string name="home_tool_apps_subtitle">App installate · estrai APK</string>
+    <string name="search_title">Cerca</string>
+    <string name="search_hint_global">Cerca file per nome, estensione o tipo…</string>
+    <string name="search_cancel">Ferma</string>
+    <string name="search_progress_status">%1$d risultati · %2$d cartelle analizzate</string>
+    <string name="search_scanning_label">Scansione… %1$d cartelle finora</string>
+    <string name="search_no_matches">Nessuna corrispondenza nei tuoi file.</string>
+    <string name="search_cancelled">Ricerca annullata.</string>
+    <string name="search_idle_headline">Cerca nel tuo telefono</string>
+    <string name="search_idle_subtitle">Digita un nome file, un\'estensione come \"pdf\" o scegli una categoria qui sotto per la scansione ricorsiva.</string>
+    <string name="search_section_filter">Oppure filtra per tipo</string>
+    <string name="search_chip_all">Tutti</string>
+    <string name="search_chip_pdf">PDF</string>
+    <string name="search_chip_code">Codice</string>
+    <string name="search_chip_text">Testo</string>
+    <string name="app_manager_title">Gestione app</string>
+    <string name="app_manager_count">%1$d app</string>
+    <string name="app_manager_search_hint">Cerca app…</string>
+    <string name="app_manager_filter_user">Utente</string>
+    <string name="app_manager_filter_system">Sistema</string>
+    <string name="app_manager_filter_all">Tutte</string>
+    <string name="app_manager_badge_system">SISTEMA</string>
+    <string name="app_manager_action_inspect">Ispeziona APK</string>
+    <string name="app_manager_action_extract">Estrai APK in Download</string>
+    <string name="app_manager_action_share">Condividi APK</string>
+    <string name="app_manager_extracted">APK salvato</string>
+    <string name="app_manager_extract_failed">Impossibile estrarre l\'APK.</string>
+    <string name="app_manager_chooser_share">Condividi APK</string>
+    <string name="app_manager_empty">Nessuna app da mostrare.</string>
+    <string name="trash_title">Cestino</string>
+    <string name="trash_home_empty">Cestino · vuoto</string>
+    <string name="trash_section_files">Eliminati di recente</string>
+    <string name="trash_action_restore_all">Ripristina tutto</string>
+    <string name="trash_action_empty">Svuota cestino</string>
+    <string name="trash_empty_headline">Il cestino è vuoto</string>
+    <string name="trash_empty_subtitle">I file eliminati da FileLens finiscono qui per un ripristino rapido. Usa Ctrl+Z subito dopo l\'eliminazione, oppure torna qui più tardi.</string>
+    <string name="trash_empty_title">Svuotare il cestino?</string>
+    <string name="trash_empty_body">%1$d elemento/i verranno eliminati definitivamente. Questa azione non può essere annullata.</string>
+    <string name="trash_restored_format">%1$d elemento/i ripristinato/i</string>
+    <string name="trash_emptied">Cestino svuotato</string>
+    <string name="trash_deleted_at">Eliminato %1$s</string>
+
+    <plurals name="plural_trash_item_count">
+        <item quantity="one">%1$d elemento nel cestino</item>
+        <item quantity="other">%1$d elementi nel cestino</item>
+    </plurals>
+
 </resources>

@@ -594,4 +594,59 @@
         <item quantity="other">%1$d елемента у сховищі</item>
     </plurals>
 
+    <!-- ====================================================================
+         Day 10 — Search, App manager, Trash
+         ==================================================================== -->
+    <string name="home_search_headline">Пошук по телефону</string>
+    <string name="home_search_subtitle">Знаходьте файли за назвою, розширенням або типом</string>
+    <string name="home_section_tools">Інструменти</string>
+    <string name="home_tool_apps_subtitle">Встановлені додатки · витягнути APK</string>
+    <string name="search_title">Пошук</string>
+    <string name="search_hint_global">Шукати файли за назвою, розширенням або типом…</string>
+    <string name="search_cancel">Зупинити</string>
+    <string name="search_progress_status">%1$d результатів · проскановано %2$d тек</string>
+    <string name="search_scanning_label">Сканування… %1$d тек наразі</string>
+    <string name="search_no_matches">Збігів у ваших файлах немає.</string>
+    <string name="search_cancelled">Пошук скасовано.</string>
+    <string name="search_idle_headline">Пошук по телефону</string>
+    <string name="search_idle_subtitle">Введіть назву файлу, розширення на кшталт \"pdf\" або виберіть категорію нижче для рекурсивного сканування.</string>
+    <string name="search_section_filter">Або фільтрувати за типом</string>
+    <string name="search_chip_all">Усі</string>
+    <string name="search_chip_pdf">PDF</string>
+    <string name="search_chip_code">Код</string>
+    <string name="search_chip_text">Текст</string>
+    <string name="app_manager_title">Менеджер додатків</string>
+    <string name="app_manager_count">%1$d додатків</string>
+    <string name="app_manager_search_hint">Пошук додатків…</string>
+    <string name="app_manager_filter_user">Користувацькі</string>
+    <string name="app_manager_filter_system">Системні</string>
+    <string name="app_manager_filter_all">Усі</string>
+    <string name="app_manager_badge_system">СИСТЕМНИЙ</string>
+    <string name="app_manager_action_inspect">Інспектувати APK</string>
+    <string name="app_manager_action_extract">Витягнути APK у Завантаження</string>
+    <string name="app_manager_action_share">Поділитися APK</string>
+    <string name="app_manager_extracted">APK збережено</string>
+    <string name="app_manager_extract_failed">Не вдалося витягнути APK.</string>
+    <string name="app_manager_chooser_share">Поділитися APK</string>
+    <string name="app_manager_empty">Немає додатків для показу.</string>
+    <string name="trash_title">Кошик</string>
+    <string name="trash_home_empty">Кошик · порожній</string>
+    <string name="trash_section_files">Нещодавно видалені</string>
+    <string name="trash_action_restore_all">Відновити все</string>
+    <string name="trash_action_empty">Очистити кошик</string>
+    <string name="trash_empty_headline">Кошик порожній</string>
+    <string name="trash_empty_subtitle">Файли, які ви видаляєте з FileLens, потрапляють сюди для швидкого відновлення. Натисніть Ctrl+Z одразу після видалення або поверніться сюди пізніше.</string>
+    <string name="trash_empty_title">Очистити кошик?</string>
+    <string name="trash_empty_body">%1$d елемент(ів) буде видалено назавжди. Цю дію не можна скасувати.</string>
+    <string name="trash_restored_format">Відновлено %1$d елемент(ів)</string>
+    <string name="trash_emptied">Кошик очищено</string>
+    <string name="trash_deleted_at">Видалено %1$s</string>
+
+    <plurals name="plural_trash_item_count">
+        <item quantity="one">%1$d елемент у кошику</item>
+        <item quantity="few">%1$d елементи у кошику</item>
+        <item quantity="many">%1$d елементів у кошику</item>
+        <item quantity="other">%1$d елемента у кошику</item>
+    </plurals>
+
 </resources>

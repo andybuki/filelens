@@ -618,4 +618,61 @@
         <item quantity="other">%1$d عنصر في الخزنة</item>
     </plurals>
 
+    <!-- ====================================================================
+         Day 10 — Search, App manager, Trash
+         ==================================================================== -->
+    <string name="home_search_headline">ابحث في هاتفك</string>
+    <string name="home_search_subtitle">ابحث عن الملفات بالاسم أو الامتداد أو النوع</string>
+    <string name="home_section_tools">الأدوات</string>
+    <string name="home_tool_apps_subtitle">التطبيقات المثبتة · استخراج APK</string>
+    <string name="search_title">بحث</string>
+    <string name="search_hint_global">البحث عن ملفات بالاسم أو الامتداد أو النوع…</string>
+    <string name="search_cancel">إيقاف</string>
+    <string name="search_progress_status">%1$d نتيجة · تم فحص %2$d مجلد</string>
+    <string name="search_scanning_label">جارٍ الفحص… %1$d مجلد حتى الآن</string>
+    <string name="search_no_matches">لا توجد تطابقات في ملفاتك.</string>
+    <string name="search_cancelled">تم إلغاء البحث.</string>
+    <string name="search_idle_headline">ابحث في هاتفك</string>
+    <string name="search_idle_subtitle">اكتب اسم ملف، أو امتداداً مثل \"pdf\"، أو اختر فئة أدناه للفحص التكراري.</string>
+    <string name="search_section_filter">أو فلترة حسب النوع</string>
+    <string name="search_chip_all">الكل</string>
+    <string name="search_chip_pdf">PDF</string>
+    <string name="search_chip_code">كود</string>
+    <string name="search_chip_text">نص</string>
+    <string name="app_manager_title">مدير التطبيقات</string>
+    <string name="app_manager_count">%1$d تطبيق</string>
+    <string name="app_manager_search_hint">البحث في التطبيقات…</string>
+    <string name="app_manager_filter_user">المستخدم</string>
+    <string name="app_manager_filter_system">النظام</string>
+    <string name="app_manager_filter_all">الكل</string>
+    <string name="app_manager_badge_system">نظام</string>
+    <string name="app_manager_action_inspect">فحص APK</string>
+    <string name="app_manager_action_extract">استخراج APK إلى التنزيلات</string>
+    <string name="app_manager_action_share">مشاركة APK</string>
+    <string name="app_manager_extracted">تم حفظ APK</string>
+    <string name="app_manager_extract_failed">تعذر استخراج APK.</string>
+    <string name="app_manager_chooser_share">مشاركة APK</string>
+    <string name="app_manager_empty">لا توجد تطبيقات لعرضها.</string>
+    <string name="trash_title">سلة المحذوفات</string>
+    <string name="trash_home_empty">سلة المحذوفات · فارغة</string>
+    <string name="trash_section_files">المحذوفات مؤخراً</string>
+    <string name="trash_action_restore_all">استعادة الكل</string>
+    <string name="trash_action_empty">إفراغ السلة</string>
+    <string name="trash_empty_headline">السلة فارغة</string>
+    <string name="trash_empty_subtitle">الملفات التي تحذفها من FileLens تأتي هنا للاستعادة السريعة. اضغط Ctrl+Z مباشرة بعد الحذف، أو عُد إلى هنا لاحقاً.</string>
+    <string name="trash_empty_title">إفراغ السلة؟</string>
+    <string name="trash_empty_body">سيتم حذف %1$d عنصر(عناصر) نهائياً. لا يمكن التراجع عن هذا الإجراء.</string>
+    <string name="trash_restored_format">تمت استعادة %1$d عنصر(عناصر)</string>
+    <string name="trash_emptied">تم إفراغ سلة المحذوفات</string>
+    <string name="trash_deleted_at">حُذف %1$s</string>
+
+    <plurals name="plural_trash_item_count">
+        <item quantity="zero">لا عناصر في السلة</item>
+        <item quantity="one">عنصر واحد في السلة</item>
+        <item quantity="two">عنصران في السلة</item>
+        <item quantity="few">%1$d عناصر في السلة</item>
+        <item quantity="many">%1$d عنصراً في السلة</item>
+        <item quantity="other">%1$d عنصر في السلة</item>
+    </plurals>
+
 </resources>
