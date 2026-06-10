@@ -14,18 +14,21 @@ import com.filelens.commander.ui.screens.DuplicateFinderScreen
 import com.filelens.commander.ui.screens.HomeScreen
 import com.filelens.commander.ui.screens.MainScreen
 import com.filelens.commander.ui.screens.OnboardingScreen
+import com.filelens.commander.ui.screens.AppManagerScreen
+import com.filelens.commander.ui.screens.GlobalSearchScreen
 import com.filelens.commander.ui.screens.RemoteServersScreen
 import com.filelens.commander.ui.screens.SettingsScreen
 import com.filelens.commander.ui.screens.ShortcutsScreen
 import com.filelens.commander.ui.screens.SqliteBrowserScreen
+import com.filelens.commander.ui.screens.TrashScreen
 import com.filelens.commander.ui.screens.VaultScreen
 
 object Routes {
     const val ONBOARDING = "onboarding"
     const val HOME = "home"
-    // Both arguments are optional and URL-encoded; an empty value means "no
+    // All arguments are optional and URL-encoded; an empty value means "no
     // initial action — show the home folder as usual".
-    const val MAIN = "main?path={path}&category={category}"
+    const val MAIN = "main?path={path}&category={category}&inspect={inspect}"
     const val SETTINGS = "settings"
     const val COMPARE = "compare/{left}/{right}"
     const val DUPLICATES = "duplicates/{root}"
@@ -33,11 +36,19 @@ object Routes {
     const val SHORTCUTS = "shortcuts"
     const val REMOTE_SERVERS = "remote_servers"
     const val VAULT = "vault"
+    const val GLOBAL_SEARCH = "global_search"
+    const val APP_MANAGER = "app_manager"
+    const val TRASH = "trash"
 
-    fun main(path: String? = null, category: HomeCategory? = null): String {
+    fun main(
+        path: String? = null,
+        category: HomeCategory? = null,
+        inspect: String? = null
+    ): String {
         val pathArg = path?.let { Uri.encode(it) } ?: ""
         val categoryArg = category?.name ?: ""
-        return "main?path=$pathArg&category=$categoryArg"
+        val inspectArg = inspect?.let { Uri.encode(it) } ?: ""
+        return "main?path=$pathArg&category=$categoryArg&inspect=$inspectArg"
     }
 
     fun compare(leftPath: String, rightPath: String): String =
@@ -80,7 +91,10 @@ fun FileLensNavGraph(
                 },
                 onOpenFiles = { navController.navigate(Routes.main()) },
                 onOpenSettings = { navController.navigate(Routes.SETTINGS) },
-                onOpenVault = { navController.navigate(Routes.VAULT) }
+                onOpenVault = { navController.navigate(Routes.VAULT) },
+                onOpenGlobalSearch = { navController.navigate(Routes.GLOBAL_SEARCH) },
+                onOpenAppManager = { navController.navigate(Routes.APP_MANAGER) },
+                onOpenTrash = { navController.navigate(Routes.TRASH) }
             )
         }
         composable(
@@ -93,6 +107,10 @@ fun FileLensNavGraph(
                 navArgument("category") {
                     type = NavType.StringType
                     defaultValue = ""
+                },
+                navArgument("inspect") {
+                    type = NavType.StringType
+                    defaultValue = ""
                 }
             )
         ) { backStackEntry ->
@@ -100,9 +118,12 @@ fun FileLensNavGraph(
             val initialPath = if (rawPath.isEmpty()) null else rawPath
             val categoryName = backStackEntry.arguments?.getString("category").orEmpty()
             val initialCategory = HomeCategory.entries.firstOrNull { it.name == categoryName }
+            val rawInspect = backStackEntry.arguments?.getString("inspect").orEmpty()
+            val initialInspectPath = if (rawInspect.isEmpty()) null else rawInspect
             MainScreen(
                 initialPath = initialPath,
                 initialCategory = initialCategory,
+                initialInspectPath = initialInspectPath,
                 onOpenSettings = { navController.navigate(Routes.SETTINGS) },
                 onCompare = { left, right ->
                     navController.navigate(Routes.compare(left, right))
@@ -136,6 +157,33 @@ fun FileLensNavGraph(
         }
         composable(Routes.VAULT) {
             VaultScreen(onBack = { navController.popBackStack() })
+        }
+        composable(Routes.GLOBAL_SEARCH) {
+            GlobalSearchScreen(
+                onBack = { navController.popBackStack() },
+                onOpenFile = { item ->
+                    val parent = item.path.substringBeforeLast('/', "")
+                    val target = if (item.nodeType == com.filelens.commander.vfs.NodeType.DIRECTORY) {
+                        item.path
+                    } else {
+                        parent.ifEmpty { item.path }
+                    }
+                    val inspect = if (item.nodeType == com.filelens.commander.vfs.NodeType.FILE) item.path else null
+                    navController.navigate(Routes.main(path = target, inspect = inspect))
+                }
+            )
+        }
+        composable(Routes.APP_MANAGER) {
+            AppManagerScreen(
+                onBack = { navController.popBackStack() },
+                onInspectApk = { apkPath ->
+                    val parent = apkPath.substringBeforeLast('/', "")
+                    navController.navigate(Routes.main(path = parent, inspect = apkPath))
+                }
+            )
+        }
+        composable(Routes.TRASH) {
+            TrashScreen(onBack = { navController.popBackStack() })
         }
         composable(
             route = Routes.COMPARE,

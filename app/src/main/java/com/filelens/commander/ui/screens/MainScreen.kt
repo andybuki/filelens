@@ -77,6 +77,7 @@ import java.io.File
 fun MainScreen(
     initialPath: String? = null,
     initialCategory: com.filelens.commander.domain.model.HomeCategory? = null,
+    initialInspectPath: String? = null,
     onOpenSettings: () -> Unit = {},
     onCompare: (String, String) -> Unit = { _, _ -> },
     onFindDuplicates: (String) -> Unit = {},
@@ -114,13 +115,37 @@ fun MainScreen(
     // not loading) so our navigation isn't clobbered by the default
     // "land at home root" navigation that runs on first construction.
     var consumedInitial by remember { mutableStateOf(false) }
-    LaunchedEffect(initialPath, initialCategory) {
+    LaunchedEffect(initialPath, initialCategory, initialInspectPath) {
         if (consumedInitial) return@LaunchedEffect
-        if (initialCategory == null && initialPath.isNullOrBlank()) return@LaunchedEffect
+        if (initialCategory == null && initialPath.isNullOrBlank() && initialInspectPath.isNullOrBlank()) {
+            return@LaunchedEffect
+        }
         fileListViewModel.state.first { it.currentPath.isNotEmpty() && !it.isLoading }
         when {
             initialCategory != null -> fileListViewModel.browseCategory(initialCategory)
             !initialPath.isNullOrBlank() -> fileListViewModel.navigateTo(initialPath)
+        }
+        if (!initialInspectPath.isNullOrBlank()) {
+            // Wait for the listing of the parent folder to land so we have an
+            // accurate FileItem to feed the inspector. If the file isn't
+            // present (e.g. removed since the caller built the intent) we
+            // synthesise a minimal item — the inspector handles missing
+            // files gracefully.
+            fileListViewModel.state.first { !it.isLoading }
+            val file = java.io.File(initialInspectPath)
+            val ext = file.extension
+            val item = fileListViewModel.state.value.files.firstOrNull { it.path == initialInspectPath }
+                ?: com.filelens.commander.domain.model.FileItem(
+                    name = file.name,
+                    path = initialInspectPath,
+                    nodeType = com.filelens.commander.vfs.NodeType.FILE,
+                    size = if (file.exists()) file.length() else null,
+                    lastModified = if (file.exists()) file.lastModified() else null,
+                    isReadable = file.canRead(),
+                    fileCategory = com.filelens.commander.domain.model.classifyByExtension(ext),
+                    extension = ext
+                )
+            inspectorViewModel.selectFile(item)
         }
         consumedInitial = true
     }
@@ -531,6 +556,17 @@ private fun CompactLayout(
         skipHiddenState = false
     )
     val scaffoldState = rememberBottomSheetScaffoldState(bottomSheetState = bottomSheetState)
+
+    // Auto-expand the sheet when an inspector target is set programmatically
+    // (e.g. App Manager → "Inspect APK" deep link). User taps in the file
+    // list already expand the sheet inline; this just catches the deep-link
+    // path where there is no tap.
+    LaunchedEffect(inspectorState.info?.path) {
+        val path = inspectorState.info?.path
+        if (path != null && bottomSheetState.currentValue == SheetValue.Hidden) {
+            bottomSheetState.expand()
+        }
+    }
 
     val selectedItems = fileListState.files.filter { it.path in commanderState.selectedPaths }
     val canCompare = selectedItems.size == 2 && selectedItems.map { it.nodeType }.toSet().size == 1

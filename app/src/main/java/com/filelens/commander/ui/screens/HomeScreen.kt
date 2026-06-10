@@ -18,8 +18,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
 import androidx.compose.material.icons.filled.Android
+import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.Archive
 import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.DeleteOutline
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Folder
@@ -28,6 +30,7 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.MusicNote
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.Videocam
@@ -99,14 +102,19 @@ fun HomeScreen(
     onOpenFiles: () -> Unit,
     onOpenSettings: () -> Unit,
     onOpenVault: () -> Unit = {},
+    onOpenGlobalSearch: () -> Unit = {},
+    onOpenAppManager: () -> Unit = {},
+    onOpenTrash: () -> Unit = {},
     bookmarksViewModel: com.filelens.commander.viewmodel.BookmarksViewModel = hiltViewModel(),
     recentsViewModel: com.filelens.commander.viewmodel.RecentsViewModel = hiltViewModel(),
-    vaultViewModel: com.filelens.commander.viewmodel.VaultViewModel = hiltViewModel()
+    vaultViewModel: com.filelens.commander.viewmodel.VaultViewModel = hiltViewModel(),
+    trashViewModel: com.filelens.commander.viewmodel.TrashViewModel = hiltViewModel()
 ) {
     val bookmarks by bookmarksViewModel.bookmarks.collectAsStateWithLifecycle()
     val recentFiles by recentsViewModel.recentFiles.collectAsStateWithLifecycle()
     val frequentFolders by recentsViewModel.frequentFolders.collectAsStateWithLifecycle()
     val vaultCount by vaultViewModel.count.collectAsStateWithLifecycle()
+    val trashState by trashViewModel.state.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
@@ -122,10 +130,19 @@ fun HomeScreen(
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             item {
+                SearchBarCard(onClick = onOpenGlobalSearch)
+            }
+            item {
                 CategoriesSection(onOpenCategory = onOpenCategory)
             }
             item {
-                VaultCard(itemCount = vaultCount, onOpen = onOpenVault)
+                ToolsSection(
+                    vaultCount = vaultCount,
+                    trashCount = trashState.items.size,
+                    onOpenVault = onOpenVault,
+                    onOpenAppManager = onOpenAppManager,
+                    onOpenTrash = onOpenTrash
+                )
             }
             if (recentFiles.isNotEmpty()) {
                 item {
@@ -442,44 +459,133 @@ private fun EmptyHomeHint(onOpenFiles: () -> Unit) {
 }
 
 @Composable
-private fun VaultCard(itemCount: Int, onOpen: () -> Unit) {
+private fun SearchBarCard(onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(14.dp))
             .background(FlSurface)
-            .clickable(onClick = onOpen)
-            .padding(horizontal = 14.dp, vertical = 14.dp),
+            .clickable(onClick = onClick)
+            .padding(horizontal = 14.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
             modifier = Modifier
-                .size(44.dp)
-                .clip(RoundedCornerShape(12.dp))
+                .size(38.dp)
+                .clip(RoundedCornerShape(11.dp))
                 .background(FlAccentTint),
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                Icons.Filled.Lock,
+                Icons.Filled.Search,
                 contentDescription = null,
                 tint = FlAccent,
-                modifier = Modifier.size(22.dp)
+                modifier = Modifier.size(20.dp)
             )
         }
-        Spacer(modifier = Modifier.width(14.dp))
+        Spacer(modifier = Modifier.width(12.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = stringResource(R.string.vault_title),
+                text = stringResource(R.string.home_search_headline),
+                style = MaterialTheme.typography.titleSmall,
+                color = FlInk
+            )
+            Text(
+                text = stringResource(R.string.home_search_subtitle),
+                style = MaterialTheme.typography.bodySmall,
+                color = FlInk3,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(top = 2.dp)
+            )
+        }
+    }
+}
+
+@Composable
+private fun ToolsSection(
+    vaultCount: Int,
+    trashCount: Int,
+    onOpenVault: () -> Unit,
+    onOpenAppManager: () -> Unit,
+    onOpenTrash: () -> Unit
+) {
+    Column {
+        SectionHeader(stringResource(R.string.home_section_tools))
+        ToolRow(
+            icon = Icons.Filled.Lock,
+            title = stringResource(R.string.vault_title),
+            subtitle = if (vaultCount == 0) {
+                stringResource(R.string.vault_home_empty)
+            } else {
+                pluralStringResource(R.plurals.plural_vault_item_count, vaultCount, vaultCount)
+            },
+            tint = FlAccent,
+            background = FlAccentTint,
+            onClick = onOpenVault
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        ToolRow(
+            icon = Icons.Filled.Apps,
+            title = stringResource(R.string.app_manager_title),
+            subtitle = stringResource(R.string.home_tool_apps_subtitle),
+            tint = FlAccent,
+            background = FlAccentTint,
+            onClick = onOpenAppManager
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        ToolRow(
+            icon = Icons.Filled.DeleteOutline,
+            title = stringResource(R.string.trash_title),
+            subtitle = if (trashCount == 0) {
+                stringResource(R.string.trash_home_empty)
+            } else {
+                pluralStringResource(R.plurals.plural_trash_item_count, trashCount, trashCount)
+            },
+            tint = FlAccent,
+            background = FlAccentTint,
+            onClick = onOpenTrash
+        )
+    }
+}
+
+@Composable
+private fun ToolRow(
+    icon: ImageVector,
+    title: String,
+    subtitle: String,
+    tint: Color,
+    background: Color,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .background(FlSurface)
+            .clickable(onClick = onClick)
+            .padding(horizontal = 12.dp, vertical = 11.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .size(36.dp)
+                .clip(RoundedCornerShape(10.dp))
+                .background(background),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(icon, contentDescription = null, tint = tint, modifier = Modifier.size(19.dp))
+        }
+        Spacer(modifier = Modifier.width(12.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = title,
                 style = MaterialTheme.typography.titleSmall,
                 color = FlInk,
                 fontWeight = FontWeight.SemiBold
             )
             Text(
-                text = if (itemCount == 0) {
-                    stringResource(R.string.vault_home_empty)
-                } else {
-                    pluralStringResource(R.plurals.plural_vault_item_count, itemCount, itemCount)
-                },
+                text = subtitle,
                 style = MaterialTheme.typography.bodySmall,
                 color = FlInk3,
                 modifier = Modifier.padding(top = 2.dp)
