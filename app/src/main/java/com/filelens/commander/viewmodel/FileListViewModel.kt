@@ -229,10 +229,22 @@ class FileListViewModel @Inject constructor(
      */
     fun openRemoteConnection(id: String) {
         viewModelScope.launch {
-            _state.value = _state.value.copy(isLoading = true, error = null, remoteNotice = null)
+            // Clear the current (local) listing while we connect so a failure
+            // surfaces the error instead of leaving the previous folder's files
+            // on screen — the panel only shows errors when the list is empty.
+            _state.value = _state.value.copy(
+                isLoading = true,
+                error = null,
+                remoteNotice = null,
+                files = emptyList()
+            )
             val connection = remoteConnections.get(id)
             if (connection == null) {
-                _state.value = _state.value.copy(isLoading = false, error = "Server not found")
+                _state.value = _state.value.copy(
+                    isLoading = false,
+                    files = emptyList(),
+                    error = "Server not found"
+                )
                 return@launch
             }
             try {
@@ -249,6 +261,7 @@ class FileListViewModel @Inject constructor(
             } catch (e: com.filelens.commander.vfs.HostKeyMismatchException) {
                 _state.value = _state.value.copy(
                     isLoading = false,
+                    files = emptyList(),
                     error = "Host key for ${connection.host} does not match the one FileLens has pinned" +
                         (e.fingerprint?.let { " (server now offers $it)" } ?: "") +
                         ". Refusing to connect — verify the server, then edit the saved entry to clear the pin if you trust the new key."
@@ -256,6 +269,7 @@ class FileListViewModel @Inject constructor(
             } catch (e: Exception) {
                 _state.value = _state.value.copy(
                     isLoading = false,
+                    files = emptyList(),
                     error = "Couldn't connect to ${connection.name.ifBlank { connection.host }}: ${e.message ?: e.javaClass.simpleName}"
                 )
             }
