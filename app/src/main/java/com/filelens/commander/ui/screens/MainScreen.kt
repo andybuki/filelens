@@ -78,6 +78,7 @@ fun MainScreen(
     initialPath: String? = null,
     initialCategory: com.filelens.commander.domain.model.HomeCategory? = null,
     initialInspectPath: String? = null,
+    initialRemoteId: String? = null,
     onOpenSettings: () -> Unit = {},
     onCompare: (String, String) -> Unit = { _, _ -> },
     onFindDuplicates: (String) -> Unit = {},
@@ -108,6 +109,17 @@ fun MainScreen(
 
     LaunchedEffect(remoteOpenBus) {
         remoteOpenBus.events.collect { id -> fileListViewModel.openRemoteConnection(id) }
+    }
+
+    // Connect to a remote server passed via navigation argument. We wait
+    // for the ViewModel's init to finish (currentPath non-empty, not
+    // loading) so the remote navigation cleanly replaces the default.
+    var consumedRemote by remember { mutableStateOf(false) }
+    LaunchedEffect(initialRemoteId) {
+        if (consumedRemote || initialRemoteId.isNullOrBlank()) return@LaunchedEffect
+        fileListViewModel.state.first { it.currentPath.isNotEmpty() && !it.isLoading }
+        fileListViewModel.openRemoteConnection(initialRemoteId)
+        consumedRemote = true
     }
 
     // Fire the initial Home-tab intent exactly once per navigation entry.
