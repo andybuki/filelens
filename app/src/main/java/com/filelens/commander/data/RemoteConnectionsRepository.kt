@@ -117,7 +117,7 @@ class RemoteConnectionsRepository @Inject constructor(
 
     private companion object {
         val KEY = stringPreferencesKey("remote_connections_v2")
-        const val SEP_ROW = ""   // ASCII Record Separator
-        const val SEP_FIELD = "" // ASCII Unit Separator
+        const val SEP_ROW = "\u001E"   // ASCII Record Separator
+        const val SEP_FIELD = "\u001F" // ASCII Unit Separator
     }
 }
