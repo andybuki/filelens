@@ -503,10 +503,10 @@ Prioritised so heavy / high-token tasks land early and risk is front-loaded; fin
 - [x] **Day 8 — Home / Quick-access tab**
   - [x] New top-level "Home" destination: Recent · Favorites · Categories grid (Images / Video / Audio / Docs / APKs / Archives / Downloads / Large files).
   - [x] Wire to existing Recent and Bookmarks state.
-- [ ] **Day 9 — Hidden vault (locked folder)**
-  - [ ] Biometric / device-credential gated vault directory under app-private storage.
-  - [ ] Move-in / move-out flow; vault items excluded from search & MediaStore.
-  - [ ] Surface as a Settings entry and on the Home tab.
+- [x] **Day 9 — Hidden vault (locked folder)**
+  - [x] Biometric / device-credential gated vault directory under app-private storage.
+  - [x] Move-in / move-out flow; vault items excluded from search & MediaStore.
+  - [x] Surface as a Settings entry and on the Home tab.
 - [ ] **Day 10 — Global search + App manager**
   - [ ] Global search across indexed folders (name + extension + type), cancellable.
   - [ ] App manager screen: list user/system apps, extract APK, share, jump to APK inspector.

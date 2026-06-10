@@ -535,10 +535,14 @@ private fun CompactLayout(
     val selectedItems = fileListState.files.filter { it.path in commanderState.selectedPaths }
     val canCompare = selectedItems.size == 2 && selectedItems.map { it.nodeType }.toSet().size == 1
     val canBatchRename = selectedItems.size >= 2 && selectedItems.all { it.nodeType == com.filelens.commander.vfs.NodeType.FILE }
+    val canMoveToVault = selectedItems.isNotEmpty() && selectedItems.all { it.nodeType == com.filelens.commander.vfs.NodeType.FILE }
     val triggerCompare = {
         if (selectedItems.size == 2) {
             onCompare(selectedItems[0].path, selectedItems[1].path)
         }
+    }
+    val triggerMoveToVault = {
+        commanderViewModel.moveSelectedToVault { fileListViewModel.refresh() }
     }
 
     var batchRenameTargetsCompact by remember { mutableStateOf<List<String>>(emptyList()) }
@@ -619,9 +623,11 @@ private fun CompactLayout(
                 onFileLongClick = { item -> commanderViewModel.toggleSelection(item.path) },
                 canCompareSelection = canCompare,
                 canBatchRename = canBatchRename,
+                canMoveToVault = canMoveToVault,
                 onClearSelection = { commanderViewModel.clearSelection() },
                 onCompareSelection = triggerCompare,
                 onBatchRenameSelection = triggerBatchRename,
+                onMoveToVaultSelection = triggerMoveToVault,
                 onNavigateUp = { fileListViewModel.navigateUp() },
                 onSortChanged = { fileListViewModel.setSortOrder(it) },
                 onToggleHidden = { fileListViewModel.toggleHiddenFiles() },
@@ -735,9 +741,15 @@ private fun ExpandedLayout(
     val selectedItems = activeFiles.filter { it.path in commanderState.selectedPaths }
     val canCompare = selectedItems.size == 2 && selectedItems.map { it.nodeType }.toSet().size == 1
     val canBatchRename = selectedItems.size >= 2 && selectedItems.all { it.nodeType == com.filelens.commander.vfs.NodeType.FILE }
+    val canMoveToVault = selectedItems.isNotEmpty() && selectedItems.all { it.nodeType == com.filelens.commander.vfs.NodeType.FILE }
     val triggerCompare = {
         if (selectedItems.size == 2) {
             onCompare(selectedItems[0].path, selectedItems[1].path)
+        }
+    }
+    val triggerMoveToVault = {
+        commanderViewModel.moveSelectedToVault {
+            if (activeLeft) fileListViewModel.refresh() else rightViewModel.refresh()
         }
     }
 
@@ -785,9 +797,11 @@ private fun ExpandedLayout(
                 onFileLongClick = { item -> commanderViewModel.toggleSelection(item.path) },
                 canCompareSelection = canCompare && activeLeft,
                 canBatchRename = canBatchRename && activeLeft,
+                canMoveToVault = canMoveToVault && activeLeft,
                 onClearSelection = { commanderViewModel.clearSelection() },
                 onCompareSelection = triggerCompare,
                 onBatchRenameSelection = triggerBatchRename,
+                onMoveToVaultSelection = triggerMoveToVault,
                 onNavigateUp = { fileListViewModel.navigateUp() },
                 onSortChanged = { fileListViewModel.setSortOrder(it) },
                 onToggleHidden = { fileListViewModel.toggleHiddenFiles() },
@@ -839,9 +853,11 @@ private fun ExpandedLayout(
                     onFileLongClick = { item -> commanderViewModel.toggleSelection(item.path) },
                     canCompareSelection = canCompare && !activeLeft,
                     canBatchRename = canBatchRename && !activeLeft,
+                    canMoveToVault = canMoveToVault && !activeLeft,
                     onClearSelection = { commanderViewModel.clearSelection() },
                     onCompareSelection = triggerCompare,
                     onBatchRenameSelection = triggerBatchRename,
+                    onMoveToVaultSelection = triggerMoveToVault,
                     onNavigateUp = { rightViewModel.navigateUp() },
                     onSortChanged = { rightViewModel.setSortOrder(it) },
                     onToggleHidden = { rightViewModel.toggleHiddenFiles() },

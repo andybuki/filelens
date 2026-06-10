@@ -564,4 +564,34 @@
     <string name="home_empty_headline">Jeszcze nic tu nie ma</string>
     <string name="home_empty_subtitle">Otwieraj pliki i dodawaj foldery do ulubionych, aby wypełnić kartę Strona główna. Dotknij kategorię, aby przejść bezpośrednio do swoich mediów.</string>
 
+    <!-- Vault -->
+    <string name="vault_title">Ukryty sejf</string>
+    <string name="vault_home_empty">Zablokowany folder · pusty</string>
+    <string name="vault_locked_headline">Sejf zablokowany</string>
+    <string name="vault_locked_subtitle">%1$d element(ów) przechowywanych. Uwierzytelnij się, aby odblokować.</string>
+    <string name="vault_unlock_title">Odblokuj sejf</string>
+    <string name="vault_unlock_subtitle">Użyj biometrii lub kodu PIN urządzenia, aby uzyskać dostęp do ukrytych plików.</string>
+    <string name="vault_unlock_button">Odblokuj</string>
+    <string name="vault_not_enrolled">Skonfiguruj blokadę ekranu lub biometrię w ustawieniach systemowych, aby korzystać z sejfu.</string>
+    <string name="vault_no_hardware">To urządzenie nie ma biometrii ani blokady ekranu, więc sejf nie może zostać odblokowany.</string>
+    <string name="vault_empty_headline">Sejf jest pusty</string>
+    <string name="vault_empty_subtitle">Przytrzymaj pliki w przeglądarce i dotknij „Przenieś do sejfu", aby je tu ukryć.</string>
+    <string name="vault_section_files">Pliki w sejfie</string>
+    <string name="vault_action_lock">Zablokuj sejf</string>
+    <string name="vault_action_restore">Przenieś na zewnątrz</string>
+    <string name="vault_action_erase">Usuń</string>
+    <string name="vault_action_select_all">Wszystko</string>
+    <string name="vault_erase_title">Usunąć z sejfu?</string>
+    <string name="vault_erase_body">%1$d element(ów) zostanie trwale usunięte. Tego nie można cofnąć.</string>
+    <string name="selection_action_vault">Sejf</string>
+    <string name="settings_section_privacy">Prywatność &amp; bezpieczeństwo</string>
+    <string name="settings_vault">Ukryty sejf</string>
+    <string name="settings_vault_desc">Folder z blokadą biometryczną w prywatnym magazynie aplikacji. Pliki tutaj są wykluczone z wyszukiwania i galerii.</string>
+    <plurals name="plural_vault_item_count">
+        <item quantity="one">%1$d element w sejfie</item>
+        <item quantity="few">%1$d elementy w sejfie</item>
+        <item quantity="many">%1$d elementów w sejfie</item>
+        <item quantity="other">%1$d elementu w sejfie</item>
+    </plurals>
+
 </resources>

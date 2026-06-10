@@ -586,4 +586,36 @@
     <string name="home_empty_headline">لا يوجد شيء هنا بعد</string>
     <string name="home_empty_subtitle">افتح الملفات وأضف المجلدات إلى المفضلة لملء علامة تبويب الرئيسية. انقر على فئة للانتقال مباشرة إلى وسائطك.</string>
 
+    <!-- Vault -->
+    <string name="vault_title">الخزنة المخفية</string>
+    <string name="vault_home_empty">مجلد مقفل · فارغ</string>
+    <string name="vault_locked_headline">الخزنة مقفلة</string>
+    <string name="vault_locked_subtitle">%1$d عنصر(عناصر) مخزنة. قم بالمصادقة لإلغاء القفل.</string>
+    <string name="vault_unlock_title">إلغاء قفل الخزنة</string>
+    <string name="vault_unlock_subtitle">استخدم المقاييس الحيوية أو رمز PIN للجهاز للوصول إلى الملفات المخفية.</string>
+    <string name="vault_unlock_button">إلغاء القفل</string>
+    <string name="vault_not_enrolled">قم بإعداد قفل الشاشة أو المقاييس الحيوية في إعدادات النظام لاستخدام الخزنة.</string>
+    <string name="vault_no_hardware">لا يحتوي هذا الجهاز على مقاييس حيوية أو قفل شاشة، لذا لا يمكن إلغاء قفل الخزنة.</string>
+    <string name="vault_empty_headline">الخزنة فارغة</string>
+    <string name="vault_empty_subtitle">اضغط مطولاً على الملفات في المتصفح وانقر على "نقل إلى الخزنة" لإخفائها هنا.</string>
+    <string name="vault_section_files">ملفات في الخزنة</string>
+    <string name="vault_action_lock">قفل الخزنة</string>
+    <string name="vault_action_restore">إخراج</string>
+    <string name="vault_action_erase">حذف</string>
+    <string name="vault_action_select_all">الكل</string>
+    <string name="vault_erase_title">حذف من الخزنة؟</string>
+    <string name="vault_erase_body">سيتم حذف %1$d عنصر(عناصر) نهائياً. لا يمكن التراجع عن هذا الإجراء.</string>
+    <string name="selection_action_vault">الخزنة</string>
+    <string name="settings_section_privacy">الخصوصية &amp; الأمان</string>
+    <string name="settings_vault">الخزنة المخفية</string>
+    <string name="settings_vault_desc">مجلد مقفل بالمقاييس الحيوية في التخزين الخاص بالتطبيق. الملفات هنا مستبعدة من البحث والمعرض.</string>
+    <plurals name="plural_vault_item_count">
+        <item quantity="zero">لا عناصر في الخزنة</item>
+        <item quantity="one">عنصر واحد في الخزنة</item>
+        <item quantity="two">عنصران في الخزنة</item>
+        <item quantity="few">%1$d عناصر في الخزنة</item>
+        <item quantity="many">%1$d عنصراً في الخزنة</item>
+        <item quantity="other">%1$d عنصر في الخزنة</item>
+    </plurals>
+
 </resources>

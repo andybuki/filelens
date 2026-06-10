@@ -25,6 +25,7 @@ import androidx.compose.material.icons.automirrored.filled.Article
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.Upload
@@ -78,6 +79,7 @@ private val HeaderInk = FlOnAccent
 fun SettingsScreen(
     onBack: () -> Unit,
     onOpenRemoteServers: () -> Unit = {},
+    onOpenVault: () -> Unit = {},
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val settings by viewModel.settings.collectAsStateWithLifecycle()
@@ -178,6 +180,16 @@ fun SettingsScreen(
                     label = stringResource(R.string.settings_remote_servers),
                     description = stringResource(R.string.settings_remote_servers_desc),
                     onClick = onOpenRemoteServers
+                )
+            }
+
+            SectionHeader(stringResource(R.string.settings_section_privacy))
+            SettingsCard {
+                DisclosureRow(
+                    icon = Icons.Filled.Lock,
+                    label = stringResource(R.string.settings_vault),
+                    description = stringResource(R.string.settings_vault_desc),
+                    onClick = onOpenVault
                 )
             }
 

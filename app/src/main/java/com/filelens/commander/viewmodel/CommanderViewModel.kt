@@ -38,6 +38,7 @@ class CommanderViewModel @Inject constructor(
     private val fileOperations: FileOperationsUseCase,
     private val trashUseCase: TrashUseCase,
     private val cleanCopyUseCase: CleanCopyUseCase,
+    private val vaultRepository: com.filelens.commander.data.VaultRepository,
     private val notifier: OperationNotifier
 ) : ViewModel() {
 
@@ -199,6 +200,26 @@ class CommanderViewModel @Inject constructor(
                     _events.emit("Error: ${result.message}")
                     notifier.cancel(OperationNotifier.ID_MOVE)
                 }
+            }
+            _state.value = _state.value.copy(isOperationInProgress = false)
+        }
+    }
+
+    fun moveSelectedToVault(onDone: () -> Unit) {
+        viewModelScope.launch {
+            _state.value = _state.value.copy(isOperationInProgress = true)
+            val paths = _state.value.selectedPaths.toList()
+            try {
+                val moved = vaultRepository.add(paths)
+                if (moved == paths.size) {
+                    _events.emit("$moved item(s) moved to vault")
+                } else {
+                    _events.emit("Moved $moved of ${paths.size} item(s) to vault")
+                }
+                clearSelection()
+                onDone()
+            } catch (e: Exception) {
+                _events.emit("Error: ${e.message ?: "Failed to move to vault"}")
             }
             _state.value = _state.value.copy(isOperationInProgress = false)
         }

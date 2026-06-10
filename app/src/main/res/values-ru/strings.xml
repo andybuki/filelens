@@ -564,4 +564,34 @@
     <string name="home_empty_headline">Пока здесь пусто</string>
     <string name="home_empty_subtitle">Открывайте файлы и добавляйте папки в избранное, чтобы заполнить вкладку «Главная». Нажмите на категорию, чтобы перейти к своим медиафайлам.</string>
 
+    <!-- Vault -->
+    <string name="vault_title">Скрытое хранилище</string>
+    <string name="vault_home_empty">Заблокированная папка · пусто</string>
+    <string name="vault_locked_headline">Хранилище заблокировано</string>
+    <string name="vault_locked_subtitle">%1$d элемент(ов) сохранено. Пройдите аутентификацию для разблокировки.</string>
+    <string name="vault_unlock_title">Разблокировать хранилище</string>
+    <string name="vault_unlock_subtitle">Используйте биометрию или PIN-код устройства для доступа к скрытым файлам.</string>
+    <string name="vault_unlock_button">Разблокировать</string>
+    <string name="vault_not_enrolled">Настройте блокировку экрана или биометрию в настройках системы, чтобы использовать хранилище.</string>
+    <string name="vault_no_hardware">На этом устройстве нет биометрии или блокировки экрана, поэтому хранилище не может быть разблокировано.</string>
+    <string name="vault_empty_headline">Хранилище пусто</string>
+    <string name="vault_empty_subtitle">Удерживайте файлы в браузере и нажмите «Переместить в хранилище», чтобы скрыть их здесь.</string>
+    <string name="vault_section_files">Файлы в хранилище</string>
+    <string name="vault_action_lock">Заблокировать хранилище</string>
+    <string name="vault_action_restore">Извлечь</string>
+    <string name="vault_action_erase">Удалить</string>
+    <string name="vault_action_select_all">Все</string>
+    <string name="vault_erase_title">Удалить из хранилища?</string>
+    <string name="vault_erase_body">%1$d элемент(ов) будет удалено навсегда. Это действие нельзя отменить.</string>
+    <string name="selection_action_vault">Хранилище</string>
+    <string name="settings_section_privacy">Конфиденциальность &amp; безопасность</string>
+    <string name="settings_vault">Скрытое хранилище</string>
+    <string name="settings_vault_desc">Папка с биометрической блокировкой в приватном хранилище приложения. Файлы здесь исключены из поиска и галереи.</string>
+    <plurals name="plural_vault_item_count">
+        <item quantity="one">%1$d элемент в хранилище</item>
+        <item quantity="few">%1$d элемента в хранилище</item>
+        <item quantity="many">%1$d элементов в хранилище</item>
+        <item quantity="other">%1$d элемента в хранилище</item>
+    </plurals>
+
 </resources>

@@ -532,4 +532,32 @@
     <string name="home_empty_headline">这里还没有内容</string>
     <string name="home_empty_subtitle">打开文件并收藏文件夹来填充主页标签。点击分类可直接跳转到对应的媒体文件。</string>
 
+    <!-- Vault -->
+    <string name="vault_title">隐藏保险箱</string>
+    <string name="vault_home_empty">已锁定文件夹 · 空</string>
+    <string name="vault_locked_headline">保险箱已锁定</string>
+    <string name="vault_locked_subtitle">已存储 %1$d 个项目。请验证身份以解锁。</string>
+    <string name="vault_unlock_title">解锁保险箱</string>
+    <string name="vault_unlock_subtitle">使用生物识别或设备 PIN 访问隐藏文件。</string>
+    <string name="vault_unlock_button">解锁</string>
+    <string name="vault_not_enrolled">请在系统设置中设置屏幕锁定或生物识别以使用保险箱。</string>
+    <string name="vault_no_hardware">此设备没有生物识别或屏幕锁定功能，因此无法解锁保险箱。</string>
+    <string name="vault_empty_headline">保险箱为空</string>
+    <string name="vault_empty_subtitle">在浏览器中长按文件并点击"移至保险箱"将其隐藏于此。</string>
+    <string name="vault_section_files">保险箱中的文件</string>
+    <string name="vault_action_lock">锁定保险箱</string>
+    <string name="vault_action_restore">移出</string>
+    <string name="vault_action_erase">删除</string>
+    <string name="vault_action_select_all">全部</string>
+    <string name="vault_erase_title">从保险箱中删除？</string>
+    <string name="vault_erase_body">%1$d 个项目将被永久删除。此操作无法撤消。</string>
+    <string name="selection_action_vault">保险箱</string>
+    <string name="settings_section_privacy">隐私与安全</string>
+    <string name="settings_vault">隐藏保险箱</string>
+    <string name="settings_vault_desc">应用私有存储中的生物识别锁定文件夹。此处的文件不会出现在搜索和图库中。</string>
+    <plurals name="plural_vault_item_count">
+        <item quantity="one">保险箱中 %1$d 个项目</item>
+        <item quantity="other">保险箱中 %1$d 个项目</item>
+    </plurals>
+
 </resources>

@@ -480,4 +480,32 @@
     <string name="home_empty_headline">Aún no hay nada aquí</string>
     <string name="home_empty_subtitle">Abre archivos y marca carpetas como favoritas para completar tu pestaña Inicio. Toca una categoría para ir directamente a tus medios.</string>
 
+    <!-- Vault -->
+    <string name="vault_title">Bóveda oculta</string>
+    <string name="vault_home_empty">Carpeta bloqueada · vacía</string>
+    <string name="vault_locked_headline">Bóveda bloqueada</string>
+    <string name="vault_locked_subtitle">%1$d elemento(s) almacenado(s). Autentícate para desbloquear.</string>
+    <string name="vault_unlock_title">Desbloquear bóveda</string>
+    <string name="vault_unlock_subtitle">Usa biometría o el PIN del dispositivo para acceder a los archivos ocultos.</string>
+    <string name="vault_unlock_button">Desbloquear</string>
+    <string name="vault_not_enrolled">Configura un bloqueo de pantalla o biometría en los Ajustes del sistema para usar la bóveda.</string>
+    <string name="vault_no_hardware">Este dispositivo no tiene biometría ni bloqueo de pantalla disponible, por lo que la bóveda no se puede desbloquear.</string>
+    <string name="vault_empty_headline">La bóveda está vacía</string>
+    <string name="vault_empty_subtitle">Mantén pulsados los archivos en el explorador y toca «Mover a bóveda» para ocultarlos aquí.</string>
+    <string name="vault_section_files">Archivos en la bóveda</string>
+    <string name="vault_action_lock">Bloquear bóveda</string>
+    <string name="vault_action_restore">Sacar</string>
+    <string name="vault_action_erase">Eliminar</string>
+    <string name="vault_action_select_all">Todos</string>
+    <string name="vault_erase_title">¿Eliminar de la bóveda?</string>
+    <string name="vault_erase_body">%1$d elemento(s) se eliminarán permanentemente. Esto no se puede deshacer.</string>
+    <string name="selection_action_vault">Bóveda</string>
+    <string name="settings_section_privacy">Privacidad &amp; seguridad</string>
+    <string name="settings_vault">Bóveda oculta</string>
+    <string name="settings_vault_desc">Carpeta con bloqueo biométrico en almacenamiento privado de la app. Los archivos aquí se excluyen de la búsqueda y la galería.</string>
+    <plurals name="plural_vault_item_count">
+        <item quantity="one">%1$d elemento en la bóveda</item>
+        <item quantity="other">%1$d elementos en la bóveda</item>
+    </plurals>
+
 </resources>

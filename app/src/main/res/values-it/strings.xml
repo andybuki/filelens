@@ -553,4 +553,32 @@
     <string name="home_empty_headline">Ancora niente qui</string>
     <string name="home_empty_subtitle">Apri file e aggiungi cartelle ai preferiti per riempire la scheda Home. Tocca una categoria per andare direttamente ai tuoi media.</string>
 
+    <!-- Vault -->
+    <string name="vault_title">Cassaforte nascosta</string>
+    <string name="vault_home_empty">Cartella bloccata · vuota</string>
+    <string name="vault_locked_headline">Cassaforte bloccata</string>
+    <string name="vault_locked_subtitle">%1$d elemento/i archiviato/i. Autenticati per sbloccare.</string>
+    <string name="vault_unlock_title">Sblocca cassaforte</string>
+    <string name="vault_unlock_subtitle">Usa la biometria o il PIN del dispositivo per accedere ai file nascosti.</string>
+    <string name="vault_unlock_button">Sblocca</string>
+    <string name="vault_not_enrolled">Configura un blocco schermo o la biometria nelle Impostazioni di sistema per usare la cassaforte.</string>
+    <string name="vault_no_hardware">Questo dispositivo non dispone di biometria o blocco schermo, quindi la cassaforte non può essere sbloccata.</string>
+    <string name="vault_empty_headline">La cassaforte è vuota</string>
+    <string name="vault_empty_subtitle">Tieni premuti i file nel browser e tocca "Sposta nella cassaforte" per nasconderli qui.</string>
+    <string name="vault_section_files">File nella cassaforte</string>
+    <string name="vault_action_lock">Blocca cassaforte</string>
+    <string name="vault_action_restore">Sposta fuori</string>
+    <string name="vault_action_erase">Elimina</string>
+    <string name="vault_action_select_all">Tutti</string>
+    <string name="vault_erase_title">Eliminare dalla cassaforte?</string>
+    <string name="vault_erase_body">%1$d elemento/i verranno eliminati definitivamente. Questa azione non può essere annullata.</string>
+    <string name="selection_action_vault">Cassaforte</string>
+    <string name="settings_section_privacy">Privacy &amp; sicurezza</string>
+    <string name="settings_vault">Cassaforte nascosta</string>
+    <string name="settings_vault_desc">Cartella con blocco biometrico nello spazio privato dell\'app. I file qui sono esclusi dalla ricerca e dalla galleria.</string>
+    <plurals name="plural_vault_item_count">
+        <item quantity="one">%1$d elemento nella cassaforte</item>
+        <item quantity="other">%1$d elementi nella cassaforte</item>
+    </plurals>
+
 </resources>

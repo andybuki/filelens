@@ -95,6 +95,32 @@
     <string name="home_empty_subtitle">Open files and bookmark folders to fill your Home tab. Tap a category above to jump straight to your media.</string>
 
     <!-- ====================================================================
+         Vault
+         ==================================================================== -->
+    <string name="vault_title">Hidden vault</string>
+    <string name="vault_home_empty">Locked folder · empty</string>
+    <string name="vault_locked_headline">Vault locked</string>
+    <string name="vault_locked_subtitle">%1$d item(s) stored. Authenticate to unlock.</string>
+    <string name="vault_unlock_title">Unlock vault</string>
+    <string name="vault_unlock_subtitle">Use biometrics or your device PIN to access hidden files.</string>
+    <string name="vault_unlock_button">Unlock</string>
+    <string name="vault_not_enrolled">Set up a screen lock or biometric in system Settings to use the vault.</string>
+    <string name="vault_no_hardware">This device has no biometric or screen lock available, so the vault can\'t be unlocked.</string>
+    <string name="vault_empty_headline">Vault is empty</string>
+    <string name="vault_empty_subtitle">Long-press files in the browser and tap "Move to vault" to hide them here.</string>
+    <string name="vault_section_files">Files in vault</string>
+    <string name="vault_action_lock">Lock vault</string>
+    <string name="vault_action_restore">Move out</string>
+    <string name="vault_action_erase">Delete</string>
+    <string name="vault_action_select_all">All</string>
+    <string name="vault_erase_title">Delete from vault?</string>
+    <string name="vault_erase_body">%1$d item(s) will be permanently deleted. This can\'t be undone.</string>
+    <string name="selection_action_vault">Vault</string>
+    <string name="settings_section_privacy">Privacy &amp; safety</string>
+    <string name="settings_vault">Hidden vault</string>
+    <string name="settings_vault_desc">Biometric-locked folder under app-private storage. Files in here are excluded from search and the gallery.</string>
+
+    <!-- ====================================================================
          File list item (accessibility)
          ==================================================================== -->
     <string name="a11y_kind_folder">Folder</string>
@@ -504,6 +530,11 @@
     <plurals name="plural_selected_count">
         <item quantity="one">%1$d selected</item>
         <item quantity="other">%1$d selected</item>
+    </plurals>
+
+    <plurals name="plural_vault_item_count">
+        <item quantity="one">%1$d item in vault</item>
+        <item quantity="other">%1$d items in vault</item>
     </plurals>
 
     <plurals name="plural_collision_count">

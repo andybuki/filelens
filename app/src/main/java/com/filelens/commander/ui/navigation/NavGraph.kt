@@ -18,6 +18,7 @@ import com.filelens.commander.ui.screens.RemoteServersScreen
 import com.filelens.commander.ui.screens.SettingsScreen
 import com.filelens.commander.ui.screens.ShortcutsScreen
 import com.filelens.commander.ui.screens.SqliteBrowserScreen
+import com.filelens.commander.ui.screens.VaultScreen
 
 object Routes {
     const val ONBOARDING = "onboarding"
@@ -31,6 +32,7 @@ object Routes {
     const val SQLITE = "sqlite/{db}"
     const val SHORTCUTS = "shortcuts"
     const val REMOTE_SERVERS = "remote_servers"
+    const val VAULT = "vault"
 
     fun main(path: String? = null, category: HomeCategory? = null): String {
         val pathArg = path?.let { Uri.encode(it) } ?: ""
@@ -77,7 +79,8 @@ fun FileLensNavGraph(
                     navController.navigate(Routes.main(path = path))
                 },
                 onOpenFiles = { navController.navigate(Routes.main()) },
-                onOpenSettings = { navController.navigate(Routes.SETTINGS) }
+                onOpenSettings = { navController.navigate(Routes.SETTINGS) },
+                onOpenVault = { navController.navigate(Routes.VAULT) }
             )
         }
         composable(
@@ -121,7 +124,8 @@ fun FileLensNavGraph(
         composable(Routes.SETTINGS) {
             SettingsScreen(
                 onBack = { navController.popBackStack() },
-                onOpenRemoteServers = { navController.navigate(Routes.REMOTE_SERVERS) }
+                onOpenRemoteServers = { navController.navigate(Routes.REMOTE_SERVERS) },
+                onOpenVault = { navController.navigate(Routes.VAULT) }
             )
         }
         composable(Routes.SHORTCUTS) {
@@ -129,6 +133,9 @@ fun FileLensNavGraph(
         }
         composable(Routes.REMOTE_SERVERS) {
             RemoteServersScreen(onBack = { navController.popBackStack() })
+        }
+        composable(Routes.VAULT) {
+            VaultScreen(onBack = { navController.popBackStack() })
         }
         composable(
             route = Routes.COMPARE,

@@ -108,6 +108,7 @@ dependencies {
     implementation(libs.jsch)
     implementation(libs.smbj)
     implementation(libs.androidx.security.crypto)
+    implementation(libs.androidx.biometric)
 
     debugImplementation(libs.androidx.compose.ui.tooling)
 

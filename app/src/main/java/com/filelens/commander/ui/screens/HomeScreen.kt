@@ -24,7 +24,9 @@ import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.History
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Image
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Storage
@@ -96,12 +98,15 @@ fun HomeScreen(
     onOpenPath: (String) -> Unit,
     onOpenFiles: () -> Unit,
     onOpenSettings: () -> Unit,
+    onOpenVault: () -> Unit = {},
     bookmarksViewModel: com.filelens.commander.viewmodel.BookmarksViewModel = hiltViewModel(),
-    recentsViewModel: com.filelens.commander.viewmodel.RecentsViewModel = hiltViewModel()
+    recentsViewModel: com.filelens.commander.viewmodel.RecentsViewModel = hiltViewModel(),
+    vaultViewModel: com.filelens.commander.viewmodel.VaultViewModel = hiltViewModel()
 ) {
     val bookmarks by bookmarksViewModel.bookmarks.collectAsStateWithLifecycle()
     val recentFiles by recentsViewModel.recentFiles.collectAsStateWithLifecycle()
     val frequentFolders by recentsViewModel.frequentFolders.collectAsStateWithLifecycle()
+    val vaultCount by vaultViewModel.count.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
@@ -118,6 +123,9 @@ fun HomeScreen(
         ) {
             item {
                 CategoriesSection(onOpenCategory = onOpenCategory)
+            }
+            item {
+                VaultCard(itemCount = vaultCount, onOpen = onOpenVault)
             }
             if (recentFiles.isNotEmpty()) {
                 item {
@@ -429,6 +437,59 @@ private fun EmptyHomeHint(onOpenFiles: () -> Unit) {
             text = stringResource(R.string.home_empty_subtitle),
             style = MaterialTheme.typography.bodySmall,
             color = FlInk3
+        )
+    }
+}
+
+@Composable
+private fun VaultCard(itemCount: Int, onOpen: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(14.dp))
+            .background(FlSurface)
+            .clickable(onClick = onOpen)
+            .padding(horizontal = 14.dp, vertical = 14.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .size(44.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .background(FlAccentTint),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                Icons.Filled.Lock,
+                contentDescription = null,
+                tint = FlAccent,
+                modifier = Modifier.size(22.dp)
+            )
+        }
+        Spacer(modifier = Modifier.width(14.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = stringResource(R.string.vault_title),
+                style = MaterialTheme.typography.titleSmall,
+                color = FlInk,
+                fontWeight = FontWeight.SemiBold
+            )
+            Text(
+                text = if (itemCount == 0) {
+                    stringResource(R.string.vault_home_empty)
+                } else {
+                    pluralStringResource(R.plurals.plural_vault_item_count, itemCount, itemCount)
+                },
+                style = MaterialTheme.typography.bodySmall,
+                color = FlInk3,
+                modifier = Modifier.padding(top = 2.dp)
+            )
+        }
+        Icon(
+            Icons.AutoMirrored.Filled.KeyboardArrowRight,
+            contentDescription = null,
+            tint = FlInk3,
+            modifier = Modifier.size(20.dp)
         )
     }
 }
