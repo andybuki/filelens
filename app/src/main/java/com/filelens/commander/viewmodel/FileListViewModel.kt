@@ -267,10 +267,11 @@ class FileListViewModel @Inject constructor(
                         ". Refusing to connect — verify the server, then edit the saved entry to clear the pin if you trust the new key."
                 )
             } catch (e: Exception) {
+                val cause = e.cause?.message?.let { " ($it)" } ?: ""
                 _state.value = _state.value.copy(
                     isLoading = false,
                     files = emptyList(),
-                    error = "Couldn't connect to ${connection.name.ifBlank { connection.host }}: ${e.message ?: e.javaClass.simpleName}"
+                    error = "Couldn't connect to ${connection.name.ifBlank { connection.host }}: ${e.message ?: e.javaClass.simpleName}$cause"
                 )
             }
         }
