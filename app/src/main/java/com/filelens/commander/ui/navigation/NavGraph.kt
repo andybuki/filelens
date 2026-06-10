@@ -153,7 +153,15 @@ fun FileLensNavGraph(
             ShortcutsScreen(onBack = { navController.popBackStack() })
         }
         composable(Routes.REMOTE_SERVERS) {
-            RemoteServersScreen(onBack = { navController.popBackStack() })
+            RemoteServersScreen(
+                onBack = { navController.popBackStack() },
+                onConnect = {
+                    navController.navigate(Routes.main()) {
+                        popUpTo(Routes.HOME) { inclusive = false }
+                        launchSingleTop = true
+                    }
+                }
+            )
         }
         composable(Routes.VAULT) {
             VaultScreen(onBack = { navController.popBackStack() })
