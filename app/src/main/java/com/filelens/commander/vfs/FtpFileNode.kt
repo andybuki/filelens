@@ -110,8 +110,13 @@ class FtpSession internal constructor(
         val pass = if (connection.anonymous) "anonymous@" else connection.password
         val loggedIn = ftp.login(user, pass)
         if (!loggedIn) {
+            val reply = ftp.replyString?.trim() ?: ""
             ftp.disconnect()
-            throw IOException("FTP login failed for $user")
+            throw IOException(
+                "FTP login failed for $user" +
+                    (if (pass.isEmpty()) " (no password provided — edit the entry and re-enter your password)" else "") +
+                    if (reply.isNotEmpty()) " — server: $reply" else ""
+            )
         }
         ftp.setFileType(FTP.BINARY_FILE_TYPE)
         if (connection.ftpPassive) ftp.enterLocalPassiveMode() else ftp.enterLocalActiveMode()
