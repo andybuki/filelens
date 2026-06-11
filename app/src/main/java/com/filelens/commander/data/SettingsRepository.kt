@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.filelens.commander.domain.model.AppSettings
@@ -33,8 +34,26 @@ class SettingsRepository @Inject constructor(
             sizeUnits = p[KEY_SIZE_UNITS]?.let { runCatching { SizeUnits.valueOf(it) }.getOrNull() } ?: SizeUnits.BINARY,
             defaultSortField = p[KEY_SORT_FIELD]?.let { runCatching { SortField.valueOf(it) }.getOrNull() } ?: SortField.NAME,
             defaultSortDirection = p[KEY_SORT_DIRECTION]?.let { runCatching { SortDirection.valueOf(it) }.getOrNull() } ?: SortDirection.ASCENDING,
-            defaultPanelMode = p[KEY_PANEL_MODE]?.let { runCatching { PanelMode.valueOf(it) }.getOrNull() } ?: PanelMode.INSPECTOR
+            defaultPanelMode = p[KEY_PANEL_MODE]?.let { runCatching { PanelMode.valueOf(it) }.getOrNull() } ?: PanelMode.INSPECTOR,
+            remotePreviewLimitMb = p[KEY_REMOTE_PREVIEW_LIMIT_MB] ?: AppSettings.DEFAULT_REMOTE_PREVIEW_LIMIT_MB,
+            remoteArchivePreviewLimitMb = p[KEY_REMOTE_ARCHIVE_PREVIEW_LIMIT_MB] ?: AppSettings.DEFAULT_REMOTE_ARCHIVE_PREVIEW_LIMIT_MB
         )
+    }
+
+    suspend fun setRemotePreviewLimitMb(mb: Int) {
+        val clamped = mb.coerceIn(
+            AppSettings.REMOTE_PREVIEW_LIMIT_MIN_MB,
+            AppSettings.REMOTE_PREVIEW_LIMIT_MAX_MB
+        )
+        store.edit { it[KEY_REMOTE_PREVIEW_LIMIT_MB] = clamped }
+    }
+
+    suspend fun setRemoteArchivePreviewLimitMb(mb: Int) {
+        val clamped = mb.coerceIn(
+            AppSettings.REMOTE_ARCHIVE_PREVIEW_LIMIT_MIN_MB,
+            AppSettings.REMOTE_ARCHIVE_PREVIEW_LIMIT_MAX_MB
+        )
+        store.edit { it[KEY_REMOTE_ARCHIVE_PREVIEW_LIMIT_MB] = clamped }
     }
 
     suspend fun setDefaultPanelMode(mode: PanelMode) {
@@ -78,6 +97,8 @@ class SettingsRepository @Inject constructor(
         val KEY_SORT_FIELD = stringPreferencesKey("sort_field")
         val KEY_SORT_DIRECTION = stringPreferencesKey("sort_direction")
         val KEY_PANEL_MODE = stringPreferencesKey("panel_mode")
+        val KEY_REMOTE_PREVIEW_LIMIT_MB = intPreferencesKey("remote_preview_limit_mb")
+        val KEY_REMOTE_ARCHIVE_PREVIEW_LIMIT_MB = intPreferencesKey("remote_archive_preview_limit_mb")
         val KEY_HAS_SEEN_ONBOARDING = booleanPreferencesKey("has_seen_onboarding")
     }
 }

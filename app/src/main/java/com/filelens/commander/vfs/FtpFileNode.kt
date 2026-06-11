@@ -90,7 +90,7 @@ class FtpSession internal constructor(
 
     private val ftp = FTPClient()
 
-    val rootUri: String = run {
+    override val rootUri: String = run {
         val portPart = if (connection.port > 0 && connection.port != 21) ":${connection.port}" else ""
         "ftp://${connection.host}$portPart"
     }
@@ -110,8 +110,13 @@ class FtpSession internal constructor(
         val pass = if (connection.anonymous) "anonymous@" else connection.password
         val loggedIn = ftp.login(user, pass)
         if (!loggedIn) {
+            val reply = ftp.replyString?.trim() ?: ""
             ftp.disconnect()
-            throw IOException("FTP login failed for $user")
+            val passHint = if (pass.isEmpty()) " — no password saved, edit the entry and re-enter it" else ""
+            throw IOException(
+                "FTP login failed for $user$passHint" +
+                    if (reply.isNotEmpty()) " ($reply)" else ""
+            )
         }
         ftp.setFileType(FTP.BINARY_FILE_TYPE)
         if (connection.ftpPassive) ftp.enterLocalPassiveMode() else ftp.enterLocalActiveMode()
@@ -142,6 +147,21 @@ class FtpSession internal constructor(
             parent = parent,
             session = this,
             remotePath = if (basePath.startsWith("/")) basePath else "/$basePath"
+        )
+    }
+
+    override fun fileNodeAt(fullPath: String): VirtualFileNode? {
+        if (!fullPath.startsWith(rootUri)) return null
+        val remotePath = fullPath.removePrefix(rootUri).ifEmpty { return null }
+        return FtpFileNode(
+            name = remotePath.substringAfterLast('/'),
+            path = fullPath,
+            type = NodeType.FILE,
+            size = null,
+            lastModified = null,
+            parent = null,
+            session = this,
+            remotePath = remotePath
         )
     }
 }

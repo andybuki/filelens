@@ -36,6 +36,8 @@ class BackupUseCase @Inject constructor(
                 put("defaultSortField", settings.defaultSortField.name)
                 put("defaultSortDirection", settings.defaultSortDirection.name)
                 put("defaultPanelMode", settings.defaultPanelMode.name)
+                put("remotePreviewLimitMb", settings.remotePreviewLimitMb)
+                put("remoteArchivePreviewLimitMb", settings.remoteArchivePreviewLimitMb)
             })
             put("bookmarks", JSONArray().apply {
                 bookmarks.forEach { bm ->
@@ -99,6 +101,12 @@ class BackupUseCase @Inject constructor(
                 }
                 s.optString("defaultPanelMode").takeIf { it.isNotEmpty() }?.let {
                     settingsRepository.setDefaultPanelMode(PanelMode.valueOf(it)); imported++
+                }
+                if (s.has("remotePreviewLimitMb")) {
+                    settingsRepository.setRemotePreviewLimitMb(s.getInt("remotePreviewLimitMb")); imported++
+                }
+                if (s.has("remoteArchivePreviewLimitMb")) {
+                    settingsRepository.setRemoteArchivePreviewLimitMb(s.getInt("remoteArchivePreviewLimitMb")); imported++
                 }
             }
         }

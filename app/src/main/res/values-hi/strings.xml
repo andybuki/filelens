@@ -316,6 +316,14 @@
     <string name="settings_keyboard_shortcuts">कीबोर्ड शॉर्टकट</string>
     <string name="settings_keyboard_shortcuts_desc">कमांडर में उपयोग की जाने वाली F-की और Ctrl संयोजन कस्टमाइज़ करें।</string>
 
+    <string name="settings_section_preview">पूर्वावलोकन</string>
+    <string name="settings_preview_intro">रिमोट सर्वर पर फ़ाइल का पूर्वावलोकन पहले उसे डाउनलोड करता है, इसलिए नेटवर्क पर थोड़ी देरी होती है। ये सीमाएँ उन फ़ाइलों को छोड़ देती हैं जिनमें बहुत समय लगेगा। स्थानीय फ़ाइलें आकार की परवाह किए बिना हमेशा पूर्वावलोकन में दिखती हैं।</string>
+    <string name="settings_preview_limit">रिमोट फ़ाइल पूर्वावलोकन सीमा</string>
+    <string name="settings_preview_limit_desc">सबसे बड़ी मीडिया, दस्तावेज़ या अन्य फ़ाइल जिसे FileLens पूर्वावलोकन के लिए लाएगा।</string>
+    <string name="settings_preview_archive_limit">रिमोट संग्रह पूर्वावलोकन सीमा</string>
+    <string name="settings_preview_archive_limit_desc">संग्रह और APK के लिए अलग सीमा — अंदर झाँकना अक्सर लंबे डाउनलोड के लायक होता है।</string>
+    <string name="settings_preview_limit_value">%1$d MB</string>
+    <string name="settings_preview_limit_value_gb">%1$s GB</string>
     <string name="settings_remote_servers">रिमोट सर्वर</string>
     <string name="settings_remote_servers_desc">FTP, SFTP और SMB शेयर को स्थानीय फ़ोल्डर की तरह ब्राउज़ करें।</string>
 

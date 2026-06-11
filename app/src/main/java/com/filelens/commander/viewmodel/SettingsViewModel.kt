@@ -48,6 +48,8 @@ class SettingsViewModel @Inject constructor(
     fun setDefaultSort(field: SortField, direction: SortDirection) = viewModelScope.launch {
         repo.setDefaultSort(field, direction)
     }
+    fun setRemotePreviewLimitMb(mb: Int) = viewModelScope.launch { repo.setRemotePreviewLimitMb(mb) }
+    fun setRemoteArchivePreviewLimitMb(mb: Int) = viewModelScope.launch { repo.setRemoteArchivePreviewLimitMb(mb) }
 
     val hasSeenOnboarding: StateFlow<Boolean> = repo.hasSeenOnboarding.stateIn(
         scope = viewModelScope,

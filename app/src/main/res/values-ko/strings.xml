@@ -316,6 +316,14 @@
     <string name="settings_keyboard_shortcuts">키보드 단축키</string>
     <string name="settings_keyboard_shortcuts_desc">커맨더에서 사용되는 F키 및 Ctrl 조합을 사용자 지정합니다.</string>
 
+    <string name="settings_section_preview">미리보기</string>
+    <string name="settings_preview_intro">원격 서버의 파일을 미리 보려면 먼저 다운로드해야 하므로 네트워크에서 짧은 지연이 발생합니다. 이러한 한도는 너무 오래 걸리는 파일을 건너뜁니다. 로컬 파일은 크기에 관계없이 항상 미리 볼 수 있습니다.</string>
+    <string name="settings_preview_limit">원격 파일 미리보기 한도</string>
+    <string name="settings_preview_limit_desc">FileLens가 미리보기를 위해 가져올 가장 큰 미디어, 문서 또는 기타 파일.</string>
+    <string name="settings_preview_archive_limit">원격 아카이브 미리보기 한도</string>
+    <string name="settings_preview_archive_limit_desc">아카이브 및 APK용 별도 한도 — 내부를 들여다보는 것은 보통 더 긴 다운로드의 가치가 있습니다.</string>
+    <string name="settings_preview_limit_value">%1$d MB</string>
+    <string name="settings_preview_limit_value_gb">%1$s GB</string>
     <string name="settings_remote_servers">원격 서버</string>
     <string name="settings_remote_servers_desc">FTP, SFTP, SMB 공유를 로컬 폴더처럼 탐색합니다.</string>
 

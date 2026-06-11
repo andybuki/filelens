@@ -38,12 +38,15 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -62,8 +65,10 @@ import app.com.filelens.R
 import kotlinx.coroutines.launch
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.filelens.commander.domain.model.AppSettings
 import com.filelens.commander.domain.model.PanelMode
 import com.filelens.commander.domain.model.SizeUnits
+import kotlin.math.roundToInt
 import com.filelens.commander.ui.theme.Eyebrow
 import com.filelens.commander.ui.theme.FlAccent
 import com.filelens.commander.ui.theme.FlBlue50
@@ -170,6 +175,36 @@ fun SettingsScreen(
                             onSelect = viewModel::setDefaultPanelMode
                         )
                     }
+                )
+            }
+
+            SectionHeader(stringResource(R.string.settings_section_preview))
+            SettingsCard {
+                Text(
+                    stringResource(R.string.settings_preview_intro),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = FlInk3,
+                    modifier = Modifier.padding(horizontal = 14.dp, vertical = 14.dp)
+                )
+                Divider()
+                SliderRow(
+                    label = stringResource(R.string.settings_preview_limit),
+                    description = stringResource(R.string.settings_preview_limit_desc),
+                    valueMb = settings.remotePreviewLimitMb,
+                    min = AppSettings.REMOTE_PREVIEW_LIMIT_MIN_MB,
+                    max = AppSettings.REMOTE_PREVIEW_LIMIT_MAX_MB,
+                    step = AppSettings.REMOTE_PREVIEW_LIMIT_STEP_MB,
+                    onCommit = viewModel::setRemotePreviewLimitMb
+                )
+                Divider()
+                SliderRow(
+                    label = stringResource(R.string.settings_preview_archive_limit),
+                    description = stringResource(R.string.settings_preview_archive_limit_desc),
+                    valueMb = settings.remoteArchivePreviewLimitMb,
+                    min = AppSettings.REMOTE_ARCHIVE_PREVIEW_LIMIT_MIN_MB,
+                    max = AppSettings.REMOTE_ARCHIVE_PREVIEW_LIMIT_MAX_MB,
+                    step = AppSettings.REMOTE_ARCHIVE_PREVIEW_LIMIT_STEP_MB,
+                    onCommit = viewModel::setRemoteArchivePreviewLimitMb
                 )
             }
 
@@ -395,6 +430,71 @@ private fun ChoiceRow(
                 inlinePicker()
             }
         }
+    }
+}
+
+@Composable
+private fun formatMb(mb: Int): String {
+    return if (mb >= 1024) {
+        val gb = mb / 1024.0
+        val text = if (gb == gb.toLong().toDouble()) gb.toLong().toString() else String.format("%.1f", gb)
+        stringResource(R.string.settings_preview_limit_value_gb, text)
+    } else {
+        stringResource(R.string.settings_preview_limit_value, mb)
+    }
+}
+
+@Composable
+private fun SliderRow(
+    label: String,
+    description: String,
+    valueMb: Int,
+    min: Int,
+    max: Int,
+    step: Int,
+    onCommit: (Int) -> Unit
+) {
+    // Track the drag locally so the thumb feels responsive; only persist on
+    // release to avoid writing to DataStore on every pixel of movement.
+    var sliderValue by remember(valueMb) { mutableFloatStateOf(valueMb.toFloat()) }
+    val steps = ((max - min) / step - 1).coerceAtLeast(0)
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 14.dp, vertical = 12.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(label, style = MaterialTheme.typography.titleSmall)
+                Spacer(modifier = Modifier.height(3.dp))
+                Text(
+                    description,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = FlInk3,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+            Spacer(modifier = Modifier.width(12.dp))
+            Text(
+                formatMb(sliderValue.roundToInt()),
+                style = MaterialTheme.typography.titleSmall,
+                color = FlAccent,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
+        Slider(
+            value = sliderValue,
+            onValueChange = { sliderValue = it },
+            onValueChangeFinished = { onCommit(sliderValue.roundToInt()) },
+            valueRange = min.toFloat()..max.toFloat(),
+            steps = steps,
+            colors = SliderDefaults.colors(
+                thumbColor = FlAccent,
+                activeTrackColor = FlAccent
+            )
+        )
     }
 }
 

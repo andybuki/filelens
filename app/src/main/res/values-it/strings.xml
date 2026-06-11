@@ -316,6 +316,14 @@
     <string name="settings_keyboard_shortcuts">Scorciatoie da tastiera</string>
     <string name="settings_keyboard_shortcuts_desc">Personalizza i tasti funzione e le combinazioni Ctrl usate nel commander.</string>
 
+    <string name="settings_section_preview">Anteprima</string>
+    <string name="settings_preview_intro">L\'anteprima di un file su un server remoto lo scarica prima, quindi c\'è un breve ritardo di rete. Questi limiti saltano i file che richiederebbero troppo tempo. I file locali vengono sempre visualizzati in anteprima, qualunque sia la loro dimensione.</string>
+    <string name="settings_preview_limit">Limite anteprima file remoti</string>
+    <string name="settings_preview_limit_desc">Il file multimediale, documento o altro più grande che FileLens scaricherà per l\'anteprima.</string>
+    <string name="settings_preview_archive_limit">Limite anteprima archivi remoti</string>
+    <string name="settings_preview_archive_limit_desc">Limite separato per archivi e APK — sbirciare dentro spesso vale un download più lungo.</string>
+    <string name="settings_preview_limit_value">%1$d MB</string>
+    <string name="settings_preview_limit_value_gb">%1$s GB</string>
     <string name="settings_remote_servers">Server remoti</string>
     <string name="settings_remote_servers_desc">Sfoglia condivisioni FTP, SFTP e SMB come cartelle locali.</string>
 

@@ -435,6 +435,7 @@ private fun MinimalHeader(
             currentPath = currentPath,
             homePath = homePath,
             isRoot = isRoot,
+            isRemote = isRemote,
             onNavigateUp = onNavigateUp,
             onNavigateToPath = onNavigateToPath
         )
@@ -462,6 +463,7 @@ private fun MinimalBreadcrumb(
     currentPath: String,
     homePath: String,
     isRoot: Boolean,
+    isRemote: Boolean = false,
     onNavigateUp: () -> Unit,
     onNavigateToPath: (String) -> Unit
 ) {
@@ -469,7 +471,10 @@ private fun MinimalBreadcrumb(
     val homeDisplayName = stringResource(R.string.home_folder_label)
     val navigateUpDesc = stringResource(R.string.cd_navigate_up)
 
-    val relativeParts: List<String> = when {
+    val relativeParts: List<String> = if (isRemote) {
+        val stripped = currentPath.replace(Regex("^[a-zA-Z]+://[^/]*"), "")
+        stripped.split("/").filter { it.isNotEmpty() }.ifEmpty { listOf("/") }
+    } else when {
         homePath.isEmpty() -> currentPath.split("/").filter { it.isNotEmpty() }
         currentPath == homePath -> listOf(homeDisplayName)
         currentPath.startsWith("$homePath/") -> {
@@ -517,20 +522,35 @@ private fun MinimalBreadcrumb(
         }
         visible.forEachIndexed { index, segment ->
             val isLast = index == visible.lastIndex
-            val absoluteIndex = relativeParts.size - visible.size + index
-            val targetPath = if (homePath.isNotEmpty() && relativeParts.firstOrNull() == homeDisplayName) {
-                val belowHome = relativeParts.subList(1, absoluteIndex + 1).joinToString("/")
-                if (belowHome.isEmpty()) homePath else "$homePath/$belowHome"
-            } else {
-                "/" + relativeParts.take(absoluteIndex + 1).joinToString("/")
-            }
             if (isLast) {
                 Text(
                     text = segment,
                     style = MaterialTheme.typography.bodySmall,
                     color = HeaderInk2
                 )
+            } else if (isRemote) {
+                Text(
+                    text = segment,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = FlMuted,
+                    modifier = Modifier.clickable(onClick = onNavigateUp)
+                )
+                Spacer(modifier = Modifier.width(6.dp))
+                Icon(
+                    Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                    contentDescription = null,
+                    tint = FlMuted,
+                    modifier = Modifier.size(13.dp)
+                )
+                Spacer(modifier = Modifier.width(6.dp))
             } else {
+                val absoluteIndex = relativeParts.size - visible.size + index
+                val targetPath = if (homePath.isNotEmpty() && relativeParts.firstOrNull() == homeDisplayName) {
+                    val belowHome = relativeParts.subList(1, absoluteIndex + 1).joinToString("/")
+                    if (belowHome.isEmpty()) homePath else "$homePath/$belowHome"
+                } else {
+                    "/" + relativeParts.take(absoluteIndex + 1).joinToString("/")
+                }
                 Text(
                     text = segment,
                     style = MaterialTheme.typography.bodySmall,

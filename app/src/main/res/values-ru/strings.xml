@@ -316,6 +316,14 @@
     <string name="settings_keyboard_shortcuts">Сочетания клавиш</string>
     <string name="settings_keyboard_shortcuts_desc">Настройте функциональные клавиши и комбинации Ctrl, используемые в командере.</string>
 
+    <string name="settings_section_preview">Предпросмотр</string>
+    <string name="settings_preview_intro">Предпросмотр файла на удалённом сервере сначала скачивает его, поэтому есть небольшая задержка по сети. Эти ограничения пропускают файлы, скачивание которых заняло бы слишком много времени. Локальные файлы всегда отображаются в предпросмотре, независимо от размера.</string>
+    <string name="settings_preview_limit">Лимит предпросмотра удалённых файлов</string>
+    <string name="settings_preview_limit_desc">Максимальный размер медиа, документа или другого файла, который FileLens загрузит для предпросмотра.</string>
+    <string name="settings_preview_archive_limit">Лимит предпросмотра удалённых архивов</string>
+    <string name="settings_preview_archive_limit_desc">Отдельный лимит для архивов и APK — заглянуть внутрь часто стоит более долгой загрузки.</string>
+    <string name="settings_preview_limit_value">%1$d МБ</string>
+    <string name="settings_preview_limit_value_gb">%1$s ГБ</string>
     <string name="settings_remote_servers">Удалённые серверы</string>
     <string name="settings_remote_servers_desc">Просматривайте FTP-, SFTP- и SMB-папки как локальные.</string>
 

@@ -316,6 +316,14 @@
     <string name="settings_keyboard_shortcuts">Atalhos de teclado</string>
     <string name="settings_keyboard_shortcuts_desc">Personalize as teclas de função e combinações Ctrl usadas no commander.</string>
 
+    <string name="settings_section_preview">Pré-visualização</string>
+    <string name="settings_preview_intro">Pré-visualizar um arquivo em um servidor remoto baixa-o primeiro, então há um pequeno atraso pela rede. Esses limites pulam arquivos que demorariam muito. Arquivos locais sempre são pré-visualizados, qualquer que seja o tamanho.</string>
+    <string name="settings_preview_limit">Limite de pré-visualização remota</string>
+    <string name="settings_preview_limit_desc">Maior arquivo de mídia, documento ou outro que o FileLens buscará para pré-visualizar.</string>
+    <string name="settings_preview_archive_limit">Limite de pré-visualização de arquivos compactados remotos</string>
+    <string name="settings_preview_archive_limit_desc">Limite separado para arquivos compactados e APKs — espiar dentro geralmente vale um download mais longo.</string>
+    <string name="settings_preview_limit_value">%1$d MB</string>
+    <string name="settings_preview_limit_value_gb">%1$s GB</string>
     <string name="settings_remote_servers">Servidores remotos</string>
     <string name="settings_remote_servers_desc">Navegue em compartilhamentos FTP, SFTP e SMB como pastas locais.</string>
 

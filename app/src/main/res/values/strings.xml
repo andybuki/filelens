@@ -402,6 +402,7 @@
     <string name="settings_title">Settings</string>
     <string name="settings_section_browsing">Browsing</string>
     <string name="settings_section_input">Input</string>
+    <string name="settings_section_preview">Preview</string>
     <string name="settings_section_remote">Remote</string>
     <string name="settings_section_backup">Backup &amp; restore</string>
     <string name="settings_section_about">About</string>
@@ -416,6 +417,14 @@
 
     <string name="settings_keyboard_shortcuts">Keyboard shortcuts</string>
     <string name="settings_keyboard_shortcuts_desc">Customize the F-key and Ctrl combos used in the commander.</string>
+
+    <string name="settings_preview_intro">Previewing a file on a remote server downloads it first, so there\'s a short delay over the network. These caps skip files that would take too long. Local files always preview, whatever their size.</string>
+    <string name="settings_preview_limit">Remote file preview limit</string>
+    <string name="settings_preview_limit_desc">Largest media, document, or other file FileLens will fetch to preview.</string>
+    <string name="settings_preview_archive_limit">Remote archive preview limit</string>
+    <string name="settings_preview_archive_limit_desc">Separate cap for archives and APKs — peeking inside is often worth a longer download.</string>
+    <string name="settings_preview_limit_value">%1$d MB</string>
+    <string name="settings_preview_limit_value_gb">%1$s GB</string>
 
     <string name="settings_remote_servers">Remote servers</string>
     <string name="settings_remote_servers_desc">Browse FTP, SFTP, and SMB shares like local folders.</string>

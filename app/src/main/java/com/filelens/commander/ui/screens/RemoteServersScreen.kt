@@ -346,7 +346,7 @@ private fun ServerEditorDialog(
                             host = host.trim(),
                             port = portNum,
                             username = username.trim(),
-                            password = password,
+                            password = password.trim(),
                             basePath = basePath.trim(),
                             shareName = shareName.trim(),
                             anonymous = anonymous,

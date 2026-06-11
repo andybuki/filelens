@@ -867,6 +867,8 @@ private fun ExpandedLayout(
                 onShowRecents = onShowRecents,
                 onNavigateToPath = { path -> fileListViewModel.navigateTo(path) },
                 isActive = activeLeft || !dualPanel,
+                isRemote = fileListState.isRemote,
+                remoteServerLabel = fileListState.remoteServerLabel,
                 modifier = Modifier.weight(1f)
             )
 
