@@ -63,6 +63,19 @@ class RemoteConnector @Inject constructor(
         }
     }
 
+    /**
+     * Opens a read stream for a previously-listed remote [path] (e.g.
+     * `ftp://host/dir/file.txt`) by routing it to the matching live session.
+     * Returns null if no open session owns the path. Callers must close the
+     * stream.
+     */
+    suspend fun openStream(path: String): java.io.InputStream? = withContext(Dispatchers.IO) {
+        val session = mutex.withLock {
+            sessions.values.firstOrNull { path.startsWith(it.rootUri) }
+        } ?: return@withContext null
+        session.fileNodeAt(path)?.openStream()
+    }
+
     suspend fun closeAll() = withContext(Dispatchers.IO) {
         mutex.withLock {
             sessions.values.forEach { runCatching { it.close() } }

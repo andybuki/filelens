@@ -90,7 +90,7 @@ class FtpSession internal constructor(
 
     private val ftp = FTPClient()
 
-    val rootUri: String = run {
+    override val rootUri: String = run {
         val portPart = if (connection.port > 0 && connection.port != 21) ":${connection.port}" else ""
         "ftp://${connection.host}$portPart"
     }
@@ -147,6 +147,21 @@ class FtpSession internal constructor(
             parent = parent,
             session = this,
             remotePath = if (basePath.startsWith("/")) basePath else "/$basePath"
+        )
+    }
+
+    override fun fileNodeAt(fullPath: String): VirtualFileNode? {
+        if (!fullPath.startsWith(rootUri)) return null
+        val remotePath = fullPath.removePrefix(rootUri).ifEmpty { return null }
+        return FtpFileNode(
+            name = remotePath.substringAfterLast('/'),
+            path = fullPath,
+            type = NodeType.FILE,
+            size = null,
+            lastModified = null,
+            parent = null,
+            session = this,
+            remotePath = remotePath
         )
     }
 }

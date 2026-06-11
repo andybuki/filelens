@@ -28,11 +28,15 @@ import com.filelens.commander.inspector.SqliteInspector
 import com.filelens.commander.inspector.TextInspector
 import com.filelens.commander.inspector.XmlInspector
 import com.filelens.commander.inspector.ZipInspector
+import android.content.Context
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
 
@@ -72,11 +76,16 @@ class InspectorViewModel @Inject constructor(
     private val provenanceDetector: ProvenanceDetector,
     private val structuredSearchUseCase: StructuredSearchUseCase,
     private val reportExportUseCase: ReportExportUseCase,
-    private val recentsRepository: com.filelens.commander.data.RecentsRepository
+    private val recentsRepository: com.filelens.commander.data.RecentsRepository,
+    private val remoteConnector: com.filelens.commander.vfs.RemoteConnector,
+    @ApplicationContext private val appContext: Context
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(InspectorState())
     val state: StateFlow<InspectorState> = _state.asStateFlow()
+
+    /** Temp copy of the last remote file we materialised for previewing. */
+    private var tempRemoteFile: File? = null
 
     fun selectFile(item: FileItem, forcedCategory: FileCategory? = null) {
         if (item.fileCategory != FileCategory.DIRECTORY) {
@@ -109,7 +118,22 @@ class InspectorViewModel @Inject constructor(
         )
 
         viewModelScope.launch {
-            val file = File(item.path)
+            // Remote files (ftp://, sftp://, smb://) have no valid local path,
+            // so download a temp copy and inspect that. Local files are read
+            // in place.
+            val file = if (isRemotePath(item.path)) {
+                materialiseRemote(item) ?: run {
+                    _state.value = _state.value.copy(
+                        isAnalyzing = false,
+                        result = InspectorResult(
+                            overview = mapOf("Error" to "Couldn't download this file from the server for preview.")
+                        )
+                    )
+                    return@launch
+                }
+            } else {
+                File(item.path)
+            }
             if (!file.exists() || !file.canRead()) {
                 _state.value = _state.value.copy(isAnalyzing = false)
                 return@launch
@@ -152,7 +176,7 @@ class InspectorViewModel @Inject constructor(
                 addAll(result.risks)
             }
 
-            val provenance = provenanceDetector.detect(item.path)
+            val provenance = provenanceDetector.detect(file.absolutePath)
             val withDetection = result.copy(
                 overview = overviewWithDetection,
                 risks = risksWithDetection,
@@ -175,7 +199,42 @@ class InspectorViewModel @Inject constructor(
     }
 
     fun clearSelection() {
+        cleanupTempFile()
         _state.value = InspectorState()
+    }
+
+    private fun isRemotePath(path: String): Boolean =
+        path.startsWith("ftp://") || path.startsWith("sftp://") || path.startsWith("smb://")
+
+    /**
+     * Downloads a remote file to the cache dir so the File-based inspectors and
+     * the image loader can read it. Capped so we don't pull huge files just to
+     * preview them. Returns null on failure or when over the cap.
+     */
+    private suspend fun materialiseRemote(item: FileItem): File? = withContext(Dispatchers.IO) {
+        cleanupTempFile()
+        val size = item.size
+        if (size != null && size > MAX_REMOTE_PREVIEW_BYTES) return@withContext null
+        try {
+            val stream = remoteConnector.openStream(item.path) ?: return@withContext null
+            val suffix = item.extension.takeIf { it.isNotBlank() }?.let { ".$it" } ?: ""
+            val tmp = File.createTempFile("filelens_remote_", suffix, appContext.cacheDir)
+            stream.use { input -> tmp.outputStream().use { input.copyTo(it) } }
+            tempRemoteFile = tmp
+            tmp
+        } catch (_: Exception) {
+            null
+        }
+    }
+
+    private fun cleanupTempFile() {
+        tempRemoteFile?.let { runCatching { it.delete() } }
+        tempRemoteFile = null
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        cleanupTempFile()
     }
 
     fun ignoreRisk(filePath: String, riskId: String) {
@@ -209,7 +268,14 @@ class InspectorViewModel @Inject constructor(
             searchHits = emptyList()
         )
         viewModelScope.launch {
-            val hits = structuredSearchUseCase.search(File(item.path), query, cat)
+            // For remote files reuse the temp copy downloaded during preview;
+            // the URI path is not a readable local file.
+            val target = if (isRemotePath(item.path)) tempRemoteFile else File(item.path)
+            if (target == null || !target.exists()) {
+                _state.value = _state.value.copy(searchHits = emptyList(), isSearching = false)
+                return@launch
+            }
+            val hits = structuredSearchUseCase.search(target, query, cat)
             _state.value = _state.value.copy(
                 searchHits = hits,
                 isSearching = false
@@ -278,5 +344,9 @@ class InspectorViewModel @Inject constructor(
                 overview = mapOf("Error" to (e.message ?: "Analysis failed"))
             )
         }
+    }
+
+    private companion object {
+        const val MAX_REMOTE_PREVIEW_BYTES = 50L * 1024 * 1024
     }
 }

@@ -88,7 +88,7 @@ class SmbSession internal constructor(
     private var smbSession: Session? = null
     private var share: DiskShare? = null
 
-    val rootUri: String = run {
+    override val rootUri: String = run {
         val portPart = if (connection.port > 0 && connection.port != 445) ":${connection.port}" else ""
         "smb://${connection.host}$portPart/${connection.shareName.trim('/')}"
     }
@@ -148,6 +148,21 @@ class SmbSession internal constructor(
             parent = parent,
             session = this,
             relativePath = base
+        )
+    }
+
+    override fun fileNodeAt(fullPath: String): VirtualFileNode? {
+        if (!fullPath.startsWith("$rootUri/")) return null
+        val relative = fullPath.removePrefix("$rootUri/").replace('/', '\\').ifEmpty { return null }
+        return SmbFileNode(
+            name = relative.substringAfterLast('\\'),
+            path = fullPath,
+            type = NodeType.FILE,
+            size = null,
+            lastModified = null,
+            parent = null,
+            session = this,
+            relativePath = relative
         )
     }
 }
