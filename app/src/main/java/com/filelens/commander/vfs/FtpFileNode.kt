@@ -112,9 +112,13 @@ class FtpSession internal constructor(
         if (!loggedIn) {
             val reply = ftp.replyString?.trim() ?: ""
             ftp.disconnect()
+            val passInfo = if (pass.isEmpty()) {
+                " (no password provided — edit the entry and re-enter your password)"
+            } else {
+                " (sent a ${pass.length}-char password)"
+            }
             throw IOException(
-                "FTP login failed for $user" +
-                    (if (pass.isEmpty()) " (no password provided — edit the entry and re-enter your password)" else "") +
+                "FTP login failed for $user$passInfo" +
                     if (reply.isNotEmpty()) " — server: $reply" else ""
             )
         }
