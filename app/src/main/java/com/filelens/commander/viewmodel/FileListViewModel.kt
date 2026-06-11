@@ -310,7 +310,7 @@ class FileListViewModel @Inject constructor(
                 currentPath = node.path,
                 files = files,
                 isLoading = false,
-                isRoot = atHome || nodeStack.size <= 1,
+                isRoot = atHome || (nodeStack.size <= 1 && !isRemoteNode(node)),
                 isInsideArchive = node is ZipEntryNode ||
                     node is com.filelens.commander.vfs.TarEntryNode ||
                     node is com.filelens.commander.vfs.SevenZEntryNode ||
@@ -337,9 +337,16 @@ class FileListViewModel @Inject constructor(
             clearSearch()
             return
         }
-        // Never escape the home root, even if we somehow got above it.
         val current = nodeStack.lastOrNull()
         if (current is LocalFileNode && homePath.isNotEmpty() && current.path == homePath) {
+            return
+        }
+        if (nodeStack.size == 1 && current != null && isRemoteNode(current)) {
+            viewModelScope.launch {
+                currentRemoteLabel = null
+                val node = LocalFileNode(java.io.File(homePath))
+                navigateToNode(node, replaceStack = true)
+            }
             return
         }
         if (nodeStack.size > 1) {
