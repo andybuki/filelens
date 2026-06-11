@@ -35,6 +35,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import com.filelens.commander.ui.navigation.FileLensNavGraph
 import com.filelens.commander.ui.theme.FileLensTheme
 import com.filelens.commander.ui.theme.FlNavy
@@ -72,6 +74,19 @@ class MainActivity : FragmentActivity() {
         setContent {
             val settingsViewModel: SettingsViewModel = hiltViewModel()
             val settings by settingsViewModel.settings.collectAsStateWithLifecycle()
+            // Mirror the stored language override into AppCompat whenever it
+            // changes. AppCompat dedupes no-op writes, so this is cheap on
+            // every recomposition. Cleared / "system" → empty LocaleListCompat.
+            androidx.compose.runtime.LaunchedEffect(settings.languageTag) {
+                val current = AppCompatDelegate.getApplicationLocales()
+                val desired = settings.languageTag
+                    ?.takeIf { it.isNotBlank() }
+                    ?.let { LocaleListCompat.forLanguageTags(it) }
+                    ?: LocaleListCompat.getEmptyLocaleList()
+                if (current.toLanguageTags() != desired.toLanguageTags()) {
+                    AppCompatDelegate.setApplicationLocales(desired)
+                }
+            }
             FileLensTheme {
                 androidx.compose.runtime.CompositionLocalProvider(
                     com.filelens.commander.ui.util.LocalSizeUnits provides settings.sizeUnits
@@ -90,6 +105,7 @@ class MainActivity : FragmentActivity() {
                             FileLensNavGraph(
                                 navController = navController,
                                 showOnboarding = !hasSeenOnboarding,
+                                startFromFiles = settings.startScreen == com.filelens.commander.domain.model.StartScreen.FILES,
                                 onOnboardingComplete = { settingsViewModel.completeOnboarding() },
                                 modifier = Modifier.padding(innerPadding)
                             )

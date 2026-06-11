@@ -22,6 +22,12 @@ enum class PanelMode {
         }
 }
 
+/** Where the app lands after launch. */
+enum class StartScreen {
+    HOME,
+    FILES
+}
+
 data class AppSettings(
     val showHidden: Boolean = false,
     val hideEmptyFolders: Boolean = false,
@@ -39,7 +45,30 @@ data class AppSettings(
      * an archive needs the whole file, but the listing is often worth a longer
      * download than a plain media file would be.
      */
-    val remoteArchivePreviewLimitMb: Int = DEFAULT_REMOTE_ARCHIVE_PREVIEW_LIMIT_MB
+    val remoteArchivePreviewLimitMb: Int = DEFAULT_REMOTE_ARCHIVE_PREVIEW_LIMIT_MB,
+    /**
+     * BCP-47 language tag the user picked as an override, or null to follow
+     * the system language. Persisted across launches and applied via
+     * [androidx.appcompat.app.AppCompatDelegate.setApplicationLocales].
+     */
+    val languageTag: String? = null,
+    /** Whether the app opens on the Home tab or jumps straight to Files. */
+    val startScreen: StartScreen = StartScreen.HOME,
+    /** Show the confirm sheet before deleting. Off skips straight to trash. */
+    val askBeforeDelete: Boolean = true,
+    /**
+     * Extra search roots (absolute paths). Empty means "scan the whole
+     * external storage", which is the default for new installs.
+     */
+    val searchRoots: Set<String> = emptySet(),
+    /**
+     * Reserved for opt-in usage reporting. FileLens ships with no telemetry
+     * in v1.0; this flag is wired so we can never enable a future ping by
+     * surprise — opt-in only.
+     */
+    val telemetryEnabled: Boolean = false,
+    /** Warn when entering /system, /data, /proc, /sys, /vendor, /apex. */
+    val warnRootStorage: Boolean = true
 ) {
     companion object {
         const val DEFAULT_REMOTE_PREVIEW_LIMIT_MB = 50

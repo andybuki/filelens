@@ -24,6 +24,7 @@ jsch = "0.2.21"
 smbj = "0.14.0"
 securityCrypto = "1.1.0-alpha06"
 biometric = "1.1.0"
+appcompat = "1.7.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -59,6 +60,7 @@ jsch = { group = "com.github.mwiede", name = "jsch", version.ref = "jsch" }
 smbj = { group = "com.hierynomus", name = "smbj", version.ref = "smbj" }
 androidx-security-crypto = { group = "androidx.security", name = "security-crypto", version.ref = "securityCrypto" }
 androidx-biometric = { group = "androidx.biometric", name = "biometric", version.ref = "biometric" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -7,12 +7,14 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.filelens.commander.domain.model.AppSettings
 import com.filelens.commander.domain.model.PanelMode
 import com.filelens.commander.domain.model.SizeUnits
 import com.filelens.commander.domain.model.SortDirection
 import com.filelens.commander.domain.model.SortField
+import com.filelens.commander.domain.model.StartScreen
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -36,7 +38,13 @@ class SettingsRepository @Inject constructor(
             defaultSortDirection = p[KEY_SORT_DIRECTION]?.let { runCatching { SortDirection.valueOf(it) }.getOrNull() } ?: SortDirection.ASCENDING,
             defaultPanelMode = p[KEY_PANEL_MODE]?.let { runCatching { PanelMode.valueOf(it) }.getOrNull() } ?: PanelMode.INSPECTOR,
             remotePreviewLimitMb = p[KEY_REMOTE_PREVIEW_LIMIT_MB] ?: AppSettings.DEFAULT_REMOTE_PREVIEW_LIMIT_MB,
-            remoteArchivePreviewLimitMb = p[KEY_REMOTE_ARCHIVE_PREVIEW_LIMIT_MB] ?: AppSettings.DEFAULT_REMOTE_ARCHIVE_PREVIEW_LIMIT_MB
+            remoteArchivePreviewLimitMb = p[KEY_REMOTE_ARCHIVE_PREVIEW_LIMIT_MB] ?: AppSettings.DEFAULT_REMOTE_ARCHIVE_PREVIEW_LIMIT_MB,
+            languageTag = p[KEY_LANGUAGE_TAG]?.takeIf { it.isNotBlank() },
+            startScreen = p[KEY_START_SCREEN]?.let { runCatching { StartScreen.valueOf(it) }.getOrNull() } ?: StartScreen.HOME,
+            askBeforeDelete = p[KEY_ASK_BEFORE_DELETE] ?: true,
+            searchRoots = p[KEY_SEARCH_ROOTS] ?: emptySet(),
+            telemetryEnabled = p[KEY_TELEMETRY_ENABLED] ?: false,
+            warnRootStorage = p[KEY_WARN_ROOT_STORAGE] ?: true
         )
     }
 
@@ -79,6 +87,47 @@ class SettingsRepository @Inject constructor(
         }
     }
 
+    suspend fun setLanguageTag(tag: String?) {
+        store.edit {
+            if (tag.isNullOrBlank()) it.remove(KEY_LANGUAGE_TAG)
+            else it[KEY_LANGUAGE_TAG] = tag
+        }
+    }
+
+    suspend fun setStartScreen(screen: StartScreen) {
+        store.edit { it[KEY_START_SCREEN] = screen.name }
+    }
+
+    suspend fun setAskBeforeDelete(value: Boolean) {
+        store.edit { it[KEY_ASK_BEFORE_DELETE] = value }
+    }
+
+    suspend fun setSearchRoots(roots: Set<String>) {
+        store.edit { it[KEY_SEARCH_ROOTS] = roots }
+    }
+
+    suspend fun addSearchRoot(path: String) {
+        store.edit { prefs ->
+            val current = prefs[KEY_SEARCH_ROOTS] ?: emptySet()
+            prefs[KEY_SEARCH_ROOTS] = current + path
+        }
+    }
+
+    suspend fun removeSearchRoot(path: String) {
+        store.edit { prefs ->
+            val current = prefs[KEY_SEARCH_ROOTS] ?: emptySet()
+            prefs[KEY_SEARCH_ROOTS] = current - path
+        }
+    }
+
+    suspend fun setTelemetryEnabled(value: Boolean) {
+        store.edit { it[KEY_TELEMETRY_ENABLED] = value }
+    }
+
+    suspend fun setWarnRootStorage(value: Boolean) {
+        store.edit { it[KEY_WARN_ROOT_STORAGE] = value }
+    }
+
     val hasSeenOnboarding: Flow<Boolean> = store.data.map { p ->
         p[KEY_HAS_SEEN_ONBOARDING] ?: false
     }
@@ -100,5 +149,11 @@ class SettingsRepository @Inject constructor(
         val KEY_REMOTE_PREVIEW_LIMIT_MB = intPreferencesKey("remote_preview_limit_mb")
         val KEY_REMOTE_ARCHIVE_PREVIEW_LIMIT_MB = intPreferencesKey("remote_archive_preview_limit_mb")
         val KEY_HAS_SEEN_ONBOARDING = booleanPreferencesKey("has_seen_onboarding")
+        val KEY_LANGUAGE_TAG = stringPreferencesKey("language_tag")
+        val KEY_START_SCREEN = stringPreferencesKey("start_screen")
+        val KEY_ASK_BEFORE_DELETE = booleanPreferencesKey("ask_before_delete")
+        val KEY_SEARCH_ROOTS = stringSetPreferencesKey("search_roots")
+        val KEY_TELEMETRY_ENABLED = booleanPreferencesKey("telemetry_enabled")
+        val KEY_WARN_ROOT_STORAGE = booleanPreferencesKey("warn_root_storage")
     }
 }

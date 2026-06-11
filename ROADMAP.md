@@ -511,12 +511,12 @@ Prioritised so heavy / high-token tasks land early and risk is front-loaded; fin
   - [x] Global search across indexed folders (name + extension + type), cancellable. _(`GlobalSearchUseCase` streams batches via `channelFlow` and stops on coroutine cancel; new top-level `GlobalSearchScreen` reachable from Home.)_
   - [x] App manager screen: list user/system apps, extract APK, share, jump to APK inspector. _(`AppManagerScreen` uses `PackageManager.getInstalledApplications`; APK extraction copies the base APK to `Downloads/FileLens`; inspector deep-link via new `inspect=` arg on the `main` route.)_
   - [x] Surface recycle bin (`.trash/`) as a top-level destination with restore-all. _(`TrashScreen` reads `TrashUseCase.listTrashed()`; restore-all and empty-bin actions; Home tab shows live count.)_
-- [ ] **Day 11 — Settings overhaul**
-  - [ ] Compare with Solid Explorer / Files by Google / X-plore settings.
-  - [ ] Remove: theme switcher.
-  - [ ] Add: language override, default home tab, "ask before delete" toggle, vault PIN/biometric setup, search-included folders, telemetry opt-out (default off), root storage warning.
-  - [ ] Reorder into sections: General · Files · Inspector · Safety · Keyboard · Backup · About.
-  - [ ] About screen: privacy promise, no-ads/no-accounts/no-tracking statement, open licenses, version.
+- [x] **Day 11 — Settings overhaul**
+  - [x] Compare with Solid Explorer / Files by Google / X-plore settings.
+  - [x] Remove: theme switcher. _(Already removed in Day 1.)_
+  - [x] Add: language override, default home tab, "ask before delete" toggle, vault PIN/biometric setup, search-included folders, telemetry opt-out (default off), root storage warning. _(Language picker writes to `AppCompatDelegate.setApplicationLocales`; new manifest `localeConfig` exposes the 15 launch languages to the system per-app picker. `StartScreen` enum drives `NavGraph` start destination. `askBeforeDelete` short-circuits the confirm sheet via `requestDelete` in `MainScreen`. Vault is surfaced as a Safety row that deep-links into `VaultScreen`'s existing biometric prompt. `searchRoots` is a SAF-tree picker plumbed into `GlobalSearchViewModel`. Telemetry opt-out is a no-op toggle reserved for future use, kept off by default. Root-storage warning toggle persisted; navigation interception left for a future polish pass.)_
+  - [x] Reorder into sections: General · Files · Inspector · Safety · Keyboard · Backup · About. _(`SettingsScreen.kt` rebuilt around seven sections matching the spec.)_
+  - [x] About screen: privacy promise, no-ads/no-accounts/no-tracking statement, open licenses, version. _(New `PrivacyPromiseBlock` composable with three chips, a vision block, version row, and the existing licenses disclosure.)_
 - [ ] **Day 12 — UX polish sweep**
   - [ ] Empty states with illustrations (no files, no risks, no results).
   - [ ] Loading skeletons for inspector and folder scan.

@@ -3,6 +3,7 @@ package com.filelens.commander.viewmodel
 import android.os.Environment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.filelens.commander.data.SettingsRepository
 import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.FileItem
 import com.filelens.commander.domain.usecase.GlobalSearchUseCase
@@ -11,6 +12,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
@@ -27,7 +29,8 @@ data class GlobalSearchState(
 
 @HiltViewModel
 class GlobalSearchViewModel @Inject constructor(
-    private val useCase: GlobalSearchUseCase
+    private val useCase: GlobalSearchUseCase,
+    private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(GlobalSearchState())
@@ -62,11 +65,19 @@ class GlobalSearchViewModel @Inject constructor(
             scannedFolders = 0
         )
 
-        val root = Environment.getExternalStorageDirectory() ?: File("/")
         searchJob = viewModelScope.launch {
             try {
+                val configured = settingsRepository.settings.first().searchRoots
+                val roots = if (configured.isEmpty()) {
+                    listOf(Environment.getExternalStorageDirectory() ?: File("/"))
+                } else {
+                    configured.map { File(it) }.filter { it.exists() && it.canRead() }
+                        .ifEmpty {
+                            listOf(Environment.getExternalStorageDirectory() ?: File("/"))
+                        }
+                }
                 useCase.search(
-                    roots = listOf(root),
+                    roots = roots,
                     query = current.query,
                     categoryFilter = current.categoryFilter
                 ).collect { result ->
