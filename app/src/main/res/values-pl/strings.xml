@@ -657,4 +657,33 @@
         <item quantity="other">%1$d elementu w koszu</item>
     </plurals>
 
+
+    <!-- Day 11: settings overhaul. -->
+    <string name="settings_section_general">Ogólne</string>
+    <string name="settings_section_files">Pliki</string>
+    <string name="settings_section_inspector">Inspektor i podgląd</string>
+    <string name="settings_section_safety">Bezpieczeństwo i prywatność</string>
+    <string name="settings_section_keyboard">Klawiatura</string>
+    <string name="settings_language">Język</string>
+    <string name="settings_language_system">Język systemu</string>
+    <string name="settings_language_dialog_title">Język aplikacji</string>
+    <string name="settings_start_screen">Domyślna karta startowa</string>
+    <string name="settings_start_screen_home">Start</string>
+    <string name="settings_start_screen_files">Pliki</string>
+    <string name="settings_ask_before_delete">Pytaj przed usunięciem</string>
+    <string name="settings_ask_before_delete_desc">Pokaż okno potwierdzenia przed przeniesieniem plików do kosza. Pliki zawsze najpierw trafiają do kosza — możesz je odzyskać.</string>
+    <string name="settings_search_roots">Foldery uwzględnione w wyszukiwaniu</string>
+    <string name="settings_search_roots_desc">Foldery skanowane przez wyszukiwanie globalne. Pozostaw puste, aby przeszukać całą pamięć.</string>
+    <string name="settings_search_roots_default">Cała pamięć</string>
+    <string name="settings_search_roots_add">Dodaj folder</string>
+    <string name="settings_search_roots_remove">Usuń</string>
+    <string name="settings_telemetry">Anonimowe raporty użytkowania</string>
+    <string name="settings_telemetry_desc">FileLens nie zbiera telemetrii. Ten przełącznik jest zarezerwowany dla przyszłej opcji opt-in — domyślnie wyłączony i nigdy nie włączany po cichu.</string>
+    <string name="settings_warn_root_storage">Ostrzegaj przy folderach systemowych</string>
+    <string name="settings_warn_root_storage_desc">Pokaż potwierdzenie przy przeglądaniu /system, /data, /proc, /vendor oraz innych chronionych katalogów głównych.</string>
+    <string name="settings_about_privacy_label">Obietnica prywatności</string>
+    <string name="settings_about_privacy_no_ads">Bez reklam</string>
+    <string name="settings_about_privacy_no_accounts">Bez kont</string>
+    <string name="settings_about_privacy_no_tracking">Bez śledzenia</string>
+    <string name="settings_about_privacy_text">FileLens pozostaje na Twoim urządzeniu. Bez reklam, bez kont, bez analityki, bez SDK firm trzecich. Jedyne żądania sieciowe trafiają do zdalnych serwerów, które sam dodajesz.</string>
 </resources>

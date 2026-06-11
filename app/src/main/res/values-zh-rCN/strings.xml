@@ -619,4 +619,33 @@
         <item quantity="other">回收站中 %1$d 个项目</item>
     </plurals>
 
+
+    <!-- Day 11: settings overhaul. -->
+    <string name="settings_section_general">常规</string>
+    <string name="settings_section_files">文件</string>
+    <string name="settings_section_inspector">检查器与预览</string>
+    <string name="settings_section_safety">安全与隐私</string>
+    <string name="settings_section_keyboard">键盘</string>
+    <string name="settings_language">语言</string>
+    <string name="settings_language_system">跟随系统</string>
+    <string name="settings_language_dialog_title">应用语言</string>
+    <string name="settings_start_screen">默认主页标签</string>
+    <string name="settings_start_screen_home">主页</string>
+    <string name="settings_start_screen_files">文件</string>
+    <string name="settings_ask_before_delete">删除前确认</string>
+    <string name="settings_ask_before_delete_desc">在将文件移到回收站前显示确认。文件始终先进入回收站 — 仍可恢复。</string>
+    <string name="settings_search_roots">搜索包含的文件夹</string>
+    <string name="settings_search_roots_desc">全局搜索将扫描的文件夹。留空以扫描整个存储。</string>
+    <string name="settings_search_roots_default">整个存储</string>
+    <string name="settings_search_roots_add">添加文件夹</string>
+    <string name="settings_search_roots_remove">移除</string>
+    <string name="settings_telemetry">匿名使用统计</string>
+    <string name="settings_telemetry_desc">FileLens 不包含任何遥测。此开关仅为未来的加入选项保留 — 默认关闭，绝不会静默启用。</string>
+    <string name="settings_warn_root_storage">系统文件夹警告</string>
+    <string name="settings_warn_root_storage_desc">浏览 /system、/data、/proc、/vendor 等受限根目录时显示确认。</string>
+    <string name="settings_about_privacy_label">隐私承诺</string>
+    <string name="settings_about_privacy_no_ads">无广告</string>
+    <string name="settings_about_privacy_no_accounts">无账号</string>
+    <string name="settings_about_privacy_no_tracking">无追踪</string>
+    <string name="settings_about_privacy_text">FileLens 始终留在您的设备上。无广告、无账号、无分析、无第三方 SDK。唯一的网络请求只发送到您自己添加的远程服务器。</string>
 </resources>

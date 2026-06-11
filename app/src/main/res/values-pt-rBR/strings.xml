@@ -642,4 +642,33 @@
         <item quantity="other">%1$d itens na lixeira</item>
     </plurals>
 
+
+    <!-- Day 11: settings overhaul. -->
+    <string name="settings_section_general">Geral</string>
+    <string name="settings_section_files">Arquivos</string>
+    <string name="settings_section_inspector">Inspetor e visualização</string>
+    <string name="settings_section_safety">Segurança e privacidade</string>
+    <string name="settings_section_keyboard">Teclado</string>
+    <string name="settings_language">Idioma</string>
+    <string name="settings_language_system">Seguir o sistema</string>
+    <string name="settings_language_dialog_title">Idioma do aplicativo</string>
+    <string name="settings_start_screen">Aba inicial padrão</string>
+    <string name="settings_start_screen_home">Início</string>
+    <string name="settings_start_screen_files">Arquivos</string>
+    <string name="settings_ask_before_delete">Confirmar antes de excluir</string>
+    <string name="settings_ask_before_delete_desc">Mostrar uma folha de confirmação antes de mover arquivos para a lixeira. Os arquivos sempre vão primeiro para a lixeira — você ainda pode restaurá-los.</string>
+    <string name="settings_search_roots">Pastas incluídas na busca</string>
+    <string name="settings_search_roots_desc">Pastas que a busca global irá varrer. Deixe vazio para buscar em todo o armazenamento.</string>
+    <string name="settings_search_roots_default">Todo o armazenamento</string>
+    <string name="settings_search_roots_add">Adicionar pasta</string>
+    <string name="settings_search_roots_remove">Remover</string>
+    <string name="settings_telemetry">Relatórios anônimos de uso</string>
+    <string name="settings_telemetry_desc">O FileLens é distribuído sem telemetria. Este botão está reservado apenas para um futuro opt-in — desativado por padrão e nunca habilitado silenciosamente.</string>
+    <string name="settings_warn_root_storage">Avisar em pastas do sistema</string>
+    <string name="settings_warn_root_storage_desc">Mostrar uma confirmação ao navegar em /system, /data, /proc, /vendor e outras raízes restritas.</string>
+    <string name="settings_about_privacy_label">Compromisso de privacidade</string>
+    <string name="settings_about_privacy_no_ads">Sem anúncios</string>
+    <string name="settings_about_privacy_no_accounts">Sem contas</string>
+    <string name="settings_about_privacy_no_tracking">Sem rastreamento</string>
+    <string name="settings_about_privacy_text">O FileLens permanece no seu dispositivo. Sem anúncios, sem contas, sem análises, sem SDKs de terceiros. As únicas solicitações de rede são para os servidores remotos que você mesmo adicionar.</string>
 </resources>

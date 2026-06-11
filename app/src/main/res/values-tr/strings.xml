@@ -631,4 +631,33 @@
         <item quantity="other">Kutuda %1$d öğe</item>
     </plurals>
 
+
+    <!-- Day 11: settings overhaul. -->
+    <string name="settings_section_general">Genel</string>
+    <string name="settings_section_files">Dosyalar</string>
+    <string name="settings_section_inspector">İnceleyici ve önizleme</string>
+    <string name="settings_section_safety">Güvenlik ve gizlilik</string>
+    <string name="settings_section_keyboard">Klavye</string>
+    <string name="settings_language">Dil</string>
+    <string name="settings_language_system">Sistemi izle</string>
+    <string name="settings_language_dialog_title">Uygulama dili</string>
+    <string name="settings_start_screen">Varsayılan başlangıç sekmesi</string>
+    <string name="settings_start_screen_home">Ana sayfa</string>
+    <string name="settings_start_screen_files">Dosyalar</string>
+    <string name="settings_ask_before_delete">Silmeden önce sor</string>
+    <string name="settings_ask_before_delete_desc">Dosyaları çöp kutusuna taşımadan önce bir onay sayfası göster. Dosyalar her zaman önce çöp kutusuna gider — yine de geri yükleyebilirsiniz.</string>
+    <string name="settings_search_roots">Aramaya dahil edilen klasörler</string>
+    <string name="settings_search_roots_desc">Genel aramanın tarayacağı klasörler. Tüm depolamayı taramak için boş bırakın.</string>
+    <string name="settings_search_roots_default">Tüm depolama</string>
+    <string name="settings_search_roots_add">Klasör ekle</string>
+    <string name="settings_search_roots_remove">Kaldır</string>
+    <string name="settings_telemetry">Anonim kullanım raporları</string>
+    <string name="settings_telemetry_desc">FileLens telemetri içermez. Bu anahtar yalnızca gelecekteki bir opt-in için ayrılmıştır — varsayılan olarak kapalı ve asla sessizce etkinleştirilmez.</string>
+    <string name="settings_warn_root_storage">Sistem klasörlerinde uyar</string>
+    <string name="settings_warn_root_storage_desc">/system, /data, /proc, /vendor ve diğer kısıtlı köklerde gezinirken bir onay göster.</string>
+    <string name="settings_about_privacy_label">Gizlilik sözü</string>
+    <string name="settings_about_privacy_no_ads">Reklam yok</string>
+    <string name="settings_about_privacy_no_accounts">Hesap yok</string>
+    <string name="settings_about_privacy_no_tracking">İzleme yok</string>
+    <string name="settings_about_privacy_text">FileLens cihazınızda kalır. Reklam yok, hesap yok, analiz yok, üçüncü taraf SDK yok. Tek ağ istekleri kendi eklediğiniz uzak sunuculara gider.</string>
 </resources>

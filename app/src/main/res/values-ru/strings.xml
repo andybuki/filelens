@@ -657,4 +657,33 @@
         <item quantity="other">%1$d элемента в корзине</item>
     </plurals>
 
+
+    <!-- Day 11: settings overhaul. -->
+    <string name="settings_section_general">Общие</string>
+    <string name="settings_section_files">Файлы</string>
+    <string name="settings_section_inspector">Инспектор и просмотр</string>
+    <string name="settings_section_safety">Безопасность и приватность</string>
+    <string name="settings_section_keyboard">Клавиатура</string>
+    <string name="settings_language">Язык</string>
+    <string name="settings_language_system">Как в системе</string>
+    <string name="settings_language_dialog_title">Язык приложения</string>
+    <string name="settings_start_screen">Стартовая вкладка</string>
+    <string name="settings_start_screen_home">Главная</string>
+    <string name="settings_start_screen_files">Файлы</string>
+    <string name="settings_ask_before_delete">Подтверждать удаление</string>
+    <string name="settings_ask_before_delete_desc">Показывать диалог подтверждения перед перемещением файлов в корзину. Файлы всегда сначала попадают в корзину — их можно восстановить.</string>
+    <string name="settings_search_roots">Папки для поиска</string>
+    <string name="settings_search_roots_desc">Папки, которые сканирует глобальный поиск. Оставьте пустым, чтобы искать по всему хранилищу.</string>
+    <string name="settings_search_roots_default">Всё хранилище</string>
+    <string name="settings_search_roots_add">Добавить папку</string>
+    <string name="settings_search_roots_remove">Удалить</string>
+    <string name="settings_telemetry">Анонимная статистика</string>
+    <string name="settings_telemetry_desc">В FileLens нет телеметрии. Этот переключатель зарезервирован только для будущей опции opt-in — выключен по умолчанию и никогда не включается тихо.</string>
+    <string name="settings_warn_root_storage">Предупреждать о системных папках</string>
+    <string name="settings_warn_root_storage_desc">Показывать подтверждение при открытии /system, /data, /proc, /vendor и других защищённых корневых каталогов.</string>
+    <string name="settings_about_privacy_label">Гарантия приватности</string>
+    <string name="settings_about_privacy_no_ads">Без рекламы</string>
+    <string name="settings_about_privacy_no_accounts">Без аккаунтов</string>
+    <string name="settings_about_privacy_no_tracking">Без отслеживания</string>
+    <string name="settings_about_privacy_text">FileLens остаётся на вашем устройстве. Никакой рекламы, аккаунтов, аналитики, сторонних SDK. Сетевые запросы идут только к удалённым серверам, которые вы добавляете сами.</string>
 </resources>

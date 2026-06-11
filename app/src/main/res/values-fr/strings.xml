@@ -568,4 +568,33 @@
         <item quantity="one">%1$d élément dans la corbeille</item>
         <item quantity="other">%1$d éléments dans la corbeille</item>
     </plurals>
+
+    <!-- Day 11: settings overhaul. -->
+    <string name="settings_section_general">Général</string>
+    <string name="settings_section_files">Fichiers</string>
+    <string name="settings_section_inspector">Inspecteur et aperçu</string>
+    <string name="settings_section_safety">Sécurité et confidentialité</string>
+    <string name="settings_section_keyboard">Clavier</string>
+    <string name="settings_language">Langue</string>
+    <string name="settings_language_system">Suivre le système</string>
+    <string name="settings_language_dialog_title">Langue de l\'application</string>
+    <string name="settings_start_screen">Onglet d\'accueil par défaut</string>
+    <string name="settings_start_screen_home">Accueil</string>
+    <string name="settings_start_screen_files">Fichiers</string>
+    <string name="settings_ask_before_delete">Confirmer avant la suppression</string>
+    <string name="settings_ask_before_delete_desc">Afficher une confirmation avant de déplacer les fichiers vers la corbeille. Les fichiers passent toujours d\'abord par la corbeille — vous pouvez encore les restaurer.</string>
+    <string name="settings_search_roots">Dossiers inclus dans la recherche</string>
+    <string name="settings_search_roots_desc">Dossiers que la recherche globale parcourt. Laissez vide pour analyser tout le stockage.</string>
+    <string name="settings_search_roots_default">Tout le stockage</string>
+    <string name="settings_search_roots_add">Ajouter un dossier</string>
+    <string name="settings_search_roots_remove">Retirer</string>
+    <string name="settings_telemetry">Rapports d\'utilisation anonymes</string>
+    <string name="settings_telemetry_desc">FileLens ne contient aucune télémétrie. Ce bouton est réservé à une future option opt-in — désactivé par défaut et jamais activé en silence.</string>
+    <string name="settings_warn_root_storage">Avertir sur les dossiers système</string>
+    <string name="settings_warn_root_storage_desc">Afficher une confirmation lors de la navigation dans /system, /data, /proc, /vendor et autres racines restreintes.</string>
+    <string name="settings_about_privacy_label">Promesse de confidentialité</string>
+    <string name="settings_about_privacy_no_ads">Sans publicité</string>
+    <string name="settings_about_privacy_no_accounts">Sans compte</string>
+    <string name="settings_about_privacy_no_tracking">Sans suivi</string>
+    <string name="settings_about_privacy_text">FileLens reste sur votre appareil. Aucune publicité, aucun compte, aucune analyse, aucun SDK tiers. Les seules requêtes réseau vont vers les serveurs distants que vous ajoutez vous-même.</string>
 </resources>

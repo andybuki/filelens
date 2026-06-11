@@ -631,4 +631,33 @@
         <item quantity="other">बिन में %1$d आइटम</item>
     </plurals>
 
+
+    <!-- Day 11: settings overhaul. -->
+    <string name="settings_section_general">सामान्य</string>
+    <string name="settings_section_files">फ़ाइलें</string>
+    <string name="settings_section_inspector">निरीक्षक और पूर्वावलोकन</string>
+    <string name="settings_section_safety">सुरक्षा और गोपनीयता</string>
+    <string name="settings_section_keyboard">कीबोर्ड</string>
+    <string name="settings_language">भाषा</string>
+    <string name="settings_language_system">सिस्टम के अनुसार</string>
+    <string name="settings_language_dialog_title">ऐप भाषा</string>
+    <string name="settings_start_screen">डिफ़ॉल्ट होम टैब</string>
+    <string name="settings_start_screen_home">होम</string>
+    <string name="settings_start_screen_files">फ़ाइलें</string>
+    <string name="settings_ask_before_delete">हटाने से पहले पूछें</string>
+    <string name="settings_ask_before_delete_desc">फ़ाइलों को ट्रैश में ले जाने से पहले पुष्टि शीट दिखाएँ। फ़ाइलें हमेशा पहले ट्रैश में जाती हैं — आप उन्हें फिर भी पुनर्स्थापित कर सकते हैं।</string>
+    <string name="settings_search_roots">खोज में शामिल फ़ोल्डर</string>
+    <string name="settings_search_roots_desc">वैश्विक खोज जिन फ़ोल्डरों को स्कैन करेगी। पूरी संग्रहण स्कैन करने के लिए खाली छोड़ें।</string>
+    <string name="settings_search_roots_default">पूरा संग्रहण</string>
+    <string name="settings_search_roots_add">फ़ोल्डर जोड़ें</string>
+    <string name="settings_search_roots_remove">हटाएँ</string>
+    <string name="settings_telemetry">अनाम उपयोग रिपोर्टिंग</string>
+    <string name="settings_telemetry_desc">FileLens में कोई टेलीमेट्री नहीं है। यह स्विच केवल भविष्य की ऑप्ट-इन सुविधा के लिए आरक्षित है — डिफ़ॉल्ट रूप से बंद और कभी भी चुपचाप सक्षम नहीं किया जाता।</string>
+    <string name="settings_warn_root_storage">सिस्टम फ़ोल्डर्स पर चेतावनी</string>
+    <string name="settings_warn_root_storage_desc">/system, /data, /proc, /vendor और अन्य प्रतिबंधित रूट खोलने पर पुष्टि दिखाएँ।</string>
+    <string name="settings_about_privacy_label">गोपनीयता का वादा</string>
+    <string name="settings_about_privacy_no_ads">कोई विज्ञापन नहीं</string>
+    <string name="settings_about_privacy_no_accounts">कोई खाता नहीं</string>
+    <string name="settings_about_privacy_no_tracking">कोई ट्रैकिंग नहीं</string>
+    <string name="settings_about_privacy_text">FileLens आपके डिवाइस पर ही रहता है। कोई विज्ञापन नहीं, कोई खाता नहीं, कोई विश्लेषण नहीं, कोई थर्ड-पार्टी SDK नहीं। नेटवर्क अनुरोध केवल उन रिमोट सर्वर पर जाते हैं जिन्हें आप स्वयं जोड़ते हैं।</string>
 </resources>

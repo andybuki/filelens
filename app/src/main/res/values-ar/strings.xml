@@ -683,4 +683,33 @@
         <item quantity="other">%1$d عنصر في السلة</item>
     </plurals>
 
+
+    <!-- Day 11: settings overhaul. -->
+    <string name="settings_section_general">عام</string>
+    <string name="settings_section_files">الملفات</string>
+    <string name="settings_section_inspector">المفتش والمعاينة</string>
+    <string name="settings_section_safety">الأمان والخصوصية</string>
+    <string name="settings_section_keyboard">لوحة المفاتيح</string>
+    <string name="settings_language">اللغة</string>
+    <string name="settings_language_system">حسب النظام</string>
+    <string name="settings_language_dialog_title">لغة التطبيق</string>
+    <string name="settings_start_screen">علامة التبويب الرئيسية الافتراضية</string>
+    <string name="settings_start_screen_home">الرئيسية</string>
+    <string name="settings_start_screen_files">الملفات</string>
+    <string name="settings_ask_before_delete">التأكيد قبل الحذف</string>
+    <string name="settings_ask_before_delete_desc">عرض ورقة تأكيد قبل نقل الملفات إلى سلة المهملات. تذهب الملفات دائمًا إلى سلة المهملات أولاً — يمكنك استعادتها لاحقًا.</string>
+    <string name="settings_search_roots">المجلدات المضمنة في البحث</string>
+    <string name="settings_search_roots_desc">المجلدات التي سيمسحها البحث العام. اتركه فارغًا لمسح كامل التخزين.</string>
+    <string name="settings_search_roots_default">كل التخزين</string>
+    <string name="settings_search_roots_add">إضافة مجلد</string>
+    <string name="settings_search_roots_remove">إزالة</string>
+    <string name="settings_telemetry">تقارير استخدام مجهولة</string>
+    <string name="settings_telemetry_desc">لا يحتوي FileLens على أي قياس عن بُعد. هذا المفتاح مخصص فقط لخيار اشتراك مستقبلي — مغلق افتراضيًا ولا يتم تفعيله بصمت أبدًا.</string>
+    <string name="settings_warn_root_storage">تحذير في مجلدات النظام</string>
+    <string name="settings_warn_root_storage_desc">عرض تأكيد عند تصفح ‎/system و‎/data و‎/proc و‎/vendor والجذور المقيدة الأخرى.</string>
+    <string name="settings_about_privacy_label">وعد الخصوصية</string>
+    <string name="settings_about_privacy_no_ads">بدون إعلانات</string>
+    <string name="settings_about_privacy_no_accounts">بدون حسابات</string>
+    <string name="settings_about_privacy_no_tracking">بدون تتبع</string>
+    <string name="settings_about_privacy_text">يبقى FileLens على جهازك. لا إعلانات ولا حسابات ولا تحليلات ولا حزم SDK من جهات خارجية. الطلبات الشبكية الوحيدة تذهب إلى الخوادم البعيدة التي تضيفها بنفسك.</string>
 </resources>

@@ -657,4 +657,33 @@
         <item quantity="other">%1$d елемента у кошику</item>
     </plurals>
 
+
+    <!-- Day 11: settings overhaul. -->
+    <string name="settings_section_general">Загальні</string>
+    <string name="settings_section_files">Файли</string>
+    <string name="settings_section_inspector">Інспектор і перегляд</string>
+    <string name="settings_section_safety">Безпека та приватність</string>
+    <string name="settings_section_keyboard">Клавіатура</string>
+    <string name="settings_language">Мова</string>
+    <string name="settings_language_system">Як у системі</string>
+    <string name="settings_language_dialog_title">Мова застосунку</string>
+    <string name="settings_start_screen">Стартова вкладка</string>
+    <string name="settings_start_screen_home">Головна</string>
+    <string name="settings_start_screen_files">Файли</string>
+    <string name="settings_ask_before_delete">Підтверджувати видалення</string>
+    <string name="settings_ask_before_delete_desc">Показувати діалог підтвердження перед переміщенням файлів у кошик. Файли завжди спершу йдуть у кошик — їх можна відновити.</string>
+    <string name="settings_search_roots">Папки для пошуку</string>
+    <string name="settings_search_roots_desc">Папки, які сканує глобальний пошук. Залиште порожнім, щоб шукати по всьому сховищу.</string>
+    <string name="settings_search_roots_default">Усе сховище</string>
+    <string name="settings_search_roots_add">Додати папку</string>
+    <string name="settings_search_roots_remove">Видалити</string>
+    <string name="settings_telemetry">Анонімна статистика</string>
+    <string name="settings_telemetry_desc">FileLens не містить телеметрії. Цей перемикач зарезервований лише для майбутньої функції opt-in — за замовчуванням вимкнено і ніколи не вмикається тихо.</string>
+    <string name="settings_warn_root_storage">Попереджати про системні папки</string>
+    <string name="settings_warn_root_storage_desc">Показувати підтвердження під час відкриття /system, /data, /proc, /vendor та інших обмежених коренів.</string>
+    <string name="settings_about_privacy_label">Обіцянка приватності</string>
+    <string name="settings_about_privacy_no_ads">Без реклами</string>
+    <string name="settings_about_privacy_no_accounts">Без облікових записів</string>
+    <string name="settings_about_privacy_no_tracking">Без відстеження</string>
+    <string name="settings_about_privacy_text">FileLens залишається на вашому пристрої. Жодної реклами, облікових записів, аналітики чи SDK сторонніх розробників. Єдині мережеві запити — до віддалених серверів, які ви додаєте самі.</string>
 </resources>
