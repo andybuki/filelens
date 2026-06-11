@@ -265,6 +265,14 @@
     <string name="settings_default_panel">Panel predeterminado (tabletas)</string>
     <string name="settings_keyboard_shortcuts">Atajos de teclado</string>
     <string name="settings_keyboard_shortcuts_desc">Personaliza las teclas F y combinaciones Ctrl del explorador.</string>
+    <string name="settings_section_preview">Vista previa</string>
+    <string name="settings_preview_intro">La vista previa de un archivo en un servidor remoto lo descarga primero, por lo que hay un breve retraso por la red. Estos límites omiten archivos que tardarían demasiado. Los archivos locales siempre se previsualizan, sea cual sea su tamaño.</string>
+    <string name="settings_preview_limit">Límite de vista previa remota</string>
+    <string name="settings_preview_limit_desc">El archivo multimedia, documento u otro más grande que FileLens obtendrá para vista previa.</string>
+    <string name="settings_preview_archive_limit">Límite de vista previa de archivos comprimidos remotos</string>
+    <string name="settings_preview_archive_limit_desc">Límite separado para archivos comprimidos y APKs — echar un vistazo dentro suele valer una descarga más larga.</string>
+    <string name="settings_preview_limit_value">%1$d MB</string>
+    <string name="settings_preview_limit_value_gb">%1$s GB</string>
     <string name="settings_remote_servers">Servidores remotos</string>
     <string name="settings_remote_servers_desc">Explora FTP, SFTP y recursos compartidos SMB como carpetas locales.</string>
     <string name="settings_backup_desc">Guarda tu configuración, marcadores, archivos recientes y carpetas frecuentes en un archivo JSON que podrás restaurar más adelante.</string>

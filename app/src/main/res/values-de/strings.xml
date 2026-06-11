@@ -316,6 +316,14 @@
     <string name="settings_keyboard_shortcuts">Tastaturkürzel</string>
     <string name="settings_keyboard_shortcuts_desc">F-Tasten und Strg-Kombinationen im Commander anpassen.</string>
 
+    <string name="settings_section_preview">Vorschau</string>
+    <string name="settings_preview_intro">Eine Vorschau einer Datei auf einem Remote-Server lädt die Datei zuerst herunter, daher gibt es eine kurze Netzwerkverzögerung. Diese Limits überspringen Dateien, deren Download zu lange dauern würde. Lokale Dateien werden immer in der Vorschau angezeigt, unabhängig von ihrer Größe.</string>
+    <string name="settings_preview_limit">Vorschau-Limit für Remote-Dateien</string>
+    <string name="settings_preview_limit_desc">Größte Medien-, Dokument- oder sonstige Datei, die FileLens für die Vorschau abruft.</string>
+    <string name="settings_preview_archive_limit">Vorschau-Limit für Remote-Archive</string>
+    <string name="settings_preview_archive_limit_desc">Separates Limit für Archive und APKs – ein Blick hinein ist oft einen längeren Download wert.</string>
+    <string name="settings_preview_limit_value">%1$d MB</string>
+    <string name="settings_preview_limit_value_gb">%1$s GB</string>
     <string name="settings_remote_servers">Remote-Server</string>
     <string name="settings_remote_servers_desc">FTP-, SFTP- und SMB-Freigaben wie lokale Ordner durchsuchen.</string>
 

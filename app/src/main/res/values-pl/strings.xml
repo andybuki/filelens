@@ -316,6 +316,14 @@
     <string name="settings_keyboard_shortcuts">Skróty klawiszowe</string>
     <string name="settings_keyboard_shortcuts_desc">Dostosuj kombinacje klawiszy F i Ctrl używane w komandorze.</string>
 
+    <string name="settings_section_preview">Podgląd</string>
+    <string name="settings_preview_intro">Podgląd pliku na zdalnym serwerze najpierw go pobiera, więc występuje krótkie opóźnienie sieciowe. Te limity pomijają pliki, których pobieranie trwałoby zbyt długo. Pliki lokalne są zawsze wyświetlane w podglądzie, niezależnie od rozmiaru.</string>
+    <string name="settings_preview_limit">Limit podglądu zdalnych plików</string>
+    <string name="settings_preview_limit_desc">Największy plik multimedialny, dokument lub inny, który FileLens pobierze do podglądu.</string>
+    <string name="settings_preview_archive_limit">Limit podglądu zdalnych archiwów</string>
+    <string name="settings_preview_archive_limit_desc">Oddzielny limit dla archiwów i APK — zajrzenie do środka często warte jest dłuższego pobierania.</string>
+    <string name="settings_preview_limit_value">%1$d MB</string>
+    <string name="settings_preview_limit_value_gb">%1$s GB</string>
     <string name="settings_remote_servers">Serwery zdalne</string>
     <string name="settings_remote_servers_desc">Przeglądaj zasoby FTP, SFTP i SMB jak lokalne foldery.</string>
 

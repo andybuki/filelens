@@ -265,6 +265,14 @@
     <string name="settings_default_panel">Panneau par défaut (tablettes)</string>
     <string name="settings_keyboard_shortcuts">Raccourcis clavier</string>
     <string name="settings_keyboard_shortcuts_desc">Personnalisez les touches de fonction et les combinaisons Ctrl utilisées dans le gestionnaire.</string>
+    <string name="settings_section_preview">Aperçu</string>
+    <string name="settings_preview_intro">Prévisualiser un fichier sur un serveur distant le télécharge d\'abord, il y a donc un court délai réseau. Ces limites ignorent les fichiers qui prendraient trop de temps. Les fichiers locaux sont toujours prévisualisés, quelle que soit leur taille.</string>
+    <string name="settings_preview_limit">Limite d\'aperçu des fichiers distants</string>
+    <string name="settings_preview_limit_desc">Plus grand fichier multimédia, document ou autre que FileLens téléchargera pour prévisualiser.</string>
+    <string name="settings_preview_archive_limit">Limite d\'aperçu des archives distantes</string>
+    <string name="settings_preview_archive_limit_desc">Limite distincte pour les archives et APK — jeter un coup d\'œil à l\'intérieur vaut souvent un téléchargement plus long.</string>
+    <string name="settings_preview_limit_value">%1$d Mo</string>
+    <string name="settings_preview_limit_value_gb">%1$s Go</string>
     <string name="settings_remote_servers">Serveurs distants</string>
     <string name="settings_remote_servers_desc">Parcourez les partages FTP, SFTP et SMB comme des dossiers locaux.</string>
     <string name="settings_backup_desc">Sauvegardez vos paramètres, signets, fichiers récents et dossiers fréquents dans un fichier JSON que vous pourrez restaurer ultérieurement.</string>

@@ -316,6 +316,14 @@
     <string name="settings_keyboard_shortcuts">Klavye kısayolları</string>
     <string name="settings_keyboard_shortcuts_desc">Komutanda kullanılan F tuşu ve Ctrl kombinasyonlarını özelleştirin.</string>
 
+    <string name="settings_section_preview">Önizleme</string>
+    <string name="settings_preview_intro">Uzak sunucudaki bir dosyayı önizlemek için önce indirilir, bu nedenle ağda kısa bir gecikme olur. Bu sınırlar çok uzun sürecek dosyaları atlar. Yerel dosyalar boyutuna bakılmaksızın her zaman önizlenir.</string>
+    <string name="settings_preview_limit">Uzak dosya önizleme sınırı</string>
+    <string name="settings_preview_limit_desc">FileLens\'in önizleme için indireceği en büyük medya, belge veya diğer dosya.</string>
+    <string name="settings_preview_archive_limit">Uzak arşiv önizleme sınırı</string>
+    <string name="settings_preview_archive_limit_desc">Arşivler ve APK\'lar için ayrı sınır — içine bakmak genellikle daha uzun bir indirme değerindedir.</string>
+    <string name="settings_preview_limit_value">%1$d MB</string>
+    <string name="settings_preview_limit_value_gb">%1$s GB</string>
     <string name="settings_remote_servers">Uzak sunucular</string>
     <string name="settings_remote_servers_desc">FTP, SFTP ve SMB paylaşımlarına yerel klasörler gibi gözatın.</string>
 

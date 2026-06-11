@@ -316,6 +316,14 @@
     <string name="settings_keyboard_shortcuts">اختصارات لوحة المفاتيح</string>
     <string name="settings_keyboard_shortcuts_desc">تخصيص مفاتيح F وتوليفات Ctrl المستخدمة في القائد.</string>
 
+    <string name="settings_section_preview">معاينة</string>
+    <string name="settings_preview_intro">معاينة ملف على خادم بعيد تقوم بتنزيله أولاً، لذا يحدث تأخير قصير عبر الشبكة. تتخطى هذه الحدود الملفات التي ستستغرق وقتاً طويلاً. تتم معاينة الملفات المحلية دائماً، أياً كان حجمها.</string>
+    <string name="settings_preview_limit">حد معاينة الملفات البعيدة</string>
+    <string name="settings_preview_limit_desc">أكبر ملف وسائط أو مستند أو غيره سيقوم FileLens بجلبه للمعاينة.</string>
+    <string name="settings_preview_archive_limit">حد معاينة الأرشيف البعيد</string>
+    <string name="settings_preview_archive_limit_desc">حد منفصل للأرشيفات و APK — غالباً ما يستحق الاطلاع بالداخل تنزيلاً أطول.</string>
+    <string name="settings_preview_limit_value">%1$d م.ب</string>
+    <string name="settings_preview_limit_value_gb">%1$s ج.ب</string>
     <string name="settings_remote_servers">الخوادم البعيدة</string>
     <string name="settings_remote_servers_desc">تصفح مشاركات FTP وSFTP وSMB مثل المجلدات المحلية.</string>
 

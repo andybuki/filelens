@@ -316,6 +316,14 @@
     <string name="settings_keyboard_shortcuts">键盘快捷键</string>
     <string name="settings_keyboard_shortcuts_desc">自定义指挥官中使用的 F 键和 Ctrl 组合键。</string>
 
+    <string name="settings_section_preview">预览</string>
+    <string name="settings_preview_intro">预览远程服务器上的文件会先下载它，因此网络上会有短暂的延迟。这些上限会跳过下载时间过长的文件。本地文件无论大小都始终可以预览。</string>
+    <string name="settings_preview_limit">远程文件预览上限</string>
+    <string name="settings_preview_limit_desc">FileLens 用于预览而获取的最大媒体、文档或其他文件。</string>
+    <string name="settings_preview_archive_limit">远程归档预览上限</string>
+    <string name="settings_preview_archive_limit_desc">归档和 APK 的单独上限 — 查看内部通常值得更长时间的下载。</string>
+    <string name="settings_preview_limit_value">%1$d MB</string>
+    <string name="settings_preview_limit_value_gb">%1$s GB</string>
     <string name="settings_remote_servers">远程服务器</string>
     <string name="settings_remote_servers_desc">像本地文件夹一样浏览 FTP、SFTP 和 SMB 共享。</string>
 

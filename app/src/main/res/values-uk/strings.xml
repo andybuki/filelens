@@ -316,6 +316,14 @@
     <string name="settings_keyboard_shortcuts">Клавіатурні скорочення</string>
     <string name="settings_keyboard_shortcuts_desc">Налаштуйте комбінації клавіш F та Ctrl, що використовуються в командері.</string>
 
+    <string name="settings_section_preview">Попередній перегляд</string>
+    <string name="settings_preview_intro">Попередній перегляд файлу на віддаленому сервері спочатку завантажує його, тому є невелика затримка по мережі. Ці обмеження пропускають файли, які завантажувалися б занадто довго. Локальні файли завжди переглядаються незалежно від розміру.</string>
+    <string name="settings_preview_limit">Ліміт попереднього перегляду віддалених файлів</string>
+    <string name="settings_preview_limit_desc">Найбільший медіа-, документний або інший файл, який FileLens завантажить для перегляду.</string>
+    <string name="settings_preview_archive_limit">Ліміт попереднього перегляду віддалених архівів</string>
+    <string name="settings_preview_archive_limit_desc">Окремий ліміт для архівів та APK — заглянути всередину часто варте довшого завантаження.</string>
+    <string name="settings_preview_limit_value">%1$d МБ</string>
+    <string name="settings_preview_limit_value_gb">%1$s ГБ</string>
     <string name="settings_remote_servers">Віддалені сервери</string>
     <string name="settings_remote_servers_desc">Переглядайте FTP, SFTP та SMB-ресурси як локальні теки.</string>
 

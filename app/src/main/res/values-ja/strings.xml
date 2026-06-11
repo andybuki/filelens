@@ -316,6 +316,14 @@
     <string name="settings_keyboard_shortcuts">キーボードショートカット</string>
     <string name="settings_keyboard_shortcuts_desc">コマンダーで使用するFキーとCtrl組み合わせをカスタマイズします。</string>
 
+    <string name="settings_section_preview">プレビュー</string>
+    <string name="settings_preview_intro">リモートサーバー上のファイルをプレビューするには、まずダウンロードするため、ネットワーク経由で短い遅延があります。これらの上限は、時間がかかりすぎるファイルをスキップします。ローカルファイルはサイズに関係なく常にプレビューされます。</string>
+    <string name="settings_preview_limit">リモートファイルのプレビュー上限</string>
+    <string name="settings_preview_limit_desc">FileLens がプレビューのために取得する最大のメディア、ドキュメント、その他のファイル。</string>
+    <string name="settings_preview_archive_limit">リモートアーカイブのプレビュー上限</string>
+    <string name="settings_preview_archive_limit_desc">アーカイブと APK 用の別の上限 — 中を覗くのは、しばしばより長いダウンロードの価値があります。</string>
+    <string name="settings_preview_limit_value">%1$d MB</string>
+    <string name="settings_preview_limit_value_gb">%1$s GB</string>
     <string name="settings_remote_servers">リモートサーバー</string>
     <string name="settings_remote_servers_desc">FTP、SFTP、SMB共有をローカルフォルダーのように参照します。</string>
 
