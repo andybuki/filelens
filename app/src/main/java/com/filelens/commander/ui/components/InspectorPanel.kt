@@ -59,6 +59,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -198,19 +202,27 @@ fun InspectorPanel(
                     OpenAsMenu(onOpenAs, onReinspect, forcedCategory, detectedCategory)
                 }
                 if (onDismiss != null) {
+                    // 48dp hit target hosts the 36dp visible chip so TalkBack
+                    // and small-touch users get the Material minimum.
                     Box(
                         modifier = Modifier
-                            .size(36.dp)
-                            .clip(RoundedCornerShape(999.dp))
+                            .size(48.dp)
                             .clickable(onClick = onDismiss),
                         contentAlignment = Alignment.Center
                     ) {
-                        Icon(
-                            Icons.Filled.Close,
-                            contentDescription = stringResource(R.string.cd_close),
-                            tint = FlInk3,
-                            modifier = Modifier.size(21.dp)
-                        )
+                        Box(
+                            modifier = Modifier
+                                .size(36.dp)
+                                .clip(RoundedCornerShape(999.dp)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                Icons.Filled.Close,
+                                contentDescription = stringResource(R.string.cd_close),
+                                tint = FlInk3,
+                                modifier = Modifier.size(21.dp)
+                            )
+                        }
                     }
                 }
             }
@@ -237,7 +249,12 @@ fun InspectorPanel(
                 Column(
                     modifier = Modifier
                         .clickable { selectedTab = index }
-                        .padding(horizontal = 12.dp),
+                        .padding(horizontal = 12.dp)
+                        .semantics(mergeDescendants = true) {
+                            this.role = androidx.compose.ui.semantics.Role.Tab
+                            this.selected = selected
+                            this.contentDescription = tabLabel
+                        },
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
@@ -268,7 +285,19 @@ fun InspectorPanel(
             },
             label = "inspector-tab"
         ) { tab ->
-            when (tab) {
+            // Show a skeleton while the first inspection is in flight so the
+            // overview tab doesn't flash an empty card before the analyzer
+            // returns. Other tabs render their own "none available" empty
+            // states which are still appropriate during analysis.
+            val showSkeleton = isAnalyzing && result == null && tab == InspectorTab.OVERVIEW
+            if (showSkeleton) {
+                val loadingLabel = stringResource(R.string.inspector_loading_label)
+                InspectorSkeleton(
+                    modifier = Modifier.semantics {
+                        contentDescription = loadingLabel
+                    }
+                )
+            } else when (tab) {
                 InspectorTab.OVERVIEW -> OverviewTab(
                     info = info,
                     result = result,
