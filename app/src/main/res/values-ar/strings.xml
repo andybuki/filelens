@@ -330,7 +330,7 @@
     <string name="settings_backup_desc">احفظ إعداداتك وإشاراتك المرجعية والملفات الأخيرة والمجلدات المتكررة في ملف JSON يمكنك استعادته لاحقاً.</string>
 
     <string name="settings_about_app_name">FileLens Commander</string>
-    <string name="settings_about_version">الإصدار 0.4.4</string>
+    <string name="settings_about_version">الإصدار 0.5.0</string>
     <string name="settings_about_vision_label">الرؤية</string>
     <string name="settings_about_vision_text">تصفح الملفات، اطلع على محتواها، افهمها قبل الفتح. غير متصل بالإنترنت، على الجهاز، بدون حسابات.</string>
     <string name="settings_licenses_intro">FileLens مبني على هذه المكتبات مفتوحة المصدر:</string>

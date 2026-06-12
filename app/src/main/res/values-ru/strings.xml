@@ -330,7 +330,7 @@
     <string name="settings_backup_desc">Сохраните настройки, закладки, недавние файлы и частые папки в файл JSON, который можно восстановить позже.</string>
 
     <string name="settings_about_app_name">FileLens Commander</string>
-    <string name="settings_about_version">Версия 0.4.4</string>
+    <string name="settings_about_version">Версия 0.5.0</string>
     <string name="settings_about_vision_label">Концепция</string>
     <string name="settings_about_vision_text">Просматривайте файлы, заглядывайте внутрь, понимайте перед открытием. Офлайн, на устройстве, без учётных записей.</string>
     <string name="settings_licenses_intro">FileLens создан на основе следующих библиотек с открытым исходным кодом:</string>

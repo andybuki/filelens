@@ -119,7 +119,7 @@ function Settings() {
           <div className="row static">
             <div className="rtext">
               <div className="rlabel">FileLens Commander</div>
-              <div className="rdesc">Version 0.4.4</div>
+              <div className="rdesc">Version 0.5.0</div>
             </div>
           </div>
           <div className="divider" />
