@@ -686,4 +686,13 @@
     <string name="settings_about_privacy_no_accounts">Bez kont</string>
     <string name="settings_about_privacy_no_tracking">Bez śledzenia</string>
     <string name="settings_about_privacy_text">FileLens pozostaje na Twoim urządzeniu. Bez reklam, bez kont, bez analityki, bez SDK firm trzecich. Jedyne żądania sieciowe trafiają do zdalnych serwerów, które sam dodajesz.</string>
+
+    <!-- Day 12: UX polish error messages + inspector loading -->
+    <string name="error_permission_denied">Brak uprawnień. Przyznaj dostęp do pamięci w Ustawieniach, aby odczytać ten folder.</string>
+    <string name="error_file_not_found">Ten plik już nie istnieje. Mógł zostać przeniesiony lub usunięty.</string>
+    <string name="error_unsupported_file">Podgląd tego typu pliku nie jest jeszcze obsługiwany.</string>
+    <string name="error_out_of_space">Za mało wolnego miejsca, aby ukończyć tę operację.</string>
+    <string name="error_corrupt_file">Ten plik wygląda na uszkodzony i nie można go odczytać.</string>
+    <string name="error_generic">Coś poszło nie tak. Spróbuj ponownie.</string>
+    <string name="inspector_loading_label">Inspekcja pliku…</string>
 </resources>

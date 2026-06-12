@@ -597,4 +597,13 @@
     <string name="settings_about_privacy_no_accounts">Sin cuentas</string>
     <string name="settings_about_privacy_no_tracking">Sin rastreo</string>
     <string name="settings_about_privacy_text">FileLens permanece en tu dispositivo. Sin anuncios, sin cuentas, sin análisis, sin SDK de terceros. Las únicas solicitudes de red son a los servidores remotos que tú añadas.</string>
+
+    <!-- Day 12: UX polish error messages + inspector loading -->
+    <string name="error_permission_denied">Permiso denegado. Concede acceso al almacenamiento en Ajustes para leer esta carpeta.</string>
+    <string name="error_file_not_found">Este archivo ya no existe. Puede haberse movido o eliminado.</string>
+    <string name="error_unsupported_file">Este tipo de archivo aún no se puede previsualizar.</string>
+    <string name="error_out_of_space">No hay suficiente espacio libre para completar esta operación.</string>
+    <string name="error_corrupt_file">Este archivo parece estar dañado y no se puede leer.</string>
+    <string name="error_generic">Algo salió mal. Inténtalo de nuevo.</string>
+    <string name="inspector_loading_label">Inspeccionando archivo…</string>
 </resources>
