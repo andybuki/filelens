@@ -33,9 +33,7 @@ import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -48,11 +46,9 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.com.filelens.R
@@ -167,7 +163,7 @@ private fun SearchHeader(
         modifier = Modifier
             .fillMaxWidth()
             .background(FlNavy)
-            .padding(start = 4.dp, end = 12.dp, top = 6.dp, bottom = 12.dp)
+            .padding(start = 4.dp, end = 8.dp, top = 6.dp, bottom = 10.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             IconButton(onClick = onBack) {
@@ -177,13 +173,60 @@ private fun SearchHeader(
                     tint = FlOnAccent
                 )
             }
-            Text(
-                text = stringResource(R.string.search_title),
-                color = FlOnAccent,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.weight(1f)
-            )
+            Row(
+                modifier = Modifier
+                    .weight(1f)
+                    .height(40.dp)
+                    .clip(RoundedCornerShape(20.dp))
+                    .background(Color(0x33000000))
+                    .padding(horizontal = 12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    Icons.Filled.Search,
+                    contentDescription = null,
+                    tint = FlOnAccent,
+                    modifier = Modifier.size(18.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Box(modifier = Modifier.weight(1f)) {
+                    androidx.compose.foundation.text.BasicTextField(
+                        value = query,
+                        onValueChange = onQueryChanged,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .focusRequester(focusRequester),
+                        singleLine = true,
+                        textStyle = MaterialTheme.typography.bodyMedium.copy(color = FlOnAccent),
+                        cursorBrush = androidx.compose.ui.graphics.SolidColor(FlOnAccent),
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                        keyboardActions = KeyboardActions(onSearch = { onSubmit() }),
+                        decorationBox = { inner ->
+                            if (query.isEmpty()) {
+                                Text(
+                                    stringResource(R.string.search_hint_global),
+                                    color = Color(0xFFCBD0D8),
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                            }
+                            inner()
+                        }
+                    )
+                }
+                if (query.isNotEmpty()) {
+                    IconButton(
+                        onClick = onClear,
+                        modifier = Modifier.size(28.dp)
+                    ) {
+                        Icon(
+                            Icons.Filled.Clear,
+                            contentDescription = stringResource(R.string.action_clear),
+                            tint = FlOnAccent,
+                            modifier = Modifier.size(16.dp)
+                        )
+                    }
+                }
+            }
             if (isSearching) {
                 IconButton(onClick = onCancel) {
                     Icon(
@@ -194,45 +237,6 @@ private fun SearchHeader(
                 }
             }
         }
-        Spacer(modifier = Modifier.height(6.dp))
-        OutlinedTextField(
-            value = query,
-            onValueChange = onQueryChanged,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp)
-                .focusRequester(focusRequester),
-            placeholder = {
-                Text(
-                    stringResource(R.string.search_hint_global),
-                    color = Color(0xFFCBD0D8)
-                )
-            },
-            leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null, tint = FlOnAccent) },
-            trailingIcon = {
-                if (query.isNotEmpty()) {
-                    IconButton(onClick = onClear) {
-                        Icon(
-                            Icons.Filled.Clear,
-                            contentDescription = stringResource(R.string.action_clear),
-                            tint = FlOnAccent
-                        )
-                    }
-                }
-            },
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-            keyboardActions = KeyboardActions(onSearch = { onSubmit() }),
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color(0x33000000),
-                unfocusedContainerColor = Color(0x33000000),
-                focusedTextColor = FlOnAccent,
-                unfocusedTextColor = FlOnAccent,
-                focusedIndicatorColor = FlOnAccent,
-                unfocusedIndicatorColor = Color(0x44FFFFFF),
-                cursorColor = FlOnAccent
-            )
-        )
         if (isSearching || resultCount > 0) {
             Spacer(modifier = Modifier.height(6.dp))
             Row(

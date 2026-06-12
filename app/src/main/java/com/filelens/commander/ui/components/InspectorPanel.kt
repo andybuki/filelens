@@ -28,7 +28,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.DataObject
-import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.automirrored.filled.OpenInNew
@@ -130,7 +129,6 @@ fun InspectorPanel(
     onOpenAs: ((FileCategory) -> Unit)? = null,
     onReinspect: (() -> Unit)? = null,
     onSearchInside: (() -> Unit)? = null,
-    onExportReport: ((isJson: Boolean) -> Unit)? = null,
     forcedCategory: FileCategory? = null,
     detectedCategory: FileCategory? = null,
     modifier: Modifier = Modifier
@@ -307,8 +305,7 @@ fun InspectorPanel(
                     onVerifyHash = onVerifyHash,
                     onBrowseSqlite = onBrowseSqlite,
                     onSwitchTab = { dest -> selectedTab = tabs.indexOf(dest) },
-                    onSearchInside = onSearchInside,
-                    onExportReport = onExportReport
+                    onSearchInside = onSearchInside
                 )
                 InspectorTab.PREVIEW -> PreviewTab(result)
                 InspectorTab.STRUCTURE -> StructureTab(result)
@@ -329,8 +326,7 @@ private fun OverviewTab(
     onVerifyHash: (() -> Unit)? = null,
     onBrowseSqlite: (() -> Unit)? = null,
     onSwitchTab: ((InspectorTab) -> Unit)? = null,
-    onSearchInside: (() -> Unit)? = null,
-    onExportReport: ((isJson: Boolean) -> Unit)? = null
+    onSearchInside: (() -> Unit)? = null
 ) {
     Column(
         modifier = Modifier
@@ -446,27 +442,6 @@ private fun OverviewTab(
                 icon = Icons.Filled.Search,
                 onClick = onSearchInside
             )
-            Spacer(modifier = Modifier.height(8.dp))
-        }
-
-        if (onExportReport != null) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                ActionButton(
-                    label = stringResource(R.string.action_export_markdown),
-                    icon = Icons.Filled.Description,
-                    onClick = { onExportReport(false) },
-                    modifier = Modifier.weight(1f)
-                )
-                ActionButton(
-                    label = stringResource(R.string.action_export_json),
-                    icon = Icons.Filled.DataObject,
-                    onClick = { onExportReport(true) },
-                    modifier = Modifier.weight(1f)
-                )
-            }
             Spacer(modifier = Modifier.height(8.dp))
         }
 

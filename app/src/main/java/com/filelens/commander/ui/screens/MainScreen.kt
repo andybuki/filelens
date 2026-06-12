@@ -81,7 +81,6 @@ fun MainScreen(
     initialRemoteId: String? = null,
     onOpenSettings: () -> Unit = {},
     onCompare: (String, String) -> Unit = { _, _ -> },
-    onFindDuplicates: (String) -> Unit = {},
     onBrowseSqlite: (String) -> Unit = {},
     onOpenHome: () -> Unit = {},
     fileListViewModel: FileListViewModel = hiltViewModel(),
@@ -332,7 +331,15 @@ fun MainScreen(
     }
     val onBatchScan = { batchScanViewModel.startScan(fileListState.currentPath) }
     val onFolderDashboard = { folderDashboardViewModel.analyze(fileListState.currentPath) }
-    val onFindDuplicatesLocal = { onFindDuplicates(fileListState.currentPath) }
+    var duplicatesRoot by remember { mutableStateOf<String?>(null) }
+    val onFindDuplicatesLocal = { duplicatesRoot = fileListState.currentPath }
+
+    duplicatesRoot?.let { root ->
+        com.filelens.commander.ui.components.DuplicatesDialog(
+            rootPath = root,
+            onDismiss = { duplicatesRoot = null }
+        )
+    }
 
     val coroutineScope = rememberCoroutineScope()
     val onShareCleaned: () -> Unit = {
@@ -503,7 +510,6 @@ fun MainScreen(
                 onShowRecents = { showRecentsSheet = true },
                 onRefresh = refreshCurrentDir,
                 onSearchInside = { showSearchInsideDialog = true },
-                onExportReport = { isJson -> exportAndShareReport(isJson, inspectorViewModel, context) },
                 onCompare = onCompare,
                 onRequestDelete = requestDelete
             )
@@ -535,7 +541,6 @@ fun MainScreen(
                 onShowBookmarks = { showBookmarksSheet = true },
                 onShowRecents = { showRecentsSheet = true },
                 onSearchInside = { showSearchInsideDialog = true },
-                onExportReport = { isJson -> exportAndShareReport(isJson, inspectorViewModel, context) },
                 onCompare = onCompare,
                 onRefresh = refreshCurrentDir,
                 onRequestDelete = requestDelete
@@ -572,7 +577,6 @@ private fun CompactLayout(
     onShowBookmarks: () -> Unit,
     onShowRecents: () -> Unit,
     onSearchInside: () -> Unit,
-    onExportReport: (Boolean) -> Unit,
     onCompare: (String, String) -> Unit,
     onRefresh: () -> Unit,
     onRequestDelete: () -> Unit
@@ -650,7 +654,6 @@ private fun CompactLayout(
                     onOpenAs = { cat -> inspectorViewModel.openAs(cat) },
                     onReinspect = { inspectorViewModel.reinspect() },
                     onSearchInside = onSearchInside,
-                    onExportReport = onExportReport,
                     forcedCategory = inspectorState.forcedCategory,
                     detectedCategory = inspectorState.detectedCategory,
                     modifier = Modifier.fillMaxWidth()
@@ -734,27 +737,6 @@ private fun CompactLayout(
     }
 }
 
-private fun exportAndShareReport(
-    asJson: Boolean,
-    inspectorViewModel: InspectorViewModel,
-    context: android.content.Context
-) {
-    inspectorViewModel.exportReport(asJson) { file ->
-        val uri = FileProvider.getUriForFile(
-            context,
-            "${context.packageName}.fileprovider",
-            file
-        )
-        val mime = if (asJson) "application/json" else "text/markdown"
-        val shareIntent = Intent(Intent.ACTION_SEND).apply {
-            type = mime
-            putExtra(Intent.EXTRA_STREAM, uri)
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        }
-        context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.main_chooser_share_report)))
-    }
-}
-
 private fun ignoredIdsFor(state: InspectorState): Set<String> {
     val path = state.selectedFile?.path ?: return emptySet()
     val prefix = "$path::"
@@ -788,7 +770,6 @@ private fun ExpandedLayout(
     onShowRecents: () -> Unit,
     onRefresh: () -> Unit,
     onSearchInside: () -> Unit,
-    onExportReport: (Boolean) -> Unit,
     onCompare: (String, String) -> Unit,
     onRequestDelete: () -> Unit
 ) {
@@ -960,7 +941,6 @@ private fun ExpandedLayout(
                     onOpenAs = { cat -> inspectorViewModel.openAs(cat) },
                     onReinspect = { inspectorViewModel.reinspect() },
                     onSearchInside = onSearchInside,
-                    onExportReport = onExportReport,
                     forcedCategory = inspectorState.forcedCategory,
                     detectedCategory = inspectorState.detectedCategory,
                     modifier = Modifier.weight(1f)

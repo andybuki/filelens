@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,6 +28,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
@@ -38,8 +40,6 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -51,15 +51,23 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.com.filelens.R
 import com.filelens.commander.domain.model.RemoteConnection
 import com.filelens.commander.domain.model.RemoteProtocol
+import com.filelens.commander.ui.theme.FlAccent
+import com.filelens.commander.ui.theme.FlAccentTint
+import com.filelens.commander.ui.theme.FlBg
+import com.filelens.commander.ui.theme.FlInk
+import com.filelens.commander.ui.theme.FlInk3
+import com.filelens.commander.ui.theme.FlNavy
+import com.filelens.commander.ui.theme.FlOnAccent
+import com.filelens.commander.ui.theme.FlSurface
 import com.filelens.commander.viewmodel.RemoteServersViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -74,70 +82,41 @@ fun RemoteServersScreen(
     var pendingDelete by remember { mutableStateOf<RemoteConnection?>(null) }
 
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.remote_servers_title)) },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.cd_back))
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                )
-            )
-        },
+        containerColor = FlBg,
         floatingActionButton = {
-            FloatingActionButton(onClick = { editing = viewModel.blankDraft() }) {
+            FloatingActionButton(
+                onClick = { editing = viewModel.blankDraft() },
+                containerColor = FlAccent,
+                contentColor = FlOnAccent,
+                shape = RoundedCornerShape(percent = 50)
+            ) {
                 Icon(Icons.Default.Add, contentDescription = stringResource(R.string.cd_add_server))
             }
         }
     ) { padding ->
-        if (connections.isEmpty()) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding)
-                    .padding(32.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Icon(
-                        Icons.Default.Cloud,
-                        contentDescription = null,
-                        modifier = Modifier.size(48.dp),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Spacer(Modifier.height(12.dp))
-                    Text(
-                        stringResource(R.string.remote_servers_empty_headline),
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    Spacer(Modifier.height(4.dp))
-                    Text(
-                        stringResource(R.string.remote_servers_empty_subtitle),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-        } else {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding),
-                contentPadding = androidx.compose.foundation.layout.PaddingValues(12.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(connections, key = { it.id }) { connection ->
-                    ServerRow(
-                        connection = connection,
-                        onConnect = {
-                            onConnect(connection.id)
-                        },
-                        onEdit = { editing = connection },
-                        onDelete = { pendingDelete = connection }
-                    )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+        ) {
+            NavyHeader(title = stringResource(R.string.remote_servers_title), onBack = onBack)
+
+            if (connections.isEmpty()) {
+                EmptyState()
+            } else {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 14.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(connections, key = { it.id }) { connection ->
+                        ServerRow(
+                            connection = connection,
+                            onConnect = { onConnect(connection.id) },
+                            onEdit = { editing = connection },
+                            onDelete = { pendingDelete = connection }
+                        )
+                    }
                 }
             }
         }
@@ -160,15 +139,83 @@ fun RemoteServersScreen(
             title = { Text(stringResource(R.string.remote_dialog_delete_title)) },
             text = { Text(stringResource(R.string.remote_dialog_delete_message, target.name.ifBlank { target.host })) },
             confirmButton = {
-                Button(onClick = {
-                    viewModel.remove(target.id)
-                    pendingDelete = null
-                }) { Text(stringResource(R.string.action_delete)) }
+                Button(
+                    onClick = {
+                        viewModel.remove(target.id)
+                        pendingDelete = null
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = FlAccent)
+                ) { Text(stringResource(R.string.action_delete)) }
             },
             dismissButton = {
                 OutlinedButton(onClick = { pendingDelete = null }) { Text(stringResource(R.string.action_cancel)) }
             }
         )
+    }
+}
+
+@Composable
+private fun NavyHeader(title: String, onBack: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(FlNavy)
+            .padding(start = 4.dp, end = 12.dp, top = 6.dp, bottom = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        IconButton(onClick = onBack) {
+            Icon(
+                Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = stringResource(R.string.cd_back),
+                tint = FlOnAccent
+            )
+        }
+        Spacer(modifier = Modifier.width(2.dp))
+        Text(
+            text = title,
+            color = FlOnAccent,
+            fontSize = 22.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+@Composable
+private fun EmptyState() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(32.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Box(
+                modifier = Modifier
+                    .size(64.dp)
+                    .clip(RoundedCornerShape(18.dp))
+                    .background(FlAccentTint),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    Icons.Default.Cloud,
+                    contentDescription = null,
+                    tint = FlAccent,
+                    modifier = Modifier.size(32.dp)
+                )
+            }
+            Spacer(Modifier.height(14.dp))
+            Text(
+                stringResource(R.string.remote_servers_empty_headline),
+                style = MaterialTheme.typography.titleMedium,
+                color = FlInk
+            )
+            Spacer(Modifier.height(6.dp))
+            Text(
+                stringResource(R.string.remote_servers_empty_subtitle),
+                style = MaterialTheme.typography.bodySmall,
+                color = FlInk3
+            )
+        }
     }
 }
 
@@ -182,38 +229,48 @@ private fun ServerRow(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
-            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .clip(RoundedCornerShape(14.dp))
+            .background(FlSurface)
             .clickable { onConnect() }
-            .padding(12.dp),
+            .padding(horizontal = 12.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            Icons.Default.Cloud,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary
-        )
+        Box(
+            modifier = Modifier
+                .size(40.dp)
+                .clip(RoundedCornerShape(11.dp))
+                .background(FlAccentTint),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                Icons.Default.Cloud,
+                contentDescription = null,
+                tint = FlAccent,
+                modifier = Modifier.size(20.dp)
+            )
+        }
         Spacer(Modifier.width(12.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 connection.name.ifBlank { connection.host },
                 style = MaterialTheme.typography.titleSmall,
+                color = FlInk,
                 fontWeight = FontWeight.SemiBold
             )
             Text(
                 "${connection.protocol.displayName}  ·  ${connection.host}:${connection.effectivePort}",
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = FlInk3
             )
         }
-        IconButton(onClick = onConnect) {
-            Icon(Icons.Default.PlayArrow, contentDescription = stringResource(R.string.cd_connect))
+        IconButton(onClick = onConnect, modifier = Modifier.size(36.dp)) {
+            Icon(Icons.Default.PlayArrow, contentDescription = stringResource(R.string.cd_connect), tint = FlAccent)
         }
-        IconButton(onClick = onEdit) {
-            Icon(Icons.Default.Edit, contentDescription = stringResource(R.string.cd_edit))
+        IconButton(onClick = onEdit, modifier = Modifier.size(36.dp)) {
+            Icon(Icons.Default.Edit, contentDescription = stringResource(R.string.cd_edit), tint = FlInk3)
         }
-        IconButton(onClick = onDelete) {
-            Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.cd_delete))
+        IconButton(onClick = onDelete, modifier = Modifier.size(36.dp)) {
+            Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.cd_delete), tint = FlInk3)
         }
     }
 }
@@ -354,7 +411,8 @@ private fun ServerEditorDialog(
                         ),
                         clearPinnedHostKey
                     )
-                }
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = FlAccent)
             ) { Text(stringResource(R.string.action_save)) }
         },
         dismissButton = {

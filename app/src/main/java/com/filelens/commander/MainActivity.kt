@@ -74,17 +74,27 @@ class MainActivity : FragmentActivity() {
         setContent {
             val settingsViewModel: SettingsViewModel = hiltViewModel()
             val settings by settingsViewModel.settings.collectAsStateWithLifecycle()
-            // Mirror the stored language override into AppCompat whenever it
-            // changes. AppCompat dedupes no-op writes, so this is cheap on
-            // every recomposition. Cleared / "system" → empty LocaleListCompat.
+            // Apply the stored language override. On API 33+ we route to the
+            // platform LocaleManager so the system handles the recreate. On
+            // older versions AppCompatDelegate handles it, but since this
+            // activity isn't an AppCompatActivity we trigger recreate() so
+            // the new locale takes effect immediately.
             androidx.compose.runtime.LaunchedEffect(settings.languageTag) {
-                val current = AppCompatDelegate.getApplicationLocales()
-                val desired = settings.languageTag
-                    ?.takeIf { it.isNotBlank() }
-                    ?.let { LocaleListCompat.forLanguageTags(it) }
-                    ?: LocaleListCompat.getEmptyLocaleList()
-                if (current.toLanguageTags() != desired.toLanguageTags()) {
-                    AppCompatDelegate.setApplicationLocales(desired)
+                val desiredTags = settings.languageTag?.takeIf { it.isNotBlank() }.orEmpty()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    val mgr = getSystemService(android.app.LocaleManager::class.java)
+                    val current = mgr.applicationLocales
+                    val desired = android.os.LocaleList.forLanguageTags(desiredTags)
+                    if (current.toLanguageTags() != desired.toLanguageTags()) {
+                        mgr.applicationLocales = desired
+                    }
+                } else {
+                    val current = AppCompatDelegate.getApplicationLocales()
+                    val desired = LocaleListCompat.forLanguageTags(desiredTags)
+                    if (current.toLanguageTags() != desired.toLanguageTags()) {
+                        AppCompatDelegate.setApplicationLocales(desired)
+                        recreate()
+                    }
                 }
             }
             FileLensTheme {

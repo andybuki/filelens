@@ -23,16 +23,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.Article
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Folder
-import androidx.compose.material.icons.filled.Keyboard
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.Upload
 import androidx.compose.material3.AlertDialog
@@ -120,7 +117,6 @@ fun SettingsScreen(
     onBack: () -> Unit,
     onOpenRemoteServers: () -> Unit = {},
     onOpenVault: () -> Unit = {},
-    onOpenShortcuts: () -> Unit = {},
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val settings by viewModel.settings.collectAsStateWithLifecycle()
@@ -183,7 +179,6 @@ fun SettingsScreen(
         }
     }
 
-    val licensesIntro = stringResource(R.string.settings_licenses_intro)
     var languageDialog by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -343,17 +338,6 @@ fun SettingsScreen(
                 )
             }
 
-            // ────────── Keyboard ──────────
-            SectionHeader(stringResource(R.string.settings_section_keyboard))
-            SettingsCard {
-                DisclosureRow(
-                    icon = Icons.Filled.Keyboard,
-                    label = stringResource(R.string.settings_keyboard_shortcuts),
-                    description = stringResource(R.string.settings_keyboard_shortcuts_desc),
-                    onClick = onOpenShortcuts
-                )
-            }
-
             // ────────── Backup & restore ──────────
             SectionHeader(stringResource(R.string.settings_section_backup))
             SettingsCard {
@@ -409,15 +393,6 @@ fun SettingsScreen(
                 VisionBlock(
                     label = stringResource(R.string.settings_about_vision_label),
                     text = stringResource(R.string.settings_about_vision_text)
-                )
-                Divider()
-                DisclosureRow(
-                    icon = Icons.AutoMirrored.Filled.Article,
-                    label = stringResource(R.string.settings_section_licenses),
-                    description = stringResource(R.string.settings_licenses_desc),
-                    onClick = {
-                        scope.launch { snackbar.showSnackbar(licensesIntro) }
-                    }
                 )
             }
 
@@ -785,20 +760,13 @@ private fun BrandFooter() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Box(
+        androidx.compose.foundation.Image(
+            painter = androidx.compose.ui.res.painterResource(R.drawable.ic_brand_mark),
+            contentDescription = null,
             modifier = Modifier
-                .size(44.dp)
-                .clip(RoundedCornerShape(13.dp))
-                .background(FlNavy),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                Icons.Filled.Search,
-                contentDescription = null,
-                tint = HeaderInk,
-                modifier = Modifier.size(24.dp)
-            )
-        }
+                .size(56.dp)
+                .clip(RoundedCornerShape(14.dp))
+        )
         Row {
             Text(
                 stringResource(R.string.brand_name),

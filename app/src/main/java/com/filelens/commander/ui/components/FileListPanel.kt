@@ -48,7 +48,6 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -254,30 +253,12 @@ fun FileListPanel(
                                     onLongClick = { onFileLongClick(file) }
                                 )
                             }
-                            item("fab-spacer") {
-                                Spacer(modifier = Modifier.height(96.dp))
-                            }
                         }
                     }
                 }
             }
         }
 
-        // Circular blue FAB — primary import/scan action.
-        if (files.isNotEmpty()) {
-            FloatingActionButton(
-                onClick = onBatchScan,
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = FlOnAccent,
-                shape = RoundedCornerShape(percent = 50),
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(end = 18.dp, bottom = 22.dp)
-                    .size(56.dp)
-            ) {
-                Icon(Icons.Filled.Upload, contentDescription = stringResource(R.string.menu_scan_folder))
-            }
-        }
     }
 }
 

@@ -10,7 +10,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.filelens.commander.domain.model.HomeCategory
 import com.filelens.commander.ui.screens.CompareScreen
-import com.filelens.commander.ui.screens.DuplicateFinderScreen
 import com.filelens.commander.ui.screens.HomeScreen
 import com.filelens.commander.ui.screens.MainScreen
 import com.filelens.commander.ui.screens.OnboardingScreen
@@ -18,7 +17,6 @@ import com.filelens.commander.ui.screens.AppManagerScreen
 import com.filelens.commander.ui.screens.GlobalSearchScreen
 import com.filelens.commander.ui.screens.RemoteServersScreen
 import com.filelens.commander.ui.screens.SettingsScreen
-import com.filelens.commander.ui.screens.ShortcutsScreen
 import com.filelens.commander.ui.screens.SqliteBrowserScreen
 import com.filelens.commander.ui.screens.TrashScreen
 import com.filelens.commander.ui.screens.VaultScreen
@@ -31,9 +29,7 @@ object Routes {
     const val MAIN = "main?path={path}&category={category}&inspect={inspect}&remoteId={remoteId}"
     const val SETTINGS = "settings"
     const val COMPARE = "compare/{left}/{right}"
-    const val DUPLICATES = "duplicates/{root}"
     const val SQLITE = "sqlite/{db}"
-    const val SHORTCUTS = "shortcuts"
     const val REMOTE_SERVERS = "remote_servers"
     const val VAULT = "vault"
     const val GLOBAL_SEARCH = "global_search"
@@ -55,8 +51,6 @@ object Routes {
 
     fun compare(leftPath: String, rightPath: String): String =
         "compare/${Uri.encode(leftPath)}/${Uri.encode(rightPath)}"
-
-    fun duplicates(rootPath: String): String = "duplicates/${Uri.encode(rootPath)}"
 
     fun sqlite(dbPath: String): String = "sqlite/${Uri.encode(dbPath)}"
 }
@@ -143,9 +137,6 @@ fun FileLensNavGraph(
                 onCompare = { left, right ->
                     navController.navigate(Routes.compare(left, right))
                 },
-                onFindDuplicates = { root ->
-                    navController.navigate(Routes.duplicates(root))
-                },
                 onBrowseSqlite = { db ->
                     navController.navigate(Routes.sqlite(db))
                 },
@@ -161,12 +152,8 @@ fun FileLensNavGraph(
             SettingsScreen(
                 onBack = { navController.popBackStack() },
                 onOpenRemoteServers = { navController.navigate(Routes.REMOTE_SERVERS) },
-                onOpenVault = { navController.navigate(Routes.VAULT) },
-                onOpenShortcuts = { navController.navigate(Routes.SHORTCUTS) }
+                onOpenVault = { navController.navigate(Routes.VAULT) }
             )
-        }
-        composable(Routes.SHORTCUTS) {
-            ShortcutsScreen(onBack = { navController.popBackStack() })
         }
         composable(Routes.REMOTE_SERVERS) {
             RemoteServersScreen(
@@ -221,16 +208,6 @@ fun FileLensNavGraph(
             CompareScreen(
                 leftPath = left,
                 rightPath = right,
-                onBack = { navController.popBackStack() }
-            )
-        }
-        composable(
-            route = Routes.DUPLICATES,
-            arguments = listOf(navArgument("root") { type = NavType.StringType })
-        ) { backStackEntry ->
-            val root = backStackEntry.arguments?.getString("root").orEmpty()
-            DuplicateFinderScreen(
-                rootPath = root,
                 onBack = { navController.popBackStack() }
             )
         }
