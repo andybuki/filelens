@@ -568,4 +568,33 @@
         <item quantity="one">%1$d elemento en la papelera</item>
         <item quantity="other">%1$d elementos en la papelera</item>
     </plurals>
+
+    <!-- Day 11: settings overhaul. -->
+    <string name="settings_section_general">General</string>
+    <string name="settings_section_files">Archivos</string>
+    <string name="settings_section_inspector">Inspector y vista previa</string>
+    <string name="settings_section_safety">Seguridad y privacidad</string>
+    <string name="settings_section_keyboard">Teclado</string>
+    <string name="settings_language">Idioma</string>
+    <string name="settings_language_system">Seguir sistema</string>
+    <string name="settings_language_dialog_title">Idioma de la app</string>
+    <string name="settings_start_screen">Pestaña inicial</string>
+    <string name="settings_start_screen_home">Inicio</string>
+    <string name="settings_start_screen_files">Archivos</string>
+    <string name="settings_ask_before_delete">Confirmar antes de eliminar</string>
+    <string name="settings_ask_before_delete_desc">Mostrar una hoja de confirmación antes de mover archivos a la papelera. Los archivos siempre van primero a la papelera — aún puedes restaurarlos.</string>
+    <string name="settings_search_roots">Carpetas incluidas en la búsqueda</string>
+    <string name="settings_search_roots_desc">Carpetas que rastreará la búsqueda global. Déjalo vacío para buscar en todo el almacenamiento.</string>
+    <string name="settings_search_roots_default">Todo el almacenamiento</string>
+    <string name="settings_search_roots_add">Añadir carpeta</string>
+    <string name="settings_search_roots_remove">Quitar</string>
+    <string name="settings_telemetry">Reportes de uso anónimos</string>
+    <string name="settings_telemetry_desc">FileLens se distribuye sin telemetría. Este interruptor está reservado para una futura opción opcional — desactivado por defecto y nunca se activa en silencio.</string>
+    <string name="settings_warn_root_storage">Avisar en carpetas del sistema</string>
+    <string name="settings_warn_root_storage_desc">Mostrar una confirmación al abrir /system, /data, /proc, /vendor y otras raíces restringidas.</string>
+    <string name="settings_about_privacy_label">Promesa de privacidad</string>
+    <string name="settings_about_privacy_no_ads">Sin anuncios</string>
+    <string name="settings_about_privacy_no_accounts">Sin cuentas</string>
+    <string name="settings_about_privacy_no_tracking">Sin rastreo</string>
+    <string name="settings_about_privacy_text">FileLens permanece en tu dispositivo. Sin anuncios, sin cuentas, sin análisis, sin SDK de terceros. Las únicas solicitudes de red son a los servidores remotos que tú añadas.</string>
 </resources>

@@ -618,4 +618,33 @@
         <item quantity="other">ごみ箱に %1$d 個のアイテム</item>
     </plurals>
 
+
+    <!-- Day 11: settings overhaul. -->
+    <string name="settings_section_general">一般</string>
+    <string name="settings_section_files">ファイル</string>
+    <string name="settings_section_inspector">インスペクターとプレビュー</string>
+    <string name="settings_section_safety">安全とプライバシー</string>
+    <string name="settings_section_keyboard">キーボード</string>
+    <string name="settings_language">言語</string>
+    <string name="settings_language_system">システムに従う</string>
+    <string name="settings_language_dialog_title">アプリの言語</string>
+    <string name="settings_start_screen">既定のホームタブ</string>
+    <string name="settings_start_screen_home">ホーム</string>
+    <string name="settings_start_screen_files">ファイル</string>
+    <string name="settings_ask_before_delete">削除前に確認</string>
+    <string name="settings_ask_before_delete_desc">ファイルをごみ箱に移動する前に確認シートを表示します。ファイルは常に最初にごみ箱に入るので、後から復元できます。</string>
+    <string name="settings_search_roots">検索対象フォルダ</string>
+    <string name="settings_search_roots_desc">グローバル検索がスキャンするフォルダ。空のままにすると、全ストレージをスキャンします。</string>
+    <string name="settings_search_roots_default">ストレージ全体</string>
+    <string name="settings_search_roots_add">フォルダを追加</string>
+    <string name="settings_search_roots_remove">削除</string>
+    <string name="settings_telemetry">匿名の使用状況レポート</string>
+    <string name="settings_telemetry_desc">FileLens はテレメトリーを送信しません。このスイッチは将来のオプトイン機能のためのみに用意されており、既定でオフ、勝手にオンになることはありません。</string>
+    <string name="settings_warn_root_storage">システムフォルダで警告</string>
+    <string name="settings_warn_root_storage_desc">/system、/data、/proc、/vendor などの制限されたルートを表示する前に確認を表示します。</string>
+    <string name="settings_about_privacy_label">プライバシーの約束</string>
+    <string name="settings_about_privacy_no_ads">広告なし</string>
+    <string name="settings_about_privacy_no_accounts">アカウントなし</string>
+    <string name="settings_about_privacy_no_tracking">追跡なし</string>
+    <string name="settings_about_privacy_text">FileLens は端末内にとどまります。広告、アカウント、解析、サードパーティ SDK は一切ありません。ネットワーク通信は、ご自身で追加したリモートサーバーへのみ行われます。</string>
 </resources>

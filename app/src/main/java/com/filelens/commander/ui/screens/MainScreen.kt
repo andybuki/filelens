@@ -104,6 +104,8 @@ fun MainScreen(
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
     val mainScope = rememberCoroutineScope()
+    val mainSettingsViewModel: com.filelens.commander.viewmodel.SettingsViewModel = hiltViewModel()
+    val mainSettings by mainSettingsViewModel.settings.collectAsStateWithLifecycle()
     var showBookmarksSheet by remember { mutableStateOf(false) }
     var showRecentsSheet by remember { mutableStateOf(false) }
 
@@ -318,6 +320,16 @@ fun MainScreen(
     }
 
     val refreshCurrentDir = { fileListViewModel.refresh() }
+    // Honour the "ask before delete" preference: skip the confirm sheet when
+    // the user has turned it off. Files still go to .trash/ either way, so
+    // even the silent path is fully recoverable from the Trash screen.
+    val requestDelete: () -> Unit = {
+        if (mainSettings.askBeforeDelete) {
+            commanderViewModel.showDialog(DialogType.DELETE)
+        } else {
+            commanderViewModel.deleteSelected(refreshCurrentDir)
+        }
+    }
     val onBatchScan = { batchScanViewModel.startScan(fileListState.currentPath) }
     val onFolderDashboard = { folderDashboardViewModel.analyze(fileListState.currentPath) }
     val onFindDuplicatesLocal = { onFindDuplicates(fileListState.currentPath) }
@@ -424,7 +436,7 @@ fun MainScreen(
                     // but if the user remapped Delete somewhere else we still
                     // want the hardware key to remove the selection.
                     if (event.key == Key.Delete && commanderState.selectedPaths.isNotEmpty()) {
-                        commanderViewModel.showDialog(DialogType.DELETE)
+                        requestDelete()
                         return@onPreviewKeyEvent true
                     }
                     return@onPreviewKeyEvent false
@@ -443,7 +455,7 @@ fun MainScreen(
                         commanderViewModel.showDialog(DialogType.NEW_FOLDER)
                     com.filelens.commander.domain.model.ShortcutAction.DELETE -> {
                         if (commanderState.selectedPaths.isNotEmpty()) {
-                            commanderViewModel.showDialog(DialogType.DELETE)
+                            requestDelete()
                         }
                     }
                     com.filelens.commander.domain.model.ShortcutAction.RENAME ->
@@ -492,7 +504,8 @@ fun MainScreen(
                 onRefresh = refreshCurrentDir,
                 onSearchInside = { showSearchInsideDialog = true },
                 onExportReport = { isJson -> exportAndShareReport(isJson, inspectorViewModel, context) },
-                onCompare = onCompare
+                onCompare = onCompare,
+                onRequestDelete = requestDelete
             )
         } else {
             CompactLayout(
@@ -524,7 +537,8 @@ fun MainScreen(
                 onSearchInside = { showSearchInsideDialog = true },
                 onExportReport = { isJson -> exportAndShareReport(isJson, inspectorViewModel, context) },
                 onCompare = onCompare,
-                onRefresh = refreshCurrentDir
+                onRefresh = refreshCurrentDir,
+                onRequestDelete = requestDelete
             )
         }
 
@@ -560,7 +574,8 @@ private fun CompactLayout(
     onSearchInside: () -> Unit,
     onExportReport: (Boolean) -> Unit,
     onCompare: (String, String) -> Unit,
-    onRefresh: () -> Unit
+    onRefresh: () -> Unit,
+    onRequestDelete: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
     val bottomSheetState = rememberStandardBottomSheetState(
@@ -712,7 +727,7 @@ private fun CompactLayout(
             onCopy = { commanderViewModel.showDialog(DialogType.COPY) },
             onMove = { commanderViewModel.showDialog(DialogType.MOVE) },
             onNewFolder = { commanderViewModel.showDialog(DialogType.NEW_FOLDER) },
-            onDelete = { commanderViewModel.showDialog(DialogType.DELETE) },
+            onDelete = onRequestDelete,
             onRename = { commanderViewModel.showDialog(DialogType.RENAME) },
             onCompare = triggerCompare
         )
@@ -774,7 +789,8 @@ private fun ExpandedLayout(
     onRefresh: () -> Unit,
     onSearchInside: () -> Unit,
     onExportReport: (Boolean) -> Unit,
-    onCompare: (String, String) -> Unit
+    onCompare: (String, String) -> Unit,
+    onRequestDelete: () -> Unit
 ) {
     val settingsViewModel: com.filelens.commander.viewmodel.SettingsViewModel = hiltViewModel()
     val settings by settingsViewModel.settings.collectAsStateWithLifecycle()
@@ -981,7 +997,7 @@ private fun ExpandedLayout(
             onCopy = { commanderViewModel.showDialog(DialogType.COPY) },
             onMove = { commanderViewModel.showDialog(DialogType.MOVE) },
             onNewFolder = { commanderViewModel.showDialog(DialogType.NEW_FOLDER) },
-            onDelete = { commanderViewModel.showDialog(DialogType.DELETE) },
+            onDelete = onRequestDelete,
             onRename = { commanderViewModel.showDialog(DialogType.RENAME) },
             onCompare = triggerCompare
         )

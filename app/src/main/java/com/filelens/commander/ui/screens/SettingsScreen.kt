@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -24,11 +26,16 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Article
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.Folder
+import androidx.compose.material.icons.filled.Keyboard
+import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.Upload
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -43,10 +50,12 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -68,6 +77,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.filelens.commander.domain.model.AppSettings
 import com.filelens.commander.domain.model.PanelMode
 import com.filelens.commander.domain.model.SizeUnits
+import com.filelens.commander.domain.model.StartScreen
 import kotlin.math.roundToInt
 import com.filelens.commander.ui.theme.Eyebrow
 import com.filelens.commander.ui.theme.FlAccent
@@ -79,12 +89,38 @@ import com.filelens.commander.viewmodel.SettingsViewModel
 
 private val HeaderInk = FlOnAccent
 
+/**
+ * Languages we ship translations for. Display names stay in the target
+ * language so a user can find their own language even when the current
+ * UI is in something else.
+ */
+private data class LanguageOption(val tag: String, val nativeName: String)
+
+private val SUPPORTED_LANGUAGES = listOf(
+    LanguageOption("en", "English"),
+    LanguageOption("es", "Español"),
+    LanguageOption("pt-BR", "Português (Brasil)"),
+    LanguageOption("fr", "Français"),
+    LanguageOption("de", "Deutsch"),
+    LanguageOption("it", "Italiano"),
+    LanguageOption("ru", "Русский"),
+    LanguageOption("uk", "Українська"),
+    LanguageOption("tr", "Türkçe"),
+    LanguageOption("pl", "Polski"),
+    LanguageOption("ja", "日本語"),
+    LanguageOption("ko", "한국어"),
+    LanguageOption("zh-CN", "中文 (简体)"),
+    LanguageOption("hi", "हिन्दी"),
+    LanguageOption("ar", "العربية")
+)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     onBack: () -> Unit,
     onOpenRemoteServers: () -> Unit = {},
     onOpenVault: () -> Unit = {},
+    onOpenShortcuts: () -> Unit = {},
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val settings by viewModel.settings.collectAsStateWithLifecycle()
@@ -128,7 +164,27 @@ fun SettingsScreen(
         }
     }
 
+    val pickSearchRoot = rememberLauncherForActivityResult(
+        ActivityResultContracts.OpenDocumentTree()
+    ) { uri: Uri? ->
+        if (uri != null) {
+            // Resolve the SAF tree URI back to an absolute path under the
+            // primary emulated storage. Off-volume trees (SD cards, etc.)
+            // don't have a usable filesystem path; we fall back to the URI
+            // string so the row remains identifiable, even if global search
+            // can't walk it directly.
+            val docId = uri.lastPathSegment.orEmpty()
+            val rel = docId.substringAfter(':', "")
+            val path = when {
+                docId.startsWith("primary:") -> "/storage/emulated/0" + if (rel.isBlank()) "" else "/$rel"
+                else -> uri.toString()
+            }
+            viewModel.addSearchRoot(path)
+        }
+    }
+
     val licensesIntro = stringResource(R.string.settings_licenses_intro)
+    var languageDialog by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxSize()) {
         NavyHeader(
@@ -142,7 +198,45 @@ fun SettingsScreen(
                 .padding(horizontal = 16.dp)
                 .padding(top = 8.dp, bottom = 36.dp)
         ) {
-            SectionHeader(stringResource(R.string.settings_section_browsing))
+            // ────────── General ──────────
+            SectionHeader(stringResource(R.string.settings_section_general))
+            SettingsCard {
+                DisclosureRow(
+                    icon = Icons.Filled.Language,
+                    label = stringResource(R.string.settings_language),
+                    description = languageDescription(settings.languageTag, context),
+                    onClick = { languageDialog = true }
+                )
+                Divider()
+                ChoiceRow(
+                    label = stringResource(R.string.settings_start_screen),
+                    value = startScreenLabel(settings.startScreen),
+                    inlinePicker = {
+                        StartScreenPicker(
+                            current = settings.startScreen,
+                            onSelect = viewModel::setStartScreen
+                        )
+                    }
+                )
+                Divider()
+                ChoiceRow(
+                    label = stringResource(R.string.settings_size_units),
+                    value = settings.sizeUnits.displayName,
+                    inlinePicker = {
+                        UnitsPicker(current = settings.sizeUnits, onSelect = viewModel::setSizeUnits)
+                    }
+                )
+                Divider()
+                DisclosureRow(
+                    icon = Icons.Filled.Storage,
+                    label = stringResource(R.string.settings_remote_servers),
+                    description = stringResource(R.string.settings_remote_servers_desc),
+                    onClick = onOpenRemoteServers
+                )
+            }
+
+            // ────────── Files ──────────
+            SectionHeader(stringResource(R.string.settings_section_files))
             SettingsCard {
                 SwitchRow(
                     label = stringResource(R.string.settings_show_hidden_files),
@@ -158,14 +252,17 @@ fun SettingsScreen(
                     onCheckedChange = viewModel::setHideEmptyFolders
                 )
                 Divider()
-                ChoiceRow(
-                    label = stringResource(R.string.settings_size_units),
-                    value = settings.sizeUnits.displayName,
-                    inlinePicker = {
-                        UnitsPicker(current = settings.sizeUnits, onSelect = viewModel::setSizeUnits)
-                    }
+                SwitchRow(
+                    label = stringResource(R.string.settings_ask_before_delete),
+                    description = stringResource(R.string.settings_ask_before_delete_desc),
+                    checked = settings.askBeforeDelete,
+                    onCheckedChange = viewModel::setAskBeforeDelete
                 )
-                Divider()
+            }
+
+            // ────────── Inspector & preview ──────────
+            SectionHeader(stringResource(R.string.settings_section_inspector))
+            SettingsCard {
                 ChoiceRow(
                     label = stringResource(R.string.settings_default_panel),
                     value = settings.defaultPanelMode.displayName,
@@ -176,10 +273,7 @@ fun SettingsScreen(
                         )
                     }
                 )
-            }
-
-            SectionHeader(stringResource(R.string.settings_section_preview))
-            SettingsCard {
+                Divider()
                 Text(
                     stringResource(R.string.settings_preview_intro),
                     style = MaterialTheme.typography.bodySmall,
@@ -208,17 +302,8 @@ fun SettingsScreen(
                 )
             }
 
-            SectionHeader(stringResource(R.string.settings_section_remote))
-            SettingsCard {
-                DisclosureRow(
-                    icon = Icons.Filled.Storage,
-                    label = stringResource(R.string.settings_remote_servers),
-                    description = stringResource(R.string.settings_remote_servers_desc),
-                    onClick = onOpenRemoteServers
-                )
-            }
-
-            SectionHeader(stringResource(R.string.settings_section_privacy))
+            // ────────── Safety & privacy ──────────
+            SectionHeader(stringResource(R.string.settings_section_safety))
             SettingsCard {
                 DisclosureRow(
                     icon = Icons.Filled.Lock,
@@ -226,8 +311,50 @@ fun SettingsScreen(
                     description = stringResource(R.string.settings_vault_desc),
                     onClick = onOpenVault
                 )
+                Divider()
+                SearchRootsRow(
+                    roots = settings.searchRoots,
+                    onAdd = {
+                        try {
+                            pickSearchRoot.launch(null)
+                        } catch (_: Exception) {
+                            scope.launch {
+                                snackbar.showSnackbar(
+                                    context.getString(R.string.settings_export_failed, "no folder picker")
+                                )
+                            }
+                        }
+                    },
+                    onRemove = viewModel::removeSearchRoot
+                )
+                Divider()
+                SwitchRow(
+                    label = stringResource(R.string.settings_warn_root_storage),
+                    description = stringResource(R.string.settings_warn_root_storage_desc),
+                    checked = settings.warnRootStorage,
+                    onCheckedChange = viewModel::setWarnRootStorage
+                )
+                Divider()
+                SwitchRow(
+                    label = stringResource(R.string.settings_telemetry),
+                    description = stringResource(R.string.settings_telemetry_desc),
+                    checked = settings.telemetryEnabled,
+                    onCheckedChange = viewModel::setTelemetryEnabled
+                )
             }
 
+            // ────────── Keyboard ──────────
+            SectionHeader(stringResource(R.string.settings_section_keyboard))
+            SettingsCard {
+                DisclosureRow(
+                    icon = Icons.Filled.Keyboard,
+                    label = stringResource(R.string.settings_keyboard_shortcuts),
+                    description = stringResource(R.string.settings_keyboard_shortcuts_desc),
+                    onClick = onOpenShortcuts
+                )
+            }
+
+            // ────────── Backup & restore ──────────
             SectionHeader(stringResource(R.string.settings_section_backup))
             SettingsCard {
                 Column(modifier = Modifier.padding(16.dp)) {
@@ -269,12 +396,15 @@ fun SettingsScreen(
                 }
             }
 
+            // ────────── About ──────────
             SectionHeader(stringResource(R.string.settings_section_about))
             SettingsCard {
                 StaticRow(
                     label = stringResource(R.string.settings_about_app_name),
                     value = stringResource(R.string.settings_about_version)
                 )
+                Divider()
+                PrivacyPromiseBlock()
                 Divider()
                 VisionBlock(
                     label = stringResource(R.string.settings_about_vision_label),
@@ -294,6 +424,17 @@ fun SettingsScreen(
             BrandFooter()
         }
         SnackbarHost(hostState = snackbar, modifier = Modifier.fillMaxWidth())
+    }
+
+    if (languageDialog) {
+        LanguageDialog(
+            current = settings.languageTag,
+            onSelect = { tag ->
+                viewModel.setLanguageTag(tag)
+                languageDialog = false
+            },
+            onDismiss = { languageDialog = false }
+        )
     }
 }
 
@@ -381,7 +522,7 @@ private fun SwitchRow(
                     description,
                     style = MaterialTheme.typography.bodySmall,
                     color = FlInk3,
-                    maxLines = 2,
+                    maxLines = 3,
                     overflow = TextOverflow.Ellipsis
                 )
             }
@@ -582,6 +723,60 @@ private fun VisionBlock(label: String, text: String) {
 }
 
 @Composable
+private fun PrivacyPromiseBlock() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(14.dp)
+    ) {
+        Text(
+            text = stringResource(R.string.settings_about_privacy_label).uppercase(),
+            style = Eyebrow,
+            color = FlAccent
+        )
+        Spacer(modifier = Modifier.height(9.dp))
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(6.dp)
+        ) {
+            PrivacyChip(stringResource(R.string.settings_about_privacy_no_ads))
+            PrivacyChip(stringResource(R.string.settings_about_privacy_no_accounts))
+            PrivacyChip(stringResource(R.string.settings_about_privacy_no_tracking))
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(
+            text = stringResource(R.string.settings_about_privacy_text),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+    }
+}
+
+@Composable
+private fun PrivacyChip(label: String) {
+    Row(
+        modifier = Modifier
+            .clip(RoundedCornerShape(999.dp))
+            .background(FlBlue50)
+            .padding(horizontal = 10.dp, vertical = 5.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            Icons.Filled.Check,
+            contentDescription = null,
+            tint = FlAccent,
+            modifier = Modifier.size(12.dp)
+        )
+        Spacer(modifier = Modifier.width(5.dp))
+        Text(
+            label,
+            style = MaterialTheme.typography.labelSmall,
+            color = FlAccent,
+            fontWeight = FontWeight.SemiBold
+        )
+    }
+}
+
+@Composable
 private fun BrandFooter() {
     Column(
         modifier = Modifier
@@ -641,6 +836,172 @@ private fun PanelModePicker(current: PanelMode, onSelect: (PanelMode) -> Unit) {
         current = current,
         onSelect = onSelect
     )
+}
+
+@Composable
+private fun StartScreenPicker(current: StartScreen, onSelect: (StartScreen) -> Unit) {
+    val homeLabel = stringResource(R.string.settings_start_screen_home)
+    val filesLabel = stringResource(R.string.settings_start_screen_files)
+    SegmentRow(
+        options = listOf(
+            StartScreen.HOME to homeLabel,
+            StartScreen.FILES to filesLabel
+        ),
+        current = current,
+        onSelect = onSelect
+    )
+}
+
+@Composable
+private fun startScreenLabel(screen: StartScreen): String = when (screen) {
+    StartScreen.HOME -> stringResource(R.string.settings_start_screen_home)
+    StartScreen.FILES -> stringResource(R.string.settings_start_screen_files)
+}
+
+private fun languageDescription(tag: String?, context: android.content.Context): String {
+    val explicit = SUPPORTED_LANGUAGES.firstOrNull { it.tag.equals(tag, ignoreCase = true) }
+    return explicit?.nativeName
+        ?: context.getString(R.string.settings_language_system)
+}
+
+@Composable
+private fun LanguageDialog(
+    current: String?,
+    onSelect: (String?) -> Unit,
+    onDismiss: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.action_cancel))
+            }
+        },
+        title = { Text(stringResource(R.string.settings_language_dialog_title)) },
+        text = {
+            LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                item {
+                    LanguageRow(
+                        label = stringResource(R.string.settings_language_system),
+                        selected = current.isNullOrBlank(),
+                        onClick = { onSelect(null) }
+                    )
+                }
+                items(SUPPORTED_LANGUAGES) { option ->
+                    LanguageRow(
+                        label = option.nativeName,
+                        selected = current.equals(option.tag, ignoreCase = true),
+                        onClick = { onSelect(option.tag) }
+                    )
+                }
+            }
+        }
+    )
+}
+
+@Composable
+private fun LanguageRow(label: String, selected: Boolean, onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = if (selected) Icons.Filled.Check else Icons.Filled.Language,
+            contentDescription = null,
+            tint = if (selected) FlAccent else FlInk3,
+            modifier = Modifier.size(18.dp)
+        )
+        Spacer(modifier = Modifier.width(12.dp))
+        Text(
+            label,
+            style = MaterialTheme.typography.bodyMedium,
+            color = if (selected) FlAccent else MaterialTheme.colorScheme.onSurface,
+            fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal
+        )
+    }
+}
+
+@Composable
+private fun SearchRootsRow(
+    roots: Set<String>,
+    onAdd: () -> Unit,
+    onRemove: (String) -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 14.dp, vertical = 14.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    stringResource(R.string.settings_search_roots),
+                    style = MaterialTheme.typography.titleSmall
+                )
+                Spacer(modifier = Modifier.height(3.dp))
+                Text(
+                    stringResource(R.string.settings_search_roots_desc),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = FlInk3
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        if (roots.isEmpty()) {
+            Text(
+                stringResource(R.string.settings_search_roots_default),
+                style = MaterialTheme.typography.bodySmall,
+                color = FlAccent,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+        } else {
+            for (root in roots.sorted()) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(vertical = 4.dp)
+                ) {
+                    Icon(
+                        Icons.Filled.Folder,
+                        contentDescription = null,
+                        tint = FlAccent,
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        root,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.weight(1f),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    IconButton(
+                        onClick = { onRemove(root) },
+                        modifier = Modifier.size(28.dp)
+                    ) {
+                        Icon(
+                            Icons.Filled.Close,
+                            contentDescription = stringResource(R.string.settings_search_roots_remove),
+                            tint = FlInk3,
+                            modifier = Modifier.size(16.dp)
+                        )
+                    }
+                }
+            }
+        }
+        OutlinedButton(
+            onClick = onAdd,
+            modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+        ) {
+            Icon(Icons.Filled.Folder, contentDescription = null, modifier = Modifier.size(16.dp))
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(stringResource(R.string.settings_search_roots_add))
+        }
+    }
 }
 
 @Composable

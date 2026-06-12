@@ -65,12 +65,18 @@ object Routes {
 fun FileLensNavGraph(
     navController: NavHostController,
     showOnboarding: Boolean = false,
+    startFromFiles: Boolean = false,
     onOnboardingComplete: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
+    val landing = when {
+        showOnboarding -> Routes.ONBOARDING
+        startFromFiles -> Routes.main()
+        else -> Routes.HOME
+    }
     NavHost(
         navController = navController,
-        startDestination = if (showOnboarding) Routes.ONBOARDING else Routes.HOME,
+        startDestination = landing,
         modifier = modifier
     ) {
         composable(Routes.ONBOARDING) {
@@ -155,7 +161,8 @@ fun FileLensNavGraph(
             SettingsScreen(
                 onBack = { navController.popBackStack() },
                 onOpenRemoteServers = { navController.navigate(Routes.REMOTE_SERVERS) },
-                onOpenVault = { navController.navigate(Routes.VAULT) }
+                onOpenVault = { navController.navigate(Routes.VAULT) },
+                onOpenShortcuts = { navController.navigate(Routes.SHORTCUTS) }
             )
         }
         composable(Routes.SHORTCUTS) {

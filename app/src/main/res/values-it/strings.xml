@@ -642,4 +642,33 @@
         <item quantity="other">%1$d elementi nel cestino</item>
     </plurals>
 
+
+    <!-- Day 11: settings overhaul. -->
+    <string name="settings_section_general">Generale</string>
+    <string name="settings_section_files">File</string>
+    <string name="settings_section_inspector">Ispettore e anteprima</string>
+    <string name="settings_section_safety">Sicurezza e privacy</string>
+    <string name="settings_section_keyboard">Tastiera</string>
+    <string name="settings_language">Lingua</string>
+    <string name="settings_language_system">Segui sistema</string>
+    <string name="settings_language_dialog_title">Lingua dell\'app</string>
+    <string name="settings_start_screen">Scheda iniziale</string>
+    <string name="settings_start_screen_home">Home</string>
+    <string name="settings_start_screen_files">File</string>
+    <string name="settings_ask_before_delete">Conferma prima di eliminare</string>
+    <string name="settings_ask_before_delete_desc">Mostra un foglio di conferma prima di spostare i file nel cestino. I file passano sempre prima nel cestino — puoi ancora ripristinarli.</string>
+    <string name="settings_search_roots">Cartelle incluse nella ricerca</string>
+    <string name="settings_search_roots_desc">Cartelle che la ricerca globale analizzerà. Lascia vuoto per analizzare tutto lo spazio di archiviazione.</string>
+    <string name="settings_search_roots_default">Tutto lo spazio</string>
+    <string name="settings_search_roots_add">Aggiungi cartella</string>
+    <string name="settings_search_roots_remove">Rimuovi</string>
+    <string name="settings_telemetry">Report di utilizzo anonimi</string>
+    <string name="settings_telemetry_desc">FileLens non contiene telemetria. Questo interruttore è riservato a un futuro opt-in — disattivato per impostazione predefinita e mai attivato in silenzio.</string>
+    <string name="settings_warn_root_storage">Avvisa nelle cartelle di sistema</string>
+    <string name="settings_warn_root_storage_desc">Mostra una conferma durante la navigazione in /system, /data, /proc, /vendor e altre radici protette.</string>
+    <string name="settings_about_privacy_label">Promessa sulla privacy</string>
+    <string name="settings_about_privacy_no_ads">Niente annunci</string>
+    <string name="settings_about_privacy_no_accounts">Niente account</string>
+    <string name="settings_about_privacy_no_tracking">Niente tracciamento</string>
+    <string name="settings_about_privacy_text">FileLens resta sul tuo dispositivo. Niente annunci, niente account, niente analisi, niente SDK di terze parti. Le uniche richieste di rete sono verso i server remoti che aggiungi tu stesso.</string>
 </resources>

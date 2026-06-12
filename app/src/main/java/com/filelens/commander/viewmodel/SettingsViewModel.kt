@@ -8,6 +8,7 @@ import com.filelens.commander.domain.model.PanelMode
 import com.filelens.commander.domain.model.SizeUnits
 import com.filelens.commander.domain.model.SortDirection
 import com.filelens.commander.domain.model.SortField
+import com.filelens.commander.domain.model.StartScreen
 import com.filelens.commander.domain.usecase.BackupUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -50,6 +51,13 @@ class SettingsViewModel @Inject constructor(
     }
     fun setRemotePreviewLimitMb(mb: Int) = viewModelScope.launch { repo.setRemotePreviewLimitMb(mb) }
     fun setRemoteArchivePreviewLimitMb(mb: Int) = viewModelScope.launch { repo.setRemoteArchivePreviewLimitMb(mb) }
+    fun setLanguageTag(tag: String?) = viewModelScope.launch { repo.setLanguageTag(tag) }
+    fun setStartScreen(screen: StartScreen) = viewModelScope.launch { repo.setStartScreen(screen) }
+    fun setAskBeforeDelete(value: Boolean) = viewModelScope.launch { repo.setAskBeforeDelete(value) }
+    fun setTelemetryEnabled(value: Boolean) = viewModelScope.launch { repo.setTelemetryEnabled(value) }
+    fun setWarnRootStorage(value: Boolean) = viewModelScope.launch { repo.setWarnRootStorage(value) }
+    fun addSearchRoot(path: String) = viewModelScope.launch { repo.addSearchRoot(path) }
+    fun removeSearchRoot(path: String) = viewModelScope.launch { repo.removeSearchRoot(path) }
 
     val hasSeenOnboarding: StateFlow<Boolean> = repo.hasSeenOnboarding.stateIn(
         scope = viewModelScope,

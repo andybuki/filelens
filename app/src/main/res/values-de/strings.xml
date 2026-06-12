@@ -629,4 +629,33 @@
         <item quantity="one">%1$d Element im Papierkorb</item>
         <item quantity="other">%1$d Elemente im Papierkorb</item>
     </plurals>
+
+    <!-- Day 11: settings overhaul. -->
+    <string name="settings_section_general">Allgemein</string>
+    <string name="settings_section_files">Dateien</string>
+    <string name="settings_section_inspector">Inspektor &amp; Vorschau</string>
+    <string name="settings_section_safety">Sicherheit &amp; Datenschutz</string>
+    <string name="settings_section_keyboard">Tastatur</string>
+    <string name="settings_language">Sprache</string>
+    <string name="settings_language_system">Systemeinstellung</string>
+    <string name="settings_language_dialog_title">App-Sprache</string>
+    <string name="settings_start_screen">Standard-Starttab</string>
+    <string name="settings_start_screen_home">Start</string>
+    <string name="settings_start_screen_files">Dateien</string>
+    <string name="settings_ask_before_delete">Vor dem Löschen fragen</string>
+    <string name="settings_ask_before_delete_desc">Bestätigungsdialog anzeigen, bevor Dateien in den Papierkorb verschoben werden. Dateien landen immer zuerst im Papierkorb — du kannst sie also weiter wiederherstellen.</string>
+    <string name="settings_search_roots">Durchsuchte Ordner</string>
+    <string name="settings_search_roots_desc">Ordner, die die globale Suche durchsucht. Leer lassen, um den gesamten Speicher zu durchsuchen.</string>
+    <string name="settings_search_roots_default">Gesamter Speicher</string>
+    <string name="settings_search_roots_add">Ordner hinzufügen</string>
+    <string name="settings_search_roots_remove">Entfernen</string>
+    <string name="settings_telemetry">Anonyme Nutzungsstatistik</string>
+    <string name="settings_telemetry_desc">FileLens enthält keine Telemetrie. Dieser Schalter ist nur für eine künftige Opt-in-Funktion reserviert — standardmäßig aus und nie still aktiviert.</string>
+    <string name="settings_warn_root_storage">Bei Systemordnern warnen</string>
+    <string name="settings_warn_root_storage_desc">Bestätigung anzeigen, wenn /system, /data, /proc, /vendor und andere geschützte Wurzeln geöffnet werden.</string>
+    <string name="settings_about_privacy_label">Datenschutzversprechen</string>
+    <string name="settings_about_privacy_no_ads">Keine Werbung</string>
+    <string name="settings_about_privacy_no_accounts">Keine Konten</string>
+    <string name="settings_about_privacy_no_tracking">Kein Tracking</string>
+    <string name="settings_about_privacy_text">FileLens bleibt auf deinem Gerät. Keine Werbung, keine Konten, keine Analyse, keine Drittanbieter-SDKs. Die einzigen Netzwerkanfragen gehen an entfernte Server, die du selbst hinzufügst.</string>
 </resources>
