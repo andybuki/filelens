@@ -647,4 +647,13 @@
     <string name="settings_about_privacy_no_accounts">アカウントなし</string>
     <string name="settings_about_privacy_no_tracking">追跡なし</string>
     <string name="settings_about_privacy_text">FileLens は端末内にとどまります。広告、アカウント、解析、サードパーティ SDK は一切ありません。ネットワーク通信は、ご自身で追加したリモートサーバーへのみ行われます。</string>
+
+    <!-- Day 12: UX polish error messages + inspector loading -->
+    <string name="error_permission_denied">権限が拒否されました。このフォルダを読み取るには、設定でストレージへのアクセスを許可してください。</string>
+    <string name="error_file_not_found">このファイルは見つかりません。移動または削除された可能性があります。</string>
+    <string name="error_unsupported_file">このファイル形式のプレビューはまだサポートされていません。</string>
+    <string name="error_out_of_space">この操作を完了するための空き容量が不足しています。</string>
+    <string name="error_corrupt_file">このファイルは破損しているため、読み取れません。</string>
+    <string name="error_generic">問題が発生しました。もう一度お試しください。</string>
+    <string name="inspector_loading_label">ファイルを検査中…</string>
 </resources>

@@ -597,4 +597,13 @@
     <string name="settings_about_privacy_no_accounts">Sans compte</string>
     <string name="settings_about_privacy_no_tracking">Sans suivi</string>
     <string name="settings_about_privacy_text">FileLens reste sur votre appareil. Aucune publicité, aucun compte, aucune analyse, aucun SDK tiers. Les seules requêtes réseau vont vers les serveurs distants que vous ajoutez vous-même.</string>
+
+    <!-- Day 12: UX polish error messages + inspector loading -->
+    <string name="error_permission_denied">Permission refusée. Accordez l\'accès au stockage dans les Paramètres pour lire ce dossier.</string>
+    <string name="error_file_not_found">Ce fichier n\'existe plus. Il a peut-être été déplacé ou supprimé.</string>
+    <string name="error_unsupported_file">Ce type de fichier ne peut pas encore être prévisualisé.</string>
+    <string name="error_out_of_space">Pas assez d\'espace libre pour terminer cette opération.</string>
+    <string name="error_corrupt_file">Ce fichier semble corrompu et ne peut pas être lu.</string>
+    <string name="error_generic">Un problème est survenu. Veuillez réessayer.</string>
+    <string name="inspector_loading_label">Inspection du fichier…</string>
 </resources>

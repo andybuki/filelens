@@ -686,4 +686,13 @@
     <string name="settings_about_privacy_no_accounts">Без аккаунтов</string>
     <string name="settings_about_privacy_no_tracking">Без отслеживания</string>
     <string name="settings_about_privacy_text">FileLens остаётся на вашем устройстве. Никакой рекламы, аккаунтов, аналитики, сторонних SDK. Сетевые запросы идут только к удалённым серверам, которые вы добавляете сами.</string>
+
+    <!-- Day 12: UX polish error messages + inspector loading -->
+    <string name="error_permission_denied">Доступ запрещён. Предоставьте доступ к хранилищу в Настройках, чтобы читать эту папку.</string>
+    <string name="error_file_not_found">Этот файл больше не существует. Возможно, он был перемещён или удалён.</string>
+    <string name="error_unsupported_file">Предпросмотр этого типа файлов пока не поддерживается.</string>
+    <string name="error_out_of_space">Недостаточно свободного места для завершения операции.</string>
+    <string name="error_corrupt_file">Этот файл повреждён и не может быть прочитан.</string>
+    <string name="error_generic">Что-то пошло не так. Попробуйте снова.</string>
+    <string name="inspector_loading_label">Анализ файла…</string>
 </resources>

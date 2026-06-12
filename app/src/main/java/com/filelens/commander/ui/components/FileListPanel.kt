@@ -1,8 +1,10 @@
 package com.filelens.commander.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -206,34 +208,38 @@ fun FileListPanel(
                 HorizontalDivider(color = MaterialTheme.colorScheme.outline)
             }
 
-            when {
-                errorMessage != null && files.isEmpty() -> {
-                    ErrorState(message = errorMessage, onRetry = onRefresh)
-                }
-                isSearching -> {
-                    LoadingState(label = stringResource(R.string.searching_label))
-                }
-                isLoading -> {
-                    FileListSkeleton()
-                }
-                files.isEmpty() -> {
-                    if (isSearchActive && searchQuery.isNotEmpty()) {
-                        NoResultsState(
-                            query = searchQuery,
-                            onClear = { onSearchQueryChanged("") }
-                        )
-                    } else {
-                        EmptyState(
-                            headline = stringResource(R.string.empty_folder_headline),
-                            subtitle = stringResource(R.string.empty_folder_subtitle),
-                            actionLabel = stringResource(R.string.empty_folder_action),
-                            actionIcon = Icons.Filled.Upload,
-                            onAction = onBatchScan
-                        )
-                    }
-                }
-                else -> {
-                    PullToRefreshBox(
+            val listStateKey = when {
+                errorMessage != null && files.isEmpty() -> "error"
+                isSearching -> "searching"
+                isLoading -> "loading"
+                files.isEmpty() && isSearchActive && searchQuery.isNotEmpty() -> "no-matches"
+                files.isEmpty() -> "empty"
+                else -> "content"
+            }
+            // Crossfade between list states so loading→content and
+            // empty→content don't snap. Default Crossfade duration is 300ms;
+            // tighten to 180ms so the panel feels responsive but still soft.
+            Crossfade(
+                targetState = listStateKey,
+                animationSpec = tween(durationMillis = 180),
+                label = "file-list-state"
+            ) { key ->
+                when (key) {
+                    "error" -> ErrorState(message = errorMessage ?: "", onRetry = onRefresh)
+                    "searching" -> LoadingState(label = stringResource(R.string.searching_label))
+                    "loading" -> FileListSkeleton()
+                    "no-matches" -> NoResultsState(
+                        query = searchQuery,
+                        onClear = { onSearchQueryChanged("") }
+                    )
+                    "empty" -> EmptyState(
+                        headline = stringResource(R.string.empty_folder_headline),
+                        subtitle = stringResource(R.string.empty_folder_subtitle),
+                        actionLabel = stringResource(R.string.empty_folder_action),
+                        actionIcon = Icons.Filled.Upload,
+                        onAction = onBatchScan
+                    )
+                    else -> PullToRefreshBox(
                         isRefreshing = false,
                         onRefresh = onRefresh,
                         modifier = Modifier.fillMaxSize()
@@ -269,7 +275,7 @@ fun FileListPanel(
                     .padding(end = 18.dp, bottom = 22.dp)
                     .size(56.dp)
             ) {
-                Icon(Icons.Filled.Upload, contentDescription = "Scan folder")
+                Icon(Icons.Filled.Upload, contentDescription = stringResource(R.string.menu_scan_folder))
             }
         }
     }
@@ -447,14 +453,22 @@ private fun HeaderIconButton(
     onClick: () -> Unit,
     content: @Composable () -> Unit
 ) {
+    // Outer 48dp box honours the Material touch-target minimum; the visible
+    // 38dp pill is centered inside so the chrome doesn't change.
     Box(
         modifier = Modifier
-            .size(38.dp)
-            .clip(RoundedCornerShape(10.dp))
+            .size(48.dp)
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
-        content()
+        Box(
+            modifier = Modifier
+                .size(38.dp)
+                .clip(RoundedCornerShape(10.dp)),
+            contentAlignment = Alignment.Center
+        ) {
+            content()
+        }
     }
 }
 

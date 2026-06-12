@@ -712,4 +712,13 @@
     <string name="settings_about_privacy_no_accounts">بدون حسابات</string>
     <string name="settings_about_privacy_no_tracking">بدون تتبع</string>
     <string name="settings_about_privacy_text">يبقى FileLens على جهازك. لا إعلانات ولا حسابات ولا تحليلات ولا حزم SDK من جهات خارجية. الطلبات الشبكية الوحيدة تذهب إلى الخوادم البعيدة التي تضيفها بنفسك.</string>
+
+    <!-- Day 12: UX polish error messages + inspector loading -->
+    <string name="error_permission_denied">تم رفض الإذن. امنح إذن الوصول إلى التخزين في الإعدادات لقراءة هذا المجلد.</string>
+    <string name="error_file_not_found">هذا الملف لم يعد موجودًا. ربما تم نقله أو حذفه.</string>
+    <string name="error_unsupported_file">لا يمكن معاينة هذا النوع من الملفات بعد.</string>
+    <string name="error_out_of_space">لا توجد مساحة كافية لإتمام هذه العملية.</string>
+    <string name="error_corrupt_file">يبدو أن هذا الملف تالف ولا يمكن قراءته.</string>
+    <string name="error_generic">حدث خطأ ما. يرجى المحاولة مرة أخرى.</string>
+    <string name="inspector_loading_label">جارٍ فحص الملف…</string>
 </resources>

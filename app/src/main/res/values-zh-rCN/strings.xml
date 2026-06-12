@@ -648,4 +648,13 @@
     <string name="settings_about_privacy_no_accounts">无账号</string>
     <string name="settings_about_privacy_no_tracking">无追踪</string>
     <string name="settings_about_privacy_text">FileLens 始终留在您的设备上。无广告、无账号、无分析、无第三方 SDK。唯一的网络请求只发送到您自己添加的远程服务器。</string>
+
+    <!-- Day 12: UX polish error messages + inspector loading -->
+    <string name="error_permission_denied">权限被拒绝。请在设置中授予存储访问权限以读取此文件夹。</string>
+    <string name="error_file_not_found">此文件已不存在，可能已被移动或删除。</string>
+    <string name="error_unsupported_file">此文件类型尚不支持预览。</string>
+    <string name="error_out_of_space">可用空间不足，无法完成此操作。</string>
+    <string name="error_corrupt_file">此文件似乎已损坏，无法读取。</string>
+    <string name="error_generic">出了点问题，请重试。</string>
+    <string name="inspector_loading_label">正在检查文件…</string>
 </resources>

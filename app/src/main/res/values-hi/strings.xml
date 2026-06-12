@@ -660,4 +660,13 @@
     <string name="settings_about_privacy_no_accounts">कोई खाता नहीं</string>
     <string name="settings_about_privacy_no_tracking">कोई ट्रैकिंग नहीं</string>
     <string name="settings_about_privacy_text">FileLens आपके डिवाइस पर ही रहता है। कोई विज्ञापन नहीं, कोई खाता नहीं, कोई विश्लेषण नहीं, कोई थर्ड-पार्टी SDK नहीं। नेटवर्क अनुरोध केवल उन रिमोट सर्वर पर जाते हैं जिन्हें आप स्वयं जोड़ते हैं।</string>
+
+    <!-- Day 12: UX polish error messages + inspector loading -->
+    <string name="error_permission_denied">अनुमति अस्वीकृत। इस फ़ोल्डर को पढ़ने के लिए सेटिंग्स में स्टोरेज एक्सेस दें।</string>
+    <string name="error_file_not_found">यह फ़ाइल अब मौजूद नहीं है। हो सकता है इसे स्थानांतरित या हटा दिया गया हो।</string>
+    <string name="error_unsupported_file">इस फ़ाइल प्रकार का पूर्वावलोकन अभी उपलब्ध नहीं है।</string>
+    <string name="error_out_of_space">इस कार्य को पूरा करने के लिए पर्याप्त खाली जगह नहीं है।</string>
+    <string name="error_corrupt_file">यह फ़ाइल दूषित लगती है और इसे पढ़ा नहीं जा सकता।</string>
+    <string name="error_generic">कुछ गलत हो गया। कृपया पुनः प्रयास करें।</string>
+    <string name="inspector_loading_label">फ़ाइल का निरीक्षण हो रहा है…</string>
 </resources>

@@ -648,4 +648,13 @@
     <string name="settings_about_privacy_no_accounts">계정 없음</string>
     <string name="settings_about_privacy_no_tracking">추적 없음</string>
     <string name="settings_about_privacy_text">FileLens는 기기에 머무릅니다. 광고, 계정, 분석, 타사 SDK가 없습니다. 유일한 네트워크 요청은 사용자가 직접 추가한 원격 서버로만 전송됩니다.</string>
+
+    <!-- Day 12: UX polish error messages + inspector loading -->
+    <string name="error_permission_denied">권한이 거부되었습니다. 이 폴더를 읽으려면 설정에서 저장소 접근을 허용하세요.</string>
+    <string name="error_file_not_found">이 파일이 더 이상 존재하지 않습니다. 이동되었거나 삭제되었을 수 있습니다.</string>
+    <string name="error_unsupported_file">이 파일 형식은 아직 미리보기할 수 없습니다.</string>
+    <string name="error_out_of_space">이 작업을 완료하기에 여유 공간이 부족합니다.</string>
+    <string name="error_corrupt_file">이 파일은 손상된 것으로 보이며 읽을 수 없습니다.</string>
+    <string name="error_generic">문제가 발생했습니다. 다시 시도해 주세요.</string>
+    <string name="inspector_loading_label">파일 검사 중…</string>
 </resources>

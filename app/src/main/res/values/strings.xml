@@ -602,6 +602,17 @@
     <string name="state_no_matches_no_query">Try a different query.</string>
     <string name="state_error_headline">Something went wrong</string>
 
+    <!-- Friendly error toasts surfaced by ErrorMessages.kt across screens. -->
+    <string name="error_permission_denied">Permission denied. Grant storage access in Settings to read this folder.</string>
+    <string name="error_file_not_found">This file is no longer there. It may have been moved or deleted.</string>
+    <string name="error_unsupported_file">This file type can\'t be previewed yet.</string>
+    <string name="error_out_of_space">Not enough free space to finish this operation.</string>
+    <string name="error_corrupt_file">This file looks corrupted and can\'t be read.</string>
+    <string name="error_generic">Something went wrong. Please try again.</string>
+
+    <!-- Inspector loading skeleton accessibility label. -->
+    <string name="inspector_loading_label">Inspecting file…</string>
+
     <!-- ====================================================================
          Plurals
          ==================================================================== -->
