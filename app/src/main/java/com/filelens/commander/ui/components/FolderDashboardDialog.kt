@@ -1,6 +1,7 @@
 package com.filelens.commander.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,8 +16,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Analytics
+import androidx.compose.material.icons.filled.FileCopy
+import androidx.compose.material.icons.filled.Folder
+import androidx.compose.material.icons.filled.HelpOutline
+import androidx.compose.material.icons.filled.PieChart
+import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -27,6 +37,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.filelens.commander.domain.model.FileCategory
@@ -45,6 +57,9 @@ import com.filelens.commander.ui.theme.CategorySpreadsheet
 import com.filelens.commander.ui.theme.CategoryText
 import com.filelens.commander.ui.theme.CategoryUnknown
 import com.filelens.commander.ui.theme.CategoryVideo
+import com.filelens.commander.ui.theme.FlAccent
+import com.filelens.commander.ui.theme.FlAccentTint
+import com.filelens.commander.ui.theme.FlInk
 import com.filelens.commander.ui.theme.FlInk3
 import com.filelens.commander.viewmodel.FolderDashboardState
 import java.text.SimpleDateFormat
@@ -58,12 +73,31 @@ fun FolderDashboardDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(stringResource(R.string.folder_dashboard_title)) },
+        title = {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clip(RoundedCornerShape(9.dp))
+                        .background(FlAccentTint),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        Icons.Filled.Analytics,
+                        contentDescription = null,
+                        tint = FlAccent,
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.width(10.dp))
+                Text(stringResource(R.string.folder_dashboard_title))
+            }
+        },
         text = {
             when {
                 state.isAnalyzing -> Row(verticalAlignment = Alignment.CenterVertically) {
-                    CircularProgressIndicator(modifier = Modifier.height(16.dp))
-                    Spacer(modifier = Modifier.width(8.dp))
+                    CircularProgressIndicator(modifier = Modifier.size(16.dp), strokeWidth = 2.dp, color = FlAccent)
+                    Spacer(modifier = Modifier.width(10.dp))
                     Text(stringResource(R.string.folder_dashboard_analyzing), style = MaterialTheme.typography.bodySmall)
                 }
                 state.error != null -> Text("Error: ${state.error}", color = MaterialTheme.colorScheme.error)
@@ -85,21 +119,18 @@ private fun SummaryBody(summary: com.filelens.commander.domain.usecase.FolderAna
             .heightIn(max = 500.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        Text(stringResource(R.string.folder_dashboard_folder_label), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-        Text(
-            summary.folderPath,
-            style = MaterialTheme.typography.bodySmall,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis
+        FolderHeaderCard(
+            path = summary.folderPath,
+            fileCount = summary.fileCount,
+            totalSize = summary.totalSize
         )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(stringResource(R.string.folder_dashboard_file_count, summary.fileCount, formatSize(summary.totalSize)), style = MaterialTheme.typography.bodyMedium)
 
         if (summary.categoryBytes.isNotEmpty() && summary.totalSize > 0) {
+            Spacer(modifier = Modifier.height(14.dp))
+            SectionHeader(icon = Icons.Filled.PieChart, label = stringResource(R.string.folder_dashboard_section_disk_usage))
             Spacer(modifier = Modifier.height(8.dp))
-            SectionTitle(stringResource(R.string.folder_dashboard_section_disk_usage))
             CategoryStackBar(summary.categoryBytes, summary.totalSize)
-            Spacer(modifier = Modifier.height(6.dp))
+            Spacer(modifier = Modifier.height(8.dp))
             summary.categoryBytes.entries
                 .sortedByDescending { it.value }
                 .take(8)
@@ -115,58 +146,126 @@ private fun SummaryBody(summary: com.filelens.commander.domain.usecase.FolderAna
         }
 
         if (summary.largest.isNotEmpty()) {
-            Spacer(modifier = Modifier.height(8.dp))
-            SectionTitle(stringResource(R.string.folder_dashboard_section_largest))
+            Spacer(modifier = Modifier.height(14.dp))
+            SectionHeader(icon = Icons.Filled.Storage, label = stringResource(R.string.folder_dashboard_section_largest))
+            Spacer(modifier = Modifier.height(4.dp))
             summary.largest.take(5).forEach {
-                BulletRow("${it.name} — ${formatSize(it.size)}")
+                NameValueRow(it.name, formatSize(it.size))
             }
         }
 
         if (summary.newest.isNotEmpty()) {
-            Spacer(modifier = Modifier.height(8.dp))
-            SectionTitle(stringResource(R.string.folder_dashboard_section_newest))
+            Spacer(modifier = Modifier.height(14.dp))
+            SectionHeader(icon = Icons.Filled.Schedule, label = stringResource(R.string.folder_dashboard_section_newest))
+            Spacer(modifier = Modifier.height(4.dp))
             summary.newest.take(5).forEach {
-                BulletRow("${it.name} — ${formatDateShort(it.lastModified)}")
+                NameValueRow(it.name, formatDateShort(it.lastModified))
             }
         }
 
         if (summary.unknown.isNotEmpty()) {
-            Spacer(modifier = Modifier.height(8.dp))
-            SectionTitle(stringResource(R.string.folder_dashboard_section_unknown, summary.unknown.size))
+            Spacer(modifier = Modifier.height(14.dp))
+            SectionHeader(icon = Icons.Filled.HelpOutline, label = stringResource(R.string.folder_dashboard_section_unknown, summary.unknown.size))
+            Spacer(modifier = Modifier.height(4.dp))
             summary.unknown.take(5).forEach {
-                BulletRow(it.name)
+                NameValueRow(it.name, "")
             }
         }
 
         if (summary.duplicateCandidates.isNotEmpty()) {
-            Spacer(modifier = Modifier.height(8.dp))
-            SectionTitle(stringResource(R.string.folder_dashboard_section_duplicates))
+            Spacer(modifier = Modifier.height(14.dp))
+            SectionHeader(icon = Icons.Filled.FileCopy, label = stringResource(R.string.folder_dashboard_section_duplicates))
+            Spacer(modifier = Modifier.height(4.dp))
             summary.duplicateCandidates.take(5).forEach { group ->
-                BulletRow("${group.size}× ${formatSize(group.first().size)}: ${group.joinToString(", ") { it.name }.take(160)}")
+                NameValueRow(
+                    title = group.joinToString(", ") { it.name }.take(80),
+                    value = "${group.size}× ${formatSize(group.first().size)}"
+                )
             }
         }
     }
 }
 
 @Composable
-private fun SectionTitle(text: String) {
-    Text(
-        text,
-        style = MaterialTheme.typography.labelMedium,
-        color = MaterialTheme.colorScheme.primary,
-        modifier = Modifier.padding(bottom = 2.dp)
-    )
+private fun FolderHeaderCard(path: String, fileCount: Int, totalSize: Long) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .background(FlAccentTint)
+            .padding(12.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(Icons.Filled.Folder, contentDescription = null, tint = FlAccent, modifier = Modifier.size(16.dp))
+            Spacer(modifier = Modifier.width(6.dp))
+            Text(
+                path,
+                style = MaterialTheme.typography.labelSmall,
+                color = FlAccent,
+                fontWeight = FontWeight.SemiBold,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1f)
+            )
+        }
+        Spacer(modifier = Modifier.height(6.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            StatPill(label = "Files", value = "$fileCount")
+            StatPill(label = "Total", value = formatSize(totalSize))
+        }
+    }
 }
 
 @Composable
-private fun BulletRow(text: String) {
-    Text(
-        "• $text",
-        style = MaterialTheme.typography.bodySmall,
-        color = MaterialTheme.colorScheme.onSurface,
-        maxLines = 2,
-        overflow = TextOverflow.Ellipsis
-    )
+private fun StatPill(label: String, value: String) {
+    Column {
+        Text(label.uppercase(), style = MaterialTheme.typography.labelSmall, color = FlInk3)
+        Text(value, style = MaterialTheme.typography.titleMedium, color = FlInk, fontWeight = FontWeight.Bold)
+    }
+}
+
+@Composable
+private fun SectionHeader(icon: ImageVector, label: String) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Icon(icon, contentDescription = null, tint = FlAccent, modifier = Modifier.size(14.dp))
+        Spacer(modifier = Modifier.width(6.dp))
+        Text(
+            label,
+            style = MaterialTheme.typography.labelMedium,
+            color = FlAccent,
+            fontWeight = FontWeight.SemiBold
+        )
+    }
+}
+
+@Composable
+private fun NameValueRow(title: String, value: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 3.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.bodySmall,
+            color = FlInk,
+            modifier = Modifier.weight(1f),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+        if (value.isNotEmpty()) {
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = value,
+                style = MaterialTheme.typography.labelSmall,
+                color = FlInk3
+            )
+        }
+    }
 }
 
 @Composable
@@ -202,7 +301,7 @@ private fun CategoryLegendRow(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 2.dp),
+            .padding(vertical = 3.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
@@ -215,6 +314,7 @@ private fun CategoryLegendRow(
         Text(
             text = category.name.lowercase().replaceFirstChar { it.uppercase() },
             style = MaterialTheme.typography.bodySmall,
+            color = FlInk,
             modifier = Modifier.weight(1f)
         )
         Text(

@@ -25,6 +25,8 @@ import androidx.compose.material.icons.filled.DeleteOutline
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Folder
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Image
@@ -40,6 +42,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -230,6 +235,34 @@ private fun SectionHeader(label: String) {
 }
 
 @Composable
+private fun CollapsibleSectionHeader(
+    label: String,
+    expanded: Boolean,
+    onToggle: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onToggle)
+            .padding(start = 4.dp, end = 4.dp, bottom = 10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = label.uppercase(),
+            style = Eyebrow,
+            color = FlInk3,
+            modifier = Modifier.weight(1f)
+        )
+        Icon(
+            imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
+            contentDescription = null,
+            tint = FlInk3,
+            modifier = Modifier.size(18.dp)
+        )
+    }
+}
+
+@Composable
 private fun CategoriesSection(onOpenCategory: (HomeCategory) -> Unit) {
     Column {
         SectionHeader(stringResource(R.string.home_section_categories))
@@ -302,18 +335,25 @@ private fun RecentSection(
     recentFiles: List<RecentFile>,
     onOpenFile: (RecentFile) -> Unit
 ) {
+    var expanded by remember { mutableStateOf(false) }
     Column {
-        SectionHeader(stringResource(R.string.home_section_recent))
-        recentFiles.forEach { file ->
-            EntryRow(
-                title = file.displayName,
-                subtitle = compactPath(file.path),
-                icon = Icons.AutoMirrored.Filled.InsertDriveFile,
-                iconTint = FlAccent,
-                iconBackground = FlAccentTint,
-                onClick = { onOpenFile(file) }
-            )
-            Spacer(modifier = Modifier.height(8.dp))
+        CollapsibleSectionHeader(
+            label = stringResource(R.string.home_section_recent),
+            expanded = expanded,
+            onToggle = { expanded = !expanded }
+        )
+        if (expanded) {
+            recentFiles.forEach { file ->
+                EntryRow(
+                    title = file.displayName,
+                    subtitle = compactPath(file.path),
+                    icon = Icons.AutoMirrored.Filled.InsertDriveFile,
+                    iconTint = FlAccent,
+                    iconBackground = FlAccentTint,
+                    onClick = { onOpenFile(file) }
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
         }
     }
 }
@@ -344,23 +384,30 @@ private fun FrequentSection(
     folders: List<FrequentFolder>,
     onOpenFolder: (FrequentFolder) -> Unit
 ) {
+    var expanded by remember { mutableStateOf(false) }
     Column {
-        SectionHeader(stringResource(R.string.home_section_frequent))
-        folders.forEach { folder ->
-            val visitsLabel = pluralStringResource(
-                R.plurals.plural_visit_count,
-                folder.visitCount,
-                folder.visitCount
-            )
-            EntryRow(
-                title = folder.displayName,
-                subtitle = "${compactPath(folder.path)} · $visitsLabel",
-                icon = Icons.Filled.Folder,
-                iconTint = CategoryDirectory,
-                iconBackground = CategoryDirectory.copy(alpha = 0.14f),
-                onClick = { onOpenFolder(folder) }
-            )
-            Spacer(modifier = Modifier.height(8.dp))
+        CollapsibleSectionHeader(
+            label = stringResource(R.string.home_section_frequent),
+            expanded = expanded,
+            onToggle = { expanded = !expanded }
+        )
+        if (expanded) {
+            folders.forEach { folder ->
+                val visitsLabel = pluralStringResource(
+                    R.plurals.plural_visit_count,
+                    folder.visitCount,
+                    folder.visitCount
+                )
+                EntryRow(
+                    title = folder.displayName,
+                    subtitle = "${compactPath(folder.path)} · $visitsLabel",
+                    icon = Icons.Filled.Folder,
+                    iconTint = CategoryDirectory,
+                    iconBackground = CategoryDirectory.copy(alpha = 0.14f),
+                    onClick = { onOpenFolder(folder) }
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
         }
     }
 }
