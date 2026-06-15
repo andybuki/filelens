@@ -42,7 +42,6 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.SwapVert
 import androidx.compose.material.icons.filled.Tune
-import androidx.compose.material.icons.filled.Upload
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.DropdownMenu
@@ -55,7 +54,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -232,11 +230,7 @@ fun FileListPanel(
                         onClear = { onSearchQueryChanged("") }
                     )
                     "empty" -> EmptyState(
-                        headline = stringResource(R.string.empty_folder_headline),
-                        subtitle = stringResource(R.string.empty_folder_subtitle),
-                        actionLabel = stringResource(R.string.empty_folder_action),
-                        actionIcon = Icons.Filled.Upload,
-                        onAction = onBatchScan
+                        headline = stringResource(R.string.empty_folder_headline)
                     )
                     else -> PullToRefreshBox(
                         isRefreshing = false,
@@ -574,53 +568,48 @@ private fun MinimalSearchBar(
 ) {
     val focusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) { focusRequester.requestFocus() }
+    // Search field mirrors the Home tab "Search across your phone" card:
+    // rounded surface, leading icon, single inline clear. Hitting the
+    // keyboard's Search action still triggers a recursive scan so users
+    // who want subfolder results have a way to ask for it without a
+    // separate "Deep" button.
     Row(
+        verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 10.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .padding(horizontal = 16.dp, vertical = 10.dp)
+            .clip(RoundedCornerShape(14.dp))
+            .background(FlSurface3)
+            .padding(horizontal = 14.dp, vertical = 4.dp)
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
+        Icon(Icons.Filled.Search, contentDescription = null, tint = FlText2)
+        Spacer(modifier = Modifier.width(10.dp))
+        OutlinedTextField(
+            value = query,
+            onValueChange = onQueryChange,
+            placeholder = { Text(stringResource(R.string.search_hint), color = FlText2) },
+            singleLine = true,
             modifier = Modifier
                 .weight(1f)
-                .clip(RoundedCornerShape(12.dp))
-                .background(FlSurface3)
-                .padding(horizontal = 14.dp, vertical = 4.dp)
-        ) {
-            Icon(Icons.Filled.Search, contentDescription = null, tint = FlText2)
-            Spacer(modifier = Modifier.width(10.dp))
-            OutlinedTextField(
-                value = query,
-                onValueChange = onQueryChange,
-                placeholder = { Text(stringResource(R.string.search_hint), color = FlText2) },
-                singleLine = true,
-                modifier = Modifier
-                    .weight(1f)
-                    .focusRequester(focusRequester),
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                keyboardActions = KeyboardActions(onSearch = { onDeepSearch() }),
-                trailingIcon = {
-                    if (query.isNotEmpty()) {
-                        IconButton(onClick = { onQueryChange("") }) {
-                            Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.action_clear_search), tint = FlText2)
-                        }
+                .focusRequester(focusRequester),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+            keyboardActions = KeyboardActions(onSearch = { onDeepSearch() }),
+            trailingIcon = {
+                if (query.isNotEmpty()) {
+                    IconButton(onClick = { onQueryChange("") }) {
+                        Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.action_clear_search), tint = FlText2)
                     }
-                },
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color.Transparent,
-                    unfocusedBorderColor = Color.Transparent,
-                    disabledBorderColor = Color.Transparent,
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent
-                ),
-                textStyle = MaterialTheme.typography.bodyMedium
-            )
-        }
-        Spacer(modifier = Modifier.width(8.dp))
-        TextButton(onClick = onDeepSearch, enabled = query.isNotEmpty()) {
-            Text("Deep")
-        }
+                }
+            },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Color.Transparent,
+                unfocusedBorderColor = Color.Transparent,
+                disabledBorderColor = Color.Transparent,
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent
+            ),
+            textStyle = MaterialTheme.typography.bodyMedium
+        )
     }
 }
 

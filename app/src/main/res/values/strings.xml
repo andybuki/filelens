@@ -88,6 +88,7 @@
     <string name="home_category_audio">Audio</string>
     <string name="home_category_docs">Docs</string>
     <string name="home_category_apks">APKs</string>
+    <string name="home_category_browse">Browse</string>
     <string name="home_category_archives">Archives</string>
     <string name="home_category_downloads">Downloads</string>
     <string name="home_category_large">Large files</string>
@@ -97,6 +98,8 @@
     <string name="home_search_subtitle">Find files by name, extension, or type</string>
     <string name="home_section_tools">Tools</string>
     <string name="home_tool_apps_subtitle">Installed apps · extract APK</string>
+    <string name="home_tool_storage_title">Storage usage</string>
+    <string name="home_tool_storage_subtitle">See what\'s taking up space on your phone</string>
 
     <!-- ====================================================================
          Global search

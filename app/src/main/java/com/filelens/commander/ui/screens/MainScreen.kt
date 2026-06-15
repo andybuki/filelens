@@ -79,6 +79,7 @@ fun MainScreen(
     initialCategory: com.filelens.commander.domain.model.HomeCategory? = null,
     initialInspectPath: String? = null,
     initialRemoteId: String? = null,
+    initialAnalyze: Boolean = false,
     onOpenSettings: () -> Unit = {},
     onCompare: (String, String) -> Unit = { _, _ -> },
     onBrowseSqlite: (String) -> Unit = {},
@@ -161,6 +162,16 @@ fun MainScreen(
             inspectorViewModel.selectFile(item)
         }
         consumedInitial = true
+    }
+
+    // Home → "Storage usage" tile: wait until the home folder has loaded,
+    // then pop the existing folder dashboard pointed at the phone root.
+    var consumedAnalyze by remember { mutableStateOf(false) }
+    LaunchedEffect(initialAnalyze) {
+        if (consumedAnalyze || !initialAnalyze) return@LaunchedEffect
+        fileListViewModel.state.first { it.currentPath.isNotEmpty() && !it.isLoading }
+        folderDashboardViewModel.analyze(fileListViewModel.state.value.currentPath)
+        consumedAnalyze = true
     }
 
     LaunchedEffect(fileListState.remoteNotice) {
