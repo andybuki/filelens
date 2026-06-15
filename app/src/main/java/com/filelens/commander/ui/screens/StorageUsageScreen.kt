@@ -90,7 +90,7 @@ fun StorageUsageScreen(
             .fillMaxSize()
             .background(FlBg)
     ) {
-        Header(onBack = onBack)
+        Header(onBack = onBack, isRefreshing = state.isRefreshing)
         when {
             state.isLoading -> Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator(
@@ -149,12 +149,12 @@ private fun StorageBody(state: com.filelens.commander.viewmodel.StorageUsageStat
 }
 
 @Composable
-private fun Header(onBack: () -> Unit) {
+private fun Header(onBack: () -> Unit, isRefreshing: Boolean) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .background(FlNavy)
-            .padding(start = 4.dp, end = 8.dp, top = 6.dp, bottom = 10.dp),
+            .padding(start = 4.dp, end = 16.dp, top = 6.dp, bottom = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(onClick = onBack) {
@@ -168,8 +168,16 @@ private fun Header(onBack: () -> Unit) {
         Text(
             text = stringResource(R.string.storage_usage_title),
             style = MaterialTheme.typography.titleLarge,
-            color = FlOnAccent
+            color = FlOnAccent,
+            modifier = Modifier.weight(1f)
         )
+        if (isRefreshing) {
+            CircularProgressIndicator(
+                color = FlOnAccent,
+                strokeWidth = 2.dp,
+                modifier = Modifier.size(16.dp)
+            )
+        }
     }
 }
 
@@ -304,7 +312,6 @@ private fun Legend(categoryBytes: Map<FileCategory, Long>) {
     val top = categoryBytes.entries
         .filter { it.value > 0 }
         .sortedByDescending { it.value }
-        .take(8)
     if (top.isEmpty()) return
     // Two-column legend wrap. We chunk into rows of 4 since most phones
     // fit four short chips per line in this card width.
