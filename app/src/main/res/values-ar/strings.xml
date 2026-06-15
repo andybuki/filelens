@@ -589,6 +589,7 @@
     <string name="home_category_docs">المستندات</string>
     <string name="home_category_apks">APK</string>
     <string name="home_category_archives">الأرشيفات</string>
+    <string name="home_category_browse">تصفح</string>
     <string name="home_category_downloads">التنزيلات</string>
     <string name="home_category_large">الملفات الكبيرة</string>
     <string name="home_empty_headline">لا يوجد شيء هنا بعد</string>
@@ -633,6 +634,8 @@
     <string name="home_search_subtitle">ابحث عن الملفات بالاسم أو الامتداد أو النوع</string>
     <string name="home_section_tools">الأدوات</string>
     <string name="home_tool_apps_subtitle">التطبيقات المثبتة · استخراج APK</string>
+    <string name="home_tool_storage_title">استخدام التخزين</string>
+    <string name="home_tool_storage_subtitle">شاهد ما يشغل المساحة على هاتفك</string>
     <string name="search_title">بحث</string>
     <string name="search_hint_global">البحث عن ملفات بالاسم أو الامتداد أو النوع…</string>
     <string name="search_cancel">إيقاف</string>

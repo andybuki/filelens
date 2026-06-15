@@ -545,6 +545,7 @@
     <string name="home_category_docs">Dokumente</string>
     <string name="home_category_apks">APKs</string>
     <string name="home_category_archives">Archive</string>
+    <string name="home_category_browse">Durchsuchen</string>
     <string name="home_category_downloads">Downloads</string>
     <string name="home_category_large">Große Dateien</string>
     <string name="home_empty_headline">Noch nichts hier</string>
@@ -584,6 +585,8 @@
     <string name="home_search_subtitle">Dateien nach Name, Erweiterung oder Typ finden</string>
     <string name="home_section_tools">Werkzeuge</string>
     <string name="home_tool_apps_subtitle">Installierte Apps · APK extrahieren</string>
+    <string name="home_tool_storage_title">Speichernutzung</string>
+    <string name="home_tool_storage_subtitle">Sieh, was Speicherplatz auf deinem Telefon belegt</string>
     <string name="search_title">Suche</string>
     <string name="search_hint_global">Dateien nach Name, Erweiterung oder Typ suchen…</string>
     <string name="search_cancel">Stopp</string>

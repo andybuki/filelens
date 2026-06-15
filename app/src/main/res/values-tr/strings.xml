@@ -545,6 +545,7 @@
     <string name="home_category_docs">Belgeler</string>
     <string name="home_category_apks">APK\'ler</string>
     <string name="home_category_archives">Arşivler</string>
+    <string name="home_category_browse">Gözat</string>
     <string name="home_category_downloads">İndirilenler</string>
     <string name="home_category_large">Büyük dosyalar</string>
     <string name="home_empty_headline">Burada henüz bir şey yok</string>
@@ -585,6 +586,8 @@
     <string name="home_search_subtitle">Dosyaları ada, uzantıya veya türe göre bulun</string>
     <string name="home_section_tools">Araçlar</string>
     <string name="home_tool_apps_subtitle">Yüklü uygulamalar · APK çıkar</string>
+    <string name="home_tool_storage_title">Depolama kullanımı</string>
+    <string name="home_tool_storage_subtitle">Telefonunda neyin yer kapladığını gör</string>
     <string name="search_title">Arama</string>
     <string name="search_hint_global">Dosyaları ada, uzantıya veya türe göre ara…</string>
     <string name="search_cancel">Durdur</string>
