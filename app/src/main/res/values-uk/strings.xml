@@ -612,6 +612,11 @@
     <string name="home_tool_apps_subtitle">Встановлені додатки · витягнути APK</string>
     <string name="home_tool_storage_title">Використання пам\'яті</string>
     <string name="home_tool_storage_subtitle">Подивіться, що займає місце на телефоні</string>
+    <string name="storage_usage_title">Використання пам\'яті</string>
+    <string name="storage_section_categories">За категоріями</string>
+    <string name="storage_used_of">Зайнято %1$s з %2$s</string>
+    <string name="storage_free_label">Вільно %1$s</string>
+    <string name="storage_scanned_label">Просканировано %1$s</string>
     <string name="search_title">Пошук</string>
     <string name="search_hint_global">Шукати файли за назвою, розширенням або типом…</string>
     <string name="search_cancel">Зупинити</string>

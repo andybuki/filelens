@@ -100,6 +100,11 @@
     <string name="home_tool_apps_subtitle">Installed apps · extract APK</string>
     <string name="home_tool_storage_title">Storage usage</string>
     <string name="home_tool_storage_subtitle">See what\'s taking up space on your phone</string>
+    <string name="storage_usage_title">Storage usage</string>
+    <string name="storage_section_categories">By category</string>
+    <string name="storage_used_of">%1$s of %2$s used</string>
+    <string name="storage_free_label">%1$s free</string>
+    <string name="storage_scanned_label">Scanned %1$s</string>
 
     <!-- ====================================================================
          Global search

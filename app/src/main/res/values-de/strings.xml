@@ -587,6 +587,11 @@
     <string name="home_tool_apps_subtitle">Installierte Apps · APK extrahieren</string>
     <string name="home_tool_storage_title">Speichernutzung</string>
     <string name="home_tool_storage_subtitle">Sieh, was Speicherplatz auf deinem Telefon belegt</string>
+    <string name="storage_usage_title">Speichernutzung</string>
+    <string name="storage_section_categories">Nach Kategorie</string>
+    <string name="storage_used_of">%1$s von %2$s belegt</string>
+    <string name="storage_free_label">%1$s frei</string>
+    <string name="storage_scanned_label">%1$s gescannt</string>
     <string name="search_title">Suche</string>
     <string name="search_hint_global">Dateien nach Name, Erweiterung oder Typ suchen…</string>
     <string name="search_cancel">Stopp</string>

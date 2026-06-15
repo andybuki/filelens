@@ -578,6 +578,11 @@
     <string name="home_tool_apps_subtitle">已安装应用 · 提取 APK</string>
     <string name="home_tool_storage_title">存储使用</string>
     <string name="home_tool_storage_subtitle">查看手机空间被什么占用</string>
+    <string name="storage_usage_title">存储使用</string>
+    <string name="storage_section_categories">按类别</string>
+    <string name="storage_used_of">已使用 %1$s/%2$s</string>
+    <string name="storage_free_label">可用 %1$s</string>
+    <string name="storage_scanned_label">已扫描 %1$s</string>
     <string name="search_title">搜索</string>
     <string name="search_hint_global">按名称、扩展名或类型搜索文件…</string>
     <string name="search_cancel">停止</string>

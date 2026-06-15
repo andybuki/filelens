@@ -636,6 +636,11 @@
     <string name="home_tool_apps_subtitle">التطبيقات المثبتة · استخراج APK</string>
     <string name="home_tool_storage_title">استخدام التخزين</string>
     <string name="home_tool_storage_subtitle">شاهد ما يشغل المساحة على هاتفك</string>
+    <string name="storage_usage_title">استخدام التخزين</string>
+    <string name="storage_section_categories">حسب الفئة</string>
+    <string name="storage_used_of">%1$s مستخدم من %2$s</string>
+    <string name="storage_free_label">%1$s متاح</string>
+    <string name="storage_scanned_label">تم المسح %1$s</string>
     <string name="search_title">بحث</string>
     <string name="search_hint_global">البحث عن ملفات بالاسم أو الامتداد أو النوع…</string>
     <string name="search_cancel">إيقاف</string>

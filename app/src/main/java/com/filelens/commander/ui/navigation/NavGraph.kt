@@ -18,6 +18,7 @@ import com.filelens.commander.ui.screens.GlobalSearchScreen
 import com.filelens.commander.ui.screens.RemoteServersScreen
 import com.filelens.commander.ui.screens.SettingsScreen
 import com.filelens.commander.ui.screens.SqliteBrowserScreen
+import com.filelens.commander.ui.screens.StorageUsageScreen
 import com.filelens.commander.ui.screens.TrashScreen
 import com.filelens.commander.ui.screens.VaultScreen
 
@@ -26,7 +27,7 @@ object Routes {
     const val HOME = "home"
     // All arguments are optional and URL-encoded; an empty value means "no
     // initial action — show the home folder as usual".
-    const val MAIN = "main?path={path}&category={category}&inspect={inspect}&remoteId={remoteId}&analyze={analyze}"
+    const val MAIN = "main?path={path}&category={category}&inspect={inspect}&remoteId={remoteId}"
     const val SETTINGS = "settings"
     const val COMPARE = "compare/{left}/{right}"
     const val SQLITE = "sqlite/{db}"
@@ -35,20 +36,19 @@ object Routes {
     const val GLOBAL_SEARCH = "global_search"
     const val APP_MANAGER = "app_manager"
     const val TRASH = "trash"
+    const val STORAGE_USAGE = "storage_usage"
 
     fun main(
         path: String? = null,
         category: HomeCategory? = null,
         inspect: String? = null,
-        remoteId: String? = null,
-        analyze: Boolean = false
+        remoteId: String? = null
     ): String {
         val pathArg = path?.let { Uri.encode(it) } ?: ""
         val categoryArg = category?.name ?: ""
         val inspectArg = inspect?.let { Uri.encode(it) } ?: ""
         val remoteArg = remoteId?.let { Uri.encode(it) } ?: ""
-        val analyzeArg = if (analyze) "1" else ""
-        return "main?path=$pathArg&category=$categoryArg&inspect=$inspectArg&remoteId=$remoteArg&analyze=$analyzeArg"
+        return "main?path=$pathArg&category=$categoryArg&inspect=$inspectArg&remoteId=$remoteArg"
     }
 
     fun compare(leftPath: String, rightPath: String): String =
@@ -99,9 +99,7 @@ fun FileLensNavGraph(
                 onOpenGlobalSearch = { navController.navigate(Routes.GLOBAL_SEARCH) },
                 onOpenAppManager = { navController.navigate(Routes.APP_MANAGER) },
                 onOpenTrash = { navController.navigate(Routes.TRASH) },
-                onOpenStorageUsage = {
-                    navController.navigate(Routes.main(analyze = true))
-                }
+                onOpenStorageUsage = { navController.navigate(Routes.STORAGE_USAGE) }
             )
         }
         composable(
@@ -122,10 +120,6 @@ fun FileLensNavGraph(
                 navArgument("remoteId") {
                     type = NavType.StringType
                     defaultValue = ""
-                },
-                navArgument("analyze") {
-                    type = NavType.StringType
-                    defaultValue = ""
                 }
             )
         ) { backStackEntry ->
@@ -137,13 +131,11 @@ fun FileLensNavGraph(
             val initialInspectPath = if (rawInspect.isEmpty()) null else rawInspect
             val rawRemoteId = backStackEntry.arguments?.getString("remoteId").orEmpty()
             val initialRemoteId = if (rawRemoteId.isEmpty()) null else rawRemoteId
-            val initialAnalyze = backStackEntry.arguments?.getString("analyze").orEmpty() == "1"
             MainScreen(
                 initialPath = initialPath,
                 initialCategory = initialCategory,
                 initialInspectPath = initialInspectPath,
                 initialRemoteId = initialRemoteId,
-                initialAnalyze = initialAnalyze,
                 onOpenSettings = { navController.navigate(Routes.SETTINGS) },
                 onCompare = { left, right ->
                     navController.navigate(Routes.compare(left, right))
@@ -206,6 +198,9 @@ fun FileLensNavGraph(
         }
         composable(Routes.TRASH) {
             TrashScreen(onBack = { navController.popBackStack() })
+        }
+        composable(Routes.STORAGE_USAGE) {
+            StorageUsageScreen(onBack = { navController.popBackStack() })
         }
         composable(
             route = Routes.COMPARE,

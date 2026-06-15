@@ -577,6 +577,11 @@
     <string name="home_tool_apps_subtitle">インストール済みアプリ · APK 抽出</string>
     <string name="home_tool_storage_title">ストレージ使用量</string>
     <string name="home_tool_storage_subtitle">スマホの容量を何が使っているか確認</string>
+    <string name="storage_usage_title">ストレージ使用量</string>
+    <string name="storage_section_categories">カテゴリ別</string>
+    <string name="storage_used_of">%2$s 中 %1$s 使用中</string>
+    <string name="storage_free_label">空き %1$s</string>
+    <string name="storage_scanned_label">スキャン済み %1$s</string>
     <string name="search_title">検索</string>
     <string name="search_hint_global">名前、拡張子、種類でファイルを検索…</string>
     <string name="search_cancel">停止</string>
