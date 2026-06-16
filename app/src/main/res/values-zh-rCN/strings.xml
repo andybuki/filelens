@@ -524,7 +524,6 @@
     <string name="settings_onboarding_reset_toast">欢迎引导将在下次启动时显示</string>
 
     <string name="cd_open_home">打开主页</string>
-    <string name="home_subtitle">最近 · 收藏 · 分类</string>
     <string name="home_section_categories">分类</string>
     <string name="home_section_recent">最近文件</string>
     <string name="home_section_favorites">收藏</string>

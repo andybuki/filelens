@@ -556,7 +556,6 @@
     <string name="settings_onboarding_reset_toast">Гід привітання з\'явиться при наступному запуску</string>
 
     <string name="cd_open_home">Відкрити Головну</string>
-    <string name="home_subtitle">Нещодавні · Обране · Категорії</string>
     <string name="home_section_categories">Категорії</string>
     <string name="home_section_recent">Нещодавні файли</string>
     <string name="home_section_favorites">Обране</string>

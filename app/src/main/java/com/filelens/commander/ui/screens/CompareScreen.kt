@@ -65,7 +65,9 @@ import com.filelens.commander.domain.model.StructuralDiffEntry
 import com.filelens.commander.domain.model.TextDiffLine
 import com.filelens.commander.ui.theme.FlAccent
 import com.filelens.commander.ui.theme.FlAccentTint
+import com.filelens.commander.ui.theme.FlBorder2
 import com.filelens.commander.ui.theme.FlInk2
+import com.filelens.commander.ui.theme.FlSurface
 import com.filelens.commander.ui.theme.FlInk3
 import com.filelens.commander.ui.theme.FlOnAccent
 import com.filelens.commander.ui.theme.RiskDanger
@@ -606,7 +608,11 @@ private fun FolderCompareView(
                 onCheckedChange = onDeepVerifyChanged,
                 colors = androidx.compose.material3.SwitchDefaults.colors(
                     checkedThumbColor = FlOnAccent,
-                    checkedTrackColor = FlAccent
+                    checkedTrackColor = FlAccent,
+                    checkedBorderColor = FlAccent,
+                    uncheckedThumbColor = FlBorder2,
+                    uncheckedTrackColor = FlSurface,
+                    uncheckedBorderColor = FlBorder2
                 )
             )
         }

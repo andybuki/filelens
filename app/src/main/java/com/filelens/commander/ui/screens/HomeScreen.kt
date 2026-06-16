@@ -206,18 +206,12 @@ private fun HomeHeader(onOpenSettings: () -> Unit) {
                 .clip(RoundedCornerShape(9.dp))
         )
         Spacer(modifier = Modifier.width(12.dp))
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = stringResource(R.string.brand_name),
-                style = MaterialTheme.typography.titleLarge,
-                color = FlOnAccent
-            )
-            Text(
-                text = stringResource(R.string.home_subtitle),
-                style = MaterialTheme.typography.labelSmall,
-                color = Color(0xFFE5E7EB)
-            )
-        }
+        Text(
+            text = stringResource(R.string.brand_name),
+            style = MaterialTheme.typography.titleLarge,
+            color = FlOnAccent,
+            modifier = Modifier.weight(1f)
+        )
         IconButton(onClick = onOpenSettings) {
             Icon(
                 Icons.Filled.Settings,

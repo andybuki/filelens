@@ -1,0 +1,11 @@
+FileLens 1.0 — first stable release.
+
+• Light theme everywhere, refreshed brand and lens mark.
+• New Home tab: Recent, Favorites, and Categories in one place.
+• Hidden vault behind biometrics.
+• Global search across folders, app manager, recycle bin.
+• Settings overhaul: language picker, default home tab, ask-before-delete.
+• Polished empty states, loading skeletons, friendlier errors.
+• Localized to 15 languages incl. Arabic (RTL).
+
+Offline. No accounts. No tracking.

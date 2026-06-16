@@ -1,0 +1,208 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="500" viewBox="0 0 1024 500" font-family="Roboto, Inter, -apple-system, system-ui, sans-serif">
+  <!-- ============================================================== -->
+  <!-- Background: light canvas with soft violet wash on the right     -->
+  <!-- ============================================================== -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F7F7F8"/>
+      <stop offset="1" stop-color="#EFE9FE"/>
+    </linearGradient>
+    <radialGradient id="violetGlow" cx="0.8" cy="0.4" r="0.6">
+      <stop offset="0" stop-color="#7C3AED" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#7C3AED" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="card" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#1A1B1F" flood-opacity="0.10"/>
+    </filter>
+    <filter id="cardLg" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#1A1B1F" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <rect width="1024" height="500" fill="url(#bg)"/>
+  <rect width="1024" height="500" fill="url(#violetGlow)"/>
+
+  <!-- ============================================================== -->
+  <!-- Left column: lens mark + tagline                                -->
+  <!-- ============================================================== -->
+  <g transform="translate(56, 96)">
+    <!-- Lens mark badge -->
+    <g>
+      <rect x="0" y="0" rx="22" ry="22" width="104" height="104" fill="#FFFFFF" filter="url(#card)"/>
+      <!-- Document peek -->
+      <path d="M30 32 h28 l12 12 v34 a4 4 0 0 1 -4 4 H30 a4 4 0 0 1 -4 -4 V36 a4 4 0 0 1 4 -4 Z" fill="#EDE4FF"/>
+      <path d="M58 32 v8 a4 4 0 0 0 4 4 h8 Z" fill="#C4B5FD"/>
+      <line x1="34" y1="50" x2="56" y2="50" stroke="#7C3AED" stroke-width="2.6" stroke-linecap="round" opacity="0.55"/>
+      <line x1="34" y1="58" x2="50" y2="58" stroke="#7C3AED" stroke-width="2.6" stroke-linecap="round" opacity="0.55"/>
+      <!-- Lens -->
+      <circle cx="68" cy="70" r="18" fill="#FFFFFF" stroke="#7C3AED" stroke-width="5"/>
+      <circle cx="68" cy="70" r="6.5" fill="#7C3AED"/>
+      <line x1="81" y1="83" x2="92" y2="94" stroke="#7C3AED" stroke-width="6" stroke-linecap="round"/>
+    </g>
+
+    <!-- Wordmark + tagline -->
+    <text x="0" y="166" fill="#1A1B1F" font-size="68" font-weight="700" letter-spacing="-1.6">FileLens</text>
+    <text x="0" y="216" fill="#5A5E66" font-size="26" font-weight="500" letter-spacing="-0.2">Peek inside before you open.</text>
+    <text x="0" y="248" fill="#5A5E66" font-size="26" font-weight="500" letter-spacing="-0.2">Share without leaking.</text>
+
+    <!-- Trust pills -->
+    <g transform="translate(0, 286)" font-size="14" font-weight="600">
+      <g>
+        <rect rx="14" ry="14" width="116" height="28" fill="#FFFFFF" stroke="#E3E5EA"/>
+        <circle cx="14" cy="14" r="4" fill="#16A34A"/>
+        <text x="26" y="18" fill="#1A1B1F">Offline</text>
+      </g>
+      <g transform="translate(128, 0)">
+        <rect rx="14" ry="14" width="138" height="28" fill="#FFFFFF" stroke="#E3E5EA"/>
+        <circle cx="14" cy="14" r="4" fill="#16A34A"/>
+        <text x="26" y="18" fill="#1A1B1F">No accounts</text>
+      </g>
+      <g transform="translate(278, 0)">
+        <rect rx="14" ry="14" width="140" height="28" fill="#FFFFFF" stroke="#E3E5EA"/>
+        <circle cx="14" cy="14" r="4" fill="#16A34A"/>
+        <text x="26" y="18" fill="#1A1B1F">No tracking</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ============================================================== -->
+  <!-- Right column: 3 device mocks                                    -->
+  <!-- ============================================================== -->
+  <g transform="translate(560, 38)">
+
+    <!-- Back phone: Safe Share -->
+    <g transform="translate(0, 60) rotate(-6 100 210)">
+      <rect x="0" y="0" rx="26" ry="26" width="200" height="420" fill="#FFFFFF" stroke="#E3E5EA" stroke-width="1.2" filter="url(#card)"/>
+      <rect x="14" y="20" rx="10" ry="10" width="172" height="56" fill="#7C3AED"/>
+      <text x="28" y="42" fill="#FFFFFF" font-size="13" font-weight="700">Safe Share</text>
+      <text x="28" y="62" fill="#EDE4FF" font-size="10">photo_001.jpg · cleaned</text>
+
+      <rect x="14" y="90" rx="10" ry="10" width="172" height="84" fill="#F0F1F4"/>
+      <circle cx="36" cy="120" r="12" fill="#14B8A6"/>
+      <text x="58" y="118" fill="#1A1B1F" font-size="11" font-weight="600">EXIF GPS</text>
+      <text x="58" y="132" fill="#5A5E66" font-size="9">Removed · 4 km accuracy</text>
+      <circle cx="36" cy="154" r="12" fill="#2563EB"/>
+      <text x="58" y="152" fill="#1A1B1F" font-size="11" font-weight="600">Camera serial</text>
+      <text x="58" y="166" fill="#5A5E66" font-size="9">Removed · Pixel 8</text>
+
+      <rect x="14" y="190" rx="10" ry="10" width="172" height="60" fill="#DCFCE7"/>
+      <text x="26" y="214" fill="#16A34A" font-size="12" font-weight="700">Ready to share</text>
+      <text x="26" y="232" fill="#16A34A" font-size="10" opacity="0.85">3 risks stripped from a clean copy</text>
+
+      <rect x="14" y="266" rx="12" ry="12" width="172" height="40" fill="#7C3AED"/>
+      <text x="100" y="291" text-anchor="middle" fill="#FFFFFF" font-size="13" font-weight="700">Share cleaned copy</text>
+    </g>
+
+    <!-- Back phone: Trust score (right) -->
+    <g transform="translate(266, 60) rotate(6 100 210)">
+      <rect x="0" y="0" rx="26" ry="26" width="200" height="420" fill="#FFFFFF" stroke="#E3E5EA" stroke-width="1.2" filter="url(#card)"/>
+      <rect x="14" y="20" rx="10" ry="10" width="172" height="48" fill="#F0F1F4"/>
+      <text x="26" y="40" fill="#1A1B1F" font-size="12" font-weight="700">invoice.pdf</text>
+      <text x="26" y="56" fill="#5A5E66" font-size="9">PDF · 1.2 MB</text>
+
+      <!-- Trust ring -->
+      <g transform="translate(100, 150)">
+        <circle r="56" fill="none" stroke="#F0F1F4" stroke-width="10"/>
+        <circle r="56" fill="none" stroke="#B45309" stroke-width="10"
+                stroke-dasharray="225 351" stroke-dashoffset="-44"
+                transform="rotate(-90)"/>
+        <text text-anchor="middle" y="-2" fill="#1A1B1F" font-size="22" font-weight="800">Medium</text>
+        <text text-anchor="middle" y="18" fill="#5A5E66" font-size="10">trust score</text>
+      </g>
+
+      <text x="20" y="252" fill="#1A1B1F" font-size="11" font-weight="700">Top reasons</text>
+
+      <g transform="translate(14, 264)">
+        <rect rx="8" ry="8" width="172" height="36" fill="#FEF3E0"/>
+        <circle cx="14" cy="18" r="4" fill="#B45309"/>
+        <text x="26" y="16" fill="#1A1B1F" font-size="10" font-weight="600">PDF JavaScript</text>
+        <text x="26" y="28" fill="#5A5E66" font-size="9">Auto-runs on open</text>
+      </g>
+
+      <g transform="translate(14, 306)">
+        <rect rx="8" ry="8" width="172" height="36" fill="#DBEAFE"/>
+        <circle cx="14" cy="18" r="4" fill="#2563EB"/>
+        <text x="26" y="16" fill="#1A1B1F" font-size="10" font-weight="600">Embedded file</text>
+        <text x="26" y="28" fill="#5A5E66" font-size="9">.docx attachment</text>
+      </g>
+
+      <g transform="translate(14, 348)">
+        <rect rx="8" ry="8" width="172" height="36" fill="#DCFCE7"/>
+        <circle cx="14" cy="18" r="4" fill="#16A34A"/>
+        <text x="26" y="16" fill="#1A1B1F" font-size="10" font-weight="600">Type matches extension</text>
+      </g>
+    </g>
+
+    <!-- Front phone: Inspector overview -->
+    <g transform="translate(133, 18)">
+      <rect x="0" y="0" rx="30" ry="30" width="200" height="440" fill="#FFFFFF" stroke="#E3E5EA" stroke-width="1.4" filter="url(#cardLg)"/>
+      <!-- Brand header -->
+      <rect x="0" y="0" rx="30" ry="30" width="200" height="64" fill="#2E1065"/>
+      <rect x="0" y="34" width="200" height="30" fill="#2E1065"/>
+      <g transform="translate(16, 24)">
+        <rect width="22" height="22" rx="6" fill="#FFFFFF"/>
+        <circle cx="11" cy="11" r="5.5" fill="none" stroke="#7C3AED" stroke-width="2"/>
+        <circle cx="11" cy="11" r="2" fill="#7C3AED"/>
+        <text x="32" y="16" fill="#FFFFFF" font-size="14" font-weight="700">FileLens</text>
+      </g>
+
+      <!-- Tabs row -->
+      <g transform="translate(14, 78)" font-size="9.5" font-weight="600">
+        <rect rx="12" ry="12" width="46" height="22" fill="#7C3AED"/>
+        <text x="23" y="15" text-anchor="middle" fill="#FFFFFF">Overview</text>
+        <text x="64" y="15" fill="#5A5E66">Preview</text>
+        <text x="104" y="15" fill="#5A5E66">Structure</text>
+        <text x="150" y="15" fill="#5A5E66">Risks</text>
+      </g>
+
+      <!-- File header -->
+      <g transform="translate(14, 116)">
+        <rect width="40" height="40" rx="10" fill="#FEE2E2"/>
+        <text x="20" y="26" text-anchor="middle" fill="#DC2626" font-size="11" font-weight="700">PDF</text>
+        <text x="50" y="16" fill="#1A1B1F" font-size="12" font-weight="700">report.pdf</text>
+        <text x="50" y="30" fill="#5A5E66" font-size="9">PDF · 2.4 MB · today</text>
+      </g>
+
+      <!-- Risk cards -->
+      <g transform="translate(14, 168)">
+        <rect rx="10" ry="10" width="172" height="50" fill="#FEE2E2"/>
+        <circle cx="16" cy="18" r="5" fill="#DC2626"/>
+        <text x="28" y="18" fill="#1A1B1F" font-size="10.5" font-weight="700">JavaScript inside PDF</text>
+        <text x="28" y="32" fill="#5A5E66" font-size="9">Runs when the file is opened.</text>
+        <text x="28" y="44" fill="#7C3AED" font-size="9" font-weight="600">Open safely · Learn more</text>
+      </g>
+
+      <g transform="translate(14, 226)">
+        <rect rx="10" ry="10" width="172" height="50" fill="#FEF3E0"/>
+        <circle cx="16" cy="18" r="5" fill="#B45309"/>
+        <text x="28" y="18" fill="#1A1B1F" font-size="10.5" font-weight="700">Embedded files (1)</text>
+        <text x="28" y="32" fill="#5A5E66" font-size="9">Attached document found.</text>
+        <text x="28" y="44" fill="#7C3AED" font-size="9" font-weight="600">Browse · Extract</text>
+      </g>
+
+      <g transform="translate(14, 284)">
+        <rect rx="10" ry="10" width="172" height="50" fill="#DBEAFE"/>
+        <circle cx="16" cy="18" r="5" fill="#2563EB"/>
+        <text x="28" y="18" fill="#1A1B1F" font-size="10.5" font-weight="700">Author metadata</text>
+        <text x="28" y="32" fill="#5A5E66" font-size="9">"jdoe" · Acme Corp · 2024-11-08</text>
+        <text x="28" y="44" fill="#7C3AED" font-size="9" font-weight="600">Strip on share</text>
+      </g>
+
+      <!-- Trust strip -->
+      <g transform="translate(14, 348)">
+        <rect rx="12" ry="12" width="172" height="48" fill="#F0F1F4"/>
+        <g transform="translate(14, 24)">
+          <circle r="14" fill="#B45309"/>
+          <text text-anchor="middle" y="4" fill="#FFFFFF" font-size="11" font-weight="800">M</text>
+        </g>
+        <text x="42" y="20" fill="#1A1B1F" font-size="11" font-weight="700">Medium trust</text>
+        <text x="42" y="32" fill="#5A5E66" font-size="9">3 reasons influenced the score</text>
+      </g>
+
+      <!-- Bottom action -->
+      <rect x="14" y="402" rx="12" ry="12" width="172" height="26" fill="#7C3AED"/>
+      <text x="100" y="419" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="700">Share cleaned copy</text>
+    </g>
+
+  </g>
+</svg>
