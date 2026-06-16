@@ -64,6 +64,8 @@ class TextInspector @Inject constructor(
         val language = detectLanguage(ext)
         language?.let { overview["Language"] = it }
 
+        analyzeSubtitle(content, ext, overview)
+
         val outline = extractOutline(content, ext)
 
         val secrets = secretScanner.scan(content, location = file.name)
@@ -148,6 +150,29 @@ class TextInspector @Inject constructor(
         "properties" -> "Properties"
         "env" -> "Environment"
         "conf", "config" -> "Config"
+        "srt" -> "SubRip"
+        "vtt" -> "WebVTT"
+        "ass", "ssa" -> "SubStation Alpha"
+        "tf", "tfvars" -> "Terraform"
+        "hcl" -> "HCL"
+        "nix" -> "Nix"
+        "vue" -> "Vue"
+        "svelte" -> "Svelte"
+        "astro" -> "Astro"
+        "mdx" -> "MDX"
+        "hs" -> "Haskell"
+        "elm" -> "Elm"
+        "clj", "cljs" -> "Clojure"
+        "erl" -> "Erlang"
+        "jl" -> "Julia"
+        "zig" -> "Zig"
+        "nim" -> "Nim"
+        "cr" -> "Crystal"
+        "ml", "mli" -> "OCaml"
+        "vb", "vbs" -> "Visual Basic"
+        "fs", "fsx" -> "F#"
+        "asm", "s" -> "Assembly"
+        "ipynb" -> "Jupyter notebook"
         else -> null
     }
 
@@ -408,6 +433,35 @@ class TextInspector @Inject constructor(
 
         if (items.isEmpty()) return null
         return StructureNode.Branch(name = "Outline", children = items.take(100))
+    }
+
+    // Lightweight subtitle parsing — just enough to surface cue count and span
+    // without pulling in a real subtitle library. Recognises SRT, WebVTT, and
+    // SubStation Alpha / Advanced SubStation.
+    private fun analyzeSubtitle(content: String, ext: String, overview: MutableMap<String, String>) {
+        when (ext) {
+            "srt", "vtt" -> {
+                overview["Format"] = if (ext == "vtt") "WebVTT" else "SubRip"
+                val timestampRegex = Regex("""(\d{1,2}):(\d{2}):(\d{2})[.,](\d{3})\s*-->\s*(\d{1,2}):(\d{2}):(\d{2})[.,](\d{3})""")
+                val matches = timestampRegex.findAll(content).toList()
+                if (matches.isNotEmpty()) {
+                    overview["Cues"] = "%,d".format(matches.size)
+                    val first = matches.first()
+                    val last = matches.last()
+                    overview["First cue"] = "${first.groupValues[1]}:${first.groupValues[2]}:${first.groupValues[3]}"
+                    overview["Last cue"] = "${last.groupValues[5]}:${last.groupValues[6]}:${last.groupValues[7]}"
+                }
+            }
+            "ass", "ssa" -> {
+                overview["Format"] = if (ext == "ass") "Advanced SubStation Alpha" else "SubStation Alpha"
+                val dialogueRegex = Regex("""(?m)^Dialogue:""")
+                val cues = dialogueRegex.findAll(content).count()
+                if (cues > 0) overview["Cues"] = "%,d".format(cues)
+                val stylesRegex = Regex("""(?m)^Style:""")
+                val styles = stylesRegex.findAll(content).count()
+                if (styles > 0) overview["Styles"] = styles.toString()
+            }
+        }
     }
 
     private fun formatSize(bytes: Long): String {

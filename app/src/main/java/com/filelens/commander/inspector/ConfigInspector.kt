@@ -25,13 +25,25 @@ class ConfigInspector @Inject constructor(
     fun handles(file: File): Boolean {
         val name = file.name.lowercase()
         if (name.startsWith(".env")) return true
-        if (name == "dockerfile") return true
+        if (name in filenameOnly) return true
         val ext = file.extension.lowercase()
         return ext in supportedExtensions
     }
 
     private val supportedExtensions = setOf(
-        "env", "properties", "ini", "yaml", "yml", "toml", "conf", "cfg"
+        "env", "properties", "ini", "yaml", "yml", "toml", "conf", "cfg",
+        "tf", "tfvars", "hcl", "nix",
+        "editorconfig", "gitignore", "gitattributes"
+    )
+
+    private val filenameOnly = setOf(
+        "dockerfile", "containerfile",
+        "makefile", "gnumakefile",
+        "cmakelists.txt",
+        "build", "build.bazel", "workspace", "workspace.bazel",
+        ".editorconfig", ".gitignore", ".gitattributes",
+        ".prettierrc", ".eslintrc", ".npmrc", ".yarnrc",
+        "procfile"
     )
 
     override suspend fun inspect(file: File): InspectorResult = withContext(Dispatchers.IO) {
@@ -156,7 +168,14 @@ class ConfigInspector @Inject constructor(
     private fun detectFormat(file: File): String {
         val name = file.name.lowercase()
         if (name.startsWith(".env")) return ".env"
-        if (name == "dockerfile") return "Dockerfile"
+        if (name == "dockerfile" || name == "containerfile") return "Dockerfile"
+        if (name == "makefile" || name == "gnumakefile") return "Makefile"
+        if (name == "cmakelists.txt") return "CMake"
+        if (name == "build" || name == "build.bazel" || name == "workspace" || name == "workspace.bazel") return "Bazel"
+        if (name == "procfile") return "Procfile"
+        if (name == ".editorconfig" || name == "editorconfig") return "EditorConfig"
+        if (name == ".gitignore" || name == "gitignore") return "Git ignore"
+        if (name == ".gitattributes" || name == "gitattributes") return "Git attributes"
         return when (file.extension.lowercase()) {
             "yaml", "yml" -> "YAML"
             "toml" -> "TOML"
@@ -165,6 +184,9 @@ class ConfigInspector @Inject constructor(
             "conf" -> "conf"
             "properties" -> "Java properties"
             "env" -> ".env"
+            "tf", "tfvars" -> "Terraform"
+            "hcl" -> "HCL"
+            "nix" -> "Nix"
             else -> file.extension
         }
     }
@@ -174,6 +196,9 @@ class ConfigInspector @Inject constructor(
         "TOML" -> "TOML"
         "INI", "INI / cfg", "conf" -> "INI"
         "Java properties", ".env" -> "Properties"
+        "Terraform", "HCL", "Nix" -> "HCL"
+        "Dockerfile" -> "Dockerfile"
+        "Makefile", "CMake", "Bazel" -> "Makefile"
         else -> "Text"
     }
 

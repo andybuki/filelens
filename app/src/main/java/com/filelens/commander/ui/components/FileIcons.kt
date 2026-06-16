@@ -190,6 +190,7 @@ fun fileTileColor(category: FileCategory, extension: String): Color {
         FileCategory.DATABASE -> Color(0xFFF97316)
         FileCategory.FONT -> Color(0xFFDB2777)
         FileCategory.EXECUTABLE -> Color(0xFF6B7280)
+        FileCategory.CERTIFICATE -> Color(0xFF0EA371)
         FileCategory.UNKNOWN -> Color(0xFF94A3B8)
         FileCategory.DIRECTORY -> FolderYellow
     }

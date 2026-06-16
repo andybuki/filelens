@@ -56,6 +56,7 @@ import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.FileItem
 import com.filelens.commander.ui.theme.CategoryApk
 import com.filelens.commander.ui.theme.CategoryArchive
+import com.filelens.commander.ui.theme.CategoryCertificate
 import com.filelens.commander.ui.theme.CategoryAudio
 import com.filelens.commander.ui.theme.CategoryCode
 import com.filelens.commander.ui.theme.CategoryDirectory
@@ -452,6 +453,7 @@ private fun colorFor(category: FileCategory): Color = when (category) {
     FileCategory.APK -> CategoryApk
     FileCategory.CODE -> CategoryCode
     FileCategory.TEXT -> CategoryText
+    FileCategory.CERTIFICATE -> CategoryCertificate
     else -> FlAccent
 }
 

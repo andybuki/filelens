@@ -45,6 +45,7 @@ import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.ui.theme.CategoryApk
 import com.filelens.commander.ui.theme.CategoryArchive
 import com.filelens.commander.ui.theme.CategoryAudio
+import com.filelens.commander.ui.theme.CategoryCertificate
 import com.filelens.commander.ui.theme.CategoryCode
 import com.filelens.commander.ui.theme.CategoryDatabase
 import com.filelens.commander.ui.theme.CategoryDocument
@@ -340,6 +341,7 @@ private fun categoryColor(cat: FileCategory): Color = when (cat) {
     FileCategory.DATABASE -> CategoryDatabase
     FileCategory.FONT -> CategoryFont
     FileCategory.EXECUTABLE -> CategoryExecutable
+    FileCategory.CERTIFICATE -> CategoryCertificate
     FileCategory.UNKNOWN, FileCategory.DIRECTORY -> CategoryUnknown
 }
 
