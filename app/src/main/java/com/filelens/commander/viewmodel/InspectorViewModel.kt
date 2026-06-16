@@ -15,6 +15,7 @@ import com.filelens.commander.domain.usecase.StructuredSearchUseCase
 import com.filelens.commander.domain.usecase.TrustScoreUseCase
 import com.filelens.commander.inspector.ApkInspector
 import com.filelens.commander.inspector.BinaryInspector
+import com.filelens.commander.inspector.CertificateInspector
 import com.filelens.commander.inspector.ConfigInspector
 import com.filelens.commander.inspector.EpubInspector
 import com.filelens.commander.inspector.ImageInspector
@@ -26,6 +27,7 @@ import com.filelens.commander.inspector.OfficeInspector
 import com.filelens.commander.inspector.PdfInspector
 import com.filelens.commander.inspector.SqliteInspector
 import com.filelens.commander.inspector.TextInspector
+import com.filelens.commander.inspector.VpnConfigInspector
 import com.filelens.commander.inspector.XmlInspector
 import com.filelens.commander.inspector.ZipInspector
 import android.content.Context
@@ -73,6 +75,8 @@ class InspectorViewModel @Inject constructor(
     private val configInspector: ConfigInspector,
     private val logInspector: LogInspector,
     private val epubInspector: EpubInspector,
+    private val certificateInspector: CertificateInspector,
+    private val vpnConfigInspector: VpnConfigInspector,
     private val trustScoreUseCase: TrustScoreUseCase,
     private val provenanceDetector: ProvenanceDetector,
     private val structuredSearchUseCase: StructuredSearchUseCase,
@@ -373,8 +377,9 @@ class InspectorViewModel @Inject constructor(
                 FileCategory.DATABASE -> sqliteInspector.inspect(file)
                 FileCategory.FONT -> fontInspector.inspect(file)
                 FileCategory.CERTIFICATE -> when (extension.lowercase()) {
-                    "pem", "pub", "ovpn", "wg", "mobileconfig" -> textInspector.inspect(file)
-                    else -> binaryInspector.inspect(file)
+                    "ovpn", "wg", "mobileconfig" -> vpnConfigInspector.inspect(file)
+                    "pub" -> textInspector.inspect(file)
+                    else -> certificateInspector.inspect(file)
                 }
                 else -> binaryInspector.inspect(file)
             }

@@ -22,7 +22,9 @@ class InspectorDispatcher @Inject constructor(
     private val fontInspector: FontInspector,
     private val configInspector: ConfigInspector,
     private val logInspector: LogInspector,
-    private val epubInspector: EpubInspector
+    private val epubInspector: EpubInspector,
+    private val certificateInspector: CertificateInspector,
+    private val vpnConfigInspector: VpnConfigInspector
 ) {
 
     suspend fun inspect(file: File, category: FileCategory, extension: String): InspectorResult {
@@ -57,8 +59,9 @@ class InspectorDispatcher @Inject constructor(
                 FileCategory.DATABASE -> sqliteInspector.inspect(file)
                 FileCategory.FONT -> fontInspector.inspect(file)
                 FileCategory.CERTIFICATE -> when (extension.lowercase()) {
-                    "pem", "pub", "ovpn", "wg", "mobileconfig" -> textInspector.inspect(file)
-                    else -> binaryInspector.inspect(file)
+                    "ovpn", "wg", "mobileconfig" -> vpnConfigInspector.inspect(file)
+                    "pub" -> textInspector.inspect(file)
+                    else -> certificateInspector.inspect(file)
                 }
                 else -> binaryInspector.inspect(file)
             }
