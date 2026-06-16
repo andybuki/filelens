@@ -545,7 +545,6 @@
     <string name="settings_onboarding_reset_toast">O guia de boas-vindas será exibido na próxima inicialização</string>
 
     <string name="cd_open_home">Abrir Início</string>
-    <string name="home_subtitle">Recentes · Favoritos · Categorias</string>
     <string name="home_section_categories">Categorias</string>
     <string name="home_section_recent">Arquivos recentes</string>
     <string name="home_section_favorites">Favoritos</string>

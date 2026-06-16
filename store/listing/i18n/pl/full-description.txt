@@ -1,0 +1,39 @@
+FileLens to inteligentny menedżer plików dla Androida, który pomaga zrozumieć, co znajduje się w pliku, zanim go otworzysz lub udostępnisz.
+
+SPRAWDŹ PRZED OTWARCIEM
+• Wykrywanie magic-bytes wyłapuje niezgodności rozszerzeń (ten .jpg może być w rzeczywistości plikiem wykonywalnym).
+• Karty podglądu, metadanych i struktury obok siebie dla każdego popularnego typu pliku.
+• Odznaki ryzyka wskazują na GPS w zdjęciach, JavaScript w PDF-ach, śledzone zmiany w DOCX, ukryte arkusze Excela i aktywną zawartość w archiwach.
+• Lokalny wskaźnik zaufania z głównymi czynnikami, które na niego wpłynęły.
+
+GŁĘBOKIE WSPARCIE
+• Obrazy: EXIF z GPS, aparatem, datami, z opcjonalnym czyszczeniem.
+• Dokumenty: rewizje DOCX, XLSX, PPTX, ukryte arkusze, makra, linki zewnętrzne.
+• PDF-y: miniatury, JavaScript, osadzone pliki, status szyfrowania.
+• Archiwa: ZIP, JAR, APK, OOXML, TAR, TAR.GZ, EPUB. Przeglądaj zawartość bez wypakowywania.
+• APK: uprawnienia, podpisy, flagi debugowania/kopii zapasowej, biblioteki natywne, trackery.
+• Audio/wideo: tagi, czas trwania, kodek, okładki, miniatury wideo.
+• Kod/tekst/konfiguracja: podgląd z podświetlaniem składni, skanowanie sekretów w JSON, XML, YAML, TOML, INI, .env, logach.
+• SQLite: schemat, wiersze tabel, przeglądarka zapytań tylko do odczytu.
+• Pliki binarne: widok hex, entropia, nagłówki ELF/DEX/SQLite.
+
+TRYB KOMANDORA
+• Pojedynczy panel na telefonie, dwa panele plików na tabletach i DeX.
+• Pełne skróty klawiszowe F-key w stylu Nortona. Każde przypisanie można dostosować.
+• Kopiowanie, przenoszenie, zmiana nazwy, masowa zmiana nazw według wzorców ({n}, {name}, {ext}, znajdź/zamień, regex).
+• Miękkie usuwanie do katalogu .trash z możliwością odzyskania i cofania Ctrl+Z.
+• Porównaj dwa pliki (różnice tekstowe, strukturalne diff JSON/XML, obrazy obok siebie, sumy kontrolne).
+• Porównaj dwa foldery (tylko lewy, tylko prawy, zmienione, ta sama zawartość-inne nazwy) z akcjami synchronizacji.
+• Znajdź duplikaty po SHA-256 z jednym dotknięciem "usuń stare nadmiary".
+• Zweryfikuj pobrany plik wklejonym hashem (SHA-256 lub MD5).
+
+PRYWATNOŚĆ NA PIERWSZYM MIEJSCU
+• Usuwa metadane EXIF, OOXML, PDF na potrzeby przepływu "udostępnij oczyszczoną kopię".
+• Wsadowy audyt prywatności folderu; pakuje oczyszczone kopie do udostępnialnego ZIP-a.
+• Generuje raporty inspekcji jako Markdown lub JSON.
+
+OFFLINE, NA URZĄDZENIU
+• Bez kont, bez analityki poza podstawowym raportowaniem awarii, bez wywołań sieciowych podczas normalnej pracy.
+• Ustawienia, zakładki, ostatnie pliki i częste foldery są kopiowane do pliku JSON, którym zarządzasz.
+
+Zaprojektowany dla majsterkowiczów, użytkowników dbających o bezpieczeństwo, dziennikarzy, administratorów systemów i każdego, kto chce wiedzieć, co naprawdę znajduje się w plikach na jego telefonie, zanim je udostępni.

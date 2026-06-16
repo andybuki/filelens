@@ -1,0 +1,39 @@
+FileLens ist ein intelligenter Dateimanager für Android, der dir hilft zu verstehen, was in einer Datei steckt, bevor du sie öffnest oder teilst.
+
+PRÜFEN VOR DEM ÖFFNEN
+• Magic-Bytes-Erkennung entlarvt falsche Endungen (das .jpg könnte tatsächlich eine ausführbare Datei sein).
+• Vorschau-, Metadaten- und Struktur-Tabs nebeneinander für jeden gängigen Dateityp.
+• Risiko-Badges weisen auf GPS in Fotos, JavaScript in PDFs, nachverfolgte Änderungen in DOCX, versteckte Excel-Blätter und aktive Inhalte in Archiven hin.
+• Lokale Vertrauenswertung mit den wichtigsten Gründen, die sie beeinflusst haben.
+
+TIEFE ABDECKUNG
+• Bilder: EXIF inkl. GPS, Kamera, Datum, mit optionaler Bereinigung.
+• Dokumente: DOCX-, XLSX-, PPTX-Revisionen, versteckte Blätter, Makros, externe Links.
+• PDFs: Miniaturen, JavaScript, eingebettete Dateien, Verschlüsselungsstatus.
+• Archive: ZIP, JAR, APK, OOXML, TAR, TAR.GZ, EPUB. Inhalte ohne Entpacken durchsuchen.
+• APKs: Berechtigungen, Signaturen, Debug-/Backup-Flags, native Bibliotheken, Tracker.
+• Audio/Video: Tags, Dauer, Codec, Cover, Video-Miniaturen.
+• Code/Text/Config: Syntax-hervorgehobene Vorschau, Geheimnis-Scan über JSON, XML, YAML, TOML, INI, .env, Logs.
+• SQLite: Schema, Tabellenzeilen, Nur-Lese-Abfrage-Browser.
+• Binär: Hex-Ansicht, Entropie, ELF/DEX/SQLite-Header.
+
+COMMANDER-MODUS
+• Ein Panel am Telefon, zwei Datei-Panels auf Tablets und DeX.
+• Norton-artige F-Tasten-Shortcuts mit voller Tastatur. Jede Belegung ist anpassbar.
+• Kopieren, verschieben, umbenennen, Stapelumbenennung mit Mustern ({n}, {name}, {ext}, Suchen/Ersetzen, Regex).
+• Sanftes Löschen in ein wiederherstellbares .trash-Verzeichnis mit Strg+Z zum Rückgängigmachen.
+• Vergleiche zwei Dateien (Text-Diff, JSON/XML-Strukturdiff, Bilder nebeneinander, Prüfsummen).
+• Vergleiche zwei Ordner (nur links, nur rechts, geändert, gleicher Inhalt anderer Name) mit Sync-Aktionen.
+• Finde Duplikate per SHA-256 mit „alte Extras löschen" per Tipp.
+• Prüfe einen Download gegen einen eingefügten Hash (SHA-256 oder MD5).
+
+PRIVATSPHÄRE ZUERST
+• Entfernt EXIF-, OOXML-, PDF-Metadaten für einen „bereinigte Kopie teilen"-Ablauf.
+• Stapel-Privatsphäre-Audit auf einem Ordner; packe bereinigte Kopien in ein teilbares ZIP.
+• Erstelle Inspektionsberichte als Markdown oder JSON.
+
+OFFLINE, AUF DEM GERÄT
+• Keine Konten, keine Analytik über grundlegende Absturzberichte hinaus, keine Netzwerkaufrufe im Normalbetrieb.
+• Einstellungen, Lesezeichen, kürzliche Dateien und häufige Ordner werden in einer JSON-Datei gesichert, die du kontrollierst.
+
+Gedacht für Bastler, sicherheitsbewusste Nutzer, Journalisten, Systemadministratoren und alle, die wissen wollen, was wirklich in den Dateien ihres Telefons steckt, bevor sie sie teilen.

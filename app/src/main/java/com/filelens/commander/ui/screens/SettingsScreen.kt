@@ -79,7 +79,9 @@ import kotlin.math.roundToInt
 import com.filelens.commander.ui.theme.Eyebrow
 import com.filelens.commander.ui.theme.FlAccent
 import com.filelens.commander.ui.theme.FlBlue50
+import com.filelens.commander.ui.theme.FlBorder2
 import com.filelens.commander.ui.theme.FlInk3
+import com.filelens.commander.ui.theme.FlSurface
 import com.filelens.commander.ui.theme.FlNavy
 import com.filelens.commander.ui.theme.FlOnAccent
 import com.filelens.commander.viewmodel.SettingsViewModel
@@ -507,7 +509,11 @@ private fun SwitchRow(
             onCheckedChange = onCheckedChange,
             colors = SwitchDefaults.colors(
                 checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
-                checkedTrackColor = FlAccent
+                checkedTrackColor = FlAccent,
+                checkedBorderColor = FlAccent,
+                uncheckedThumbColor = FlBorder2,
+                uncheckedTrackColor = FlSurface,
+                uncheckedBorderColor = FlBorder2
             )
         )
     }

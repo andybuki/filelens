@@ -1,0 +1,11 @@
+FileLens 1.0 — première version stable.
+
+• Thème clair partout, marque et logo rafraîchis.
+• Nouvel onglet Accueil : Récents, Favoris, Catégories.
+• Coffre caché protégé par biométrie.
+• Recherche globale, gestionnaire d'apps, corbeille.
+• Réglages revus : langue, onglet d'accueil, confirmer avant suppression.
+• États vides soignés, erreurs plus amicales.
+• Localisé en 15 langues dont arabe (RTL).
+
+Hors ligne. Sans compte. Sans pistage.

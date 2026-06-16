@@ -534,7 +534,6 @@
     <string name="settings_onboarding_reset_toast">Karşılama rehberi sonraki başlatmada gösterilecek</string>
 
     <string name="cd_open_home">Ana Sayfayı Aç</string>
-    <string name="home_subtitle">Son · Sık Kullanılanlar · Kategoriler</string>
     <string name="home_section_categories">Kategoriler</string>
     <string name="home_section_recent">Son dosyalar</string>
     <string name="home_section_favorites">Sık kullanılanlar</string>

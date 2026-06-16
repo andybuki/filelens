@@ -78,7 +78,6 @@
     <!-- ====================================================================
          Home tab
          ==================================================================== -->
-    <string name="home_subtitle">Recent · Favorites · Categories</string>
     <string name="home_section_categories">Categories</string>
     <string name="home_section_recent">Recent files</string>
     <string name="home_section_favorites">Favorites</string>

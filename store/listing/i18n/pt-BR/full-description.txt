@@ -1,0 +1,39 @@
+FileLens é um gerenciador de arquivos inteligente para Android que ajuda você a entender o que há em um arquivo antes de abri-lo ou compartilhá-lo.
+
+INSPECIONE ANTES DE ABRIR
+• A detecção por bytes mágicos identifica extensões falsas (aquele .jpg pode ser um executável).
+• Abas de pré-visualização, metadados e estrutura lado a lado para cada tipo de arquivo comum.
+• Selos de risco destacam itens como GPS em fotos, JavaScript em PDFs, alterações rastreadas em DOCX, planilhas ocultas no Excel e conteúdo ativo em arquivos compactados.
+• Pontuação de confiança local com os principais motivos que a influenciaram.
+
+COBERTURA PROFUNDA
+• Imagens: EXIF incluindo GPS, câmera, datas, com limpeza opcional.
+• Documentos: revisões DOCX, XLSX, PPTX, planilhas ocultas, macros, links externos.
+• PDFs: miniaturas, JavaScript, arquivos embutidos, status de criptografia.
+• Arquivos: ZIP, JAR, APK, OOXML, TAR, TAR.GZ, EPUB. Navegue pelo conteúdo sem extrair.
+• APKs: permissões, assinaturas, flags de depuração/backup, bibliotecas nativas, rastreadores.
+• Áudio/vídeo: tags, duração, codec, capas, miniaturas de vídeo.
+• Código/texto/config: pré-visualização com realce, varredura de segredos em JSON, XML, YAML, TOML, INI, .env, logs.
+• SQLite: esquema, linhas de tabela, navegador de consultas somente leitura.
+• Binário: visualização hex, entropia, cabeçalhos ELF/DEX/SQLite.
+
+MODO COMMANDER
+• Painel único no celular, dois painéis em tablets e DeX.
+• Atalhos de teclas F estilo Norton com teclado completo. Cada atalho é personalizável.
+• Copiar, mover, renomear, renomear em lote com padrões ({n}, {name}, {ext}, localizar/substituir, regex).
+• Exclusão suave para um diretório .trash recuperável com Ctrl+Z para desfazer.
+• Compare dois arquivos (diff de texto, diff estrutural JSON/XML, imagens lado a lado, somas de verificação).
+• Compare duas pastas (só esquerda, só direita, alterados, mesmo conteúdo nome diferente) com ações de sincronização.
+• Encontre duplicatas por SHA-256 com "excluir cópias antigas" em um toque.
+• Verifique um download contra um hash colado (SHA-256 ou MD5).
+
+PRIVACIDADE EM PRIMEIRO LUGAR
+• Remove metadados EXIF, OOXML e PDF para um fluxo de "compartilhar cópia limpa".
+• Auditoria de privacidade em lote em uma pasta; empacote cópias limpas em um ZIP compartilhável.
+• Gere relatórios de inspeção em Markdown ou JSON.
+
+OFFLINE, NO APARELHO
+• Sem contas, sem analytics além do relatório básico de falhas, sem chamadas de rede em uso normal.
+• Configurações, favoritos, arquivos recentes e pastas frequentes são salvos em um arquivo JSON sob seu controle.
+
+Feito para curiosos, usuários atentos à segurança, jornalistas, administradores de sistemas e qualquer um que queira saber o que realmente está dentro dos arquivos do celular antes de compartilhar.

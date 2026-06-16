@@ -1,0 +1,11 @@
+FileLens 1.0 — ilk kararlı sürüm.
+
+• Her yerde açık tema, yenilenen marka ve lens işareti.
+• Yeni Ana Sayfa: Son, Favoriler ve Kategoriler tek yerde.
+• Biyometri arkasında gizli kasa.
+• Klasörlerde genel arama, uygulama yöneticisi, geri dönüşüm kutusu.
+• Ayarlar elden geçirildi: dil seçici, varsayılan ana sekme, silmeden önce sor.
+• Cilalı boş durumlar, yükleme iskeletleri, daha dostça hatalar.
+• Arapça (RTL) dahil 15 dile yerelleştirme.
+
+Çevrimdışı. Hesap yok. İzleme yok.
