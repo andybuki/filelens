@@ -330,7 +330,7 @@
     <string name="settings_backup_desc">설정, 북마크, 최근 파일, 자주 사용한 폴더를 나중에 복원할 수 있는 JSON 파일로 저장합니다.</string>
 
     <string name="settings_about_app_name">FileLens Commander</string>
-    <string name="settings_about_version">버전 0.5.0</string>
+    <string name="settings_about_version">버전 0.6.0</string>
     <string name="settings_about_vision_label">비전</string>
     <string name="settings_about_vision_text">파일을 탐색하고, 내부를 엿보고, 열기 전에 이해하세요. 오프라인, 기기 내, 계정 불필요.</string>
     <string name="settings_licenses_intro">FileLens는 다음 오픈 소스 라이브러리를 기반으로 합니다:</string>

@@ -330,7 +330,7 @@
     <string name="settings_backup_desc">Speichern Sie Einstellungen, Lesezeichen, zuletzt geöffnete Dateien und häufige Ordner in einer JSON-Datei, die Sie später wiederherstellen können.</string>
 
     <string name="settings_about_app_name">FileLens Commander</string>
-    <string name="settings_about_version">Version 0.5.0</string>
+    <string name="settings_about_version">Version 0.6.0</string>
     <string name="settings_about_vision_label">Vision</string>
     <string name="settings_about_vision_text">Dateien durchsuchen, hineinsehen, verstehen vor dem Öffnen. Offline, auf dem Gerät, ohne Konten.</string>
     <string name="settings_licenses_intro">FileLens basiert auf diesen Open-Source-Bibliotheken:</string>
