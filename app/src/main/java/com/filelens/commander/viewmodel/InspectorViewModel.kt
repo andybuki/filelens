@@ -15,16 +15,21 @@ import com.filelens.commander.domain.usecase.StructuredSearchUseCase
 import com.filelens.commander.domain.usecase.TrustScoreUseCase
 import com.filelens.commander.inspector.ApkInspector
 import com.filelens.commander.inspector.BinaryInspector
+import com.filelens.commander.inspector.BrowserExtensionInspector
 import com.filelens.commander.inspector.CertificateInspector
 import com.filelens.commander.inspector.ConfigInspector
+import com.filelens.commander.inspector.DiskImageInspector
+import com.filelens.commander.inspector.EbookInspector
 import com.filelens.commander.inspector.EpubInspector
 import com.filelens.commander.inspector.ImageInspector
 import com.filelens.commander.inspector.JsonInspector
 import com.filelens.commander.inspector.LogInspector
 import com.filelens.commander.inspector.FontInspector
 import com.filelens.commander.inspector.MediaInspector
+import com.filelens.commander.inspector.MidiInspector
 import com.filelens.commander.inspector.OfficeInspector
 import com.filelens.commander.inspector.PdfInspector
+import com.filelens.commander.inspector.PsdInspector
 import com.filelens.commander.inspector.SqliteInspector
 import com.filelens.commander.inspector.TextInspector
 import com.filelens.commander.inspector.VpnConfigInspector
@@ -77,6 +82,11 @@ class InspectorViewModel @Inject constructor(
     private val epubInspector: EpubInspector,
     private val certificateInspector: CertificateInspector,
     private val vpnConfigInspector: VpnConfigInspector,
+    private val ebookInspector: EbookInspector,
+    private val midiInspector: MidiInspector,
+    private val psdInspector: PsdInspector,
+    private val diskImageInspector: DiskImageInspector,
+    private val browserExtensionInspector: BrowserExtensionInspector,
     private val trustScoreUseCase: TrustScoreUseCase,
     private val provenanceDetector: ProvenanceDetector,
     private val structuredSearchUseCase: StructuredSearchUseCase,
@@ -344,15 +354,23 @@ class InspectorViewModel @Inject constructor(
     private suspend fun runInspector(file: File, category: FileCategory, extension: String): InspectorResult {
         return try {
             when (category) {
-                FileCategory.IMAGE -> imageInspector.inspect(file)
-                FileCategory.ARCHIVE -> zipInspector.inspect(file)
+                FileCategory.IMAGE -> when (extension.lowercase()) {
+                    "psd", "psb" -> psdInspector.inspect(file)
+                    else -> imageInspector.inspect(file)
+                }
+                FileCategory.ARCHIVE -> when (extension.lowercase()) {
+                    "xpi", "crx" -> browserExtensionInspector.inspect(file)
+                    "iso", "dmg", "img", "vhd", "vmdk", "qcow2" -> diskImageInspector.inspect(file)
+                    else -> zipInspector.inspect(file)
+                }
                 FileCategory.APK -> apkInspector.inspect(file)
                 FileCategory.DOCUMENT, FileCategory.SPREADSHEET, FileCategory.PRESENTATION -> {
                     when (extension.lowercase()) {
                         "epub" -> epubInspector.inspect(file)
                         "docx", "docm", "xlsx", "xlsm", "pptx", "pptm" -> officeInspector.inspect(file)
                         "pages", "numbers", "key", "odt", "ods", "odp" -> zipInspector.inspect(file)
-                        "mobi", "azw", "azw3", "djvu", "xps", "oxps", "xlsb" -> binaryInspector.inspect(file)
+                        "mobi", "azw", "azw3", "prc", "fb2", "djvu", "xps", "oxps" -> ebookInspector.inspect(file)
+                        "xlsb" -> binaryInspector.inspect(file)
                         else -> textInspector.inspect(file)
                     }
                 }
@@ -373,7 +391,11 @@ class InspectorViewModel @Inject constructor(
                     }
                 }
                 FileCategory.PDF -> pdfInspector.inspect(file)
-                FileCategory.AUDIO, FileCategory.VIDEO -> mediaInspector.inspect(file)
+                FileCategory.AUDIO -> when (extension.lowercase()) {
+                    "mid", "midi" -> midiInspector.inspect(file)
+                    else -> mediaInspector.inspect(file)
+                }
+                FileCategory.VIDEO -> mediaInspector.inspect(file)
                 FileCategory.DATABASE -> sqliteInspector.inspect(file)
                 FileCategory.FONT -> fontInspector.inspect(file)
                 FileCategory.CERTIFICATE -> when (extension.lowercase()) {

@@ -24,21 +24,34 @@ class InspectorDispatcher @Inject constructor(
     private val logInspector: LogInspector,
     private val epubInspector: EpubInspector,
     private val certificateInspector: CertificateInspector,
-    private val vpnConfigInspector: VpnConfigInspector
+    private val vpnConfigInspector: VpnConfigInspector,
+    private val ebookInspector: EbookInspector,
+    private val midiInspector: MidiInspector,
+    private val psdInspector: PsdInspector,
+    private val diskImageInspector: DiskImageInspector,
+    private val browserExtensionInspector: BrowserExtensionInspector
 ) {
 
     suspend fun inspect(file: File, category: FileCategory, extension: String): InspectorResult {
         return try {
             when (category) {
-                FileCategory.IMAGE -> imageInspector.inspect(file)
-                FileCategory.ARCHIVE -> zipInspector.inspect(file)
+                FileCategory.IMAGE -> when (extension.lowercase()) {
+                    "psd", "psb" -> psdInspector.inspect(file)
+                    else -> imageInspector.inspect(file)
+                }
+                FileCategory.ARCHIVE -> when (extension.lowercase()) {
+                    "xpi", "crx" -> browserExtensionInspector.inspect(file)
+                    "iso", "dmg", "img", "vhd", "vmdk", "qcow2" -> diskImageInspector.inspect(file)
+                    else -> zipInspector.inspect(file)
+                }
                 FileCategory.APK -> apkInspector.inspect(file)
                 FileCategory.DOCUMENT, FileCategory.SPREADSHEET, FileCategory.PRESENTATION -> {
                     when (extension.lowercase()) {
                         "epub" -> epubInspector.inspect(file)
                         "docx", "docm", "xlsx", "xlsm", "pptx", "pptm" -> officeInspector.inspect(file)
                         "pages", "numbers", "key", "odt", "ods", "odp" -> zipInspector.inspect(file)
-                        "mobi", "azw", "azw3", "djvu", "xps", "oxps", "xlsb" -> binaryInspector.inspect(file)
+                        "mobi", "azw", "azw3", "prc", "fb2", "djvu", "xps", "oxps" -> ebookInspector.inspect(file)
+                        "xlsb" -> binaryInspector.inspect(file)
                         else -> textInspector.inspect(file)
                     }
                 }
@@ -55,7 +68,11 @@ class InspectorDispatcher @Inject constructor(
                     else -> textInspector.inspect(file)
                 }
                 FileCategory.PDF -> pdfInspector.inspect(file)
-                FileCategory.AUDIO, FileCategory.VIDEO -> mediaInspector.inspect(file)
+                FileCategory.AUDIO -> when (extension.lowercase()) {
+                    "mid", "midi" -> midiInspector.inspect(file)
+                    else -> mediaInspector.inspect(file)
+                }
+                FileCategory.VIDEO -> mediaInspector.inspect(file)
                 FileCategory.DATABASE -> sqliteInspector.inspect(file)
                 FileCategory.FONT -> fontInspector.inspect(file)
                 FileCategory.CERTIFICATE -> when (extension.lowercase()) {
