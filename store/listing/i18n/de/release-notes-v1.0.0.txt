@@ -1,0 +1,11 @@
+FileLens 1.0 — erste stabile Version.
+
+• Helles Theme überall, Marke und Logo aufgefrischt.
+• Neuer Start-Tab: Zuletzt, Favoriten, Kategorien.
+• Versteckter Tresor hinter Biometrie.
+• Globale Suche, App-Manager, Papierkorb.
+• Einstellungen neu: Sprache, Start-Tab, Vor Löschen fragen.
+• Polierte Leerzustände, freundlichere Fehler.
+• Lokalisiert in 15 Sprachen inkl. Arabisch (RTL).
+
+Offline. Keine Konten. Kein Tracking.
