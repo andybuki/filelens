@@ -23,11 +23,10 @@ class OfficeInspector @Inject constructor() : FileInspector {
     )
 
     override suspend fun inspect(file: File): InspectorResult = withContext(Dispatchers.IO) {
-        val ext = file.extension.lowercase()
-        when (ext) {
-            "docx" -> inspectDocx(file)
-            "xlsx" -> inspectXlsx(file)
-            "pptx" -> inspectPptx(file)
+        when (file.extension.lowercase()) {
+            "docx", "docm" -> inspectDocx(file)
+            "xlsx", "xlsm" -> inspectXlsx(file)
+            "pptx", "pptm" -> inspectPptx(file)
             else -> inspectGenericOoxml(file)
         }
     }

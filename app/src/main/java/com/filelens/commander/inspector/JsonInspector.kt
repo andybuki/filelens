@@ -57,15 +57,21 @@ class JsonInspector @Inject constructor(
             val stats = JsonStats()
             analyzeValue(root, 0, stats)
 
-            overview["Root type"] = if (root is JSONObject) "Object" else "Array"
-            overview["Total keys"] = "%,d".format(stats.totalKeys)
-            overview["Nested objects"] = "%,d".format(stats.objectCount)
-            overview["Arrays"] = "%,d".format(stats.arrayCount)
-            overview["Max depth"] = stats.maxDepth.toString()
-            overview["Strings"] = "%,d".format(stats.stringCount)
-            overview["Numbers"] = "%,d".format(stats.numberCount)
-            overview["Booleans"] = "%,d".format(stats.boolCount)
-            overview["Nulls"] = "%,d".format(stats.nullCount)
+            val isNotebook = file.extension.lowercase() == "ipynb" && root is JSONObject &&
+                root.has("cells") && root.has("nbformat")
+            if (isNotebook) {
+                analyzeNotebook(root as JSONObject, overview, metadata)
+            } else {
+                overview["Root type"] = if (root is JSONObject) "Object" else "Array"
+                overview["Total keys"] = "%,d".format(stats.totalKeys)
+                overview["Nested objects"] = "%,d".format(stats.objectCount)
+                overview["Arrays"] = "%,d".format(stats.arrayCount)
+                overview["Max depth"] = stats.maxDepth.toString()
+                overview["Strings"] = "%,d".format(stats.stringCount)
+                overview["Numbers"] = "%,d".format(stats.numberCount)
+                overview["Booleans"] = "%,d".format(stats.boolCount)
+                overview["Nulls"] = "%,d".format(stats.nullCount)
+            }
 
             val secrets = secretScanner.scan(content, location = file.name)
             if (secrets.isNotEmpty()) {
@@ -108,6 +114,63 @@ class JsonInspector @Inject constructor(
                 )
             )
         }
+    }
+
+    private fun analyzeNotebook(
+        root: JSONObject,
+        overview: MutableMap<String, String>,
+        metadata: MutableMap<String, String>
+    ) {
+        overview["Format"] = "Jupyter notebook"
+        val nbformat = root.opt("nbformat")?.toString()
+        val nbformatMinor = root.opt("nbformat_minor")?.toString()
+        if (nbformat != null) {
+            overview["nbformat"] = if (nbformatMinor != null) "$nbformat.$nbformatMinor" else nbformat
+        }
+
+        val metaObj = root.optJSONObject("metadata")
+        if (metaObj != null) {
+            metaObj.optJSONObject("kernelspec")?.let { ks ->
+                ks.optString("display_name").takeIf { it.isNotBlank() }?.let { metadata["Kernel"] = it }
+                ks.optString("language").takeIf { it.isNotBlank() }?.let { metadata["Language"] = it }
+            }
+            metaObj.optJSONObject("language_info")?.let { li ->
+                li.optString("version").takeIf { it.isNotBlank() }?.let { metadata["Language version"] = it }
+            }
+        }
+
+        val cells = root.optJSONArray("cells") ?: return
+        var code = 0
+        var markdown = 0
+        var raw = 0
+        var totalSourceLines = 0
+        var totalOutputs = 0
+        var executions = 0
+        for (i in 0 until cells.length()) {
+            val cell = cells.optJSONObject(i) ?: continue
+            when (cell.optString("cell_type")) {
+                "code" -> code++
+                "markdown" -> markdown++
+                "raw" -> raw++
+            }
+            // source can be a string or an array of strings
+            val source = cell.opt("source")
+            totalSourceLines += when (source) {
+                is JSONArray -> source.length()
+                is String -> source.count { it == '\n' } + if (source.isNotEmpty()) 1 else 0
+                else -> 0
+            }
+            val outputs = cell.optJSONArray("outputs")
+            if (outputs != null) totalOutputs += outputs.length()
+            if (cell.opt("execution_count") is Number) executions++
+        }
+        overview["Cells"] = "%,d".format(cells.length())
+        if (code > 0) overview["Code cells"] = code.toString()
+        if (markdown > 0) overview["Markdown cells"] = markdown.toString()
+        if (raw > 0) overview["Raw cells"] = raw.toString()
+        if (totalSourceLines > 0) overview["Source lines"] = "%,d".format(totalSourceLines)
+        if (totalOutputs > 0) overview["Cell outputs"] = "%,d".format(totalOutputs)
+        if (executions > 0) overview["Executed cells"] = executions.toString()
     }
 
     private data class JsonStats(

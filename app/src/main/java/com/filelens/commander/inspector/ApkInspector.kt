@@ -51,6 +51,11 @@ class ApkInspector @Inject constructor(
     )
 
     override suspend fun inspect(file: File): InspectorResult = withContext(Dispatchers.IO) {
+        when (file.extension.lowercase()) {
+            "ipa" -> return@withContext inspectIpa(file)
+            "xapk" -> return@withContext inspectXapk(file)
+        }
+
         val overview = mutableMapOf<String, String>()
         val metadata = mutableMapOf<String, String>()
         val risks = mutableListOf<RiskItem>()
@@ -305,6 +310,138 @@ class ApkInspector @Inject constructor(
                 previewContent = iconPreview
             )
         }
+    }
+
+    // IPA = iOS app bundle, a ZIP containing Payload/<AppName>.app/Info.plist.
+    // We don't parse binary plists — most modern IPAs ship Info.plist as XML.
+    private fun inspectIpa(file: File): InspectorResult {
+        val overview = linkedMapOf<String, String>()
+        val metadata = linkedMapOf<String, String>()
+        val risks = mutableListOf<RiskItem>()
+
+        overview["Format"] = "iOS app (IPA)"
+
+        try {
+            ZipFile(file).use { zipFile ->
+                val entries = zipFile.entries().toList()
+                val infoEntry = entries.firstOrNull {
+                    it.name.startsWith("Payload/") &&
+                        it.name.endsWith(".app/Info.plist") &&
+                        it.name.count { ch -> ch == '/' } == 2
+                }
+                if (infoEntry != null) {
+                    overview["Bundle"] = infoEntry.name.removePrefix("Payload/").removeSuffix("/Info.plist")
+                    val plist = zipFile.getInputStream(infoEntry).bufferedReader().readText()
+                    if (plist.startsWith("bplist", ignoreCase = false) || plist.startsWith(" ")) {
+                        overview["Info.plist"] = "Binary plist (not parsed)"
+                    } else {
+                        readPlistString(plist, "CFBundleIdentifier")?.let { overview["Bundle identifier"] = it }
+                        readPlistString(plist, "CFBundleName")?.let { overview["Name"] = it }
+                        readPlistString(plist, "CFBundleDisplayName")?.let { overview["Display name"] = it }
+                        readPlistString(plist, "CFBundleShortVersionString")?.let { overview["Version"] = it }
+                        readPlistString(plist, "CFBundleVersion")?.let { overview["Build"] = it }
+                        readPlistString(plist, "CFBundleExecutable")?.let { overview["Executable"] = it }
+                        readPlistString(plist, "MinimumOSVersion")?.let { overview["Minimum iOS"] = it }
+                        readPlistString(plist, "DTPlatformName")?.let { metadata["Platform"] = it }
+                        readPlistString(plist, "DTSDKName")?.let { metadata["SDK"] = it }
+                    }
+                } else {
+                    overview["Note"] = "No Info.plist found under Payload/"
+                }
+
+                val frameworks = entries.count {
+                    it.name.startsWith("Payload/") && it.name.contains("/Frameworks/") && it.name.endsWith(".framework/")
+                }
+                if (frameworks > 0) overview["Frameworks"] = frameworks.toString()
+
+                val totalFiles = entries.count { !it.isDirectory }
+                val totalSize = entries.sumOf { it.size.coerceAtLeast(0) }
+                overview["Total files"] = "%,d".format(totalFiles)
+                overview["Uncompressed size"] = formatSize(totalSize)
+
+                val tree = buildIpaTree(entries)
+                return InspectorResult(overview = overview, metadata = metadata, risks = risks, structure = tree)
+            }
+        } catch (e: Exception) {
+            overview["Error"] = "Failed to read IPA: ${e.message?.take(100)}"
+            return InspectorResult(overview = overview, metadata = metadata, risks = risks)
+        }
+    }
+
+    // XAPK = ZIP containing manifest.json plus one base APK and split APKs.
+    private fun inspectXapk(file: File): InspectorResult {
+        val overview = linkedMapOf<String, String>()
+        val metadata = linkedMapOf<String, String>()
+        val risks = mutableListOf<RiskItem>()
+
+        overview["Format"] = "Split APK bundle (XAPK)"
+
+        try {
+            ZipFile(file).use { zipFile ->
+                val entries = zipFile.entries().toList()
+                val manifest = zipFile.getEntry("manifest.json")?.let { entry ->
+                    zipFile.getInputStream(entry).bufferedReader().readText()
+                }
+                if (manifest != null) {
+                    Regex(""""package_name"\s*:\s*"([^"]+)"""").find(manifest)?.groupValues?.get(1)
+                        ?.let { overview["Package"] = it }
+                    Regex(""""name"\s*:\s*"([^"]+)"""").find(manifest)?.groupValues?.get(1)
+                        ?.let { overview["Name"] = it }
+                    Regex(""""version_name"\s*:\s*"([^"]+)"""").find(manifest)?.groupValues?.get(1)
+                        ?.let { overview["Version"] = it }
+                    Regex(""""version_code"\s*:\s*"?([^",}]+)"?""").find(manifest)?.groupValues?.get(1)
+                        ?.let { overview["Version code"] = it.trim() }
+                    Regex(""""min_sdk_version"\s*:\s*"?([^",}]+)"?""").find(manifest)?.groupValues?.get(1)
+                        ?.let { overview["Min SDK"] = it.trim() }
+                    Regex(""""target_sdk_version"\s*:\s*"?([^",}]+)"?""").find(manifest)?.groupValues?.get(1)
+                        ?.let { overview["Target SDK"] = it.trim() }
+                }
+
+                val apks = entries.filter { it.name.endsWith(".apk", ignoreCase = true) }
+                overview["APKs inside"] = apks.size.toString()
+                val obbs = entries.filter { it.name.endsWith(".obb", ignoreCase = true) }
+                if (obbs.isNotEmpty()) overview["OBB files"] = obbs.size.toString()
+
+                val totalFiles = entries.count { !it.isDirectory }
+                val totalSize = entries.sumOf { it.size.coerceAtLeast(0) }
+                overview["Total files"] = "%,d".format(totalFiles)
+                overview["Uncompressed size"] = formatSize(totalSize)
+
+                if (apks.isNotEmpty()) {
+                    metadata["APK list"] = apks.take(10).joinToString("\n") {
+                        "${it.name} (${formatSize(it.size.coerceAtLeast(0))})"
+                    } + if (apks.size > 10) "\n… ${apks.size - 10} more" else ""
+                }
+
+                val tree = buildIpaTree(entries)
+                return InspectorResult(overview = overview, metadata = metadata, risks = risks, structure = tree)
+            }
+        } catch (e: Exception) {
+            overview["Error"] = "Failed to read XAPK: ${e.message?.take(100)}"
+            return InspectorResult(overview = overview, metadata = metadata, risks = risks)
+        }
+    }
+
+    private fun readPlistString(xml: String, key: String): String? {
+        // Matches <key>NAME</key><string>VALUE</string>; whitespace tolerant.
+        val re = Regex("""<key>\Q$key\E</key>\s*<string>([^<]*)</string>""")
+        return re.find(xml)?.groupValues?.get(1)?.trim()?.takeIf { it.isNotEmpty() }
+    }
+
+    // Light-touch tree for IPA / XAPK contents — flat listing grouped under root.
+    private fun buildIpaTree(entries: List<java.util.zip.ZipEntry>): StructureNode {
+        val files = entries.filter { !it.isDirectory }.take(50)
+        val leaves = files.map { entry ->
+            StructureNode.Leaf(
+                name = entry.name,
+                value = formatSize(entry.size.coerceAtLeast(0)),
+                size = entry.size
+            )
+        }
+        val children = if (entries.size > 50) {
+            leaves + StructureNode.Leaf(name = "… ${entries.size - 50} more")
+        } else leaves
+        return StructureNode.Branch(name = "Contents", children = children)
     }
 
     private fun buildApkTree(entries: List<java.util.zip.ZipEntry>): StructureNode {
