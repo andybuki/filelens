@@ -32,6 +32,7 @@ import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.TableChart
 import androidx.compose.material.icons.filled.TextSnippet
 import androidx.compose.material.icons.filled.Videocam
+import androidx.compose.material.icons.filled.VpnKey
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -56,6 +57,7 @@ import com.filelens.commander.domain.usecase.FolderAnalysisUseCase
 import com.filelens.commander.ui.theme.CategoryApk
 import com.filelens.commander.ui.theme.CategoryArchive
 import com.filelens.commander.ui.theme.CategoryAudio
+import com.filelens.commander.ui.theme.CategoryCertificate
 import com.filelens.commander.ui.theme.CategoryCode
 import com.filelens.commander.ui.theme.CategoryDatabase
 import com.filelens.commander.ui.theme.CategoryDocument
@@ -434,6 +436,7 @@ private fun categoryColor(cat: FileCategory): Color = when (cat) {
     FileCategory.DATABASE -> CategoryDatabase
     FileCategory.FONT -> CategoryFont
     FileCategory.EXECUTABLE -> CategoryExecutable
+    FileCategory.CERTIFICATE -> CategoryCertificate
     FileCategory.UNKNOWN, FileCategory.DIRECTORY -> CategoryUnknown
 }
 
@@ -452,6 +455,7 @@ private fun categoryIcon(cat: FileCategory): ImageVector = when (cat) {
     FileCategory.DATABASE -> Icons.Filled.Storage
     FileCategory.FONT -> Icons.Filled.TextSnippet
     FileCategory.EXECUTABLE -> Icons.Filled.Memory
+    FileCategory.CERTIFICATE -> Icons.Filled.VpnKey
     FileCategory.UNKNOWN, FileCategory.DIRECTORY -> Icons.Filled.Folder
 }
 
@@ -470,6 +474,7 @@ private fun categoryLabel(cat: FileCategory): String = when (cat) {
     FileCategory.DATABASE -> "Databases"
     FileCategory.FONT -> "Fonts"
     FileCategory.EXECUTABLE -> "Executables"
+    FileCategory.CERTIFICATE -> "Certificates"
     FileCategory.UNKNOWN -> "Other"
     FileCategory.DIRECTORY -> "Folders"
 }

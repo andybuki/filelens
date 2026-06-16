@@ -1481,5 +1481,6 @@ private fun FileCategory.displayName(): String = when (this) {
     FileCategory.DATABASE -> "Database"
     FileCategory.FONT -> "Font"
     FileCategory.EXECUTABLE -> "Executable"
+    FileCategory.CERTIFICATE -> "Certificate"
     FileCategory.UNKNOWN -> "Unknown"
 }

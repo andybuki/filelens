@@ -344,17 +344,17 @@ class InspectorViewModel @Inject constructor(
                 FileCategory.ARCHIVE -> zipInspector.inspect(file)
                 FileCategory.APK -> apkInspector.inspect(file)
                 FileCategory.DOCUMENT, FileCategory.SPREADSHEET, FileCategory.PRESENTATION -> {
-                    if (extension.lowercase() == "epub") {
-                        epubInspector.inspect(file)
-                    } else if (extension.lowercase() in setOf("docx", "xlsx", "pptx")) {
-                        officeInspector.inspect(file)
-                    } else {
-                        textInspector.inspect(file)
+                    when (extension.lowercase()) {
+                        "epub" -> epubInspector.inspect(file)
+                        "docx", "docm", "xlsx", "xlsm", "pptx", "pptm" -> officeInspector.inspect(file)
+                        "pages", "numbers", "key", "odt", "ods", "odp" -> zipInspector.inspect(file)
+                        "mobi", "azw", "azw3", "djvu", "xps", "oxps", "xlsb" -> binaryInspector.inspect(file)
+                        else -> textInspector.inspect(file)
                     }
                 }
                 FileCategory.TEXT -> {
                     when {
-                        extension.lowercase() == "json" -> jsonInspector.inspect(file)
+                        extension.lowercase() in setOf("json", "jsonc", "json5", "ndjson") -> jsonInspector.inspect(file)
                         extension.lowercase() in setOf("xml", "xsl", "xslt", "xsd", "svg", "xhtml", "plist") -> xmlInspector.inspect(file)
                         logInspector.handles(file) -> logInspector.inspect(file)
                         configInspector.handles(file) -> configInspector.inspect(file)
@@ -372,6 +372,10 @@ class InspectorViewModel @Inject constructor(
                 FileCategory.AUDIO, FileCategory.VIDEO -> mediaInspector.inspect(file)
                 FileCategory.DATABASE -> sqliteInspector.inspect(file)
                 FileCategory.FONT -> fontInspector.inspect(file)
+                FileCategory.CERTIFICATE -> when (extension.lowercase()) {
+                    "pem", "pub", "ovpn", "wg", "mobileconfig" -> textInspector.inspect(file)
+                    else -> binaryInspector.inspect(file)
+                }
                 else -> binaryInspector.inspect(file)
             }
         } catch (e: Exception) {
