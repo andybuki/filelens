@@ -535,6 +535,7 @@
     <string name="home_category_docs">문서</string>
     <string name="home_category_apks">APK</string>
     <string name="home_category_archives">압축파일</string>
+    <string name="home_category_browse">탐색</string>
     <string name="home_category_downloads">다운로드</string>
     <string name="home_category_large">대용량 파일</string>
     <string name="home_empty_headline">아직 아무것도 없습니다</string>
@@ -575,6 +576,13 @@
     <string name="home_search_subtitle">이름, 확장자 또는 유형으로 파일 검색</string>
     <string name="home_section_tools">도구</string>
     <string name="home_tool_apps_subtitle">설치된 앱 · APK 추출</string>
+    <string name="home_tool_storage_title">저장 공간 사용량</string>
+    <string name="home_tool_storage_subtitle">휴대전화의 공간을 무엇이 차지하는지 확인</string>
+    <string name="storage_usage_title">저장 공간 사용량</string>
+    <string name="storage_section_categories">카테고리별</string>
+    <string name="storage_used_of">%2$s 중 %1$s 사용 중</string>
+    <string name="storage_free_label">사용 가능 %1$s</string>
+    <string name="storage_scanned_label">스캔됨 %1$s</string>
     <string name="search_title">검색</string>
     <string name="search_hint_global">이름, 확장자 또는 유형으로 파일 검색…</string>
     <string name="search_cancel">중지</string>

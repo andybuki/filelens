@@ -17,12 +17,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
-import androidx.compose.material.icons.filled.Android
+import androidx.compose.material.icons.filled.AccountTree
 import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.Archive
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.DeleteOutline
 import androidx.compose.material.icons.filled.Description
+import androidx.compose.material.icons.filled.DonutLarge
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.ExpandLess
@@ -63,7 +64,6 @@ import com.filelens.commander.domain.model.Bookmark
 import com.filelens.commander.domain.model.FrequentFolder
 import com.filelens.commander.domain.model.HomeCategory
 import com.filelens.commander.domain.model.RecentFile
-import com.filelens.commander.ui.theme.CategoryApk
 import com.filelens.commander.ui.theme.CategoryArchive
 import com.filelens.commander.ui.theme.CategoryAudio
 import com.filelens.commander.ui.theme.CategoryDirectory
@@ -83,21 +83,22 @@ import com.filelens.commander.ui.theme.FlText
 import com.filelens.commander.ui.theme.MonoSmall
 
 private data class CategoryTile(
-    val category: HomeCategory,
     val icon: ImageVector,
     val labelRes: Int,
-    val color: Color
+    val color: Color,
+    val category: HomeCategory? = null,
+    val browseAll: Boolean = false
 )
 
 private val CategoryTiles = listOf(
-    CategoryTile(HomeCategory.IMAGES, Icons.Filled.Image, R.string.home_category_images, CategoryImage),
-    CategoryTile(HomeCategory.VIDEO, Icons.Filled.Videocam, R.string.home_category_video, CategoryVideo),
-    CategoryTile(HomeCategory.AUDIO, Icons.Filled.MusicNote, R.string.home_category_audio, CategoryAudio),
-    CategoryTile(HomeCategory.DOCUMENTS, Icons.Filled.Description, R.string.home_category_docs, CategoryDocument),
-    CategoryTile(HomeCategory.APKS, Icons.Filled.Android, R.string.home_category_apks, CategoryApk),
-    CategoryTile(HomeCategory.ARCHIVES, Icons.Filled.Archive, R.string.home_category_archives, CategoryArchive),
-    CategoryTile(HomeCategory.DOWNLOADS, Icons.Filled.Download, R.string.home_category_downloads, CategoryDirectory),
-    CategoryTile(HomeCategory.LARGE_FILES, Icons.Filled.Storage, R.string.home_category_large, FlAccent)
+    CategoryTile(Icons.Filled.AccountTree, R.string.home_category_browse, FlAccent, browseAll = true),
+    CategoryTile(Icons.Filled.Videocam, R.string.home_category_video, CategoryVideo, category = HomeCategory.VIDEO),
+    CategoryTile(Icons.Filled.MusicNote, R.string.home_category_audio, CategoryAudio, category = HomeCategory.AUDIO),
+    CategoryTile(Icons.Filled.Description, R.string.home_category_docs, CategoryDocument, category = HomeCategory.DOCUMENTS),
+    CategoryTile(Icons.Filled.Image, R.string.home_category_images, CategoryImage, category = HomeCategory.IMAGES),
+    CategoryTile(Icons.Filled.Archive, R.string.home_category_archives, CategoryArchive, category = HomeCategory.ARCHIVES),
+    CategoryTile(Icons.Filled.Download, R.string.home_category_downloads, CategoryDirectory, category = HomeCategory.DOWNLOADS),
+    CategoryTile(Icons.Filled.Storage, R.string.home_category_large, FlAccent, category = HomeCategory.LARGE_FILES)
 )
 
 @Composable
@@ -110,6 +111,8 @@ fun HomeScreen(
     onOpenGlobalSearch: () -> Unit = {},
     onOpenAppManager: () -> Unit = {},
     onOpenTrash: () -> Unit = {},
+    onOpenStorageUsage: () -> Unit = {},
+    onOpenRecentFile: (String) -> Unit = onOpenPath,
     bookmarksViewModel: com.filelens.commander.viewmodel.BookmarksViewModel = hiltViewModel(),
     recentsViewModel: com.filelens.commander.viewmodel.RecentsViewModel = hiltViewModel(),
     vaultViewModel: com.filelens.commander.viewmodel.VaultViewModel = hiltViewModel(),
@@ -138,7 +141,10 @@ fun HomeScreen(
                 SearchBarCard(onClick = onOpenGlobalSearch)
             }
             item {
-                CategoriesSection(onOpenCategory = onOpenCategory)
+                CategoriesSection(
+                    onOpenCategory = onOpenCategory,
+                    onBrowseAll = onOpenFiles
+                )
             }
             item {
                 ToolsSection(
@@ -146,17 +152,15 @@ fun HomeScreen(
                     trashCount = trashState.items.size,
                     onOpenVault = onOpenVault,
                     onOpenAppManager = onOpenAppManager,
-                    onOpenTrash = onOpenTrash
+                    onOpenTrash = onOpenTrash,
+                    onOpenStorageUsage = onOpenStorageUsage
                 )
             }
             if (recentFiles.isNotEmpty()) {
                 item {
                     RecentSection(
                         recentFiles = recentFiles.take(6),
-                        onOpenFile = { file ->
-                            val parent = file.path.substringBeforeLast('/', "")
-                            if (parent.isNotEmpty()) onOpenPath(parent) else onOpenFiles()
-                        }
+                        onOpenFile = { file -> onOpenRecentFile(file.path) }
                     )
                 }
             }
@@ -263,7 +267,10 @@ private fun CollapsibleSectionHeader(
 }
 
 @Composable
-private fun CategoriesSection(onOpenCategory: (HomeCategory) -> Unit) {
+private fun CategoriesSection(
+    onOpenCategory: (HomeCategory) -> Unit,
+    onBrowseAll: () -> Unit
+) {
     Column {
         SectionHeader(stringResource(R.string.home_section_categories))
         CategoryTiles.chunked(4).forEachIndexed { index, row ->
@@ -275,7 +282,12 @@ private fun CategoriesSection(onOpenCategory: (HomeCategory) -> Unit) {
                 row.forEach { tile ->
                     CategoryTileView(
                         tile = tile,
-                        onClick = { onOpenCategory(tile.category) },
+                        onClick = {
+                            when {
+                                tile.browseAll -> onBrowseAll()
+                                tile.category != null -> onOpenCategory(tile.category)
+                            }
+                        },
                         modifier = Modifier.weight(1f)
                     )
                 }
@@ -555,7 +567,8 @@ private fun ToolsSection(
     trashCount: Int,
     onOpenVault: () -> Unit,
     onOpenAppManager: () -> Unit,
-    onOpenTrash: () -> Unit
+    onOpenTrash: () -> Unit,
+    onOpenStorageUsage: () -> Unit
 ) {
     Column {
         SectionHeader(stringResource(R.string.home_section_tools))
@@ -579,6 +592,15 @@ private fun ToolsSection(
             tint = FlAccent,
             background = FlAccentTint,
             onClick = onOpenAppManager
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        ToolRow(
+            icon = Icons.Filled.DonutLarge,
+            title = stringResource(R.string.home_tool_storage_title),
+            subtitle = stringResource(R.string.home_tool_storage_subtitle),
+            tint = FlAccent,
+            background = FlAccentTint,
+            onClick = onOpenStorageUsage
         )
         Spacer(modifier = Modifier.height(8.dp))
         ToolRow(

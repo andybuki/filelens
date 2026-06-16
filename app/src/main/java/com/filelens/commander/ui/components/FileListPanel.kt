@@ -42,7 +42,6 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.SwapVert
 import androidx.compose.material.icons.filled.Tune
-import androidx.compose.material.icons.filled.Upload
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.DropdownMenu
@@ -50,12 +49,8 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -232,11 +227,7 @@ fun FileListPanel(
                         onClear = { onSearchQueryChanged("") }
                     )
                     "empty" -> EmptyState(
-                        headline = stringResource(R.string.empty_folder_headline),
-                        subtitle = stringResource(R.string.empty_folder_subtitle),
-                        actionLabel = stringResource(R.string.empty_folder_action),
-                        actionIcon = Icons.Filled.Upload,
-                        onAction = onBatchScan
+                        headline = stringResource(R.string.empty_folder_headline)
                     )
                     else -> PullToRefreshBox(
                         isRefreshing = false,
@@ -565,7 +556,6 @@ private fun MinimalBreadcrumb(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun MinimalSearchBar(
     query: String,
@@ -574,52 +564,64 @@ private fun MinimalSearchBar(
 ) {
     val focusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) { focusRequester.requestFocus() }
+    // Compact pill matching the Home "Search across your phone" card height
+    // — uses BasicTextField so the row stays slim instead of inheriting the
+    // OutlinedTextField default 56dp box. Pressing the keyboard Search
+    // action still triggers a recursive scan.
     Row(
+        verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 10.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .padding(horizontal = 16.dp, vertical = 10.dp)
+            .height(44.dp)
+            .clip(RoundedCornerShape(14.dp))
+            .background(FlSurface3)
+            .padding(horizontal = 14.dp)
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .weight(1f)
-                .clip(RoundedCornerShape(12.dp))
-                .background(FlSurface3)
-                .padding(horizontal = 14.dp, vertical = 4.dp)
-        ) {
-            Icon(Icons.Filled.Search, contentDescription = null, tint = FlText2)
-            Spacer(modifier = Modifier.width(10.dp))
-            OutlinedTextField(
+        Icon(
+            Icons.Filled.Search,
+            contentDescription = null,
+            tint = FlText2,
+            modifier = Modifier.size(18.dp)
+        )
+        Spacer(modifier = Modifier.width(10.dp))
+        Box(modifier = Modifier.weight(1f)) {
+            androidx.compose.foundation.text.BasicTextField(
                 value = query,
                 onValueChange = onQueryChange,
-                placeholder = { Text(stringResource(R.string.search_hint), color = FlText2) },
-                singleLine = true,
                 modifier = Modifier
-                    .weight(1f)
+                    .fillMaxWidth()
                     .focusRequester(focusRequester),
+                singleLine = true,
+                textStyle = MaterialTheme.typography.bodyMedium.copy(color = FlText),
+                cursorBrush = androidx.compose.ui.graphics.SolidColor(MaterialTheme.colorScheme.primary),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                keyboardActions = KeyboardActions(onSearch = { onDeepSearch() }),
-                trailingIcon = {
-                    if (query.isNotEmpty()) {
-                        IconButton(onClick = { onQueryChange("") }) {
-                            Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.action_clear_search), tint = FlText2)
-                        }
-                    }
-                },
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color.Transparent,
-                    unfocusedBorderColor = Color.Transparent,
-                    disabledBorderColor = Color.Transparent,
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent
-                ),
-                textStyle = MaterialTheme.typography.bodyMedium
+                keyboardActions = KeyboardActions(onSearch = { onDeepSearch() })
             )
+            if (query.isEmpty()) {
+                Text(
+                    text = stringResource(R.string.search_hint),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = FlText2
+                )
+            }
         }
-        Spacer(modifier = Modifier.width(8.dp))
-        TextButton(onClick = onDeepSearch, enabled = query.isNotEmpty()) {
-            Text("Deep")
+        if (query.isNotEmpty()) {
+            Spacer(modifier = Modifier.width(8.dp))
+            Box(
+                modifier = Modifier
+                    .size(28.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .clickable(onClick = { onQueryChange("") }),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    Icons.Filled.Close,
+                    contentDescription = stringResource(R.string.action_clear_search),
+                    tint = FlText2,
+                    modifier = Modifier.size(16.dp)
+                )
+            }
         }
     }
 }

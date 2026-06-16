@@ -567,6 +567,7 @@
     <string name="home_category_docs">Документы</string>
     <string name="home_category_apks">APK</string>
     <string name="home_category_archives">Архивы</string>
+    <string name="home_category_browse">Обзор</string>
     <string name="home_category_downloads">Загрузки</string>
     <string name="home_category_large">Большие файлы</string>
     <string name="home_empty_headline">Пока здесь пусто</string>
@@ -609,6 +610,13 @@
     <string name="home_search_subtitle">Находите файлы по имени, расширению или типу</string>
     <string name="home_section_tools">Инструменты</string>
     <string name="home_tool_apps_subtitle">Установленные приложения · извлечь APK</string>
+    <string name="home_tool_storage_title">Использование памяти</string>
+    <string name="home_tool_storage_subtitle">Посмотрите, что занимает место на телефоне</string>
+    <string name="storage_usage_title">Использование памяти</string>
+    <string name="storage_section_categories">По категориям</string>
+    <string name="storage_used_of">Занято %1$s из %2$s</string>
+    <string name="storage_free_label">Свободно %1$s</string>
+    <string name="storage_scanned_label">Просканировано %1$s</string>
     <string name="search_title">Поиск</string>
     <string name="search_hint_global">Поиск файлов по имени, расширению или типу…</string>
     <string name="search_cancel">Остановить</string>

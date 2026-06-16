@@ -32,13 +32,13 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -81,24 +81,12 @@ fun RemoteServersScreen(
     var editing by remember { mutableStateOf<RemoteConnection?>(null) }
     var pendingDelete by remember { mutableStateOf<RemoteConnection?>(null) }
 
-    Scaffold(
-        containerColor = FlBg,
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { editing = viewModel.blankDraft() },
-                containerColor = FlAccent,
-                contentColor = FlOnAccent,
-                shape = RoundedCornerShape(percent = 50)
-            ) {
-                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.cd_add_server))
-            }
-        }
-    ) { padding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-        ) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(FlBg)
+    ) {
+        Column(modifier = Modifier.fillMaxSize()) {
             NavyHeader(title = stringResource(R.string.remote_servers_title), onBack = onBack)
 
             if (connections.isEmpty()) {
@@ -106,7 +94,7 @@ fun RemoteServersScreen(
             } else {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 14.dp),
+                    contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 14.dp, bottom = 96.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     items(connections, key = { it.id }) { connection ->
@@ -119,6 +107,18 @@ fun RemoteServersScreen(
                     }
                 }
             }
+        }
+
+        FloatingActionButton(
+            onClick = { editing = viewModel.blankDraft() },
+            containerColor = FlAccent,
+            contentColor = FlOnAccent,
+            shape = RoundedCornerShape(percent = 50),
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp)
+        ) {
+            Icon(Icons.Default.Add, contentDescription = stringResource(R.string.cd_add_server))
         }
     }
 
@@ -136,6 +136,9 @@ fun RemoteServersScreen(
     pendingDelete?.let { target ->
         AlertDialog(
             onDismissRequest = { pendingDelete = null },
+            containerColor = FlSurface,
+            titleContentColor = FlInk,
+            textContentColor = FlInk,
             title = { Text(stringResource(R.string.remote_dialog_delete_title)) },
             text = { Text(stringResource(R.string.remote_dialog_delete_message, target.name.ifBlank { target.host })) },
             confirmButton = {
@@ -297,18 +300,29 @@ private fun ServerEditorDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(stringResource(if (initial.id.isBlank()) R.string.remote_dialog_add_title else R.string.remote_dialog_edit_title)) },
+        containerColor = FlSurface,
+        titleContentColor = FlInk,
+        textContentColor = FlInk,
+        title = {
+            Text(
+                text = stringResource(if (initial.id.isBlank()) R.string.remote_dialog_add_title else R.string.remote_dialog_edit_title),
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold,
+                color = FlInk
+            )
+        },
         text = {
             Column(
                 modifier = Modifier
                     .verticalScroll(rememberScrollState())
                     .padding(top = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     RemoteProtocol.entries.forEach { p ->
+                        val selected = protocol == p
                         FilterChip(
-                            selected = protocol == p,
+                            selected = selected,
                             onClick = {
                                 protocol = p
                                 val current = port.toIntOrNull() ?: 0
@@ -316,7 +330,27 @@ private fun ServerEditorDialog(
                                     port = p.defaultPort.toString()
                                 }
                             },
-                            label = { Text(p.displayName) }
+                            label = {
+                                Text(
+                                    text = p.displayName,
+                                    fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
+                                    color = if (selected) FlAccent else FlInk
+                                )
+                            },
+                            colors = FilterChipDefaults.filterChipColors(
+                                containerColor = FlSurface,
+                                selectedContainerColor = FlAccentTint,
+                                labelColor = FlInk,
+                                selectedLabelColor = FlAccent
+                            ),
+                            border = FilterChipDefaults.filterChipBorder(
+                                enabled = true,
+                                selected = selected,
+                                borderColor = MaterialTheme.colorScheme.outline,
+                                selectedBorderColor = FlAccent,
+                                borderWidth = 1.dp,
+                                selectedBorderWidth = 1.5.dp
+                            )
                         )
                     }
                 }
