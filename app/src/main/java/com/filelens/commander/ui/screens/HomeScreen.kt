@@ -112,6 +112,7 @@ fun HomeScreen(
     onOpenAppManager: () -> Unit = {},
     onOpenTrash: () -> Unit = {},
     onOpenStorageUsage: () -> Unit = {},
+    onOpenRecentFile: (String) -> Unit = onOpenPath,
     bookmarksViewModel: com.filelens.commander.viewmodel.BookmarksViewModel = hiltViewModel(),
     recentsViewModel: com.filelens.commander.viewmodel.RecentsViewModel = hiltViewModel(),
     vaultViewModel: com.filelens.commander.viewmodel.VaultViewModel = hiltViewModel(),
@@ -159,10 +160,7 @@ fun HomeScreen(
                 item {
                     RecentSection(
                         recentFiles = recentFiles.take(6),
-                        onOpenFile = { file ->
-                            val parent = file.path.substringBeforeLast('/', "")
-                            if (parent.isNotEmpty()) onOpenPath(parent) else onOpenFiles()
-                        }
+                        onOpenFile = { file -> onOpenRecentFile(file.path) }
                     )
                 }
             }
