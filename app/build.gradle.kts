@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kover)
 }
 
 android {
@@ -116,4 +117,55 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.robolectric)
+}
+
+kover {
+    reports {
+        filters {
+            excludes {
+                // Generated code: Hilt/Dagger, KSP, Compose previews, R/BuildConfig.
+                classes(
+                    "*_Factory",
+                    "*_Factory\$*",
+                    "*_HiltModules*",
+                    "*_MembersInjector",
+                    "*_MembersInjector\$*",
+                    "*_GeneratedInjector",
+                    "*_Impl",
+                    "*_Impl\$*",
+                    "hilt_aggregated_deps.*",
+                    "dagger.hilt.internal.aggregatedroot.codegen.*",
+                    "com.filelens.commander.*ComposableSingletons*",
+                    "*Preview*",
+                    "*\$\$ExternalSyntheticLambda*",
+                    "*.BuildConfig",
+                    "*.R",
+                    "*.R\$*"
+                )
+                packages(
+                    "com.filelens.commander.ui.theme",
+                    "com.filelens.commander.di",
+                    "hilt_aggregated_deps",
+                    "dagger.hilt.internal.aggregatedroot.codegen"
+                )
+                annotatedBy("androidx.compose.ui.tooling.preview.Preview")
+            }
+        }
+        total {
+            html { onCheck = false }
+            xml { onCheck = false }
+            verify {
+                // Ratchet: current debug line coverage is ~4.97 %. Bump
+                // this every time tests land. Run
+                // `./gradlew :app:koverLogDebug` to see the live number.
+                rule("Minimum line coverage") {
+                    minBound(4)
+                }
+            }
+        }
+    }
+}
+
+tasks.named("check") {
+    dependsOn("koverVerify")
 }
