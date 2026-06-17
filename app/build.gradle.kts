@@ -155,11 +155,11 @@ kover {
             html { onCheck = false }
             xml { onCheck = false }
             verify {
-                // Ratchet: current debug line coverage is ~1.97 %. Bump
+                // Ratchet: current debug line coverage is ~4.10 %. Bump
                 // this every time tests land. Run
                 // `./gradlew :app:koverLogDebug` to see the live number.
                 rule("Minimum line coverage") {
-                    minBound(1)
+                    minBound(3)
                 }
             }
         }
