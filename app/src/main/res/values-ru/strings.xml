@@ -556,7 +556,6 @@
     <string name="settings_onboarding_reset_toast">Приветственный гид появится при следующем запуске</string>
 
     <string name="cd_open_home">Открыть Главную</string>
-    <string name="home_subtitle">Недавние · Избранное · Категории</string>
     <string name="home_section_categories">Категории</string>
     <string name="home_section_recent">Недавние файлы</string>
     <string name="home_section_favorites">Избранное</string>

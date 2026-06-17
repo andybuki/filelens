@@ -523,7 +523,6 @@
     <string name="settings_onboarding_reset_toast">次回起動時にウェルカムガイドが表示されます</string>
 
     <string name="cd_open_home">ホームを開く</string>
-    <string name="home_subtitle">最近 · お気に入り · カテゴリ</string>
     <string name="home_section_categories">カテゴリ</string>
     <string name="home_section_recent">最近のファイル</string>
     <string name="home_section_favorites">お気に入り</string>

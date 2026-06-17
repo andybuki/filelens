@@ -523,12 +523,12 @@ Prioritised so heavy / high-token tasks land early and risk is front-loaded; fin
   - [x] Friendly error toasts (permission denied, file gone, unsupported). _(New `ErrorMessages.kt` util maps `SecurityException`, `FileNotFoundException`, `EACCES` / `ENOENT` / `ENOSPC` text, `ZipException`, and `UnsupportedOperationException` into localized one-liners — six new strings in `strings.xml`.)_
   - [x] Smooth animations: sheet open 200ms, tab switch 120ms, list crossfade. _(Bottom sheet uses the Material default spring (~250ms). Inspector tab switch already uses `fadeIn(200ms) togetherWith fadeOut(120ms)`. List crossfade is new — `FileListPanel` wraps its state branches in `Crossfade(tween(180ms))` so loading→content and empty→content transitions don't snap.)_
   - [x] Accessibility pass: TalkBack labels on icons, 48dp touch targets, font scaling, contrast. _(Header chrome buttons and the inspector dismiss chip now sit inside 48dp hit targets while keeping their 38dp/36dp visual size. Inspector tab strip now exposes `Role.Tab` + `selected` semantics so TalkBack announces the active tab. The "Scan folder" FAB pulled its label from `strings.xml` instead of a hardcoded English literal. Type scale already honours font scaling via Material `Type.kt` and the light palette meets WCAG AA against ink ramp.)_
-- [ ] **Day 13 — Store assets + marketing copy**
-  - [ ] Feature graphic **1024 × 500** built from the new light identity (lens mark + tagline _"Peek inside before you open."_ + 3 device mocks of inspector / trust score / safe share).
-  - [ ] 8 phone screenshots, 4 tablet screenshots (Home · Inspector overview · Risk cards · Trust score · Safe Share · Commander dual-pane · Compare · Search).
-  - [ ] Rewrite store copy in English: **title** (≤30 chars), **short description** (≤80 chars), **full description** (≤4000 chars) — lead with "Inspect before opening", end with privacy promise.
-  - [ ] Translate store copy into the 12 launch languages.
-  - [ ] Release notes for v1.0.0.
+- [x] **Day 13 — Store assets + marketing copy**
+  - [x] Feature graphic **1024 × 500** built from the new light identity (lens mark + tagline _"Peek inside before you open. Share without leaking."_ + 3 device mocks of inspector / trust score / safe share). _(`store/listing/feature-graphic.svg` + rendered `.png`.)_
+  - [ ] 8 phone screenshots, 4 tablet screenshots (Home · Inspector overview · Risk cards · Trust score · Safe Share · Commander dual-pane · Compare · Search). _(Capture brief in `store/listing/screenshots-plan.md`; needs real device/emulator output.)_
+  - [x] Rewrite store copy in English: **title** (≤30 chars), **short description** (≤80 chars), **full description** (≤4000 chars) — lead with "Inspect before opening", end with privacy promise. _(25 / 75 / 2498 chars.)_
+  - [x] Translate store copy into the 14 launch languages. _(`store/listing/i18n/<lang>/` for es, pt-BR, fr, de, it, ru, uk, tr, pl, ja, ko, zh-CN, hi, ar.)_
+  - [x] Release notes for v1.0.0. _(`store/release-notes/v1.0.0.txt`, 488 / 500 chars.)_
 - [ ] **Day 14 — Beta, fixes, ship**
   - [ ] Closed beta to 10–20 testers across phone / tablet / DeX.
   - [ ] Triage P0/P1 bugs only; defer everything else.

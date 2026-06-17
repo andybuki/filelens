@@ -1,0 +1,39 @@
+FileLens è un file manager intelligente per Android che ti aiuta a capire cosa contiene un file prima di aprirlo o condividerlo.
+
+ISPEZIONA PRIMA DI APRIRE
+• Il rilevamento dei byte magici scova le estensioni ingannevoli (quel .jpg potrebbe essere un eseguibile).
+• Schede di anteprima, metadati e struttura affiancate per ogni tipo di file comune.
+• Badge di rischio segnalano cose come GPS nelle foto, JavaScript nei PDF, modifiche tracciate nei DOCX, fogli Excel nascosti e contenuti attivi negli archivi.
+• Punteggio di fiducia locale con i principali motivi che lo hanno influenzato.
+
+COPERTURA APPROFONDITA
+• Immagini: EXIF incluso GPS, fotocamera, date, con pulizia opzionale.
+• Documenti: revisioni DOCX, XLSX, PPTX, fogli nascosti, macro, link esterni.
+• PDF: miniature, JavaScript, file incorporati, stato di cifratura.
+• Archivi: ZIP, JAR, APK, OOXML, TAR, TAR.GZ, EPUB. Sfoglia il contenuto senza estrarre.
+• APK: permessi, firme, flag debug/backup, librerie native, tracker.
+• Audio/video: tag, durata, codec, copertine, miniature video.
+• Codice/testo/config: anteprima evidenziata, scansione di segreti su JSON, XML, YAML, TOML, INI, .env, log.
+• SQLite: schema, righe di tabella, browser di query in sola lettura.
+• Binario: vista hex, entropia, intestazioni ELF/DEX/SQLite.
+
+MODALITÀ COMMANDER
+• Pannello singolo su telefono, doppio pannello su tablet e DeX.
+• Scorciatoie tasti F in stile Norton con tastiera completa. Ogni combinazione è personalizzabile.
+• Copia, sposta, rinomina, rinomina in blocco con pattern ({n}, {name}, {ext}, trova/sostituisci, regex).
+• Eliminazione soft in una cartella .trash recuperabile con Ctrl+Z per annullare.
+• Confronta due file (diff testuale, diff strutturale JSON/XML, immagini affiancate, checksum).
+• Confronta due cartelle (solo sinistra, solo destra, cambiate, stesso contenuto nome diverso) con azioni di sincronizzazione.
+• Trova duplicati per SHA-256 con "elimina copie vecchie" in un tocco.
+• Verifica un download contro un hash incollato (SHA-256 o MD5).
+
+PRIVACY PRIMA DI TUTTO
+• Rimuove metadati EXIF, OOXML, PDF per un flusso "condividi copia pulita".
+• Audit privacy in blocco su una cartella; impacchetta le copie pulite in uno ZIP condivisibile.
+• Genera report di ispezione in Markdown o JSON.
+
+OFFLINE, SUL DISPOSITIVO
+• Nessun account, nessuna analitica oltre al rapporto crash di base, nessuna chiamata di rete nell'uso normale.
+• Impostazioni, segnalibri, file recenti e cartelle frequenti sono salvati in un file JSON che controlli tu.
+
+Pensato per smanettoni, utenti attenti alla sicurezza, giornalisti, sysadmin e chiunque voglia sapere cosa c'è davvero dentro i file del proprio telefono prima di condividerli.

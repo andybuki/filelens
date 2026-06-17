@@ -1,0 +1,39 @@
+FileLens est un gestionnaire de fichiers intelligent pour Android qui vous aide à comprendre ce que contient un fichier avant de l'ouvrir ou de le partager.
+
+INSPECTER AVANT D'OUVRIR
+• La détection par octets magiques repère les extensions trompeuses (ce .jpg pourrait être un exécutable).
+• Onglets côte à côte d'aperçu, métadonnées et structure pour chaque type de fichier courant.
+• Des badges de risque signalent le GPS dans les photos, le JavaScript dans les PDF, les modifications suivies dans DOCX, les feuilles Excel cachées et le contenu actif des archives.
+• Score de confiance local avec les principales raisons qui l'ont influencé.
+
+COUVERTURE APPROFONDIE
+• Images : EXIF dont GPS, appareil, dates, avec nettoyage optionnel.
+• Documents : révisions DOCX, XLSX, PPTX, feuilles cachées, macros, liens externes.
+• PDF : miniatures, JavaScript, fichiers intégrés, état de chiffrement.
+• Archives : ZIP, JAR, APK, OOXML, TAR, TAR.GZ, EPUB. Parcourez le contenu sans extraire.
+• APK : permissions, signatures, drapeaux debug/backup, bibliothèques natives, traqueurs.
+• Audio/vidéo : tags, durée, codec, pochettes, miniatures vidéo.
+• Code/texte/config : aperçu coloré, recherche de secrets dans JSON, XML, YAML, TOML, INI, .env, journaux.
+• SQLite : schéma, lignes de tables, navigateur de requêtes en lecture seule.
+• Binaire : vue hex, entropie, en-têtes ELF/DEX/SQLite.
+
+MODE COMMANDER
+• Panneau unique sur téléphone, deux panneaux sur tablette et DeX.
+• Raccourcis touches F façon Norton avec clavier complet. Chaque touche est personnalisable.
+• Copier, déplacer, renommer, renommage par lot avec motifs ({n}, {name}, {ext}, rechercher/remplacer, regex).
+• Suppression douce vers un dossier .trash récupérable avec Ctrl+Z pour annuler.
+• Comparez deux fichiers (diff texte, diff structurel JSON/XML, images côte à côte, sommes de contrôle).
+• Comparez deux dossiers (à gauche seul, à droite seul, modifiés, même contenu nom différent) avec actions de synchronisation.
+• Trouvez les doublons par SHA-256 avec « supprimer les anciennes copies » en un clic.
+• Vérifiez un téléchargement avec un hash collé (SHA-256 ou MD5).
+
+CONFIDENTIALITÉ D'ABORD
+• Supprime les métadonnées EXIF, OOXML, PDF pour un flux « partager une copie nettoyée ».
+• Audit de confidentialité par lot sur un dossier ; emballez les copies nettoyées dans un ZIP partageable.
+• Générez des rapports d'inspection en Markdown ou JSON.
+
+HORS LIGNE, SUR L'APPAREIL
+• Pas de compte, pas d'analyse au-delà du rapport de plantage de base, pas d'appel réseau en usage normal.
+• Réglages, favoris, fichiers récents et dossiers fréquents sauvegardés dans un fichier JSON que vous contrôlez.
+
+Conçu pour les bricoleurs, utilisateurs soucieux de sécurité, journalistes, administrateurs système et toute personne qui veut savoir ce qu'il y a vraiment dans les fichiers de son téléphone avant de les partager.

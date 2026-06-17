@@ -545,7 +545,6 @@
     <string name="settings_onboarding_reset_toast">La guida di benvenuto verrà mostrata al prossimo avvio</string>
 
     <string name="cd_open_home">Apri Home</string>
-    <string name="home_subtitle">Recenti · Preferiti · Categorie</string>
     <string name="home_section_categories">Categorie</string>
     <string name="home_section_recent">File recenti</string>
     <string name="home_section_favorites">Preferiti</string>

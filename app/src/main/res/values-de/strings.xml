@@ -534,7 +534,6 @@
     <string name="settings_onboarding_reset_toast">Willkommensanleitung wird beim nächsten Start angezeigt</string>
 
     <string name="cd_open_home">Startseite öffnen</string>
-    <string name="home_subtitle">Zuletzt · Favoriten · Kategorien</string>
     <string name="home_section_categories">Kategorien</string>
     <string name="home_section_recent">Zuletzt geöffnet</string>
     <string name="home_section_favorites">Favoriten</string>

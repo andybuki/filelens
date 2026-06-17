@@ -1,0 +1,11 @@
+FileLens 1.0 — pierwsze stabilne wydanie.
+
+• Jasny motyw wszędzie, odświeżona marka i znak soczewki.
+• Nowa karta Start: Ostatnie, Ulubione i Kategorie w jednym miejscu.
+• Ukryty sejf za biometrią.
+• Globalne wyszukiwanie, menedżer aplikacji, kosz.
+• Przegląd ustawień: wybór języka, domyślna karta startowa, pytaj przed usunięciem.
+• Dopracowane puste stany, szkielety ładowania, przyjazne błędy.
+• Lokalizacja na 15 języków, w tym arabski (RTL).
+
+Offline. Bez kont. Bez śledzenia.

@@ -578,7 +578,6 @@
     <string name="settings_onboarding_reset_toast">سيظهر دليل الترحيب عند التشغيل التالي</string>
 
     <string name="cd_open_home">فتح الرئيسية</string>
-    <string name="home_subtitle">الأخيرة · المفضلة · الفئات</string>
     <string name="home_section_categories">الفئات</string>
     <string name="home_section_recent">الملفات الأخيرة</string>
     <string name="home_section_favorites">المفضلة</string>
