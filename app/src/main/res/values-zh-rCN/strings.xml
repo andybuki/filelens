@@ -330,7 +330,7 @@
     <string name="settings_backup_desc">将您的设置、书签、最近文件和常用文件夹保存到 JSON 文件，以便日后恢复。</string>
 
     <string name="settings_about_app_name">FileLens Commander</string>
-    <string name="settings_about_version">版本 0.6.0</string>
+    <string name="settings_about_version">版本 0.7.0</string>
     <string name="settings_about_vision_label">愿景</string>
     <string name="settings_about_vision_text">浏览文件，窥视内部，打开前先了解。离线、设备端、无需账号。</string>
     <string name="settings_licenses_intro">FileLens 基于以下开源库构建：</string>

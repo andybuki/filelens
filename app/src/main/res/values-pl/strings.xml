@@ -330,7 +330,7 @@
     <string name="settings_backup_desc">Zapisz ustawienia, zakładki, ostatnie pliki i częste foldery do pliku JSON, który możesz później przywrócić.</string>
 
     <string name="settings_about_app_name">FileLens Commander</string>
-    <string name="settings_about_version">Wersja 0.6.0</string>
+    <string name="settings_about_version">Wersja 0.7.0</string>
     <string name="settings_about_vision_label">Wizja</string>
     <string name="settings_about_vision_text">Przeglądaj pliki, zaglądaj do środka, rozumiej przed otwarciem. Offline, na urządzeniu, bez kont.</string>
     <string name="settings_licenses_intro">FileLens jest zbudowany na tych bibliotekach open source:</string>

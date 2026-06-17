@@ -277,7 +277,7 @@
     <string name="settings_remote_servers_desc">Explora FTP, SFTP y recursos compartidos SMB como carpetas locales.</string>
     <string name="settings_backup_desc">Guarda tu configuración, marcadores, archivos recientes y carpetas frecuentes en un archivo JSON que podrás restaurar más adelante.</string>
     <string name="settings_about_app_name">FileLens Commander</string>
-    <string name="settings_about_version">Versión 0.6.0</string>
+    <string name="settings_about_version">Versión 0.7.0</string>
     <string name="settings_about_vision_label">Visión</string>
     <string name="settings_about_vision_text">Explora archivos, echa un vistazo dentro, entiende antes de abrir. Sin conexión, en el dispositivo, sin cuentas.</string>
     <string name="settings_licenses_intro">FileLens está construido sobre estas bibliotecas de código abierto:</string>
