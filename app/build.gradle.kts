@@ -154,6 +154,17 @@ kover {
         total {
             html { onCheck = false }
             xml { onCheck = false }
+            verify {
+                // Starter floor: ratchet up as coverage grows. Run
+                // `./gradlew :app:koverLogDebug` to see the current %.
+                rule("Minimum line coverage") {
+                    minBound(2)
+                }
+            }
         }
     }
+}
+
+tasks.named("check") {
+    dependsOn("koverVerify")
 }
