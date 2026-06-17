@@ -34,7 +34,7 @@ class HashVerifyViewModelTest {
         Dispatchers.resetMain()
     }
 
-    @Test fun loadComputesChecksumAndStopsComputing() = runTest {
+    @Test fun loadComputesChecksumAndStopsComputing() = runTest(dispatcher) {
         val file = tmp.newFile("payload.bin").apply { writeBytes(byteArrayOf(1, 2, 3, 4)) }
         vm.load(file.absolutePath, file.name)
         val state = vm.state.first { it.checksum != null }
@@ -44,7 +44,7 @@ class HashVerifyViewModelTest {
         assertEquals(file.name, state.name)
     }
 
-    @Test fun reloadingSamePathIsNoOpOnceChecksumIsKnown() = runTest {
+    @Test fun reloadingSamePathIsNoOpOnceChecksumIsKnown() = runTest(dispatcher) {
         val file = tmp.newFile("a.bin").apply { writeBytes(byteArrayOf(7)) }
         vm.load(file.absolutePath, file.name)
         val first = vm.state.first { it.checksum != null }.checksum
@@ -55,7 +55,7 @@ class HashVerifyViewModelTest {
         assertEquals(first, vm.state.value.checksum)
     }
 
-    @Test fun setExpectedSha256MatchesProducesMatch() = runTest {
+    @Test fun setExpectedSha256MatchesProducesMatch() = runTest(dispatcher) {
         val file = tmp.newFile("hello.txt").apply { writeText("hello") }
         vm.load(file.absolutePath, file.name)
         val sha = vm.state.first { it.checksum != null }.checksum!!.sha256!!
@@ -63,7 +63,7 @@ class HashVerifyViewModelTest {
         assertEquals(Match.MATCH, vm.state.value.matches)
     }
 
-    @Test fun setExpectedMd5MismatchProducesMismatch() = runTest {
+    @Test fun setExpectedMd5MismatchProducesMismatch() = runTest(dispatcher) {
         val file = tmp.newFile("hello.txt").apply { writeText("hello") }
         vm.load(file.absolutePath, file.name)
         vm.state.first { it.checksum != null }
@@ -71,7 +71,7 @@ class HashVerifyViewModelTest {
         assertEquals(Match.MISMATCH, vm.state.value.matches)
     }
 
-    @Test fun setExpectedWithWrongLengthStaysUnknown() = runTest {
+    @Test fun setExpectedWithWrongLengthStaysUnknown() = runTest(dispatcher) {
         val file = tmp.newFile("hello.txt").apply { writeText("hello") }
         vm.load(file.absolutePath, file.name)
         vm.state.first { it.checksum != null }
@@ -85,7 +85,7 @@ class HashVerifyViewModelTest {
         assertNull(vm.state.value.checksum)
     }
 
-    @Test fun resetClearsState() = runTest {
+    @Test fun resetClearsState() = runTest(dispatcher) {
         val file = tmp.newFile("a.bin").apply { writeBytes(byteArrayOf(1)) }
         vm.load(file.absolutePath, file.name)
         vm.state.first { it.checksum != null }

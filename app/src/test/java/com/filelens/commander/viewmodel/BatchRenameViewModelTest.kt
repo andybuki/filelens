@@ -60,8 +60,10 @@ class BatchRenameViewModelTest {
         assertEquals("img_02.txt", items[1].newName)
     }
 
-    @Test fun commitRenamesRealFilesAndMarksDone() = runTest {
+    @Test fun commitRenamesRealFilesAndMarksDone() = runTest(dispatcher) {
         // SharedFlow emit suspends without subscribers; drain in the background.
+        // Pinning runTest to the unconfined dispatcher makes backgroundScope.launch
+        // start eagerly, so the collector is subscribed before commit() emits.
         backgroundScope.launch { vm.events.collect {} }
 
         val foo = tmp.newFile("foo.txt").apply { writeText("hello") }
@@ -80,7 +82,7 @@ class BatchRenameViewModelTest {
         assertFalse(foo.exists())
     }
 
-    @Test fun commitEmitsSummaryEvent() = runTest {
+    @Test fun commitEmitsSummaryEvent() = runTest(dispatcher) {
         val foo = tmp.newFile("a.txt").apply { writeText("x") }
         vm.start(listOf(foo.absolutePath))
         vm.updateRule(BatchRenameUseCase.Rule(pattern = "z{ext}"))

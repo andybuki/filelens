@@ -36,7 +36,7 @@ class FolderDashboardViewModelTest {
         Dispatchers.resetMain()
     }
 
-    @Test fun analyzePopulatesSummaryAndStopsLoading() = runTest {
+    @Test fun analyzePopulatesSummaryAndStopsLoading() = runTest(dispatcher) {
         val dir = tmp.newFolder("scanme")
         File(dir, "a.txt").writeText("alpha")
         File(dir, "b.txt").writeText("beta beta")
@@ -50,14 +50,14 @@ class FolderDashboardViewModelTest {
         assertEquals(2, state.summary!!.fileCount)
     }
 
-    @Test fun analyzeOnNonExistentFolderProducesEmptySummary() = runTest {
+    @Test fun analyzeOnNonExistentFolderProducesEmptySummary() = runTest(dispatcher) {
         vm.analyze("/no/such/place/that/exists")
         val state = vm.state.first { it.summary != null }
         assertEquals(0, state.summary!!.fileCount)
         assertEquals(0L, state.summary!!.totalSize)
     }
 
-    @Test fun dismissResetsState() = runTest {
+    @Test fun dismissResetsState() = runTest(dispatcher) {
         val dir = tmp.newFolder("scanme")
         vm.analyze(dir.absolutePath)
         vm.state.first { it.summary != null }
