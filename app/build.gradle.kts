@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.play.publisher)
 }
 
 android {
@@ -71,6 +72,21 @@ android {
             )
         }
     }
+}
+
+play {
+    // Service-account JSON injected by CI (PLAY_SERVICE_ACCOUNT_JSON secret) or
+    // dropped into app/play-service-account.json locally. Kept out of git via
+    // the root .gitignore.
+    serviceAccountCredentials.set(rootProject.file("app/play-service-account.json"))
+    defaultToAppBundles.set(true)
+    // Start on the internal track as a draft; flip to "production" and
+    // releaseStatus = COMPLETED once the listing is verified in the console.
+    track.set("internal")
+    releaseStatus.set(com.github.triplet.gradle.androidpublisher.ReleaseStatus.DRAFT)
+    // Listing source-of-truth lives in app/src/main/play/. publishListing
+    // pushes title/description/graphics; publishReleaseNotes pushes the
+    // per-locale production.txt files; publishBundle uploads the AAB.
 }
 
 dependencies {

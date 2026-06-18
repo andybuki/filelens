@@ -95,5 +95,17 @@ Order matters — the first three carry the "inspect before opening" pitch.
       no dark surfaces in screenshots).
 - [ ] All 8 phone shots cropped to 1080 × 1920.
 - [ ] All 4 tablet shots cropped to 1920 × 1200.
-- [ ] Filenames numbered `01_home.png` … `12_folder_dashboard.png` for
-      Play Console ordering.
+
+## Where to drop the files
+
+Gradle Play Publisher reads numbered PNGs straight from the source set:
+
+- Phone shots → `app/src/main/play/listings/en-US/graphics/phone-screenshots/1.png` … `8.png`
+- Tablet shots → `app/src/main/play/listings/en-US/graphics/tablet-screenshots/1.png` … `4.png`
+
+Filename = display order in the Play Console listing. No need to
+duplicate per locale unless you want localised text in the shots —
+non-en-US locales inherit en-US graphics automatically.
+
+Commit them, push to `main`, and `.github/workflows/play-publish.yml`
+runs `publishListing` to upload them to the Console.
