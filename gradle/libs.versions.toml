@@ -26,6 +26,7 @@ securityCrypto = "1.1.0-alpha06"
 biometric = "1.1.0"
 appcompat = "1.7.0"
 playPublisher = "3.10.1"
+kover = "0.9.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -70,3 +71,4 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 play-publisher = { id = "com.github.triplet.play", version.ref = "playPublisher" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
