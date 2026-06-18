@@ -44,25 +44,35 @@ jobs:
             echo "::error::PLAY_SERVICE_ACCOUNT_JSON secret is not set."
             exit 1
           fi
+          # The secret holds the base64-encoded service-account JSON. Encoding
+          # bypasses paste-time mangling (browser extensions, line-ending
+          # rewrites, password-manager auto-trim) that corrupts the PEM
+          # private key without breaking JSON parsing.
           echo "$PLAY_SERVICE_ACCOUNT_JSON" | base64 -d > app/play-service-account.json
-          # Sanity-check we got valid JSON out the other side
           python3 -c "import json; json.load(open('app/play-service-account.json'))" \
             || { echo "::error::Decoded secret is not valid JSON. Re-encode the key with base64 and re-paste."; exit 1; }
       - name: Verify key identity (safe — no secrets printed)
         run: |
-          python3 -c "import json; d=json.load(open('app/play-service-account.json')); print('client_email :', d['client_email']); print('project_id   :', d['project_id']); print('key_id (first 8):', d['private_key_id'][:8]+'…')"
-          # Verify the private key actually parses as a valid RSA key
-          python3 -c "
-          import json, base64, re
+          python3 - <<'PY'
+          import base64, hashlib, json, re
           d = json.load(open('app/play-service-account.json'))
+          print('client_email :', d['client_email'])
+          print('project_id   :', d['project_id'])
+          print('key_id (8)   :', d['private_key_id'][:8] + '…')
+          # Verify the PEM private key actually decodes — if base64 inside the
+          # PEM is malformed, this prints a fingerprint we can compare to the
+          # local file. If transmission was lossy, the digest will differ.
           pem = d['private_key']
-          # Strip PEM armor and decode base64 body — fails loudly if mangled
           body = re.sub(r'-----[^-]+-----|\s+', '', pem)
-          raw = base64.b64decode(body)
-          import hashlib
-          print('private_key SHA-256 (first 16):', hashlib.sha256(raw).hexdigest()[:16]+'…')
-          print('private_key bytes :', len(raw))
-          "   
+          try:
+              raw = base64.b64decode(body, validate=True)
+              digest = hashlib.sha256(raw).hexdigest()[:16]
+              print(f'key bytes    : {len(raw)}')
+              print(f'key sha256(16): {digest}…')
+          except Exception as exc:
+              print(f'::error::PEM body failed base64 decode — key is corrupted in transit: {exc}')
+              raise SystemExit(1)
+          PY
 
       - name: Publish listing text + graphics
         run: ./gradlew :app:publishListing --no-daemon --stacktrace
