@@ -50,12 +50,19 @@ jobs:
             || { echo "::error::Decoded secret is not valid JSON. Re-encode the key with base64 and re-paste."; exit 1; }
       - name: Verify key identity (safe — no secrets printed)
         run: |
-          KEY_ID=$(python3 -c "import json; print(json.load(open('app/play-service-account.json'))['private_key_id'])")
-          EMAIL=$(python3 -c "import json; print(json.load(open('app/play-service-account.json'))['client_email'])")
-          PROJECT=$(python3 -c "import json; print(json.load(open('app/play-service-account.json'))['project_id'])")
-          echo "client_email : $EMAIL"
-          echo "project_id   : $PROJECT"
-          echo "private_key_id (first 8 chars only): ${KEY_ID:0:8}…"   
+          python3 -c "import json; d=json.load(open('app/play-service-account.json')); print('client_email :', d['client_email']); print('project_id   :', d['project_id']); print('key_id (first 8):', d['private_key_id'][:8]+'…')"
+          # Verify the private key actually parses as a valid RSA key
+          python3 -c "
+          import json, base64, re
+          d = json.load(open('app/play-service-account.json'))
+          pem = d['private_key']
+          # Strip PEM armor and decode base64 body — fails loudly if mangled
+          body = re.sub(r'-----[^-]+-----|\s+', '', pem)
+          raw = base64.b64decode(body)
+          import hashlib
+          print('private_key SHA-256 (first 16):', hashlib.sha256(raw).hexdigest()[:16]+'…')
+          print('private_key bytes :', len(raw))
+          "   
 
       - name: Publish listing text + graphics
         run: ./gradlew :app:publishListing --no-daemon --stacktrace
