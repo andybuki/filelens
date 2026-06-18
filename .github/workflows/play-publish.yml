@@ -45,6 +45,14 @@ jobs:
             exit 1
           fi
           printf '%s' "$PLAY_SERVICE_ACCOUNT_JSON" > app/play-service-account.json
+      - name: Verify key identity (safe — no secrets printed)
+        run: |
+          KEY_ID=$(python3 -c "import json; print(json.load(open('app/play-service-account.json'))['private_key_id'])")
+          EMAIL=$(python3 -c "import json; print(json.load(open('app/play-service-account.json'))['client_email'])")
+          PROJECT=$(python3 -c "import json; print(json.load(open('app/play-service-account.json'))['project_id'])")
+          echo "client_email : $EMAIL"
+          echo "project_id   : $PROJECT"
+          echo "private_key_id (first 8 chars only): ${KEY_ID:0:8}…"   
 
       - name: Publish listing text + graphics
         run: ./gradlew :app:publishListing --no-daemon --stacktrace
