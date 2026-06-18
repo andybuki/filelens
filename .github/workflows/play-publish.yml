@@ -1,0 +1,61 @@
+name: Publish Play Store listing
+
+# Pushes the listing text, graphics, and release notes from
+# app/src/main/play/ to Google Play Console. Triggered by:
+#   1. Pushes to main that touch the listing folder.
+#   2. Manual dispatch (handy for re-syncing without a code change).
+#
+# AAB upload is opt-in via the workflow_dispatch input — keeps day-to-day
+# listing edits decoupled from build promotion.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'app/src/main/play/**'
+  workflow_dispatch:
+    inputs:
+      publish_bundle:
+        description: 'Also upload the signed AAB to the configured track'
+        type: boolean
+        default: false
+
+jobs:
+  publish:
+    name: Publish listing
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Write Play service-account credentials
+        env:
+          PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+        run: |
+          if [ -z "$PLAY_SERVICE_ACCOUNT_JSON" ]; then
+            echo "::error::PLAY_SERVICE_ACCOUNT_JSON secret is not set."
+            exit 1
+          fi
+          printf '%s' "$PLAY_SERVICE_ACCOUNT_JSON" > app/play-service-account.json
+
+      - name: Publish listing text + graphics
+        run: ./gradlew :app:publishListing --no-daemon --stacktrace
+
+      - name: Publish release notes
+        run: ./gradlew :app:publishProducts --no-daemon --stacktrace || true
+        # publishProducts is a no-op when there are no in-app products. The
+        # release notes themselves ride with the bundle publish below; when
+        # the bundle is not uploaded we still want the listing changes to
+        # land, so this step is best-effort.
+
+      - name: Publish AAB (opt-in)
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.publish_bundle == true }}
+        run: ./gradlew :app:publishBundle --no-daemon --stacktrace

@@ -19,3 +19,7 @@ out/
 bin/
 hs_err_pid*.log
 replay_pid*.log
+
+# Play Store service-account credentials (injected by CI from
+# PLAY_SERVICE_ACCOUNT_JSON secret; dropped here locally if needed).
+/app/play-service-account.json
