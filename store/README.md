@@ -11,6 +11,7 @@ needed.
 ```
 app/src/main/play/
 ├── default-language.txt              "en-US"
+├── contact-email.txt                 app contact email (Play requires it on every edit)
 ├── listings/
 │   ├── en-US/                        ← source language (Play default)
 │   │   ├── title.txt                       ≤ 30 chars
