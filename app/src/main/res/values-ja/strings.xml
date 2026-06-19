@@ -330,7 +330,7 @@
     <string name="settings_backup_desc">設定、ブックマーク、最近のファイル、よく使うフォルダーをJSONファイルに保存して後で復元できます。</string>
 
     <string name="settings_about_app_name">FileLens Commander</string>
-    <string name="settings_about_version">バージョン 0.7.0</string>
+    <string name="settings_about_version">バージョン 1.0.0</string>
     <string name="settings_about_vision_label">ビジョン</string>
     <string name="settings_about_vision_text">ファイルを参照し、中身をのぞき、開く前に理解する。オフライン、デバイス上、アカウント不要。</string>
     <string name="settings_licenses_intro">FileLens は以下のオープンソースライブラリを使用しています:</string>
