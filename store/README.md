@@ -11,6 +11,7 @@ needed.
 ```
 app/src/main/play/
 ├── default-language.txt              "en-US"
+├── contact-email.txt                 app contact email (Play requires it on every edit)
 ├── listings/
 │   ├── en-US/                        ← source language (Play default)
 │   │   ├── title.txt                       ≤ 30 chars
@@ -22,7 +23,7 @@ app/src/main/play/
 │   │       ├── phone-screenshots/1.png … 8.png    (add when captured)
 │   │       └── tablet-screenshots/1.png … 4.png   (add when captured)
 │   └── <14 locales>/                 es-ES · pt-BR · fr-FR · de-DE · it-IT
-│                                     · ru-RU · uk-UA · tr-TR · pl-PL
+│                                     · ru-RU · uk · tr-TR · pl-PL
 │                                     · ja-JP · ko-KR · zh-CN · hi-IN · ar
 └── release-notes/
     └── <locale>/production.txt       ≤ 500 chars, one per locale
