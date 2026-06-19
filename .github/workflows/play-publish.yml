@@ -1,0 +1,98 @@
+name: Publish Play Store listing
+
+# Pushes the listing text, graphics, and release notes from
+# app/src/main/play/ to Google Play Console. Triggered by:
+#   1. Pushes to main that touch the listing folder.
+#   2. Manual dispatch (handy for re-syncing without a code change).
+#
+# AAB upload is opt-in via the workflow_dispatch input — keeps day-to-day
+# listing edits decoupled from build promotion.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'app/src/main/play/**'
+  workflow_dispatch:
+    inputs:
+      publish_bundle:
+        description: 'Also upload the signed AAB to the configured track'
+        type: boolean
+        default: false
+
+jobs:
+  publish:
+    name: Publish listing
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Write Play service-account credentials
+        env:
+          PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+        run: |
+          if [ -z "$PLAY_SERVICE_ACCOUNT_JSON" ]; then
+            echo "::error::PLAY_SERVICE_ACCOUNT_JSON secret is not set."
+            exit 1
+          fi
+          # The secret may be EITHER the raw service-account JSON or that JSON
+          # base64-encoded. Base64 is preferred because it survives paste-time
+          # mangling (browser extensions, line-ending rewrites) that corrupts
+          # the PEM key without breaking JSON parsing — but we accept raw JSON
+          # too so the secret can be pasted directly. Detect by first
+          # non-whitespace byte: JSON always starts with '{', base64 never does.
+          first=$(printf '%s' "$PLAY_SERVICE_ACCOUNT_JSON" | tr -d '[:space:]' | cut -c1)
+          if [ "$first" = "{" ]; then
+            printf '%s' "$PLAY_SERVICE_ACCOUNT_JSON" > app/play-service-account.json
+            echo "Stored raw JSON secret."
+          else
+            printf '%s' "$PLAY_SERVICE_ACCOUNT_JSON" | base64 -d > app/play-service-account.json
+            echo "Decoded base64 secret."
+          fi
+          python3 -c "import json; json.load(open('app/play-service-account.json'))" \
+            || { echo "::error::Secret did not yield valid JSON. Paste the raw key JSON, or its base64 encoding."; exit 1; }
+      - name: Verify key identity (safe — no secrets printed)
+        run: |
+          python3 - <<'PY'
+          import base64, hashlib, json, re
+          d = json.load(open('app/play-service-account.json'))
+          print('client_email :', d['client_email'])
+          print('project_id   :', d['project_id'])
+          print('key_id (8)   :', d['private_key_id'][:8] + '…')
+          # Verify the PEM private key actually decodes — if base64 inside the
+          # PEM is malformed, this prints a fingerprint we can compare to the
+          # local file. If transmission was lossy, the digest will differ.
+          pem = d['private_key']
+          body = re.sub(r'-----[^-]+-----|\s+', '', pem)
+          try:
+              raw = base64.b64decode(body, validate=True)
+              digest = hashlib.sha256(raw).hexdigest()[:16]
+              print(f'key bytes    : {len(raw)}')
+              print(f'key sha256(16): {digest}…')
+          except Exception as exc:
+              print(f'::error::PEM body failed base64 decode — key is corrupted in transit: {exc}')
+              raise SystemExit(1)
+          PY
+
+      - name: Publish listing text + graphics
+        run: ./gradlew :app:publishListing --no-daemon --stacktrace
+
+      - name: Publish release notes
+        run: ./gradlew :app:publishProducts --no-daemon --stacktrace || true
+        # publishProducts is a no-op when there are no in-app products. The
+        # release notes themselves ride with the bundle publish below; when
+        # the bundle is not uploaded we still want the listing changes to
+        # land, so this step is best-effort.
+
+      - name: Publish AAB (opt-in)
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.publish_bundle == true }}
+        run: ./gradlew :app:publishBundle --no-daemon --stacktrace
