@@ -16,8 +16,8 @@ android {
         applicationId = "app.com.filelens"
         minSdk = 26
         targetSdk = 35
-        versionCode = 8
-        versionName = "0.5.0"
+        versionCode = 14
+        versionName = "1.0.2"
     }
 
     buildTypes {

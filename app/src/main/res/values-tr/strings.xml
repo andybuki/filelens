@@ -330,7 +330,7 @@
     <string name="settings_backup_desc">Ayarlarınızı, yer imlerinizi, son dosyalarınızı ve sık kullanılan klasörlerinizi daha sonra geri yükleyebileceğiniz bir JSON dosyasına kaydedin.</string>
 
     <string name="settings_about_app_name">FileLens Commander</string>
-    <string name="settings_about_version">Sürüm 0.5.0</string>
+    <string name="settings_about_version">Sürüm 1.0.2</string>
     <string name="settings_about_vision_label">Vizyon</string>
     <string name="settings_about_vision_text">Dosyalara gözat, içine bak, açmadan önce anla. Çevrimdışı, cihazda, hesap gerektirmez.</string>
     <string name="settings_licenses_intro">FileLens şu açık kaynak kütüphaneler üzerine kurulmuştur:</string>
