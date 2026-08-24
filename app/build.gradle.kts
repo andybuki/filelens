@@ -10,13 +10,13 @@ plugins {
 
 android {
     namespace = "app.com.filelens"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "app.com.filelens"
         minSdk = 26
-        targetSdk = 35
-        versionCode = 14
+        targetSdk = 36
+        versionCode = 15
         versionName = "1.0.2"
     }
 
