@@ -66,15 +66,6 @@ import com.filelens.commander.ui.theme.CategoryPdf
 import com.filelens.commander.ui.theme.CategoryText
 import com.filelens.commander.ui.theme.CategoryVideo
 import com.filelens.commander.ui.theme.Eyebrow
-import com.filelens.commander.ui.theme.FlAccent
-import com.filelens.commander.ui.theme.FlAccentTint
-import com.filelens.commander.ui.theme.FlBg
-import com.filelens.commander.ui.theme.FlInk
-import com.filelens.commander.ui.theme.FlInk3
-import com.filelens.commander.ui.theme.FlNavy
-import com.filelens.commander.ui.theme.FlOnAccent
-import com.filelens.commander.ui.theme.FlSurface
-import com.filelens.commander.ui.theme.FlText
 import com.filelens.commander.ui.theme.MonoSmall
 import com.filelens.commander.ui.util.formatFileSize
 import com.filelens.commander.viewmodel.GlobalSearchViewModel
@@ -109,7 +100,7 @@ fun GlobalSearchScreen(
 
     LaunchedEffect(Unit) { focusRequester.requestFocus() }
 
-    Column(modifier = Modifier.fillMaxSize().background(FlBg)) {
+    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         SearchHeader(
             query = state.query,
             isSearching = state.isSearching,
@@ -163,7 +154,7 @@ private fun SearchHeader(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(FlNavy)
+            .background(MaterialTheme.colorScheme.tertiary)
             .padding(start = 4.dp, end = 8.dp, top = 6.dp, bottom = 10.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -171,7 +162,7 @@ private fun SearchHeader(
                 Icon(
                     Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = stringResource(R.string.cd_back),
-                    tint = FlOnAccent
+                    tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
             Row(
@@ -186,7 +177,7 @@ private fun SearchHeader(
                 Icon(
                     Icons.Filled.Search,
                     contentDescription = null,
-                    tint = FlOnAccent,
+                    tint = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.size(18.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
@@ -198,8 +189,8 @@ private fun SearchHeader(
                             .fillMaxWidth()
                             .focusRequester(focusRequester),
                         singleLine = true,
-                        textStyle = MaterialTheme.typography.bodyMedium.copy(color = FlOnAccent),
-                        cursorBrush = androidx.compose.ui.graphics.SolidColor(FlOnAccent),
+                        textStyle = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onPrimary),
+                        cursorBrush = androidx.compose.ui.graphics.SolidColor(MaterialTheme.colorScheme.onPrimary),
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                         keyboardActions = KeyboardActions(onSearch = { onSubmit() }),
                         decorationBox = { inner ->
@@ -222,7 +213,7 @@ private fun SearchHeader(
                         Icon(
                             Icons.Filled.Clear,
                             contentDescription = stringResource(R.string.action_clear),
-                            tint = FlOnAccent,
+                            tint = MaterialTheme.colorScheme.onPrimary,
                             modifier = Modifier.size(16.dp)
                         )
                     }
@@ -233,7 +224,7 @@ private fun SearchHeader(
                     Icon(
                         Icons.Filled.Stop,
                         contentDescription = stringResource(R.string.search_cancel),
-                        tint = FlOnAccent
+                        tint = MaterialTheme.colorScheme.onPrimary
                     )
                 }
             }
@@ -248,7 +239,7 @@ private fun SearchHeader(
                     CircularProgressIndicator(
                         modifier = Modifier.size(12.dp),
                         strokeWidth = 1.6.dp,
-                        color = FlOnAccent
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                 }
@@ -272,7 +263,7 @@ private fun CategoryChipRow(
     onSelect: (FileCategory?) -> Unit
 ) {
     LazyRow(
-        modifier = Modifier.fillMaxWidth().background(FlSurface),
+        modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surface),
         contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
@@ -282,8 +273,8 @@ private fun CategoryChipRow(
                 onClick = { onSelect(null) },
                 label = { Text(stringResource(R.string.search_chip_all)) },
                 colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = FlAccent,
-                    selectedLabelColor = FlOnAccent
+                    selectedContainerColor = MaterialTheme.colorScheme.primary,
+                    selectedLabelColor = MaterialTheme.colorScheme.onPrimary
                 )
             )
         }
@@ -294,7 +285,7 @@ private fun CategoryChipRow(
                 label = { Text(stringResource(chip.labelRes)) },
                 colors = FilterChipDefaults.filterChipColors(
                     selectedContainerColor = chip.color,
-                    selectedLabelColor = FlOnAccent
+                    selectedLabelColor = MaterialTheme.colorScheme.onPrimary
                 )
             )
         }
@@ -325,7 +316,7 @@ private fun ResultRow(item: FileItem, onClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
-            .background(FlSurface)
+            .background(MaterialTheme.colorScheme.surface)
             .clickable(onClick = onClick)
             .padding(horizontal = 12.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -350,7 +341,7 @@ private fun ResultRow(item: FileItem, onClick: () -> Unit) {
             Text(
                 text = item.name,
                 style = MaterialTheme.typography.titleSmall,
-                color = FlInk,
+                color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -366,7 +357,7 @@ private fun ResultRow(item: FileItem, onClick: () -> Unit) {
             Text(
                 text = sub,
                 style = MonoSmall,
-                color = FlText,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(top = 2.dp)
@@ -379,12 +370,12 @@ private fun ResultRow(item: FileItem, onClick: () -> Unit) {
 private fun SearchingPlaceholder(scannedFolders: Int) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            CircularProgressIndicator(color = FlAccent)
+            CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
             Spacer(modifier = Modifier.height(12.dp))
             Text(
                 stringResource(R.string.search_scanning_label, scannedFolders),
                 style = MaterialTheme.typography.bodyMedium,
-                color = FlInk3
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
@@ -396,7 +387,7 @@ private fun EmptyStateMessage(message: String) {
         Text(
             message,
             style = MaterialTheme.typography.bodyMedium,
-            color = FlInk3,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(24.dp)
         )
     }
@@ -410,13 +401,13 @@ private fun IdleHint() {
                 modifier = Modifier
                     .size(72.dp)
                     .clip(RoundedCornerShape(20.dp))
-                    .background(FlAccentTint),
+                    .background(MaterialTheme.colorScheme.primaryContainer),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     Icons.Filled.Search,
                     contentDescription = null,
-                    tint = FlAccent,
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(32.dp)
                 )
             }
@@ -424,19 +415,19 @@ private fun IdleHint() {
             Text(
                 stringResource(R.string.search_idle_headline),
                 style = MaterialTheme.typography.titleMedium,
-                color = FlInk
+                color = MaterialTheme.colorScheme.onSurface
             )
             Spacer(modifier = Modifier.height(6.dp))
             Text(
                 stringResource(R.string.search_idle_subtitle),
                 style = MaterialTheme.typography.bodySmall,
-                color = FlInk3
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 stringResource(R.string.search_section_filter).uppercase(),
                 style = Eyebrow,
-                color = FlInk3
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
@@ -454,7 +445,7 @@ private fun colorFor(category: FileCategory): Color = when (category) {
     FileCategory.CODE -> CategoryCode
     FileCategory.TEXT -> CategoryText
     FileCategory.CERTIFICATE -> CategoryCertificate
-    else -> FlAccent
+    else -> MaterialTheme.colorScheme.primary
 }
 
 private fun compactPath(path: String): String {

@@ -43,10 +43,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import app.com.filelens.R
 import com.filelens.commander.domain.usecase.BatchScanUseCase
-import com.filelens.commander.ui.theme.FlAccent
-import com.filelens.commander.ui.theme.FlAccentTint
-import com.filelens.commander.ui.theme.FlInk
-import com.filelens.commander.ui.theme.FlInk3
 import com.filelens.commander.ui.theme.RiskDanger
 import com.filelens.commander.ui.theme.RiskSafe
 import com.filelens.commander.viewmodel.BatchScanState
@@ -82,13 +78,13 @@ fun BatchScanDialog(
                     modifier = Modifier
                         .size(32.dp)
                         .clip(RoundedCornerShape(9.dp))
-                        .background(FlAccentTint),
+                        .background(MaterialTheme.colorScheme.primaryContainer),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         Icons.Filled.Security,
                         contentDescription = null,
-                        tint = FlAccent,
+                        tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(18.dp)
                     )
                 }
@@ -111,13 +107,13 @@ fun BatchScanDialog(
                     LinearProgressIndicator(
                         progress = { if (state.total > 0) state.current.toFloat() / state.total else 0f },
                         modifier = Modifier.fillMaxWidth(),
-                        color = FlAccent
+                        color = MaterialTheme.colorScheme.primary
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = state.currentFile,
                         style = MaterialTheme.typography.bodySmall,
-                        color = FlInk3,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -127,7 +123,7 @@ fun BatchScanDialog(
                     Text(
                         text = stringResource(R.string.batch_scan_result_count, state.results.size),
                         style = MaterialTheme.typography.bodyMedium,
-                        color = FlInk3
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -164,7 +160,7 @@ fun BatchScanDialog(
                         Text(
                             stringResource(R.string.batch_scan_bucket_empty),
                             style = MaterialTheme.typography.bodySmall,
-                            color = FlInk3
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     } else {
                         val accent = when (bucketTab) {
@@ -184,7 +180,7 @@ fun BatchScanDialog(
                     }
                     state.cleanMessage?.let {
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text(it, style = MaterialTheme.typography.bodySmall, color = FlAccent)
+                        Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.primary)
                     }
                     if (state.cleanedZipPath != null) {
                         Spacer(modifier = Modifier.height(4.dp))
@@ -244,14 +240,14 @@ private fun BucketCard(
             Text(
                 "$count",
                 style = MaterialTheme.typography.titleMedium,
-                color = if (selected) tint else FlInk,
+                color = if (selected) tint else MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold
             )
         }
         Text(
             label,
             style = MaterialTheme.typography.labelSmall,
-            color = if (selected) tint else FlInk3,
+            color = if (selected) tint else MaterialTheme.colorScheme.onSurfaceVariant,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(top = 2.dp)
@@ -279,7 +275,7 @@ private fun ScanResultRow(result: BatchScanUseCase.ScanResult, accent: Color) {
             Text(
                 text = result.name,
                 style = MaterialTheme.typography.titleSmall,
-                color = FlInk,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.SemiBold,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -288,7 +284,7 @@ private fun ScanResultRow(result: BatchScanUseCase.ScanResult, accent: Color) {
                 Text(
                     text = "• ${risk.title}",
                     style = MaterialTheme.typography.bodySmall,
-                    color = FlInk3,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(top = 2.dp)
                 )
             }

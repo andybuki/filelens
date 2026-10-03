@@ -44,10 +44,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import app.com.filelens.R
 import com.filelens.commander.domain.model.SearchHit
-import com.filelens.commander.ui.theme.FlAccent
-import com.filelens.commander.ui.theme.FlAccentTint
-import com.filelens.commander.ui.theme.FlInk
-import com.filelens.commander.ui.theme.FlInk3
 import com.filelens.commander.ui.theme.RobotoMono
 
 @Composable
@@ -68,13 +64,13 @@ fun SearchInsideDialog(
                     modifier = Modifier
                         .size(32.dp)
                         .clip(RoundedCornerShape(9.dp))
-                        .background(FlAccentTint),
+                        .background(MaterialTheme.colorScheme.primaryContainer),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         Icons.Filled.Search,
                         contentDescription = null,
-                        tint = FlAccent,
+                        tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(18.dp)
                     )
                 }
@@ -95,8 +91,8 @@ fun SearchInsideDialog(
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                     keyboardActions = KeyboardActions(onSearch = { if (query.isNotBlank()) onSearch(query) }),
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = FlAccent,
-                        cursorColor = FlAccent
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        cursorColor = MaterialTheme.colorScheme.primary
                     )
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -104,7 +100,7 @@ fun SearchInsideDialog(
                     onClick = { if (query.isNotBlank()) onSearch(query) },
                     modifier = Modifier.fillMaxWidth(),
                     enabled = query.isNotBlank() && !isSearching,
-                    colors = ButtonDefaults.buttonColors(containerColor = FlAccent),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     shape = RoundedCornerShape(10.dp)
                 ) {
                     Text(stringResource(R.string.action_find), fontWeight = FontWeight.SemiBold)
@@ -113,16 +109,16 @@ fun SearchInsideDialog(
                 if (isSearching) {
                     Spacer(modifier = Modifier.height(10.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        CircularProgressIndicator(modifier = Modifier.size(14.dp), strokeWidth = 2.dp, color = FlAccent)
+                        CircularProgressIndicator(modifier = Modifier.size(14.dp), strokeWidth = 2.dp, color = MaterialTheme.colorScheme.primary)
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text(stringResource(R.string.search_inside_searching), style = MaterialTheme.typography.bodySmall, color = FlInk3)
+                        Text(stringResource(R.string.search_inside_searching), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 } else if (hits.isEmpty() && initialQuery.isNotBlank()) {
                     Spacer(modifier = Modifier.height(10.dp))
                     Text(
                         stringResource(R.string.search_inside_no_matches),
                         style = MaterialTheme.typography.bodySmall,
-                        color = FlInk3
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
 
@@ -132,14 +128,14 @@ fun SearchInsideDialog(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(8.dp))
-                            .background(FlAccentTint)
+                            .background(MaterialTheme.colorScheme.primaryContainer)
                             .padding(horizontal = 10.dp, vertical = 6.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
                             text = pluralStringResource(R.plurals.plural_match_count, hits.size, hits.size),
                             style = MaterialTheme.typography.labelMedium,
-                            color = FlAccent,
+                            color = MaterialTheme.colorScheme.primary,
                             fontWeight = FontWeight.SemiBold
                         )
                     }
@@ -154,7 +150,7 @@ fun SearchInsideDialog(
                             Text(
                                 text = "${kind.displayName} (${group.size})",
                                 style = MaterialTheme.typography.labelMedium,
-                                color = FlAccent,
+                                color = MaterialTheme.colorScheme.primary,
                                 fontWeight = FontWeight.SemiBold,
                                 modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
                             )
@@ -165,7 +161,7 @@ fun SearchInsideDialog(
                                 Text(
                                     stringResource(R.string.search_inside_more, group.size - 50),
                                     style = MaterialTheme.typography.labelSmall,
-                                    color = FlInk3
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             }
                         }
@@ -192,14 +188,14 @@ private fun HitRow(hit: SearchHit) {
         Text(
             text = hit.location,
             style = MaterialTheme.typography.labelSmall,
-            color = FlInk3,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontWeight = FontWeight.SemiBold
         )
         Spacer(modifier = Modifier.height(2.dp))
         Text(
             text = hit.snippet,
             style = MaterialTheme.typography.bodySmall.copy(fontFamily = RobotoMono),
-            color = FlInk
+            color = MaterialTheme.colorScheme.onSurface
         )
     }
 }

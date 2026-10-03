@@ -58,10 +58,6 @@ import com.filelens.commander.ui.theme.CategorySpreadsheet
 import com.filelens.commander.ui.theme.CategoryText
 import com.filelens.commander.ui.theme.CategoryUnknown
 import com.filelens.commander.ui.theme.CategoryVideo
-import com.filelens.commander.ui.theme.FlAccent
-import com.filelens.commander.ui.theme.FlAccentTint
-import com.filelens.commander.ui.theme.FlInk
-import com.filelens.commander.ui.theme.FlInk3
 import com.filelens.commander.viewmodel.FolderDashboardState
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -80,13 +76,13 @@ fun FolderDashboardDialog(
                     modifier = Modifier
                         .size(32.dp)
                         .clip(RoundedCornerShape(9.dp))
-                        .background(FlAccentTint),
+                        .background(MaterialTheme.colorScheme.primaryContainer),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         Icons.Filled.Analytics,
                         contentDescription = null,
-                        tint = FlAccent,
+                        tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(18.dp)
                     )
                 }
@@ -97,7 +93,7 @@ fun FolderDashboardDialog(
         text = {
             when {
                 state.isAnalyzing -> Row(verticalAlignment = Alignment.CenterVertically) {
-                    CircularProgressIndicator(modifier = Modifier.size(16.dp), strokeWidth = 2.dp, color = FlAccent)
+                    CircularProgressIndicator(modifier = Modifier.size(16.dp), strokeWidth = 2.dp, color = MaterialTheme.colorScheme.primary)
                     Spacer(modifier = Modifier.width(10.dp))
                     Text(stringResource(R.string.folder_dashboard_analyzing), style = MaterialTheme.typography.bodySmall)
                 }
@@ -193,16 +189,16 @@ private fun FolderHeaderCard(path: String, fileCount: Int, totalSize: Long) {
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
-            .background(FlAccentTint)
+            .background(MaterialTheme.colorScheme.primaryContainer)
             .padding(12.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Filled.Folder, contentDescription = null, tint = FlAccent, modifier = Modifier.size(16.dp))
+            Icon(Icons.Filled.Folder, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(16.dp))
             Spacer(modifier = Modifier.width(6.dp))
             Text(
                 path,
                 style = MaterialTheme.typography.labelSmall,
-                color = FlAccent,
+                color = MaterialTheme.colorScheme.primary,
                 fontWeight = FontWeight.SemiBold,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
@@ -223,20 +219,20 @@ private fun FolderHeaderCard(path: String, fileCount: Int, totalSize: Long) {
 @Composable
 private fun StatPill(label: String, value: String) {
     Column {
-        Text(label.uppercase(), style = MaterialTheme.typography.labelSmall, color = FlInk3)
-        Text(value, style = MaterialTheme.typography.titleMedium, color = FlInk, fontWeight = FontWeight.Bold)
+        Text(label.uppercase(), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(value, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold)
     }
 }
 
 @Composable
 private fun SectionHeader(icon: ImageVector, label: String) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Icon(icon, contentDescription = null, tint = FlAccent, modifier = Modifier.size(14.dp))
+        Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(14.dp))
         Spacer(modifier = Modifier.width(6.dp))
         Text(
             label,
             style = MaterialTheme.typography.labelMedium,
-            color = FlAccent,
+            color = MaterialTheme.colorScheme.primary,
             fontWeight = FontWeight.SemiBold
         )
     }
@@ -253,7 +249,7 @@ private fun NameValueRow(title: String, value: String) {
         Text(
             text = title,
             style = MaterialTheme.typography.bodySmall,
-            color = FlInk,
+            color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier.weight(1f),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
@@ -263,7 +259,7 @@ private fun NameValueRow(title: String, value: String) {
             Text(
                 text = value,
                 style = MaterialTheme.typography.labelSmall,
-                color = FlInk3
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
@@ -315,13 +311,13 @@ private fun CategoryLegendRow(
         Text(
             text = category.name.lowercase().replaceFirstChar { it.uppercase() },
             style = MaterialTheme.typography.bodySmall,
-            color = FlInk,
+            color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier.weight(1f)
         )
         Text(
             text = "$fileCount · ${formatSize(bytes)} · %.1f%%".format(pct),
             style = MaterialTheme.typography.labelSmall,
-            color = FlInk3
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }

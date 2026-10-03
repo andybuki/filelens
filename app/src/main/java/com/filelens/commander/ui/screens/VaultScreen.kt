@@ -62,15 +62,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.com.filelens.R
 import com.filelens.commander.domain.model.VaultItem
 import com.filelens.commander.ui.theme.Eyebrow
-import com.filelens.commander.ui.theme.FlAccent
-import com.filelens.commander.ui.theme.FlAccentTint
-import com.filelens.commander.ui.theme.FlBg
-import com.filelens.commander.ui.theme.FlInk
-import com.filelens.commander.ui.theme.FlInk3
-import com.filelens.commander.ui.theme.FlNavy
-import com.filelens.commander.ui.theme.FlOnAccent
-import com.filelens.commander.ui.theme.FlSurface
-import com.filelens.commander.ui.theme.FlText
 import com.filelens.commander.ui.theme.MonoSmall
 import com.filelens.commander.ui.theme.RiskDanger
 import com.filelens.commander.ui.util.formatFileSize
@@ -145,7 +136,7 @@ fun VaultScreen(
         )
     }
 
-    Column(modifier = Modifier.fillMaxSize().background(FlBg)) {
+    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         VaultHeader(
             unlocked = state.isUnlocked,
             count = state.items.size,
@@ -197,7 +188,7 @@ private fun VaultHeader(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(FlNavy)
+            .background(MaterialTheme.colorScheme.tertiary)
             .padding(start = 4.dp, end = 12.dp, top = 6.dp, bottom = 14.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -205,13 +196,13 @@ private fun VaultHeader(
                 Icon(
                     Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = stringResource(R.string.cd_back),
-                    tint = FlOnAccent
+                    tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = stringResource(R.string.vault_title),
-                    color = FlOnAccent,
+                    color = MaterialTheme.colorScheme.onPrimary,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -227,7 +218,7 @@ private fun VaultHeader(
                         Icon(
                             Icons.Filled.Close,
                             contentDescription = stringResource(R.string.cd_clear_selection),
-                            tint = FlOnAccent
+                            tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 } else {
@@ -235,7 +226,7 @@ private fun VaultHeader(
                         Icon(
                             Icons.Filled.Lock,
                             contentDescription = stringResource(R.string.vault_action_lock),
-                            tint = FlOnAccent
+                            tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 }
@@ -261,13 +252,13 @@ private fun LockedState(
                 modifier = Modifier
                     .size(96.dp)
                     .clip(RoundedCornerShape(28.dp))
-                    .background(FlAccentTint),
+                    .background(MaterialTheme.colorScheme.primaryContainer),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     Icons.Filled.Lock,
                     contentDescription = null,
-                    tint = FlAccent,
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(44.dp)
                 )
             }
@@ -275,20 +266,20 @@ private fun LockedState(
             Text(
                 stringResource(R.string.vault_locked_headline),
                 style = MaterialTheme.typography.titleLarge,
-                color = FlInk
+                color = MaterialTheme.colorScheme.onSurface
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 stringResource(R.string.vault_locked_subtitle, count),
                 style = MaterialTheme.typography.bodyMedium,
-                color = FlInk3
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Spacer(modifier = Modifier.height(28.dp))
             when (availability) {
                 VaultAuthAvailability.AVAILABLE -> {
                     Button(
                         onClick = onUnlock,
-                        colors = ButtonDefaults.buttonColors(containerColor = FlAccent)
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                     ) {
                         Icon(Icons.Filled.Fingerprint, contentDescription = null)
                         Spacer(modifier = Modifier.width(8.dp))
@@ -328,13 +319,13 @@ private fun EmptyState() {
                 modifier = Modifier
                     .size(72.dp)
                     .clip(RoundedCornerShape(20.dp))
-                    .background(FlAccentTint),
+                    .background(MaterialTheme.colorScheme.primaryContainer),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     Icons.Filled.LockOpen,
                     contentDescription = null,
-                    tint = FlAccent,
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(32.dp)
                 )
             }
@@ -342,13 +333,13 @@ private fun EmptyState() {
             Text(
                 stringResource(R.string.vault_empty_headline),
                 style = MaterialTheme.typography.titleMedium,
-                color = FlInk
+                color = MaterialTheme.colorScheme.onSurface
             )
             Spacer(modifier = Modifier.height(6.dp))
             Text(
                 stringResource(R.string.vault_empty_subtitle),
                 style = MaterialTheme.typography.bodySmall,
-                color = FlInk3
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
@@ -371,7 +362,7 @@ private fun VaultList(
             Text(
                 stringResource(R.string.vault_section_files).uppercase(),
                 style = Eyebrow,
-                color = FlInk3,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(start = 4.dp, bottom = 4.dp)
             )
         }
@@ -387,7 +378,7 @@ private fun VaultList(
 
 @Composable
 private fun VaultRow(item: VaultItem, selected: Boolean, onClick: () -> Unit) {
-    val container = if (selected) FlAccentTint else FlSurface
+    val container = if (selected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -401,13 +392,13 @@ private fun VaultRow(item: VaultItem, selected: Boolean, onClick: () -> Unit) {
             modifier = Modifier
                 .size(36.dp)
                 .clip(RoundedCornerShape(10.dp))
-                .background(if (selected) FlAccent else FlAccentTint),
+                .background(if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.primaryContainer),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 Icons.AutoMirrored.Filled.InsertDriveFile,
                 contentDescription = null,
-                tint = if (selected) FlOnAccent else FlAccent,
+                tint = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(19.dp)
             )
         }
@@ -416,14 +407,14 @@ private fun VaultRow(item: VaultItem, selected: Boolean, onClick: () -> Unit) {
             Text(
                 text = item.displayName,
                 style = MaterialTheme.typography.titleSmall,
-                color = FlInk,
+                color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
             Text(
                 text = formatFileSize(item.size) + " · " + compactPath(item.originalPath),
                 style = MonoSmall,
-                color = FlText,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(top = 2.dp)
@@ -441,7 +432,7 @@ private fun SelectionActions(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(FlSurface)
+            .background(MaterialTheme.colorScheme.surface)
             .padding(horizontal = 12.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -454,7 +445,7 @@ private fun SelectionActions(
         Button(
             onClick = onRestore,
             modifier = Modifier.weight(1f),
-            colors = ButtonDefaults.buttonColors(containerColor = FlAccent)
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
         ) {
             Icon(Icons.Filled.Output, contentDescription = null, modifier = Modifier.size(17.dp))
             Spacer(modifier = Modifier.width(6.dp))

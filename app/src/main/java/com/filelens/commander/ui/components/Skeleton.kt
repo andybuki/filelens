@@ -24,9 +24,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.filelens.commander.ui.theme.FlSurface3
 
 @Composable
 fun FileListSkeleton(
@@ -77,7 +77,7 @@ fun InspectorSkeleton(modifier: Modifier = Modifier) {
                 SkeletonBlock(width = (90 + ((idx * 17) % 60)).dp, height = 12.dp, radius = 4.dp, alpha = pulse)
             }
             if (idx < 3) {
-                Box(modifier = Modifier.fillMaxWidth().height(1.dp).background(FlSurface3.copy(alpha = 0.5f)))
+                Box(modifier = Modifier.fillMaxWidth().height(1.dp).background(MaterialTheme.colorScheme.surfaceContainerHighest.copy(alpha = 0.5f)))
             }
         }
         Spacer(modifier = Modifier.height(20.dp))
@@ -127,7 +127,7 @@ private fun SkeletonBlock(
     alpha: Float,
     fillWidth: Boolean = false
 ) {
-    val base = FlSurface3.copy(alpha = alpha.coerceIn(0.3f, 1f))
+    val base = MaterialTheme.colorScheme.surfaceContainerHighest.copy(alpha = alpha.coerceIn(0.3f, 1f))
     val sizeMod = if (fillWidth) {
         Modifier.fillMaxWidth().height(height)
     } else {

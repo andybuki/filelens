@@ -71,15 +71,6 @@ import com.filelens.commander.ui.theme.CategoryDocument
 import com.filelens.commander.ui.theme.CategoryImage
 import com.filelens.commander.ui.theme.CategoryVideo
 import com.filelens.commander.ui.theme.Eyebrow
-import com.filelens.commander.ui.theme.FlAccent
-import com.filelens.commander.ui.theme.FlAccentTint
-import com.filelens.commander.ui.theme.FlBg
-import com.filelens.commander.ui.theme.FlInk
-import com.filelens.commander.ui.theme.FlInk3
-import com.filelens.commander.ui.theme.FlNavy
-import com.filelens.commander.ui.theme.FlOnAccent
-import com.filelens.commander.ui.theme.FlSurface
-import com.filelens.commander.ui.theme.FlText
 import com.filelens.commander.ui.theme.MonoSmall
 
 private data class CategoryTile(
@@ -91,14 +82,14 @@ private data class CategoryTile(
 )
 
 private val CategoryTiles = listOf(
-    CategoryTile(Icons.Filled.AccountTree, R.string.home_category_browse, FlAccent, browseAll = true),
+    CategoryTile(Icons.Filled.AccountTree, R.string.home_category_browse, MaterialTheme.colorScheme.primary, browseAll = true),
     CategoryTile(Icons.Filled.Videocam, R.string.home_category_video, CategoryVideo, category = HomeCategory.VIDEO),
     CategoryTile(Icons.Filled.MusicNote, R.string.home_category_audio, CategoryAudio, category = HomeCategory.AUDIO),
     CategoryTile(Icons.Filled.Description, R.string.home_category_docs, CategoryDocument, category = HomeCategory.DOCUMENTS),
     CategoryTile(Icons.Filled.Image, R.string.home_category_images, CategoryImage, category = HomeCategory.IMAGES),
     CategoryTile(Icons.Filled.Archive, R.string.home_category_archives, CategoryArchive, category = HomeCategory.ARCHIVES),
     CategoryTile(Icons.Filled.Download, R.string.home_category_downloads, CategoryDirectory, category = HomeCategory.DOWNLOADS),
-    CategoryTile(Icons.Filled.Storage, R.string.home_category_large, FlAccent, category = HomeCategory.LARGE_FILES)
+    CategoryTile(Icons.Filled.Storage, R.string.home_category_large, MaterialTheme.colorScheme.primary, category = HomeCategory.LARGE_FILES)
 )
 
 @Composable
@@ -127,7 +118,7 @@ fun HomeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(FlBg)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         HomeHeader(onOpenSettings = onOpenSettings)
         LazyColumn(
@@ -194,7 +185,7 @@ private fun HomeHeader(onOpenSettings: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(FlNavy)
+            .background(MaterialTheme.colorScheme.tertiary)
             .padding(start = 16.dp, end = 8.dp, top = 6.dp, bottom = 14.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -209,7 +200,7 @@ private fun HomeHeader(onOpenSettings: () -> Unit) {
         Text(
             text = stringResource(R.string.brand_name),
             style = MaterialTheme.typography.titleLarge,
-            color = FlOnAccent,
+            color = MaterialTheme.colorScheme.onPrimary,
             modifier = Modifier.weight(1f)
         )
         IconButton(onClick = onOpenSettings) {
@@ -227,7 +218,7 @@ private fun SectionHeader(label: String) {
     Text(
         text = label.uppercase(),
         style = Eyebrow,
-        color = FlInk3,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
         modifier = Modifier.padding(start = 4.dp, bottom = 10.dp)
     )
 }
@@ -248,13 +239,13 @@ private fun CollapsibleSectionHeader(
         Text(
             text = label.uppercase(),
             style = Eyebrow,
-            color = FlInk3,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.weight(1f)
         )
         Icon(
             imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
             contentDescription = null,
-            tint = FlInk3,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.size(18.dp)
         )
     }
@@ -304,7 +295,7 @@ private fun CategoryTileView(
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(14.dp))
-            .background(FlSurface)
+            .background(MaterialTheme.colorScheme.surface)
             .clickable(onClick = onClick)
             .padding(vertical = 12.dp, horizontal = 6.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -328,7 +319,7 @@ private fun CategoryTileView(
         Text(
             text = stringResource(tile.labelRes),
             style = MaterialTheme.typography.labelMedium,
-            color = FlInk,
+            color = MaterialTheme.colorScheme.onSurface,
             fontWeight = FontWeight.Medium,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
@@ -354,8 +345,8 @@ private fun RecentSection(
                     title = file.displayName,
                     subtitle = compactPath(file.path),
                     icon = Icons.AutoMirrored.Filled.InsertDriveFile,
-                    iconTint = FlAccent,
-                    iconBackground = FlAccentTint,
+                    iconTint = MaterialTheme.colorScheme.primary,
+                    iconBackground = MaterialTheme.colorScheme.primaryContainer,
                     onClick = { onOpenFile(file) }
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -376,8 +367,8 @@ private fun FavoritesSection(
                 title = bookmark.displayName,
                 subtitle = compactPath(bookmark.path),
                 icon = Icons.Filled.Bookmark,
-                iconTint = FlAccent,
-                iconBackground = FlAccentTint,
+                iconTint = MaterialTheme.colorScheme.primary,
+                iconBackground = MaterialTheme.colorScheme.primaryContainer,
                 onClick = { onOpenBookmark(bookmark) }
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -431,7 +422,7 @@ private fun EntryRow(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
-            .background(FlSurface)
+            .background(MaterialTheme.colorScheme.surface)
             .clickable(onClick = onClick)
             .padding(horizontal = 12.dp, vertical = 11.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -455,14 +446,14 @@ private fun EntryRow(
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleSmall,
-                color = FlInk,
+                color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
             Text(
                 text = subtitle,
                 style = MonoSmall,
-                color = FlText,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(top = 2.dp)
@@ -477,7 +468,7 @@ private fun EmptyHomeHint(onOpenFiles: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(14.dp))
-            .background(FlSurface)
+            .background(MaterialTheme.colorScheme.surface)
             .clickable(onClick = onOpenFiles)
             .padding(20.dp),
         horizontalAlignment = Alignment.Start
@@ -486,13 +477,13 @@ private fun EmptyHomeHint(onOpenFiles: () -> Unit) {
             modifier = Modifier
                 .size(40.dp)
                 .clip(RoundedCornerShape(11.dp))
-                .background(FlAccentTint),
+                .background(MaterialTheme.colorScheme.primaryContainer),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 Icons.Filled.History,
                 contentDescription = null,
-                tint = FlAccent,
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(20.dp)
             )
         }
@@ -500,13 +491,13 @@ private fun EmptyHomeHint(onOpenFiles: () -> Unit) {
         Text(
             text = stringResource(R.string.home_empty_headline),
             style = MaterialTheme.typography.titleSmall,
-            color = FlInk
+            color = MaterialTheme.colorScheme.onSurface
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = stringResource(R.string.home_empty_subtitle),
             style = MaterialTheme.typography.bodySmall,
-            color = FlInk3
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }
@@ -517,7 +508,7 @@ private fun SearchBarCard(onClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(14.dp))
-            .background(FlSurface)
+            .background(MaterialTheme.colorScheme.surface)
             .clickable(onClick = onClick)
             .padding(horizontal = 14.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -526,13 +517,13 @@ private fun SearchBarCard(onClick: () -> Unit) {
             modifier = Modifier
                 .size(38.dp)
                 .clip(RoundedCornerShape(11.dp))
-                .background(FlAccentTint),
+                .background(MaterialTheme.colorScheme.primaryContainer),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 Icons.Filled.Search,
                 contentDescription = null,
-                tint = FlAccent,
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(20.dp)
             )
         }
@@ -541,12 +532,12 @@ private fun SearchBarCard(onClick: () -> Unit) {
             Text(
                 text = stringResource(R.string.home_search_headline),
                 style = MaterialTheme.typography.titleSmall,
-                color = FlInk
+                color = MaterialTheme.colorScheme.onSurface
             )
             Text(
                 text = stringResource(R.string.home_search_subtitle),
                 style = MaterialTheme.typography.bodySmall,
-                color = FlInk3,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(top = 2.dp)
@@ -574,8 +565,8 @@ private fun ToolsSection(
             } else {
                 pluralStringResource(R.plurals.plural_vault_item_count, vaultCount, vaultCount)
             },
-            tint = FlAccent,
-            background = FlAccentTint,
+            tint = MaterialTheme.colorScheme.primary,
+            background = MaterialTheme.colorScheme.primaryContainer,
             onClick = onOpenVault
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -583,8 +574,8 @@ private fun ToolsSection(
             icon = Icons.Filled.Apps,
             title = stringResource(R.string.app_manager_title),
             subtitle = stringResource(R.string.home_tool_apps_subtitle),
-            tint = FlAccent,
-            background = FlAccentTint,
+            tint = MaterialTheme.colorScheme.primary,
+            background = MaterialTheme.colorScheme.primaryContainer,
             onClick = onOpenAppManager
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -592,8 +583,8 @@ private fun ToolsSection(
             icon = Icons.Filled.DonutLarge,
             title = stringResource(R.string.home_tool_storage_title),
             subtitle = stringResource(R.string.home_tool_storage_subtitle),
-            tint = FlAccent,
-            background = FlAccentTint,
+            tint = MaterialTheme.colorScheme.primary,
+            background = MaterialTheme.colorScheme.primaryContainer,
             onClick = onOpenStorageUsage
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -605,8 +596,8 @@ private fun ToolsSection(
             } else {
                 pluralStringResource(R.plurals.plural_trash_item_count, trashCount, trashCount)
             },
-            tint = FlAccent,
-            background = FlAccentTint,
+            tint = MaterialTheme.colorScheme.primary,
+            background = MaterialTheme.colorScheme.primaryContainer,
             onClick = onOpenTrash
         )
     }
@@ -625,7 +616,7 @@ private fun ToolRow(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
-            .background(FlSurface)
+            .background(MaterialTheme.colorScheme.surface)
             .clickable(onClick = onClick)
             .padding(horizontal = 12.dp, vertical = 11.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -644,20 +635,20 @@ private fun ToolRow(
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleSmall,
-                color = FlInk,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.SemiBold
             )
             Text(
                 text = subtitle,
                 style = MaterialTheme.typography.bodySmall,
-                color = FlInk3,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(top = 2.dp)
             )
         }
         Icon(
             Icons.AutoMirrored.Filled.KeyboardArrowRight,
             contentDescription = null,
-            tint = FlInk3,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.size(20.dp)
         )
     }
