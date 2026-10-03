@@ -528,12 +528,12 @@ Prioritised so heavy / high-token tasks land early and risk is front-loaded; fin
   - [ ] 8 phone screenshots, 4 tablet screenshots (Home · Inspector overview · Risk cards · Trust score · Safe Share · Commander dual-pane · Compare · Search). _(Capture brief in `store/listing/screenshots-plan.md`; needs real device/emulator output.)_
   - [x] Rewrite store copy in English: **title** (≤30 chars), **short description** (≤80 chars), **full description** (≤4000 chars) — lead with "Inspect before opening", end with privacy promise. _(25 / 75 / 2498 chars.)_
   - [x] Translate store copy into the 14 launch languages. _(`store/listing/i18n/<lang>/` for es, pt-BR, fr, de, it, ru, uk, tr, pl, ja, ko, zh-CN, hi, ar.)_
-  - [x] Release notes for v1.0.0. _(`store/release-notes/v1.0.0.txt`, 488 / 500 chars.)_
+  - [x] Release notes for v1.0.2. _(`store/release-notes/v1.0.2.txt`, 488 / 500 chars.)_
 - [ ] **Day 14 — Beta, fixes, ship**
   - [ ] Closed beta to 10–20 testers across phone / tablet / DeX.
   - [ ] Triage P0/P1 bugs only; defer everything else.
   - [ ] Verify install size, cold-start time, large-folder scroll, big-archive open, RTL layout, font scaling, TalkBack.
-  - [ ] Tag `v1.0.0`, upload AAB, submit for review.
+  - [ ] Tag `v1.0.2`, upload AAB, submit for review.
 
 ### 9.3 Effort × Impact × Token-Cost Matrix
 

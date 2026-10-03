@@ -482,7 +482,7 @@
     <string name="settings_backup_desc">Save your settings, bookmarks, recent files, and frequent folders to a JSON file you can restore later.</string>
 
     <string name="settings_about_app_name">FileLens Commander</string>
-    <string name="settings_about_version">Version 1.0.0</string>
+    <string name="settings_about_version">Version 1.0.2</string>
     <string name="settings_about_vision_label">Vision</string>
     <string name="settings_about_vision_text">Browse files, peek inside, understand before opening. Offline, on-device, no accounts.</string>
     <string name="settings_licenses_intro">FileLens is built on these open source libraries:</string>

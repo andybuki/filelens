@@ -277,7 +277,7 @@
     <string name="settings_remote_servers_desc">Parcourez les partages FTP, SFTP et SMB comme des dossiers locaux.</string>
     <string name="settings_backup_desc">Sauvegardez vos paramètres, signets, fichiers récents et dossiers fréquents dans un fichier JSON que vous pourrez restaurer ultérieurement.</string>
     <string name="settings_about_app_name">FileLens Commander</string>
-    <string name="settings_about_version">Version 1.0.0</string>
+    <string name="settings_about_version">Version 1.0.2</string>
     <string name="settings_about_vision_label">Vision</string>
     <string name="settings_about_vision_text">Parcourez les fichiers, regardez à l\'intérieur, comprenez avant d\'ouvrir. Hors ligne, sur l\'appareil, sans comptes.</string>
     <string name="settings_licenses_intro">FileLens est construit sur ces bibliothèques open source :</string>
