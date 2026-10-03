@@ -77,15 +77,8 @@ import com.filelens.commander.domain.model.FileItem
 import com.filelens.commander.domain.model.SortDirection
 import com.filelens.commander.domain.model.SortField
 import com.filelens.commander.domain.model.SortOrder
-import com.filelens.commander.ui.theme.FlMuted
-import com.filelens.commander.ui.theme.FlNavy
-import com.filelens.commander.ui.theme.FlOnAccent
-import com.filelens.commander.ui.theme.FlSurface
-import com.filelens.commander.ui.theme.FlSurface3
-import com.filelens.commander.ui.theme.FlText
-import com.filelens.commander.ui.theme.FlText2
 
-private val HeaderInk = FlOnAccent
+private val HeaderInk = Color.White
 private val HeaderInk2 = Color(0xFFE5E7EB)
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -134,7 +127,7 @@ fun FileListPanel(
     remoteServerLabel: String? = null,
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier.fillMaxSize().background(FlSurface)) {
+    Box(modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.surface)) {
         Column(modifier = Modifier.fillMaxSize()) {
             MinimalHeader(
                 showHidden = showHidden,
@@ -280,7 +273,7 @@ private fun MinimalHeader(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(FlNavy)
+            .background(MaterialTheme.colorScheme.tertiary)
             .padding(start = 16.dp, end = 8.dp, top = 6.dp, bottom = 12.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -496,12 +489,12 @@ private fun MinimalBreadcrumb(
             Spacer(modifier = Modifier.width(8.dp))
         }
         if (truncated) {
-            Text("…", style = MaterialTheme.typography.bodySmall, color = FlMuted)
+            Text("…", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
             Spacer(modifier = Modifier.width(6.dp))
             Icon(
                 Icons.AutoMirrored.Filled.KeyboardArrowRight,
                 contentDescription = null,
-                tint = FlMuted,
+                tint = MaterialTheme.colorScheme.outline,
                 modifier = Modifier.size(13.dp)
             )
             Spacer(modifier = Modifier.width(6.dp))
@@ -518,14 +511,14 @@ private fun MinimalBreadcrumb(
                 Text(
                     text = segment,
                     style = MaterialTheme.typography.bodySmall,
-                    color = FlMuted,
+                    color = MaterialTheme.colorScheme.outline,
                     modifier = Modifier.clickable(onClick = onNavigateUp)
                 )
                 Spacer(modifier = Modifier.width(6.dp))
                 Icon(
                     Icons.AutoMirrored.Filled.KeyboardArrowRight,
                     contentDescription = null,
-                    tint = FlMuted,
+                    tint = MaterialTheme.colorScheme.outline,
                     modifier = Modifier.size(13.dp)
                 )
                 Spacer(modifier = Modifier.width(6.dp))
@@ -540,14 +533,14 @@ private fun MinimalBreadcrumb(
                 Text(
                     text = segment,
                     style = MaterialTheme.typography.bodySmall,
-                    color = FlMuted,
+                    color = MaterialTheme.colorScheme.outline,
                     modifier = Modifier.clickable { onNavigateToPath(targetPath) }
                 )
                 Spacer(modifier = Modifier.width(6.dp))
                 Icon(
                     Icons.AutoMirrored.Filled.KeyboardArrowRight,
                     contentDescription = null,
-                    tint = FlMuted,
+                    tint = MaterialTheme.colorScheme.outline,
                     modifier = Modifier.size(13.dp)
                 )
                 Spacer(modifier = Modifier.width(6.dp))
@@ -575,13 +568,13 @@ private fun MinimalSearchBar(
             .padding(horizontal = 16.dp, vertical = 10.dp)
             .height(44.dp)
             .clip(RoundedCornerShape(14.dp))
-            .background(FlSurface3)
+            .background(MaterialTheme.colorScheme.surfaceContainerHighest)
             .padding(horizontal = 14.dp)
     ) {
         Icon(
             Icons.Filled.Search,
             contentDescription = null,
-            tint = FlText2,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.size(18.dp)
         )
         Spacer(modifier = Modifier.width(10.dp))
@@ -593,7 +586,7 @@ private fun MinimalSearchBar(
                     .fillMaxWidth()
                     .focusRequester(focusRequester),
                 singleLine = true,
-                textStyle = MaterialTheme.typography.bodyMedium.copy(color = FlText),
+                textStyle = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
                 cursorBrush = androidx.compose.ui.graphics.SolidColor(MaterialTheme.colorScheme.primary),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                 keyboardActions = KeyboardActions(onSearch = { onDeepSearch() })
@@ -602,7 +595,7 @@ private fun MinimalSearchBar(
                 Text(
                     text = stringResource(R.string.search_hint),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = FlText2
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
@@ -618,7 +611,7 @@ private fun MinimalSearchBar(
                 Icon(
                     Icons.Filled.Close,
                     contentDescription = stringResource(R.string.action_clear_search),
-                    tint = FlText2,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.size(16.dp)
                 )
             }
@@ -635,7 +628,7 @@ private fun SortTabs(
     Row(
         modifier = modifier
             .clip(RoundedCornerShape(12.dp))
-            .background(FlSurface3)
+            .background(MaterialTheme.colorScheme.surfaceContainerHighest)
             .padding(4.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -674,14 +667,14 @@ private fun SortTabs(
                 Text(
                     text = label,
                     style = MaterialTheme.typography.labelLarge,
-                    color = if (selected) FlOnAccent else FlText
+                    color = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 if (selected) {
                     Spacer(modifier = Modifier.width(4.dp))
                     Icon(
                         Icons.Filled.SwapVert,
                         contentDescription = if (sortOrder.direction == SortDirection.ASCENDING) "Ascending" else "Descending",
-                        tint = FlOnAccent,
+                        tint = MaterialTheme.colorScheme.onPrimary,
                         modifier = Modifier.size(13.dp)
                     )
                 }

@@ -1,12 +1,13 @@
 package com.filelens.commander.ui.theme
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.graphics.Color
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import com.filelens.commander.domain.model.ThemeMode
 
-// FileLens ships a single light theme. The brand identity, contrast, and risk
-// semantics are all tuned for a near-white canvas; the dark scheme was removed
-// in v1.0 after light tested better in usability sessions.
 private val FlLightColorScheme = lightColorScheme(
     primary = FlAccent,
     onPrimary = FlOnAccent,
@@ -33,10 +34,44 @@ private val FlLightColorScheme = lightColorScheme(
     outlineVariant = FlBorder2
 )
 
+private val FlDarkColorScheme = darkColorScheme(
+    primary = FlAccentDark,
+    onPrimary = FlOnAccentDark,
+    primaryContainer = FlAccentTintDark,
+    onPrimaryContainer = FlAccentBrightDark,
+    secondary = FlAccentPressDark,
+    onSecondary = FlOnAccentDark,
+    secondaryContainer = FlSurface2Dark,
+    onSecondaryContainer = FlInkDark,
+    tertiary = FlNavyDark,
+    onTertiary = FlOnAccentDark,
+    background = FlBgDark,
+    onBackground = FlInkDark,
+    surface = FlSurfaceDark,
+    onSurface = FlInkDark,
+    surfaceVariant = FlSurface2Dark,
+    onSurfaceVariant = FlTextDark,
+    surfaceTint = FlAccentDark,
+    error = RiskDanger,
+    onError = FlOnAccent,
+    errorContainer = Color(0xFF3D1010),
+    onErrorContainer = RiskDanger,
+    outline = FlBorderDark,
+    outlineVariant = FlBorder2Dark
+)
+
 @Composable
-fun FileLensTheme(content: @Composable () -> Unit) {
+fun FileLensTheme(
+    themeMode: ThemeMode = ThemeMode.LIGHT,
+    content: @Composable () -> Unit
+) {
+    val useDark = when (themeMode) {
+        ThemeMode.LIGHT -> false
+        ThemeMode.DARK -> true
+        ThemeMode.SYSTEM -> isSystemInDarkTheme()
+    }
     MaterialTheme(
-        colorScheme = FlLightColorScheme,
+        colorScheme = if (useDark) FlDarkColorScheme else FlLightColorScheme,
         typography = Typography,
         content = content
     )

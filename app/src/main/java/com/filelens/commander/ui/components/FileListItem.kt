@@ -37,10 +37,6 @@ import com.filelens.commander.domain.model.FileCategory
 import com.filelens.commander.domain.model.FileItem
 import com.filelens.commander.domain.model.RiskSeverity
 import com.filelens.commander.domain.model.SizeUnits
-import com.filelens.commander.ui.theme.FlBlue50
-import com.filelens.commander.ui.theme.FlBorder
-import com.filelens.commander.ui.theme.FlInk
-import com.filelens.commander.ui.theme.FlMuted
 import com.filelens.commander.ui.theme.MonoSmall
 import com.filelens.commander.ui.theme.RiskDanger
 import com.filelens.commander.ui.theme.RiskInfo
@@ -70,7 +66,7 @@ fun FileListItem(
             .fillMaxWidth()
             .padding(horizontal = 8.dp, vertical = 1.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(if (isSelected) FlBlue50 else Color.Transparent)
+            .background(if (isSelected) MaterialTheme.colorScheme.primaryContainer else Color.Transparent)
             .combinedClickable(onClick = onClick, onLongClick = onLongClick)
             .alpha(rowAlpha)
             .semantics(mergeDescendants = true) {
@@ -93,16 +89,16 @@ fun FileListItem(
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = item.name,
-                    style = MaterialTheme.typography.titleSmall.copy(color = FlInk),
+                    style = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.onSurface),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
                 val subtitle = buildSubtitle(context, item, sizeUnits)
                 if (subtitle.isNotEmpty()) {
                     val subtitleStyle = if (isDir) {
-                        MaterialTheme.typography.bodySmall.copy(color = FlMuted)
+                        MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.outline)
                     } else {
-                        MonoSmall.copy(color = FlMuted)
+                        MonoSmall.copy(color = MaterialTheme.colorScheme.outline)
                     }
                     Text(
                         text = subtitle,
@@ -121,14 +117,14 @@ fun FileListItem(
                 Icon(
                     Icons.AutoMirrored.Filled.KeyboardArrowRight,
                     contentDescription = null,
-                    tint = FlMuted,
+                    tint = MaterialTheme.colorScheme.outline,
                     modifier = Modifier.size(18.dp)
                 )
             }
         }
         if (!isSelected) {
             HorizontalDivider(
-                color = FlBorder,
+                color = MaterialTheme.colorScheme.outline,
                 modifier = Modifier.padding(start = 68.dp, end = 12.dp)
             )
         }

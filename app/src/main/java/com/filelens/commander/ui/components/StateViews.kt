@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -37,13 +38,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import app.com.filelens.R
-import com.filelens.commander.ui.theme.FlBorder
-import com.filelens.commander.ui.theme.FlBorder2
-import com.filelens.commander.ui.theme.FlInk
-import com.filelens.commander.ui.theme.FlOnAccent
-import com.filelens.commander.ui.theme.FlSurface
-import com.filelens.commander.ui.theme.FlSurface2
-import com.filelens.commander.ui.theme.FlText
 import com.filelens.commander.ui.theme.RiskDanger
 import com.filelens.commander.ui.theme.RiskDangerTint
 
@@ -64,7 +58,7 @@ fun LoadingState(
                 Text(
                     text = label,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = FlText
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
@@ -84,7 +78,7 @@ fun EmptyState(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(FlSurface2)
+            .background(MaterialTheme.colorScheme.surfaceVariant)
             .padding(horizontal = 36.dp),
         contentAlignment = Alignment.Center
     ) {
@@ -97,7 +91,7 @@ fun EmptyState(
             Spacer(modifier = Modifier.height(24.dp))
             Text(
                 text = headline,
-                style = MaterialTheme.typography.titleMedium.copy(color = FlInk),
+                style = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.onSurface),
                 textAlign = TextAlign.Center
             )
             if (!subtitle.isNullOrBlank()) {
@@ -105,7 +99,7 @@ fun EmptyState(
                 Text(
                     text = subtitle,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = FlText,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.Center
                 )
             }
@@ -116,7 +110,7 @@ fun EmptyState(
                     shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = FlOnAccent
+                        contentColor = MaterialTheme.colorScheme.onPrimary
                     ),
                     contentPadding = androidx.compose.foundation.layout.PaddingValues(
                         horizontal = 20.dp,
@@ -153,14 +147,14 @@ fun NoResultsState(
             Spacer(modifier = Modifier.height(24.dp))
             Text(
                 text = stringResource(R.string.state_no_matches_headline),
-                style = MaterialTheme.typography.titleMedium.copy(color = FlInk),
+                style = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.onSurface),
                 textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = if (query.isNotEmpty()) stringResource(R.string.state_no_matches_subtitle, query) else stringResource(R.string.state_no_matches_no_query),
                 style = MaterialTheme.typography.bodyMedium,
-                color = FlText,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center
             )
             if (onClear != null) {
@@ -205,14 +199,14 @@ fun ErrorState(
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = stringResource(R.string.state_error_headline),
-                style = MaterialTheme.typography.titleMedium.copy(color = FlInk),
+                style = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.onSurface),
                 textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.height(6.dp))
             Text(
                 text = message,
                 style = MaterialTheme.typography.bodyMedium,
-                color = FlText,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center
             )
             if (onRetry != null) {
@@ -231,14 +225,14 @@ private fun DashedArt(icon: ImageVector) {
         modifier = Modifier
             .size(132.dp)
             .clip(RoundedCornerShape(24.dp))
-            .background(FlSurface)
-            .drawDashedBorder(),
+            .background(MaterialTheme.colorScheme.surface)
+            .drawDashedBorder(MaterialTheme.colorScheme.outlineVariant),
         contentAlignment = Alignment.Center
     ) {
         Icon(
             imageVector = icon,
             contentDescription = null,
-            tint = FlBorder2,
+            tint = MaterialTheme.colorScheme.outlineVariant,
             modifier = Modifier.size(52.dp)
         )
     }
@@ -250,26 +244,26 @@ private fun SolidArt(icon: ImageVector) {
         modifier = Modifier
             .size(132.dp)
             .clip(RoundedCornerShape(24.dp))
-            .background(FlSurface)
-            .border(width = 1.dp, color = FlBorder, shape = RoundedCornerShape(24.dp)),
+            .background(MaterialTheme.colorScheme.surface)
+            .border(width = 1.dp, color = MaterialTheme.colorScheme.outline, shape = RoundedCornerShape(24.dp)),
         contentAlignment = Alignment.Center
     ) {
         Icon(
             imageVector = icon,
             contentDescription = null,
-            tint = FlBorder2,
+            tint = MaterialTheme.colorScheme.outlineVariant,
             modifier = Modifier.size(52.dp)
         )
     }
 }
 
-private fun Modifier.drawDashedBorder(): Modifier = this.drawBehind {
+private fun Modifier.drawDashedBorder(borderColor: Color): Modifier = this.drawBehind {
     val stroke = Stroke(
         width = 2.dp.toPx(),
         pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
     )
     drawRoundRect(
-        color = FlBorder2,
+        color = borderColor,
         style = stroke,
         cornerRadius = CornerRadius(24.dp.toPx(), 24.dp.toPx())
     )

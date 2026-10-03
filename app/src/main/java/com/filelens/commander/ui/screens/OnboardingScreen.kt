@@ -40,11 +40,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import app.com.filelens.R
-import com.filelens.commander.ui.theme.FlAccent
-import com.filelens.commander.ui.theme.FlAccentTint
-import com.filelens.commander.ui.theme.FlMuted
-import com.filelens.commander.ui.theme.FlOnAccent
-import com.filelens.commander.ui.theme.FlText
 import kotlinx.coroutines.launch
 
 private data class OnboardingPage(
@@ -81,7 +76,7 @@ fun OnboardingScreen(onFinish: () -> Unit) {
             TextButton(onClick = onFinish) {
                 Text(
                     stringResource(R.string.onboarding_skip),
-                    color = FlText
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
@@ -102,7 +97,7 @@ fun OnboardingScreen(onFinish: () -> Unit) {
         ) {
             pages.indices.forEach { index ->
                 val color by animateColorAsState(
-                    targetValue = if (index == pagerState.currentPage) FlAccent else FlMuted,
+                    targetValue = if (index == pagerState.currentPage) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline,
                     animationSpec = tween(200),
                     label = "dot"
                 )
@@ -132,8 +127,8 @@ fun OnboardingScreen(onFinish: () -> Unit) {
                 .height(52.dp),
             shape = RoundedCornerShape(14.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = FlAccent,
-                contentColor = FlOnAccent
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
             )
         ) {
             Text(
@@ -161,14 +156,14 @@ private fun PageContent(page: OnboardingPage) {
             modifier = Modifier
                 .size(96.dp)
                 .clip(CircleShape)
-                .background(FlAccentTint),
+                .background(MaterialTheme.colorScheme.primaryContainer),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = page.icon,
                 contentDescription = null,
                 modifier = Modifier.size(44.dp),
-                tint = FlAccent
+                tint = MaterialTheme.colorScheme.primary
             )
         }
 
@@ -187,7 +182,7 @@ private fun PageContent(page: OnboardingPage) {
             text = stringResource(page.bodyRes),
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center,
-            color = FlText,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.width(320.dp)
         )
     }

@@ -15,6 +15,7 @@ import com.filelens.commander.domain.model.SizeUnits
 import com.filelens.commander.domain.model.SortDirection
 import com.filelens.commander.domain.model.SortField
 import com.filelens.commander.domain.model.StartScreen
+import com.filelens.commander.domain.model.ThemeMode
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -44,7 +45,8 @@ class SettingsRepository @Inject constructor(
             askBeforeDelete = p[KEY_ASK_BEFORE_DELETE] ?: true,
             searchRoots = p[KEY_SEARCH_ROOTS] ?: emptySet(),
             telemetryEnabled = p[KEY_TELEMETRY_ENABLED] ?: false,
-            warnRootStorage = p[KEY_WARN_ROOT_STORAGE] ?: true
+            warnRootStorage = p[KEY_WARN_ROOT_STORAGE] ?: true,
+            themeMode = p[KEY_THEME_MODE]?.let { runCatching { ThemeMode.valueOf(it) }.getOrNull() } ?: ThemeMode.LIGHT
         )
     }
 
@@ -128,6 +130,10 @@ class SettingsRepository @Inject constructor(
         store.edit { it[KEY_WARN_ROOT_STORAGE] = value }
     }
 
+    suspend fun setThemeMode(mode: ThemeMode) {
+        store.edit { it[KEY_THEME_MODE] = mode.name }
+    }
+
     val hasSeenOnboarding: Flow<Boolean> = store.data.map { p ->
         p[KEY_HAS_SEEN_ONBOARDING] ?: false
     }
@@ -155,5 +161,6 @@ class SettingsRepository @Inject constructor(
         val KEY_SEARCH_ROOTS = stringSetPreferencesKey("search_roots")
         val KEY_TELEMETRY_ENABLED = booleanPreferencesKey("telemetry_enabled")
         val KEY_WARN_ROOT_STORAGE = booleanPreferencesKey("warn_root_storage")
+        val KEY_THEME_MODE = stringPreferencesKey("theme_mode")
     }
 }

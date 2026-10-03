@@ -676,4 +676,7 @@
     <string name="error_corrupt_file">यह फ़ाइल दूषित लगती है और इसे पढ़ा नहीं जा सकता।</string>
     <string name="error_generic">कुछ गलत हो गया। कृपया पुनः प्रयास करें।</string>
     <string name="inspector_loading_label">फ़ाइल का निरीक्षण हो रहा है…</string>
+    <string name="settings_theme">थीम</string>
+    <string name="settings_version_dialog_title">संस्करण बदलें</string>
+    <string name="settings_version_dialog_desc">प्रदर्शित करने के लिए एक कस्टम संस्करण नंबर दर्ज करें।</string>
 </resources>

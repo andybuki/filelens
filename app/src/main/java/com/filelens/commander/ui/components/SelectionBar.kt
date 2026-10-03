@@ -30,9 +30,6 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.com.filelens.R
-import com.filelens.commander.ui.theme.FlAccent
-import com.filelens.commander.ui.theme.FlAccentTint
-import com.filelens.commander.ui.theme.FlInk2
 
 @Composable
 fun SelectionBar(
@@ -60,12 +57,12 @@ fun SelectionBar(
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp, vertical = 6.dp)
                 .clip(RoundedCornerShape(12.dp))
-                .background(FlAccentTint)
+                .background(MaterialTheme.colorScheme.primaryContainer)
                 .padding(start = 4.dp, end = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = onClear) {
-                Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.cd_clear_selection), tint = FlAccent)
+                Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.cd_clear_selection), tint = MaterialTheme.colorScheme.primary)
             }
             Text(
                 text = pluralStringResource(R.plurals.plural_selected_count, selectedCount, selectedCount),
@@ -78,10 +75,10 @@ fun SelectionBar(
                     Icon(
                         Icons.Filled.DriveFileRenameOutline,
                         contentDescription = null,
-                        tint = FlAccent
+                        tint = MaterialTheme.colorScheme.primary
                     )
                     Spacer(modifier = Modifier.width(6.dp))
-                    Text(stringResource(R.string.action_rename), color = FlAccent)
+                    Text(stringResource(R.string.action_rename), color = MaterialTheme.colorScheme.primary)
                 }
             }
             if (canMoveToVault) {
@@ -89,10 +86,10 @@ fun SelectionBar(
                     Icon(
                         Icons.Filled.Lock,
                         contentDescription = null,
-                        tint = FlAccent
+                        tint = MaterialTheme.colorScheme.primary
                     )
                     Spacer(modifier = Modifier.width(6.dp))
-                    Text(stringResource(R.string.selection_action_vault), color = FlAccent)
+                    Text(stringResource(R.string.selection_action_vault), color = MaterialTheme.colorScheme.primary)
                 }
             }
             if (canCompare) {
@@ -100,16 +97,16 @@ fun SelectionBar(
                     Icon(
                         Icons.Filled.Compare,
                         contentDescription = null,
-                        tint = FlAccent
+                        tint = MaterialTheme.colorScheme.primary
                     )
                     Spacer(modifier = Modifier.width(6.dp))
-                    Text(stringResource(R.string.action_compare), color = FlAccent)
+                    Text(stringResource(R.string.action_compare), color = MaterialTheme.colorScheme.primary)
                 }
             } else if (!canBatchRename) {
                 Text(
                     text = stringResource(R.string.selection_hint_select_two),
                     style = MaterialTheme.typography.labelMedium,
-                    color = FlInk2
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }

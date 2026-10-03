@@ -56,15 +56,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.com.filelens.R
 import com.filelens.commander.domain.usecase.TrashUseCase
 import com.filelens.commander.ui.theme.Eyebrow
-import com.filelens.commander.ui.theme.FlAccent
-import com.filelens.commander.ui.theme.FlAccentTint
-import com.filelens.commander.ui.theme.FlBg
-import com.filelens.commander.ui.theme.FlInk
-import com.filelens.commander.ui.theme.FlInk3
-import com.filelens.commander.ui.theme.FlNavy
-import com.filelens.commander.ui.theme.FlOnAccent
-import com.filelens.commander.ui.theme.FlSurface
-import com.filelens.commander.ui.theme.FlText
 import com.filelens.commander.ui.theme.MonoSmall
 import com.filelens.commander.ui.theme.RiskDanger
 import com.filelens.commander.viewmodel.TrashEvent
@@ -114,13 +105,13 @@ fun TrashScreen(
         )
     }
 
-    Column(modifier = Modifier.fillMaxSize().background(FlBg)) {
+    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         TrashHeader(count = state.items.size, onBack = onBack)
 
         Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
             when {
                 state.isLoading -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator(color = FlAccent)
+                    CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
                 }
                 state.items.isEmpty() -> EmptyTrashState()
                 else -> TrashList(items = state.items)
@@ -143,7 +134,7 @@ private fun TrashHeader(count: Int, onBack: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(FlNavy)
+            .background(MaterialTheme.colorScheme.tertiary)
             .padding(start = 4.dp, end = 12.dp, top = 6.dp, bottom = 14.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -151,13 +142,13 @@ private fun TrashHeader(count: Int, onBack: () -> Unit) {
             Icon(
                 Icons.AutoMirrored.Filled.ArrowBack,
                 contentDescription = stringResource(R.string.cd_back),
-                tint = FlOnAccent
+                tint = MaterialTheme.colorScheme.onPrimary
             )
         }
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = stringResource(R.string.trash_title),
-                color = FlOnAccent,
+                color = MaterialTheme.colorScheme.onPrimary,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -182,7 +173,7 @@ private fun TrashList(items: List<TrashUseCase.TrashedItem>) {
             Text(
                 stringResource(R.string.trash_section_files).uppercase(),
                 style = Eyebrow,
-                color = FlInk3,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(start = 4.dp, bottom = 4.dp)
             )
         }
@@ -198,7 +189,7 @@ private fun TrashRow(item: TrashUseCase.TrashedItem, dateFmt: DateFormat) {
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
-            .background(FlSurface)
+            .background(MaterialTheme.colorScheme.surface)
             .padding(horizontal = 12.dp, vertical = 11.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -206,13 +197,13 @@ private fun TrashRow(item: TrashUseCase.TrashedItem, dateFmt: DateFormat) {
             modifier = Modifier
                 .size(36.dp)
                 .clip(RoundedCornerShape(10.dp))
-                .background(FlAccentTint),
+                .background(MaterialTheme.colorScheme.primaryContainer),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 Icons.AutoMirrored.Filled.InsertDriveFile,
                 contentDescription = null,
-                tint = FlAccent,
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(19.dp)
             )
         }
@@ -221,14 +212,14 @@ private fun TrashRow(item: TrashUseCase.TrashedItem, dateFmt: DateFormat) {
             Text(
                 text = item.name,
                 style = MaterialTheme.typography.titleSmall,
-                color = FlInk,
+                color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
             Text(
                 text = compactPath(item.originalPath),
                 style = MonoSmall,
-                color = FlText,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(top = 2.dp)
@@ -239,7 +230,7 @@ private fun TrashRow(item: TrashUseCase.TrashedItem, dateFmt: DateFormat) {
                     dateFmt.format(Date(item.timestamp))
                 ),
                 style = MaterialTheme.typography.labelSmall,
-                color = FlInk3,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(top = 2.dp)
             )
         }
@@ -251,7 +242,7 @@ private fun ActionBar(onRestoreAll: () -> Unit, onEmpty: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(FlSurface)
+            .background(MaterialTheme.colorScheme.surface)
             .padding(horizontal = 12.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -259,7 +250,7 @@ private fun ActionBar(onRestoreAll: () -> Unit, onEmpty: () -> Unit) {
         Button(
             onClick = onRestoreAll,
             modifier = Modifier.weight(1f),
-            colors = ButtonDefaults.buttonColors(containerColor = FlAccent)
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
         ) {
             Icon(Icons.Filled.Output, contentDescription = null, modifier = Modifier.size(17.dp))
             Spacer(modifier = Modifier.width(6.dp))
@@ -286,13 +277,13 @@ private fun EmptyTrashState() {
                 modifier = Modifier
                     .size(72.dp)
                     .clip(RoundedCornerShape(20.dp))
-                    .background(FlAccentTint),
+                    .background(MaterialTheme.colorScheme.primaryContainer),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     Icons.Filled.RestoreFromTrash,
                     contentDescription = null,
-                    tint = FlAccent,
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(32.dp)
                 )
             }
@@ -300,13 +291,13 @@ private fun EmptyTrashState() {
             Text(
                 stringResource(R.string.trash_empty_headline),
                 style = MaterialTheme.typography.titleMedium,
-                color = FlInk
+                color = MaterialTheme.colorScheme.onSurface
             )
             Spacer(modifier = Modifier.height(6.dp))
             Text(
                 stringResource(R.string.trash_empty_subtitle),
                 style = MaterialTheme.typography.bodySmall,
-                color = FlInk3
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }

@@ -728,4 +728,7 @@
     <string name="error_corrupt_file">يبدو أن هذا الملف تالف ولا يمكن قراءته.</string>
     <string name="error_generic">حدث خطأ ما. يرجى المحاولة مرة أخرى.</string>
     <string name="inspector_loading_label">جارٍ فحص الملف…</string>
+    <string name="settings_theme">المظهر</string>
+    <string name="settings_version_dialog_title">تغيير الإصدار</string>
+    <string name="settings_version_dialog_desc">أدخل رقم إصدار مخصص للعرض.</string>
 </resources>

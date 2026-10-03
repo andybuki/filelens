@@ -71,13 +71,6 @@ import com.filelens.commander.ui.theme.CategoryText
 import com.filelens.commander.ui.theme.CategoryUnknown
 import com.filelens.commander.ui.theme.CategoryVideo
 import com.filelens.commander.ui.theme.Eyebrow
-import com.filelens.commander.ui.theme.FlBg
-import com.filelens.commander.ui.theme.FlInk
-import com.filelens.commander.ui.theme.FlInk3
-import com.filelens.commander.ui.theme.FlNavy
-import com.filelens.commander.ui.theme.FlOnAccent
-import com.filelens.commander.ui.theme.FlSurface
-import com.filelens.commander.ui.theme.FlText
 import com.filelens.commander.viewmodel.StorageUsageViewModel
 
 @Composable
@@ -90,7 +83,7 @@ fun StorageUsageScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(FlBg)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Header(onBack = onBack, isRefreshing = state.isRefreshing)
         when {
@@ -155,7 +148,7 @@ private fun Header(onBack: () -> Unit, isRefreshing: Boolean) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(FlNavy)
+            .background(MaterialTheme.colorScheme.tertiary)
             .padding(start = 4.dp, end = 16.dp, top = 6.dp, bottom = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -163,19 +156,19 @@ private fun Header(onBack: () -> Unit, isRefreshing: Boolean) {
             Icon(
                 Icons.AutoMirrored.Filled.ArrowBack,
                 contentDescription = stringResource(R.string.cd_back),
-                tint = FlOnAccent
+                tint = MaterialTheme.colorScheme.onPrimary
             )
         }
         Spacer(modifier = Modifier.width(4.dp))
         Text(
             text = stringResource(R.string.storage_usage_title),
             style = MaterialTheme.typography.titleLarge,
-            color = FlOnAccent,
+            color = MaterialTheme.colorScheme.onPrimary,
             modifier = Modifier.weight(1f)
         )
         if (isRefreshing) {
             CircularProgressIndicator(
-                color = FlOnAccent,
+                color = MaterialTheme.colorScheme.onPrimary,
                 strokeWidth = 2.dp,
                 modifier = Modifier.size(16.dp)
             )
@@ -188,7 +181,7 @@ private fun SectionLabel(label: String) {
     Text(
         text = label.uppercase(),
         style = Eyebrow,
-        color = FlInk3,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
         modifier = Modifier.padding(start = 4.dp, top = 4.dp, bottom = 4.dp)
     )
 }
@@ -210,7 +203,7 @@ private fun SummaryCard(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
-            .background(FlSurface)
+            .background(MaterialTheme.colorScheme.surface)
             .padding(horizontal = 16.dp, vertical = 14.dp)
     ) {
         Row(
@@ -220,7 +213,7 @@ private fun SummaryCard(
             Text(
                 text = deviceLabel,
                 style = MaterialTheme.typography.titleMedium,
-                color = FlInk,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier.weight(1f)
             )
@@ -230,7 +223,7 @@ private fun SummaryCard(
                 else
                     formatSize(displayUsed),
                 style = MaterialTheme.typography.bodySmall,
-                color = FlText
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
         Spacer(modifier = Modifier.height(12.dp))
@@ -246,14 +239,14 @@ private fun SummaryCard(
                 Text(
                     text = stringResource(R.string.storage_free_label, formatSize(freeBytes)),
                     style = MaterialTheme.typography.bodySmall,
-                    color = FlText,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.weight(1f)
                 )
                 if (scannedBytes > 0) {
                     Text(
                         text = stringResource(R.string.storage_scanned_label, formatSize(scannedBytes)),
                         style = MaterialTheme.typography.bodySmall,
-                        color = FlInk3
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
@@ -344,7 +337,7 @@ private fun LegendChip(category: FileCategory) {
         Text(
             text = categoryLabel(category),
             style = MaterialTheme.typography.labelSmall,
-            color = FlText,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
@@ -369,7 +362,7 @@ private fun CategoryRow(
         modifier = Modifier
             .fillMaxWidth()
             .clip(shape)
-            .background(FlSurface)
+            .background(MaterialTheme.colorScheme.surface)
             .padding(horizontal = 12.dp, vertical = 11.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -392,27 +385,27 @@ private fun CategoryRow(
             Text(
                 text = categoryLabel(category),
                 style = MaterialTheme.typography.titleSmall,
-                color = FlInk,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.SemiBold
             )
             Text(
                 text = pluralizeFiles(fileCount),
                 style = MaterialTheme.typography.bodySmall,
-                color = FlInk3,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(top = 2.dp)
             )
         }
         Text(
             text = formatSize(bytes),
             style = MaterialTheme.typography.titleSmall,
-            color = FlText,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontWeight = FontWeight.Medium
         )
         Spacer(modifier = Modifier.width(6.dp))
         Icon(
             Icons.AutoMirrored.Filled.KeyboardArrowRight,
             contentDescription = null,
-            tint = FlInk3,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.size(18.dp)
         )
     }

@@ -48,6 +48,8 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -75,14 +77,9 @@ import com.filelens.commander.domain.model.AppSettings
 import com.filelens.commander.domain.model.PanelMode
 import com.filelens.commander.domain.model.SizeUnits
 import com.filelens.commander.domain.model.StartScreen
+import com.filelens.commander.domain.model.ThemeMode
 import kotlin.math.roundToInt
 import com.filelens.commander.ui.theme.Eyebrow
-import com.filelens.commander.ui.theme.FlAccent
-import com.filelens.commander.ui.theme.FlBlue50
-import com.filelens.commander.ui.theme.FlBorder2
-import com.filelens.commander.ui.theme.FlInk3
-import com.filelens.commander.ui.theme.FlSurface
-import com.filelens.commander.ui.theme.FlNavy
 import com.filelens.commander.ui.theme.FlOnAccent
 import com.filelens.commander.viewmodel.SettingsViewModel
 
@@ -191,6 +188,7 @@ fun SettingsScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp)
                 .padding(top = 8.dp, bottom = 36.dp)
@@ -203,6 +201,17 @@ fun SettingsScreen(
                     label = stringResource(R.string.settings_language),
                     description = languageDescription(settings.languageTag, context),
                     onClick = { languageDialog = true }
+                )
+                Divider()
+                ChoiceRow(
+                    label = stringResource(R.string.settings_theme),
+                    value = settings.themeMode.displayName,
+                    inlinePicker = {
+                        ThemeModePicker(
+                            current = settings.themeMode,
+                            onSelect = viewModel::setThemeMode
+                        )
+                    }
                 )
                 Divider()
                 ChoiceRow(
@@ -274,7 +283,7 @@ fun SettingsScreen(
                 Text(
                     stringResource(R.string.settings_preview_intro),
                     style = MaterialTheme.typography.bodySmall,
-                    color = FlInk3,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(horizontal = 14.dp, vertical = 14.dp)
                 )
                 Divider()
@@ -347,14 +356,14 @@ fun SettingsScreen(
                     Text(
                         stringResource(R.string.settings_backup_desc),
                         style = MaterialTheme.typography.bodySmall,
-                        color = FlInk3
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Spacer(modifier = Modifier.height(14.dp))
                     Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                         Button(
                             onClick = { exportLauncher.launch("filelens-backup.json") },
                             modifier = Modifier.weight(1f),
-                            colors = ButtonDefaults.buttonColors(containerColor = FlAccent)
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                         ) {
                             Icon(
                                 Icons.Filled.Download,
@@ -385,9 +394,9 @@ fun SettingsScreen(
             // ────────── About ──────────
             SectionHeader(stringResource(R.string.settings_section_about))
             SettingsCard {
-                StaticRow(
-                    label = stringResource(R.string.settings_about_app_name),
-                    value = stringResource(R.string.settings_about_version)
+                VersionRow(
+                    appName = stringResource(R.string.settings_about_app_name),
+                    currentVersion = stringResource(R.string.settings_about_version)
                 )
                 Divider()
                 PrivacyPromiseBlock()
@@ -397,8 +406,6 @@ fun SettingsScreen(
                     text = stringResource(R.string.settings_about_vision_text)
                 )
             }
-
-            BrandFooter()
         }
         SnackbarHost(hostState = snackbar, modifier = Modifier.fillMaxWidth())
     }
@@ -420,7 +427,7 @@ private fun NavyHeader(title: String, onBack: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(FlNavy)
+            .background(MaterialTheme.colorScheme.tertiary)
             .padding(start = 4.dp, end = 12.dp, top = 6.dp, bottom = 12.dp)
     ) {
         Row(
@@ -449,7 +456,7 @@ private fun SectionHeader(label: String) {
     Text(
         text = label.uppercase(),
         style = Eyebrow,
-        color = FlInk3,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
         modifier = Modifier.padding(start = 6.dp, top = 20.dp, bottom = 8.dp)
     )
 }
@@ -498,7 +505,7 @@ private fun SwitchRow(
                 Text(
                     description,
                     style = MaterialTheme.typography.bodySmall,
-                    color = FlInk3,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -509,11 +516,11 @@ private fun SwitchRow(
             onCheckedChange = onCheckedChange,
             colors = SwitchDefaults.colors(
                 checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
-                checkedTrackColor = FlAccent,
-                checkedBorderColor = FlAccent,
-                uncheckedThumbColor = FlBorder2,
-                uncheckedTrackColor = FlSurface,
-                uncheckedBorderColor = FlBorder2
+                checkedTrackColor = MaterialTheme.colorScheme.primary,
+                checkedBorderColor = MaterialTheme.colorScheme.primary,
+                uncheckedThumbColor = MaterialTheme.colorScheme.outlineVariant,
+                uncheckedTrackColor = MaterialTheme.colorScheme.surface,
+                uncheckedBorderColor = MaterialTheme.colorScheme.outlineVariant
             )
         )
     }
@@ -541,7 +548,7 @@ private fun ChoiceRow(
                 Text(
                     value,
                     style = MaterialTheme.typography.bodySmall,
-                    color = FlAccent,
+                    color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.SemiBold
                 )
             }
@@ -593,7 +600,7 @@ private fun SliderRow(
                 Text(
                     description,
                     style = MaterialTheme.typography.bodySmall,
-                    color = FlInk3,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -602,7 +609,7 @@ private fun SliderRow(
             Text(
                 formatMb(sliderValue.roundToInt()),
                 style = MaterialTheme.typography.titleSmall,
-                color = FlAccent,
+                color = MaterialTheme.colorScheme.primary,
                 fontWeight = FontWeight.SemiBold
             )
         }
@@ -613,8 +620,8 @@ private fun SliderRow(
             valueRange = min.toFloat()..max.toFloat(),
             steps = steps,
             colors = SliderDefaults.colors(
-                thumbColor = FlAccent,
-                activeTrackColor = FlAccent
+                thumbColor = MaterialTheme.colorScheme.primary,
+                activeTrackColor = MaterialTheme.colorScheme.primary
             )
         )
     }
@@ -638,13 +645,13 @@ private fun DisclosureRow(
             modifier = Modifier
                 .size(36.dp)
                 .clip(RoundedCornerShape(8.dp))
-                .background(FlBlue50),
+                .background(MaterialTheme.colorScheme.primaryContainer),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 icon,
                 contentDescription = null,
-                tint = FlAccent,
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(19.dp)
             )
         }
@@ -655,7 +662,7 @@ private fun DisclosureRow(
             Text(
                 description,
                 style = MaterialTheme.typography.bodySmall,
-                color = FlInk3,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
@@ -678,7 +685,7 @@ private fun StaticRow(label: String, value: String) {
     ) {
         Text(label, style = MaterialTheme.typography.titleSmall)
         Spacer(modifier = Modifier.height(3.dp))
-        Text(value, style = MaterialTheme.typography.bodySmall, color = FlInk3)
+        Text(value, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
     }
 }
 
@@ -692,7 +699,7 @@ private fun VisionBlock(label: String, text: String) {
         Text(
             text = label.uppercase(),
             style = Eyebrow,
-            color = FlAccent
+            color = MaterialTheme.colorScheme.primary
         )
         Spacer(modifier = Modifier.height(7.dp))
         Text(
@@ -713,7 +720,7 @@ private fun PrivacyPromiseBlock() {
         Text(
             text = stringResource(R.string.settings_about_privacy_label).uppercase(),
             style = Eyebrow,
-            color = FlAccent
+            color = MaterialTheme.colorScheme.primary
         )
         Spacer(modifier = Modifier.height(9.dp))
         Row(
@@ -737,60 +744,90 @@ private fun PrivacyChip(label: String) {
     Row(
         modifier = Modifier
             .clip(RoundedCornerShape(999.dp))
-            .background(FlBlue50)
+            .background(MaterialTheme.colorScheme.primaryContainer)
             .padding(horizontal = 10.dp, vertical = 5.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
             Icons.Filled.Check,
             contentDescription = null,
-            tint = FlAccent,
+            tint = MaterialTheme.colorScheme.primary,
             modifier = Modifier.size(12.dp)
         )
         Spacer(modifier = Modifier.width(5.dp))
         Text(
             label,
             style = MaterialTheme.typography.labelSmall,
-            color = FlAccent,
+            color = MaterialTheme.colorScheme.primary,
             fontWeight = FontWeight.SemiBold
         )
     }
 }
 
 @Composable
-private fun BrandFooter() {
+private fun ThemeModePicker(current: ThemeMode, onSelect: (ThemeMode) -> Unit) {
+    SegmentRow(
+        options = ThemeMode.entries.map { it to it.displayName },
+        current = current,
+        onSelect = onSelect
+    )
+}
+
+@Composable
+private fun VersionRow(appName: String, currentVersion: String) {
+    var showDialog by remember { mutableStateOf(false) }
+    var customVersion by remember { mutableStateOf("") }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 28.dp, bottom = 8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+            .clickable { showDialog = true }
+            .padding(horizontal = 14.dp, vertical = 14.dp)
     ) {
-        androidx.compose.foundation.Image(
-            painter = androidx.compose.ui.res.painterResource(R.drawable.ic_brand_mark),
-            contentDescription = null,
-            modifier = Modifier
-                .size(56.dp)
-                .clip(RoundedCornerShape(14.dp))
+        Text(appName, style = MaterialTheme.typography.titleSmall)
+        Spacer(modifier = Modifier.height(3.dp))
+        Text(currentVersion, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    }
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text(stringResource(R.string.settings_version_dialog_title)) },
+            text = {
+                Column {
+                    Text(
+                        stringResource(R.string.settings_version_dialog_desc),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    TextField(
+                        value = customVersion,
+                        onValueChange = { customVersion = it },
+                        placeholder = { Text("1.0.3") },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = TextFieldDefaults.colors(
+                            focusedIndicatorColor = MaterialTheme.colorScheme.primary,
+                            cursorColor = MaterialTheme.colorScheme.primary
+                        )
+                    )
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = { showDialog = false },
+                    enabled = customVersion.isNotBlank()
+                ) {
+                    Text(stringResource(R.string.action_save))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDialog = false }) {
+                    Text(stringResource(R.string.action_cancel))
+                }
+            }
         )
-        Row {
-            Text(
-                stringResource(R.string.brand_name),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurface,
-                fontWeight = FontWeight.Bold
-            )
-            Text(
-                "  ·  ",
-                style = MaterialTheme.typography.bodySmall,
-                color = FlInk3
-            )
-            Text(
-                stringResource(R.string.settings_footer_tagline),
-                style = MaterialTheme.typography.bodySmall,
-                color = FlInk3
-            )
-        }
     }
 }
 
@@ -885,14 +922,14 @@ private fun LanguageRow(label: String, selected: Boolean, onClick: () -> Unit) {
         Icon(
             imageVector = if (selected) Icons.Filled.Check else Icons.Filled.Language,
             contentDescription = null,
-            tint = if (selected) FlAccent else FlInk3,
+            tint = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.size(18.dp)
         )
         Spacer(modifier = Modifier.width(12.dp))
         Text(
             label,
             style = MaterialTheme.typography.bodyMedium,
-            color = if (selected) FlAccent else MaterialTheme.colorScheme.onSurface,
+            color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
             fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal
         )
     }
@@ -919,7 +956,7 @@ private fun SearchRootsRow(
                 Text(
                     stringResource(R.string.settings_search_roots_desc),
                     style = MaterialTheme.typography.bodySmall,
-                    color = FlInk3
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
@@ -928,7 +965,7 @@ private fun SearchRootsRow(
             Text(
                 stringResource(R.string.settings_search_roots_default),
                 style = MaterialTheme.typography.bodySmall,
-                color = FlAccent,
+                color = MaterialTheme.colorScheme.primary,
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
@@ -941,7 +978,7 @@ private fun SearchRootsRow(
                     Icon(
                         Icons.Filled.Folder,
                         contentDescription = null,
-                        tint = FlAccent,
+                        tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(16.dp)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
@@ -960,7 +997,7 @@ private fun SearchRootsRow(
                         Icon(
                             Icons.Filled.Close,
                             contentDescription = stringResource(R.string.settings_search_roots_remove),
-                            tint = FlInk3,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.size(16.dp)
                         )
                     }
@@ -998,7 +1035,7 @@ private fun <T> SegmentRow(
                 modifier = Modifier
                     .weight(1f)
                     .clip(RoundedCornerShape(8.dp))
-                    .background(if (selected) FlAccent else Color.Transparent)
+                    .background(if (selected) MaterialTheme.colorScheme.primary else Color.Transparent)
                     .clickable { onSelect(value) }
                     .padding(horizontal = 10.dp, vertical = 9.dp),
                 verticalAlignment = Alignment.CenterVertically,

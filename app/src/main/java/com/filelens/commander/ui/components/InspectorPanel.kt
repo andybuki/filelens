@@ -85,15 +85,6 @@ import com.filelens.commander.domain.model.SecretMatch
 import com.filelens.commander.domain.model.TrustLevel
 import com.filelens.commander.domain.model.TrustScore
 import com.filelens.commander.ui.theme.Eyebrow
-import com.filelens.commander.ui.theme.FlAccent
-import com.filelens.commander.ui.theme.FlBorder
-import com.filelens.commander.ui.theme.FlBorder2
-import com.filelens.commander.ui.theme.FlInk
-import com.filelens.commander.ui.theme.FlInk3
-import com.filelens.commander.ui.theme.FlMuted
-import com.filelens.commander.ui.theme.FlSurface
-import com.filelens.commander.ui.theme.FlSurface2
-import com.filelens.commander.ui.theme.FlSurface3
 import com.filelens.commander.ui.theme.MonoSmall
 import com.filelens.commander.ui.theme.RiskDanger
 import com.filelens.commander.ui.theme.RiskInfo
@@ -151,7 +142,7 @@ fun InspectorPanel(
                 .width(38.dp)
                 .height(4.dp)
                 .clip(RoundedCornerShape(2.dp))
-                .background(FlBorder)
+                .background(MaterialTheme.colorScheme.outline)
         )
         Spacer(modifier = Modifier.height(10.dp))
 
@@ -183,7 +174,7 @@ fun InspectorPanel(
                     Text(
                         text = info.category.displayName(),
                         style = MaterialTheme.typography.bodySmall,
-                        color = FlMuted
+                        color = MaterialTheme.colorScheme.outline
                     )
                     if (isAnalyzing) {
                         Spacer(modifier = Modifier.width(8.dp))
@@ -217,7 +208,7 @@ fun InspectorPanel(
                             Icon(
                                 Icons.Filled.Close,
                                 contentDescription = stringResource(R.string.cd_close),
-                                tint = FlInk3,
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
                                 modifier = Modifier.size(21.dp)
                             )
                         }
@@ -260,7 +251,7 @@ fun InspectorPanel(
                         style = MaterialTheme.typography.labelLarge.copy(
                             fontWeight = FontWeight.SemiBold
                         ),
-                        color = if (selected) FlAccent else FlMuted,
+                        color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline,
                         modifier = Modifier.padding(vertical = 12.dp)
                     )
                     Box(
@@ -268,12 +259,12 @@ fun InspectorPanel(
                             .height(2.dp)
                             .width(40.dp)
                             .clip(RoundedCornerShape(1.dp))
-                            .background(if (selected) FlAccent else Color.Transparent)
+                            .background(if (selected) MaterialTheme.colorScheme.primary else Color.Transparent)
                     )
                 }
             }
         }
-        HorizontalDivider(color = FlBorder)
+        HorizontalDivider(color = MaterialTheme.colorScheme.outline)
 
         AnimatedContent(
             targetState = tabs[selectedTab],
@@ -366,7 +357,7 @@ private fun OverviewTab(
             }
             rows.forEachIndexed { index, (label, value) ->
                 if (index > 0) {
-                    HorizontalDivider(color = FlBorder)
+                    HorizontalDivider(color = MaterialTheme.colorScheme.outline)
                 }
                 Row(
                     modifier = Modifier
@@ -377,7 +368,7 @@ private fun OverviewTab(
                     Text(
                         text = label,
                         style = MaterialTheme.typography.bodyMedium,
-                        color = FlInk3
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Spacer(modifier = Modifier.width(16.dp))
                     Text(
@@ -407,7 +398,7 @@ private fun OverviewTab(
         Text(
             text = stringResource(R.string.section_safe_actions),
             style = Eyebrow,
-            color = FlInk3,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
@@ -475,7 +466,7 @@ private fun OverviewTab(
         Text(
             text = stringResource(R.string.section_external),
             style = Eyebrow,
-            color = FlInk3,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(bottom = 8.dp)
         )
         ActionButton(
@@ -511,12 +502,12 @@ private fun PreviewTab(result: InspectorResult?) {
                     modifier = Modifier
                         .fillMaxSize()
                         .clip(RoundedCornerShape(10.dp))
-                        .background(FlSurface2)
+                        .background(MaterialTheme.colorScheme.surfaceVariant)
                 ) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(FlSurface3)
+                            .background(MaterialTheme.colorScheme.surfaceContainerHighest)
                             .padding(horizontal = 14.dp, vertical = 9.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -533,7 +524,7 @@ private fun PreviewTab(result: InspectorResult?) {
                                 append("${displayed.lines().size} lines")
                             },
                             style = MonoSmall,
-                            color = FlInk3
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         if (preview.rawContent != null) {
@@ -545,7 +536,7 @@ private fun PreviewTab(result: InspectorResult?) {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(FlSurface)
+                            .background(MaterialTheme.colorScheme.surface)
                             .verticalScroll(rememberScrollState())
                             .horizontalScroll(rememberScrollState())
                             .padding(14.dp)
@@ -553,7 +544,7 @@ private fun PreviewTab(result: InspectorResult?) {
                         Text(
                             text = highlighted,
                             style = MaterialTheme.typography.bodySmall.copy(fontFamily = RobotoMono),
-                            color = FlInk
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                     }
                 }
@@ -732,7 +723,7 @@ private fun MetadataTab(result: InspectorResult?) {
             val entries = metadata.entries.toList()
             entries.forEachIndexed { index, (key, value) ->
                 if (index > 0) {
-                    HorizontalDivider(color = FlBorder)
+                    HorizontalDivider(color = MaterialTheme.colorScheme.outline)
                 }
                 Row(
                     modifier = Modifier
@@ -743,7 +734,7 @@ private fun MetadataTab(result: InspectorResult?) {
                     Text(
                         text = key,
                         style = MaterialTheme.typography.bodyMedium,
-                        color = FlInk3
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Spacer(modifier = Modifier.width(16.dp))
                     Text(
@@ -1039,7 +1030,7 @@ private fun TrustScoreCard(score: TrustScore) {
                 Text(
                     text = " / 100",
                     style = MonoSmall,
-                    color = FlInk3
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
@@ -1050,7 +1041,7 @@ private fun TrustScoreCard(score: TrustScore) {
                 .fillMaxWidth()
                 .height(4.dp)
                 .clip(RoundedCornerShape(999.dp))
-                .background(FlSurface3)
+                .background(MaterialTheme.colorScheme.surfaceContainerHighest)
         ) {
             Box(
                 modifier = Modifier
@@ -1064,7 +1055,7 @@ private fun TrustScoreCard(score: TrustScore) {
         Text(
             text = stringResource(R.string.trust_score_disclaimer),
             style = MaterialTheme.typography.labelSmall,
-            color = FlInk3
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         if (score.topReasons.isNotEmpty()) {
             Spacer(modifier = Modifier.height(8.dp))
@@ -1126,7 +1117,7 @@ private fun RisksTab(
             Text(
                 "This file looks safe to open. We checked privacy, secrets, active content and integrity.",
                 style = MaterialTheme.typography.bodySmall,
-                color = FlInk3,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(horizontal = 24.dp),
                 textAlign = androidx.compose.ui.text.style.TextAlign.Center
             )
@@ -1268,14 +1259,14 @@ private fun RiskCard(
                     Icon(
                         Icons.AutoMirrored.Filled.ArrowForward,
                         contentDescription = null,
-                        tint = FlInk3,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.size(14.dp)
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
                         text = risk.recommendedAction,
                         style = MaterialTheme.typography.bodySmall,
-                        color = FlInk3
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
@@ -1286,7 +1277,7 @@ private fun RiskCard(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(
-                            color = FlSurface3,
+                            color = MaterialTheme.colorScheme.surfaceContainerHighest,
                             shape = RoundedCornerShape(6.dp)
                         )
                         .padding(8.dp)
@@ -1324,7 +1315,7 @@ private fun RiskCard(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(
-                            color = FlSurface3,
+                            color = MaterialTheme.colorScheme.surfaceContainerHighest,
                             shape = RoundedCornerShape(6.dp)
                         )
                         .padding(8.dp)
@@ -1381,10 +1372,10 @@ private fun ActionButton(
     icon: androidx.compose.ui.graphics.vector.ImageVector? = null,
     isPrimary: Boolean = false
 ) {
-    val bg = if (isPrimary) FlAccent else MaterialTheme.colorScheme.surface
+    val bg = if (isPrimary) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface
     val fg = if (isPrimary) Color.White else MaterialTheme.colorScheme.onSurface
-    val iconColor = if (isPrimary) Color.White else FlAccent
-    val borderColor = if (isPrimary) FlAccent else FlBorder2
+    val iconColor = if (isPrimary) Color.White else MaterialTheme.colorScheme.primary
+    val borderColor = if (isPrimary) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant
     val shape = RoundedCornerShape(10.dp)
     Row(
         modifier = modifier

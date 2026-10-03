@@ -687,4 +687,7 @@
     <string name="error_corrupt_file">Questo file sembra danneggiato e non può essere letto.</string>
     <string name="error_generic">Qualcosa è andato storto. Riprova.</string>
     <string name="inspector_loading_label">Ispezione del file…</string>
+    <string name="settings_theme">Tema</string>
+    <string name="settings_version_dialog_title">Cambia versione</string>
+    <string name="settings_version_dialog_desc">Inserisci un numero di versione personalizzato da visualizzare.</string>
 </resources>

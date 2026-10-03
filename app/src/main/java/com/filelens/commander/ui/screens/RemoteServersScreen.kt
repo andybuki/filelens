@@ -60,14 +60,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.com.filelens.R
 import com.filelens.commander.domain.model.RemoteConnection
 import com.filelens.commander.domain.model.RemoteProtocol
-import com.filelens.commander.ui.theme.FlAccent
-import com.filelens.commander.ui.theme.FlAccentTint
-import com.filelens.commander.ui.theme.FlBg
-import com.filelens.commander.ui.theme.FlInk
-import com.filelens.commander.ui.theme.FlInk3
-import com.filelens.commander.ui.theme.FlNavy
-import com.filelens.commander.ui.theme.FlOnAccent
-import com.filelens.commander.ui.theme.FlSurface
 import com.filelens.commander.viewmodel.RemoteServersViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -84,7 +76,7 @@ fun RemoteServersScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(FlBg)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             NavyHeader(title = stringResource(R.string.remote_servers_title), onBack = onBack)
@@ -111,8 +103,8 @@ fun RemoteServersScreen(
 
         FloatingActionButton(
             onClick = { editing = viewModel.blankDraft() },
-            containerColor = FlAccent,
-            contentColor = FlOnAccent,
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary,
             shape = RoundedCornerShape(percent = 50),
             modifier = Modifier
                 .align(Alignment.BottomEnd)
@@ -136,9 +128,9 @@ fun RemoteServersScreen(
     pendingDelete?.let { target ->
         AlertDialog(
             onDismissRequest = { pendingDelete = null },
-            containerColor = FlSurface,
-            titleContentColor = FlInk,
-            textContentColor = FlInk,
+            containerColor = MaterialTheme.colorScheme.surface,
+            titleContentColor = MaterialTheme.colorScheme.onSurface,
+            textContentColor = MaterialTheme.colorScheme.onSurface,
             title = { Text(stringResource(R.string.remote_dialog_delete_title)) },
             text = { Text(stringResource(R.string.remote_dialog_delete_message, target.name.ifBlank { target.host })) },
             confirmButton = {
@@ -147,7 +139,7 @@ fun RemoteServersScreen(
                         viewModel.remove(target.id)
                         pendingDelete = null
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = FlAccent)
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                 ) { Text(stringResource(R.string.action_delete)) }
             },
             dismissButton = {
@@ -162,7 +154,7 @@ private fun NavyHeader(title: String, onBack: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(FlNavy)
+            .background(MaterialTheme.colorScheme.tertiary)
             .padding(start = 4.dp, end = 12.dp, top = 6.dp, bottom = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -170,13 +162,13 @@ private fun NavyHeader(title: String, onBack: () -> Unit) {
             Icon(
                 Icons.AutoMirrored.Filled.ArrowBack,
                 contentDescription = stringResource(R.string.cd_back),
-                tint = FlOnAccent
+                tint = MaterialTheme.colorScheme.onPrimary
             )
         }
         Spacer(modifier = Modifier.width(2.dp))
         Text(
             text = title,
-            color = FlOnAccent,
+            color = MaterialTheme.colorScheme.onPrimary,
             fontSize = 22.sp,
             fontWeight = FontWeight.Bold
         )
@@ -196,13 +188,13 @@ private fun EmptyState() {
                 modifier = Modifier
                     .size(64.dp)
                     .clip(RoundedCornerShape(18.dp))
-                    .background(FlAccentTint),
+                    .background(MaterialTheme.colorScheme.primaryContainer),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     Icons.Default.Cloud,
                     contentDescription = null,
-                    tint = FlAccent,
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(32.dp)
                 )
             }
@@ -210,13 +202,13 @@ private fun EmptyState() {
             Text(
                 stringResource(R.string.remote_servers_empty_headline),
                 style = MaterialTheme.typography.titleMedium,
-                color = FlInk
+                color = MaterialTheme.colorScheme.onSurface
             )
             Spacer(Modifier.height(6.dp))
             Text(
                 stringResource(R.string.remote_servers_empty_subtitle),
                 style = MaterialTheme.typography.bodySmall,
-                color = FlInk3
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
@@ -233,7 +225,7 @@ private fun ServerRow(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(14.dp))
-            .background(FlSurface)
+            .background(MaterialTheme.colorScheme.surface)
             .clickable { onConnect() }
             .padding(horizontal = 12.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -242,13 +234,13 @@ private fun ServerRow(
             modifier = Modifier
                 .size(40.dp)
                 .clip(RoundedCornerShape(11.dp))
-                .background(FlAccentTint),
+                .background(MaterialTheme.colorScheme.primaryContainer),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 Icons.Default.Cloud,
                 contentDescription = null,
-                tint = FlAccent,
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(20.dp)
             )
         }
@@ -257,23 +249,23 @@ private fun ServerRow(
             Text(
                 connection.name.ifBlank { connection.host },
                 style = MaterialTheme.typography.titleSmall,
-                color = FlInk,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.SemiBold
             )
             Text(
                 "${connection.protocol.displayName}  ·  ${connection.host}:${connection.effectivePort}",
                 style = MaterialTheme.typography.bodySmall,
-                color = FlInk3
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
         IconButton(onClick = onConnect, modifier = Modifier.size(36.dp)) {
-            Icon(Icons.Default.PlayArrow, contentDescription = stringResource(R.string.cd_connect), tint = FlAccent)
+            Icon(Icons.Default.PlayArrow, contentDescription = stringResource(R.string.cd_connect), tint = MaterialTheme.colorScheme.primary)
         }
         IconButton(onClick = onEdit, modifier = Modifier.size(36.dp)) {
-            Icon(Icons.Default.Edit, contentDescription = stringResource(R.string.cd_edit), tint = FlInk3)
+            Icon(Icons.Default.Edit, contentDescription = stringResource(R.string.cd_edit), tint = MaterialTheme.colorScheme.onSurfaceVariant)
         }
         IconButton(onClick = onDelete, modifier = Modifier.size(36.dp)) {
-            Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.cd_delete), tint = FlInk3)
+            Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.cd_delete), tint = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }
@@ -300,15 +292,15 @@ private fun ServerEditorDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        containerColor = FlSurface,
-        titleContentColor = FlInk,
-        textContentColor = FlInk,
+        containerColor = MaterialTheme.colorScheme.surface,
+        titleContentColor = MaterialTheme.colorScheme.onSurface,
+        textContentColor = MaterialTheme.colorScheme.onSurface,
         title = {
             Text(
                 text = stringResource(if (initial.id.isBlank()) R.string.remote_dialog_add_title else R.string.remote_dialog_edit_title),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
-                color = FlInk
+                color = MaterialTheme.colorScheme.onSurface
             )
         },
         text = {
@@ -334,20 +326,20 @@ private fun ServerEditorDialog(
                                 Text(
                                     text = p.displayName,
                                     fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
-                                    color = if (selected) FlAccent else FlInk
+                                    color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
                                 )
                             },
                             colors = FilterChipDefaults.filterChipColors(
-                                containerColor = FlSurface,
-                                selectedContainerColor = FlAccentTint,
-                                labelColor = FlInk,
-                                selectedLabelColor = FlAccent
+                                containerColor = MaterialTheme.colorScheme.surface,
+                                selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                labelColor = MaterialTheme.colorScheme.onSurface,
+                                selectedLabelColor = MaterialTheme.colorScheme.primary
                             ),
                             border = FilterChipDefaults.filterChipBorder(
                                 enabled = true,
                                 selected = selected,
                                 borderColor = MaterialTheme.colorScheme.outline,
-                                selectedBorderColor = FlAccent,
+                                selectedBorderColor = MaterialTheme.colorScheme.primary,
                                 borderWidth = 1.dp,
                                 selectedBorderWidth = 1.5.dp
                             )
@@ -446,7 +438,7 @@ private fun ServerEditorDialog(
                         clearPinnedHostKey
                     )
                 },
-                colors = ButtonDefaults.buttonColors(containerColor = FlAccent)
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
             ) { Text(stringResource(R.string.action_save)) }
         },
         dismissButton = {

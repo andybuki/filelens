@@ -702,4 +702,7 @@
     <string name="error_corrupt_file">Этот файл повреждён и не может быть прочитан.</string>
     <string name="error_generic">Что-то пошло не так. Попробуйте снова.</string>
     <string name="inspector_loading_label">Анализ файла…</string>
+    <string name="settings_theme">Тема</string>
+    <string name="settings_version_dialog_title">Изменить версию</string>
+    <string name="settings_version_dialog_desc">Введите пользовательский номер версии для отображения.</string>
 </resources>

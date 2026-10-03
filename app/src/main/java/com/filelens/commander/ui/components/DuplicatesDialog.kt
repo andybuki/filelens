@@ -43,10 +43,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.com.filelens.R
 import com.filelens.commander.domain.usecase.FindDuplicatesUseCase
-import com.filelens.commander.ui.theme.FlAccent
-import com.filelens.commander.ui.theme.FlAccentTint
-import com.filelens.commander.ui.theme.FlInk
-import com.filelens.commander.ui.theme.FlInk3
 import com.filelens.commander.ui.theme.RobotoMono
 import com.filelens.commander.ui.util.LocalSizeUnits
 import com.filelens.commander.ui.util.formatFileSize
@@ -72,13 +68,13 @@ fun DuplicatesDialog(
                     modifier = Modifier
                         .size(32.dp)
                         .clip(RoundedCornerShape(9.dp))
-                        .background(FlAccentTint),
+                        .background(MaterialTheme.colorScheme.primaryContainer),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         Icons.Filled.FileCopy,
                         contentDescription = null,
-                        tint = FlAccent,
+                        tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(18.dp)
                     )
                 }
@@ -93,7 +89,7 @@ fun DuplicatesDialog(
                     state.groups.isEmpty() -> Text(
                         stringResource(R.string.duplicates_none_found),
                         style = MaterialTheme.typography.bodyMedium,
-                        color = FlInk3
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     else -> Results(
                         state = state,
@@ -124,25 +120,25 @@ private fun Scanning(state: com.filelens.commander.viewmodel.DuplicateFinderStat
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CircularProgressIndicator(color = FlAccent, strokeWidth = 2.5.dp, modifier = Modifier.size(28.dp))
+        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary, strokeWidth = 2.5.dp, modifier = Modifier.size(28.dp))
         Spacer(modifier = Modifier.height(10.dp))
         if (state.hashTotal > 0) {
             Text(
                 stringResource(R.string.duplicates_hashing, state.hashCurrent, state.hashTotal),
                 style = MaterialTheme.typography.bodySmall,
-                color = FlInk3
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Spacer(modifier = Modifier.height(8.dp))
             LinearProgressIndicator(
                 progress = { state.hashCurrent.toFloat() / state.hashTotal.coerceAtLeast(1).toFloat() },
-                color = FlAccent,
+                color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.fillMaxWidth()
             )
         } else {
             Text(
                 stringResource(R.string.duplicates_scanning, state.filesSeen),
                 style = MaterialTheme.typography.bodySmall,
-                color = FlInk3
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
@@ -161,19 +157,19 @@ private fun Results(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(10.dp))
-                .background(FlAccentTint)
+                .background(MaterialTheme.colorScheme.primaryContainer)
                 .padding(10.dp)
         ) {
             Text(
                 stringResource(R.string.duplicates_group_count, state.groups.size),
                 style = MaterialTheme.typography.titleSmall,
-                color = FlAccent,
+                color = MaterialTheme.colorScheme.primary,
                 fontWeight = FontWeight.SemiBold
             )
             Text(
                 stringResource(R.string.duplicates_wasted_summary, formatFileSize(state.totalWastedBytes, units), state.totalFiles),
                 style = MaterialTheme.typography.labelMedium,
-                color = FlInk3
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
         Spacer(modifier = Modifier.height(6.dp))
@@ -216,13 +212,13 @@ private fun DuplicateGroupCard(
             Text(
                 stringResource(R.string.duplicates_copies_each, group.files.size, formatFileSize(group.size, units)),
                 style = MaterialTheme.typography.titleSmall,
-                color = FlInk,
+                color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.weight(1f)
             )
             Text(
                 stringResource(R.string.duplicates_wasted, formatFileSize(group.wastedBytes, units)),
                 style = MaterialTheme.typography.labelSmall,
-                color = FlInk3
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
         Spacer(modifier = Modifier.height(4.dp))
@@ -243,14 +239,14 @@ private fun DuplicateGroupCard(
                         text = f.path,
                         style = MaterialTheme.typography.bodySmall,
                         fontFamily = RobotoMono,
-                        color = FlInk,
+                        color = MaterialTheme.colorScheme.onSurface,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis
                     )
                     Text(
                         text = stringResource(R.string.duplicates_modified, df.format(Date(f.lastModified))),
                         style = MaterialTheme.typography.labelSmall,
-                        color = FlInk3
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }

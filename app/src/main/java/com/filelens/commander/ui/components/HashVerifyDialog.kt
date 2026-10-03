@@ -39,9 +39,6 @@ import androidx.compose.ui.unit.dp
 import app.com.filelens.R
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.filelens.commander.ui.theme.FlAccent
-import com.filelens.commander.ui.theme.FlInk2
-import com.filelens.commander.ui.theme.FlInk3
 import com.filelens.commander.ui.theme.RiskDanger
 import com.filelens.commander.ui.theme.RiskDangerTint
 import com.filelens.commander.ui.theme.RiskSafe
@@ -73,7 +70,7 @@ fun HashVerifyDialog(
                 Text(
                     fileName,
                     style = MaterialTheme.typography.bodySmall,
-                    color = FlInk3,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1
                 )
             }
@@ -84,7 +81,7 @@ fun HashVerifyDialog(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         CircularProgressIndicator(strokeWidth = 2.dp, modifier = Modifier.size(16.dp))
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text(stringResource(R.string.hash_verify_hashing), style = MaterialTheme.typography.bodyMedium, color = FlInk2)
+                        Text(stringResource(R.string.hash_verify_hashing), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 } else {
                     HashRow(
@@ -104,7 +101,7 @@ fun HashVerifyDialog(
                 Text(
                     stringResource(R.string.hash_verify_compare_label),
                     style = MaterialTheme.typography.labelMedium,
-                    color = FlInk3
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 OutlinedTextField(
                     value = state.expected,
@@ -124,7 +121,7 @@ fun HashVerifyDialog(
 private fun HashRow(label: String, value: String, onCopy: () -> Unit) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Column(modifier = Modifier.weight(1f)) {
-            Text(label, style = MaterialTheme.typography.labelMedium, color = FlInk3)
+            Text(label, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Text(
                 value,
                 style = MaterialTheme.typography.bodySmall,
@@ -133,7 +130,7 @@ private fun HashRow(label: String, value: String, onCopy: () -> Unit) {
             )
         }
         IconButton(onClick = onCopy) {
-            Icon(Icons.Filled.ContentCopy, contentDescription = stringResource(R.string.cd_copy), tint = FlInk2)
+            Icon(Icons.Filled.ContentCopy, contentDescription = stringResource(R.string.cd_copy), tint = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }
@@ -144,7 +141,7 @@ private fun MatchBadge(match: Match, hasInput: Boolean) {
     val (bg, fg, label, icon) = when (match) {
         Match.MATCH -> Quad(RiskSafeTint, RiskSafe, stringResource(R.string.hash_verify_match), Icons.Filled.Check)
         Match.MISMATCH -> Quad(RiskDangerTint, RiskDanger, stringResource(R.string.hash_verify_no_match), Icons.Filled.Close)
-        Match.UNKNOWN -> Quad(MaterialTheme.colorScheme.surfaceVariant, FlInk2, stringResource(R.string.hash_verify_unknown), Icons.Filled.Check)
+        Match.UNKNOWN -> Quad(MaterialTheme.colorScheme.surfaceVariant, MaterialTheme.colorScheme.onSurfaceVariant, stringResource(R.string.hash_verify_unknown), Icons.Filled.Check)
     }
     Row(
         modifier = Modifier
