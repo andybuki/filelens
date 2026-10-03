@@ -198,6 +198,8 @@
     <string name="dialog_new_folder_label">फ़ोल्डर का नाम</string>
     <string name="dialog_rename_title">नाम बदलें</string>
     <string name="dialog_rename_label">नया नाम</string>
+    <string name="rename_error_illegal_chars">नाम में / नहीं हो सकता</string>
+    <string name="rename_error_reserved_name">नाम \".\" या \"..\" नहीं हो सकता</string>
     <string name="dialog_delete_title">हटाएं</string>
     <string name="dialog_delete_message">क्या आप वाकई हटाना चाहते हैं?</string>
     <string name="dialog_copy_move_target_label">%1$s %2$d फ़ाइल(ें) यहाँ:</string>
@@ -676,4 +678,7 @@
     <string name="error_corrupt_file">यह फ़ाइल दूषित लगती है और इसे पढ़ा नहीं जा सकता।</string>
     <string name="error_generic">कुछ गलत हो गया। कृपया पुनः प्रयास करें।</string>
     <string name="inspector_loading_label">फ़ाइल का निरीक्षण हो रहा है…</string>
+    <string name="settings_theme">थीम</string>
+    <string name="settings_version_dialog_title">संस्करण बदलें</string>
+    <string name="settings_version_dialog_desc">प्रदर्शित करने के लिए एक कस्टम संस्करण नंबर दर्ज करें।</string>
 </resources>

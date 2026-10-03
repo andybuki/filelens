@@ -601,6 +601,7 @@ private fun CompactLayout(
 
     val selectedItems = fileListState.files.filter { it.path in commanderState.selectedPaths }
     val canCompare = selectedItems.size == 2 && selectedItems.map { it.nodeType }.toSet().size == 1
+    val canSingleRename = selectedItems.size == 1
     val canBatchRename = selectedItems.size >= 2 && selectedItems.all { it.nodeType == com.filelens.commander.vfs.NodeType.FILE }
     val canMoveToVault = selectedItems.isNotEmpty() && selectedItems.all { it.nodeType == com.filelens.commander.vfs.NodeType.FILE }
     val triggerCompare = {
@@ -611,6 +612,7 @@ private fun CompactLayout(
     val triggerMoveToVault = {
         commanderViewModel.moveSelectedToVault { fileListViewModel.refresh() }
     }
+    val triggerSingleRename = { commanderViewModel.showDialog(DialogType.RENAME) }
 
     var batchRenameTargetsCompact by remember { mutableStateOf<List<String>>(emptyList()) }
     if (batchRenameTargetsCompact.isNotEmpty()) {
@@ -688,10 +690,12 @@ private fun CompactLayout(
                 },
                 onFileLongClick = { item -> commanderViewModel.toggleSelection(item.path) },
                 canCompareSelection = canCompare,
+                canSingleRename = canSingleRename,
                 canBatchRename = canBatchRename,
                 canMoveToVault = canMoveToVault,
                 onClearSelection = { commanderViewModel.clearSelection() },
                 onCompareSelection = triggerCompare,
+                onSingleRenameSelection = triggerSingleRename,
                 onBatchRenameSelection = triggerBatchRename,
                 onMoveToVaultSelection = triggerMoveToVault,
                 onNavigateUp = { fileListViewModel.navigateUp() },
@@ -731,7 +735,10 @@ private fun CompactLayout(
             onMove = { commanderViewModel.showDialog(DialogType.MOVE) },
             onNewFolder = { commanderViewModel.showDialog(DialogType.NEW_FOLDER) },
             onDelete = onRequestDelete,
-            onRename = { commanderViewModel.showDialog(DialogType.RENAME) },
+            onRename = {
+                if (commanderState.selectedPaths.size >= 2) triggerBatchRename()
+                else commanderViewModel.showDialog(DialogType.RENAME)
+            },
             onCompare = triggerCompare
         )
     }
@@ -785,6 +792,7 @@ private fun ExpandedLayout(
     val activeFiles = if (activeLeft) fileListState.files else rightState.files
     val selectedItems = activeFiles.filter { it.path in commanderState.selectedPaths }
     val canCompare = selectedItems.size == 2 && selectedItems.map { it.nodeType }.toSet().size == 1
+    val canSingleRename = selectedItems.size == 1
     val canBatchRename = selectedItems.size >= 2 && selectedItems.all { it.nodeType == com.filelens.commander.vfs.NodeType.FILE }
     val canMoveToVault = selectedItems.isNotEmpty() && selectedItems.all { it.nodeType == com.filelens.commander.vfs.NodeType.FILE }
     val triggerCompare = {
@@ -797,6 +805,7 @@ private fun ExpandedLayout(
             if (activeLeft) fileListViewModel.refresh() else rightViewModel.refresh()
         }
     }
+    val triggerSingleRename = { commanderViewModel.showDialog(DialogType.RENAME) }
 
     var batchRenameTargetsExpanded by remember { mutableStateOf<List<String>>(emptyList()) }
     if (batchRenameTargetsExpanded.isNotEmpty()) {
@@ -841,10 +850,12 @@ private fun ExpandedLayout(
                 },
                 onFileLongClick = { item -> commanderViewModel.toggleSelection(item.path) },
                 canCompareSelection = canCompare && activeLeft,
+                canSingleRename = canSingleRename && activeLeft,
                 canBatchRename = canBatchRename && activeLeft,
                 canMoveToVault = canMoveToVault && activeLeft,
                 onClearSelection = { commanderViewModel.clearSelection() },
                 onCompareSelection = triggerCompare,
+                onSingleRenameSelection = triggerSingleRename,
                 onBatchRenameSelection = triggerBatchRename,
                 onMoveToVaultSelection = triggerMoveToVault,
                 onNavigateUp = { fileListViewModel.navigateUp() },
@@ -899,10 +910,12 @@ private fun ExpandedLayout(
                     },
                     onFileLongClick = { item -> commanderViewModel.toggleSelection(item.path) },
                     canCompareSelection = canCompare && !activeLeft,
+                    canSingleRename = canSingleRename && !activeLeft,
                     canBatchRename = canBatchRename && !activeLeft,
                     canMoveToVault = canMoveToVault && !activeLeft,
                     onClearSelection = { commanderViewModel.clearSelection() },
                     onCompareSelection = triggerCompare,
+                    onSingleRenameSelection = triggerSingleRename,
                     onBatchRenameSelection = triggerBatchRename,
                     onMoveToVaultSelection = triggerMoveToVault,
                     onNavigateUp = { rightViewModel.navigateUp() },
@@ -978,7 +991,10 @@ private fun ExpandedLayout(
             onMove = { commanderViewModel.showDialog(DialogType.MOVE) },
             onNewFolder = { commanderViewModel.showDialog(DialogType.NEW_FOLDER) },
             onDelete = onRequestDelete,
-            onRename = { commanderViewModel.showDialog(DialogType.RENAME) },
+            onRename = {
+                if (commanderState.selectedPaths.size >= 2) triggerBatchRename()
+                else commanderViewModel.showDialog(DialogType.RENAME)
+            },
             onCompare = triggerCompare
         )
     }

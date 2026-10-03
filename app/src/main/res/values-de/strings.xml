@@ -198,6 +198,8 @@
     <string name="dialog_new_folder_label">Ordnername</string>
     <string name="dialog_rename_title">Umbenennen</string>
     <string name="dialog_rename_label">Neuer Name</string>
+    <string name="rename_error_illegal_chars">Name darf kein / enthalten</string>
+    <string name="rename_error_reserved_name">Name darf nicht \".\" oder \"..\" sein</string>
     <string name="dialog_delete_title">Löschen</string>
     <string name="dialog_delete_message">Möchten Sie wirklich löschen?</string>
     <string name="dialog_copy_move_target_label">%1$s %2$d Datei(en) nach:</string>
@@ -674,4 +676,7 @@
     <string name="error_corrupt_file">Diese Datei scheint beschädigt zu sein und kann nicht gelesen werden.</string>
     <string name="error_generic">Etwas ist schiefgelaufen. Bitte versuche es erneut.</string>
     <string name="inspector_loading_label">Datei wird untersucht…</string>
+    <string name="settings_theme">Design</string>
+    <string name="settings_version_dialog_title">Version ändern</string>
+    <string name="settings_version_dialog_desc">Geben Sie eine benutzerdefinierte Versionsnummer ein.</string>
 </resources>

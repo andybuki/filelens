@@ -63,15 +63,6 @@ import app.com.filelens.R
 import com.filelens.commander.domain.model.InstalledApp
 import com.filelens.commander.ui.theme.CategoryApk
 import com.filelens.commander.ui.theme.Eyebrow
-import com.filelens.commander.ui.theme.FlAccent
-import com.filelens.commander.ui.theme.FlAccentTint
-import com.filelens.commander.ui.theme.FlBg
-import com.filelens.commander.ui.theme.FlInk
-import com.filelens.commander.ui.theme.FlInk3
-import com.filelens.commander.ui.theme.FlNavy
-import com.filelens.commander.ui.theme.FlOnAccent
-import com.filelens.commander.ui.theme.FlSurface
-import com.filelens.commander.ui.theme.FlText
 import com.filelens.commander.ui.theme.MonoSmall
 import com.filelens.commander.ui.util.formatFileSize
 import com.filelens.commander.viewmodel.AppFilter
@@ -106,7 +97,7 @@ fun AppManagerScreen(
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize().background(FlBg)) {
+    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         AppManagerHeader(
             count = visible.size,
             query = state.query,
@@ -122,7 +113,7 @@ fun AppManagerScreen(
         Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
             when {
                 state.isLoading -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator(color = FlAccent)
+                    CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
                 }
                 visible.isEmpty() -> EmptyAppsState()
                 else -> LazyColumn(
@@ -155,7 +146,7 @@ private fun AppManagerHeader(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(FlNavy)
+            .background(MaterialTheme.colorScheme.tertiary)
             .padding(start = 4.dp, end = 12.dp, top = 6.dp, bottom = 12.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -163,13 +154,13 @@ private fun AppManagerHeader(
                 Icon(
                     Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = stringResource(R.string.cd_back),
-                    tint = FlOnAccent
+                    tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = stringResource(R.string.app_manager_title),
-                    color = FlOnAccent,
+                    color = MaterialTheme.colorScheme.onPrimary,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -188,14 +179,14 @@ private fun AppManagerHeader(
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp),
             placeholder = { Text(stringResource(R.string.app_manager_search_hint), color = Color(0xFFCBD0D8)) },
-            leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null, tint = FlOnAccent) },
+            leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null, tint = MaterialTheme.colorScheme.onPrimary) },
             trailingIcon = {
                 if (query.isNotEmpty()) {
                     IconButton(onClick = { onQueryChanged("") }) {
                         Icon(
                             Icons.Filled.Clear,
                             contentDescription = stringResource(R.string.action_clear),
-                            tint = FlOnAccent
+                            tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 }
@@ -204,11 +195,11 @@ private fun AppManagerHeader(
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color(0x33000000),
                 unfocusedContainerColor = Color(0x33000000),
-                focusedTextColor = FlOnAccent,
-                unfocusedTextColor = FlOnAccent,
-                focusedIndicatorColor = FlOnAccent,
+                focusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                focusedIndicatorColor = MaterialTheme.colorScheme.onPrimary,
                 unfocusedIndicatorColor = Color(0x44FFFFFF),
-                cursorColor = FlOnAccent
+                cursorColor = MaterialTheme.colorScheme.onPrimary
             )
         )
     }
@@ -217,7 +208,7 @@ private fun AppManagerHeader(
 @Composable
 private fun FilterRow(selected: AppFilter, onSelect: (AppFilter) -> Unit) {
     LazyRow(
-        modifier = Modifier.fillMaxWidth().background(FlSurface),
+        modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surface),
         contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
@@ -232,8 +223,8 @@ private fun FilterRow(selected: AppFilter, onSelect: (AppFilter) -> Unit) {
                 onClick = { onSelect(filter) },
                 label = { Text(stringResource(labelRes)) },
                 colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = FlAccent,
-                    selectedLabelColor = FlOnAccent
+                    selectedContainerColor = MaterialTheme.colorScheme.primary,
+                    selectedLabelColor = MaterialTheme.colorScheme.onPrimary
                 )
             )
         }
@@ -252,7 +243,7 @@ private fun AppRow(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
-            .background(FlSurface)
+            .background(MaterialTheme.colorScheme.surface)
             .clickable(onClick = onInspect)
             .padding(horizontal = 12.dp, vertical = 11.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -277,7 +268,7 @@ private fun AppRow(
                 Text(
                     text = app.label,
                     style = MaterialTheme.typography.titleSmall,
-                    color = FlInk,
+                    color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.weight(1f, fill = false)
@@ -287,14 +278,14 @@ private fun AppRow(
                     Text(
                         text = stringResource(R.string.app_manager_badge_system),
                         style = Eyebrow,
-                        color = FlInk3
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
             Text(
                 text = app.packageName,
                 style = MonoSmall,
-                color = FlText,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(top = 2.dp)
@@ -304,7 +295,7 @@ private fun AppRow(
             Text(
                 text = "v$versionLabel · $sizeLabel",
                 style = MaterialTheme.typography.labelSmall,
-                color = FlInk3,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(top = 2.dp)
             )
         }
@@ -312,7 +303,7 @@ private fun AppRow(
             Icon(
                 Icons.Filled.MoreVert,
                 contentDescription = stringResource(R.string.cd_more_options),
-                tint = FlInk3
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
         DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
@@ -343,13 +334,13 @@ private fun EmptyAppsState() {
                 modifier = Modifier
                     .size(72.dp)
                     .clip(RoundedCornerShape(20.dp))
-                    .background(FlAccentTint),
+                    .background(MaterialTheme.colorScheme.primaryContainer),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     Icons.Filled.Android,
                     contentDescription = null,
-                    tint = FlAccent,
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(32.dp)
                 )
             }
@@ -357,7 +348,7 @@ private fun EmptyAppsState() {
             Text(
                 stringResource(R.string.app_manager_empty),
                 style = MaterialTheme.typography.titleMedium,
-                color = FlInk
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
     }

@@ -32,7 +32,6 @@ import app.com.filelens.R
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.filelens.commander.domain.usecase.BatchRenameUseCase
-import com.filelens.commander.ui.theme.FlInk3
 import com.filelens.commander.ui.theme.RiskDanger
 import com.filelens.commander.ui.theme.RiskDangerTint
 import com.filelens.commander.ui.theme.RiskSafe
@@ -71,7 +70,7 @@ fun BatchRenameDialog(
                 Text(
                     stringResource(R.string.batch_rename_tokens_hint),
                     style = MaterialTheme.typography.labelSmall,
-                    color = FlInk3
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 OutlinedTextField(
@@ -112,7 +111,7 @@ fun BatchRenameDialog(
                     Text(
                         stringResource(R.string.batch_rename_start_index, state.rule.startIndex),
                         style = MaterialTheme.typography.labelMedium,
-                        color = FlInk3
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
 
@@ -137,7 +136,7 @@ fun BatchRenameDialog(
                                 text = item.originalName,
                                 style = MaterialTheme.typography.bodySmall,
                                 fontFamily = RobotoMono,
-                                color = FlInk3,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis
                             )
@@ -148,7 +147,7 @@ fun BatchRenameDialog(
                                 color = when {
                                     !item.isValid -> RiskDanger
                                     changed -> MaterialTheme.colorScheme.onSurface
-                                    else -> FlInk3
+                                    else -> MaterialTheme.colorScheme.onSurfaceVariant
                                 },
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis

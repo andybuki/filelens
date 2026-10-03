@@ -32,9 +32,6 @@ import androidx.compose.ui.unit.dp
 import app.com.filelens.R
 import com.filelens.commander.domain.model.Bookmark
 import com.filelens.commander.ui.theme.Eyebrow
-import com.filelens.commander.ui.theme.FlAccent
-import com.filelens.commander.ui.theme.FlAccentTint
-import com.filelens.commander.ui.theme.FlInk3
 import com.filelens.commander.ui.theme.MonoSmall
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,7 +52,7 @@ fun BookmarksSheet(
             Text(
                 text = stringResource(R.string.bookmarks_section_title).uppercase(),
                 style = Eyebrow,
-                color = FlInk3,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(start = 4.dp, bottom = 12.dp)
             )
 
@@ -71,13 +68,13 @@ fun BookmarksSheet(
                             modifier = Modifier
                                 .size(56.dp)
                                 .clip(RoundedCornerShape(18.dp))
-                                .background(FlAccentTint),
+                                .background(MaterialTheme.colorScheme.primaryContainer),
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
                                 Icons.Filled.Bookmark,
                                 contentDescription = null,
-                                tint = FlAccent,
+                                tint = MaterialTheme.colorScheme.primary,
                                 modifier = Modifier.size(24.dp)
                             )
                         }
@@ -90,7 +87,7 @@ fun BookmarksSheet(
                         Text(
                             stringResource(R.string.bookmarks_empty_subtitle),
                             style = MaterialTheme.typography.bodySmall,
-                            color = FlInk3
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }
@@ -128,13 +125,13 @@ private fun BookmarkRow(
             modifier = Modifier
                 .size(34.dp)
                 .clip(RoundedCornerShape(9.dp))
-                .background(FlAccentTint),
+                .background(MaterialTheme.colorScheme.primaryContainer),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 Icons.Filled.Bookmark,
                 contentDescription = null,
-                tint = FlAccent,
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(19.dp)
             )
         }
@@ -149,7 +146,7 @@ private fun BookmarkRow(
             Text(
                 text = compactPath(bookmark.path),
                 style = MonoSmall,
-                color = FlInk3,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(top = 2.dp)
@@ -159,7 +156,7 @@ private fun BookmarkRow(
             Icon(
                 Icons.Filled.Close,
                 contentDescription = stringResource(R.string.cd_remove_bookmark),
-                tint = FlInk3
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }

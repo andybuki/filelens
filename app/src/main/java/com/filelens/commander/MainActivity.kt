@@ -39,7 +39,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import com.filelens.commander.ui.navigation.FileLensNavGraph
 import com.filelens.commander.ui.theme.FileLensTheme
-import com.filelens.commander.ui.theme.FlNavy
 import com.filelens.commander.viewmodel.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -74,6 +73,24 @@ class MainActivity : FragmentActivity() {
         setContent {
             val settingsViewModel: SettingsViewModel = hiltViewModel()
             val settings by settingsViewModel.settings.collectAsStateWithLifecycle()
+
+            val isDark = when (settings.themeMode) {
+                com.filelens.commander.domain.model.ThemeMode.DARK -> true
+                com.filelens.commander.domain.model.ThemeMode.SYSTEM ->
+                    androidx.compose.foundation.isSystemInDarkTheme()
+                else -> false
+            }
+            androidx.compose.runtime.LaunchedEffect(isDark) {
+                val navColor = if (isDark) {
+                    android.graphics.Color.parseColor("#1A0E33")
+                } else {
+                    android.graphics.Color.parseColor("#2E1065")
+                }
+                enableEdgeToEdge(
+                    statusBarStyle = SystemBarStyle.dark(navColor)
+                )
+            }
+
             // Apply the stored language override. On API 33+ we route to the
             // platform LocaleManager so the system handles the recreate. On
             // older versions AppCompatDelegate handles it, but since this
@@ -97,7 +114,7 @@ class MainActivity : FragmentActivity() {
                     }
                 }
             }
-            FileLensTheme {
+            FileLensTheme(themeMode = settings.themeMode) {
                 androidx.compose.runtime.CompositionLocalProvider(
                     com.filelens.commander.ui.util.LocalSizeUnits provides settings.sizeUnits
                 ) {
@@ -110,7 +127,7 @@ class MainActivity : FragmentActivity() {
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(innerPadding.calculateTopPadding())
-                                    .background(FlNavy)
+                                    .background(MaterialTheme.colorScheme.tertiary)
                             )
                             FileLensNavGraph(
                                 navController = navController,

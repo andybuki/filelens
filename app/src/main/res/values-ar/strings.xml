@@ -198,6 +198,8 @@
     <string name="dialog_new_folder_label">اسم المجلد</string>
     <string name="dialog_rename_title">إعادة التسمية</string>
     <string name="dialog_rename_label">الاسم الجديد</string>
+    <string name="rename_error_illegal_chars">لا يمكن أن يحتوي الاسم على /</string>
+    <string name="rename_error_reserved_name">لا يمكن أن يكون الاسم \".\" أو \"..\"</string>
     <string name="dialog_delete_title">حذف</string>
     <string name="dialog_delete_message">هل أنت متأكد أنك تريد الحذف؟</string>
     <string name="dialog_copy_move_target_label">%1$s %2$d ملف(ات) إلى:</string>
@@ -728,4 +730,7 @@
     <string name="error_corrupt_file">يبدو أن هذا الملف تالف ولا يمكن قراءته.</string>
     <string name="error_generic">حدث خطأ ما. يرجى المحاولة مرة أخرى.</string>
     <string name="inspector_loading_label">جارٍ فحص الملف…</string>
+    <string name="settings_theme">المظهر</string>
+    <string name="settings_version_dialog_title">تغيير الإصدار</string>
+    <string name="settings_version_dialog_desc">أدخل رقم إصدار مخصص للعرض.</string>
 </resources>

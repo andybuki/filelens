@@ -43,10 +43,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.filelens.commander.ui.theme.FlAccent
-import com.filelens.commander.ui.theme.FlAccentTint
-import com.filelens.commander.ui.theme.FlInk2
-import com.filelens.commander.ui.theme.FlInk3
 import com.filelens.commander.ui.theme.RiskDanger
 import com.filelens.commander.viewmodel.SqliteBrowserViewModel
 import com.filelens.commander.ui.theme.RobotoMono
@@ -78,7 +74,7 @@ fun SqliteBrowserScreen(
         Text(
             text = dbPath,
             style = MaterialTheme.typography.bodySmall,
-            color = FlInk3,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 4.dp),
@@ -99,8 +95,8 @@ fun SqliteBrowserScreen(
                         onClick = { viewModel.selectTable(table) },
                         label = { Text(table) },
                         colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = FlAccentTint,
-                            selectedLabelColor = FlAccent
+                            selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                            selectedLabelColor = MaterialTheme.colorScheme.primary
                         )
                     )
                 }
@@ -126,13 +122,13 @@ fun SqliteBrowserScreen(
                 onClick = viewModel::runQuery,
                 enabled = !state.isRunning && state.query.isNotBlank()
             ) {
-                Icon(Icons.Filled.PlayArrow, contentDescription = "Run", tint = FlAccent)
+                Icon(Icons.Filled.PlayArrow, contentDescription = "Run", tint = MaterialTheme.colorScheme.primary)
             }
         }
 
         when {
             state.isRunning -> Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator(color = FlAccent, strokeWidth = 2.5.dp)
+                CircularProgressIndicator(color = MaterialTheme.colorScheme.primary, strokeWidth = 2.5.dp)
             }
             state.error != null -> Box(
                 modifier = Modifier.fillMaxSize().padding(16.dp),
@@ -144,7 +140,7 @@ fun SqliteBrowserScreen(
             else -> Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Text(
                     "Pick a table or run a query",
-                    color = FlInk3,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
@@ -161,7 +157,7 @@ private fun ResultGrid(result: com.filelens.commander.domain.usecase.SqliteQuery
                 if (result.truncated) append(" · truncated")
             },
             style = MaterialTheme.typography.labelMedium,
-            color = FlInk3,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
         )
 
@@ -200,7 +196,7 @@ private fun ResultGrid(result: com.filelens.commander.domain.usecase.SqliteQuery
                                 text = cell ?: "<null>",
                                 style = MaterialTheme.typography.bodySmall,
                                 fontFamily = RobotoMono,
-                                color = if (cell == null) FlInk3 else MaterialTheme.colorScheme.onSurface,
+                                color = if (cell == null) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface,
                                 modifier = Modifier.width(140.dp).padding(horizontal = 6.dp),
                                 maxLines = 2,
                                 overflow = TextOverflow.Ellipsis

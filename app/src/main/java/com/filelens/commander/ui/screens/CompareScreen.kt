@@ -63,13 +63,6 @@ import com.filelens.commander.domain.model.FolderEntryDiffKind
 import com.filelens.commander.domain.model.MetadataDiffEntry
 import com.filelens.commander.domain.model.StructuralDiffEntry
 import com.filelens.commander.domain.model.TextDiffLine
-import com.filelens.commander.ui.theme.FlAccent
-import com.filelens.commander.ui.theme.FlAccentTint
-import com.filelens.commander.ui.theme.FlBorder2
-import com.filelens.commander.ui.theme.FlInk2
-import com.filelens.commander.ui.theme.FlSurface
-import com.filelens.commander.ui.theme.FlInk3
-import com.filelens.commander.ui.theme.FlOnAccent
 import com.filelens.commander.ui.theme.RiskDanger
 import com.filelens.commander.ui.theme.RiskDangerTint
 import com.filelens.commander.ui.theme.RiskInfo
@@ -139,12 +132,12 @@ fun CompareScreen(
             state.isComparing -> {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        CircularProgressIndicator(color = FlAccent, strokeWidth = 2.5.dp)
+                        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary, strokeWidth = 2.5.dp)
                         Spacer(modifier = Modifier.height(12.dp))
                         Text(
                             text = if (state.isFolderMode) stringResource(R.string.compare_progress_folders) else stringResource(R.string.compare_progress_files),
                             style = MaterialTheme.typography.bodyMedium,
-                            color = FlInk2
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }
@@ -176,29 +169,29 @@ private fun PathHeader(leftPath: String, rightPath: String) {
             Text(
                 stringResource(R.string.compare_panel_left),
                 style = MaterialTheme.typography.labelMedium,
-                color = FlInk3
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
                 leftPath,
                 style = MaterialTheme.typography.bodySmall,
-                color = FlInk2,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
         }
         Spacer(modifier = Modifier.width(12.dp))
-        Icon(Icons.Filled.SwapHoriz, contentDescription = null, tint = FlInk3)
+        Icon(Icons.Filled.SwapHoriz, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
         Spacer(modifier = Modifier.width(12.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 stringResource(R.string.compare_panel_right),
                 style = MaterialTheme.typography.labelMedium,
-                color = FlInk3
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
                 rightPath,
                 style = MaterialTheme.typography.bodySmall,
-                color = FlInk2,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
@@ -233,7 +226,7 @@ private fun FileCompareView(result: FileCompareResult) {
                     modifier = Modifier
                         .weight(1f)
                         .clip(RoundedCornerShape(9.dp))
-                        .background(if (selected) FlAccent else Color.Transparent)
+                        .background(if (selected) MaterialTheme.colorScheme.primary else Color.Transparent)
                         .clickable { tab = entry }
                         .padding(vertical = 8.dp),
                     contentAlignment = Alignment.Center
@@ -241,7 +234,7 @@ private fun FileCompareView(result: FileCompareResult) {
                     Text(
                         text = tabTitle,
                         style = MaterialTheme.typography.labelLarge,
-                        color = if (selected) FlOnAccent else FlInk2
+                        color = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
@@ -309,7 +302,7 @@ private fun OverviewSection(result: com.filelens.commander.domain.model.FileComp
             if (s.rightModified > 0) df.format(Date(s.rightModified)) else "—"
         )
         Spacer(modifier = Modifier.height(8.dp))
-        Text(stringResource(R.string.compare_section_checksums), style = MaterialTheme.typography.labelMedium, color = FlInk3)
+        Text(stringResource(R.string.compare_section_checksums), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         Spacer(modifier = Modifier.height(4.dp))
         CompareRow(
             "SHA-256",
@@ -414,7 +407,7 @@ private fun DiffLineRow(line: TextDiffLine) {
     val (bg, fg, prefix) = when (line.kind) {
         DiffKind.ADDED -> Triple(RiskSafeTint, RiskSafe, "+")
         DiffKind.REMOVED -> Triple(RiskDangerTint, RiskDanger, "−")
-        DiffKind.UNCHANGED -> Triple(Color.Transparent, FlInk3, " ")
+        DiffKind.UNCHANGED -> Triple(Color.Transparent, MaterialTheme.colorScheme.onSurfaceVariant, " ")
         DiffKind.CHANGED -> Triple(RiskWarningTint, RiskWarning, "~")
     }
     Row(
@@ -428,14 +421,14 @@ private fun DiffLineRow(line: TextDiffLine) {
             text = (line.leftLineNumber?.toString() ?: "").padStart(4),
             style = MaterialTheme.typography.labelSmall,
             fontFamily = RobotoMono,
-            color = FlInk3,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.width(36.dp)
         )
         Text(
             text = (line.rightLineNumber?.toString() ?: "").padStart(4),
             style = MaterialTheme.typography.labelSmall,
             fontFamily = RobotoMono,
-            color = FlInk3,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.width(36.dp)
         )
         Spacer(modifier = Modifier.width(6.dp))
@@ -451,7 +444,7 @@ private fun DiffLineRow(line: TextDiffLine) {
             style = MaterialTheme.typography.bodySmall,
             fontFamily = RobotoMono,
             fontSize = 12.sp,
-            color = if (line.kind == DiffKind.UNCHANGED) FlInk2 else MaterialTheme.colorScheme.onSurface
+            color = if (line.kind == DiffKind.UNCHANGED) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface
         )
     }
 }
@@ -477,14 +470,14 @@ private fun CompareRow(
             .background(tint, shape = RoundedCornerShape(8.dp))
             .padding(horizontal = 10.dp, vertical = 6.dp)
     ) {
-        Text(label, style = MaterialTheme.typography.labelMedium, color = FlInk3)
+        Text(label, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         Spacer(modifier = Modifier.height(2.dp))
         Row(verticalAlignment = Alignment.Top) {
             Text(
                 text = left,
                 style = MaterialTheme.typography.bodySmall,
                 fontFamily = if (mono) RobotoMono else Roboto,
-                color = FlInk2,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.weight(1f)
             )
             Spacer(modifier = Modifier.width(8.dp))
@@ -492,7 +485,7 @@ private fun CompareRow(
                 text = right,
                 style = MaterialTheme.typography.bodySmall,
                 fontFamily = if (mono) RobotoMono else Roboto,
-                color = FlInk2,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.weight(1f)
             )
         }
@@ -519,7 +512,7 @@ private fun Pill(text: String, background: Color, foreground: Color) {
 @Composable
 private fun EmptyMessage(text: String) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(text, style = MaterialTheme.typography.bodyMedium, color = FlInk3)
+        Text(text, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
     }
 }
 
@@ -561,7 +554,7 @@ private fun FolderSummaryBanner(
         Text(
             text = stringResource(R.string.compare_folder_diff_summary, changed, leftOnly, rightOnly),
             style = MaterialTheme.typography.labelMedium,
-            color = FlInk3
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }
@@ -600,19 +593,19 @@ private fun FolderCompareView(
             Text(
                 stringResource(R.string.compare_folder_verify_checksum),
                 style = MaterialTheme.typography.labelMedium,
-                color = FlInk2,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.weight(1f)
             )
             androidx.compose.material3.Switch(
                 checked = deepVerify,
                 onCheckedChange = onDeepVerifyChanged,
                 colors = androidx.compose.material3.SwitchDefaults.colors(
-                    checkedThumbColor = FlOnAccent,
-                    checkedTrackColor = FlAccent,
-                    checkedBorderColor = FlAccent,
-                    uncheckedThumbColor = FlBorder2,
-                    uncheckedTrackColor = FlSurface,
-                    uncheckedBorderColor = FlBorder2
+                    checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                    checkedTrackColor = MaterialTheme.colorScheme.primary,
+                    checkedBorderColor = MaterialTheme.colorScheme.primary,
+                    uncheckedThumbColor = MaterialTheme.colorScheme.outlineVariant,
+                    uncheckedTrackColor = MaterialTheme.colorScheme.surface,
+                    uncheckedBorderColor = MaterialTheme.colorScheme.outlineVariant
                 )
             )
         }
@@ -641,8 +634,8 @@ private fun FolderCompareView(
                     onClick = { filter = f },
                     label = { Text("$filterTitle · $count") },
                     colors = FilterChipDefaults.filterChipColors(
-                        selectedContainerColor = FlAccentTint,
-                        selectedLabelColor = FlAccent
+                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                        selectedLabelColor = MaterialTheme.colorScheme.primary
                     )
                 )
             }
@@ -678,13 +671,13 @@ private fun FolderCompareView(
                 Text(
                     stringResource(R.string.compare_renamed_candidates, result.renamedCandidates.size),
                     style = MaterialTheme.typography.labelMedium,
-                    color = FlInk3
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 result.renamedCandidates.take(5).forEach { pair ->
                     Text(
                         "${pair.leftRelativePath}  ↔  ${pair.rightRelativePath}",
                         style = MaterialTheme.typography.bodySmall,
-                        color = FlInk2,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontFamily = RobotoMono,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
@@ -694,7 +687,7 @@ private fun FolderCompareView(
                     Text(
                         stringResource(R.string.compare_and_more, result.renamedCandidates.size - 5),
                         style = MaterialTheme.typography.labelSmall,
-                        color = FlInk3
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
@@ -725,7 +718,7 @@ private fun FolderEntryRow(entry: FolderEntryDiff) {
         FolderEntryDiffKind.LEFT_ONLY -> RiskInfo
         FolderEntryDiffKind.RIGHT_ONLY -> RiskSafe
         FolderEntryDiffKind.BOTH_CHANGED -> RiskWarning
-        FolderEntryDiffKind.BOTH_SAME -> FlInk3
+        FolderEntryDiffKind.BOTH_SAME -> MaterialTheme.colorScheme.onSurfaceVariant
     }
     Row(
         modifier = Modifier
@@ -750,7 +743,7 @@ private fun FolderEntryRow(entry: FolderEntryDiff) {
                 Text(
                     stringResource(R.string.compare_sizes_lr, leftSize, rightSize),
                     style = MaterialTheme.typography.labelSmall,
-                    color = FlInk3
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }

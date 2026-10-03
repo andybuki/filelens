@@ -37,9 +37,6 @@ import com.filelens.commander.domain.model.FrequentFolder
 import com.filelens.commander.domain.model.RecentFile
 import com.filelens.commander.ui.theme.CategoryDirectory
 import com.filelens.commander.ui.theme.Eyebrow
-import com.filelens.commander.ui.theme.FlAccent
-import com.filelens.commander.ui.theme.FlAccentTint
-import com.filelens.commander.ui.theme.FlInk3
 import com.filelens.commander.ui.theme.MonoSmall
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -97,7 +94,7 @@ private fun SectionHeader(label: String) {
     Text(
         text = label.uppercase(),
         style = Eyebrow,
-        color = FlInk3,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
         modifier = Modifier.padding(start = 4.dp, top = 4.dp, bottom = 8.dp)
     )
 }
@@ -108,8 +105,8 @@ private fun RecentFileRow(file: RecentFile, onOpen: () -> Unit) {
         title = file.displayName,
         subtitle = compactPath(file.path),
         icon = Icons.AutoMirrored.Filled.InsertDriveFile,
-        iconTint = FlAccent,
-        iconBackground = FlAccentTint,
+        iconTint = MaterialTheme.colorScheme.primary,
+        iconBackground = MaterialTheme.colorScheme.primaryContainer,
         onClick = onOpen
     )
 }
@@ -171,7 +168,7 @@ private fun BaseRow(
             Text(
                 text = subtitle,
                 style = MonoSmall,
-                color = FlInk3,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(top = 2.dp)
@@ -193,13 +190,13 @@ private fun EmptyRecents() {
                 modifier = Modifier
                     .size(56.dp)
                     .clip(RoundedCornerShape(18.dp))
-                    .background(FlAccentTint),
+                    .background(MaterialTheme.colorScheme.primaryContainer),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     Icons.Filled.History,
                     contentDescription = null,
-                    tint = FlAccent,
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(24.dp)
                 )
             }
@@ -209,7 +206,7 @@ private fun EmptyRecents() {
             Text(
                 stringResource(R.string.recents_empty_subtitle),
                 style = MaterialTheme.typography.bodySmall,
-                color = FlInk3
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }

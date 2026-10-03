@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.dp
 import app.com.filelens.R
 import com.filelens.commander.domain.model.ShortcutAction
 import com.filelens.commander.domain.model.ShortcutBinding
-import com.filelens.commander.ui.theme.FlInk3
 
 @Composable
 fun ShortcutRecorderDialog(
@@ -72,7 +71,7 @@ fun ShortcutRecorderDialog(
                 Text(
                     stringResource(R.string.shortcut_press_hint),
                     style = MaterialTheme.typography.bodySmall,
-                    color = FlInk3
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
