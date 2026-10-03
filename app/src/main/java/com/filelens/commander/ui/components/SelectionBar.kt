@@ -37,6 +37,8 @@ fun SelectionBar(
     canCompare: Boolean,
     onClear: () -> Unit,
     onCompare: () -> Unit,
+    canSingleRename: Boolean = false,
+    onSingleRename: () -> Unit = {},
     canBatchRename: Boolean = false,
     onBatchRename: () -> Unit = {},
     canMoveToVault: Boolean = false,
@@ -70,8 +72,8 @@ fun SelectionBar(
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.weight(1f)
             )
-            if (canBatchRename) {
-                TextButton(onClick = onBatchRename) {
+            if (canSingleRename || canBatchRename) {
+                TextButton(onClick = { if (canBatchRename) onBatchRename() else onSingleRename() }) {
                     Icon(
                         Icons.Filled.DriveFileRenameOutline,
                         contentDescription = null,
@@ -102,7 +104,7 @@ fun SelectionBar(
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(stringResource(R.string.action_compare), color = MaterialTheme.colorScheme.primary)
                 }
-            } else if (!canBatchRename) {
+            } else if (!canBatchRename && !canSingleRename) {
                 Text(
                     text = stringResource(R.string.selection_hint_select_two),
                     style = MaterialTheme.typography.labelMedium,

@@ -50,6 +50,9 @@ fun NewFolderDialog(
     )
 }
 
+private val ILLEGAL_FILENAME_CHARS = charArrayOf('/', '\u0000')
+private val RESERVED_NAMES = setOf(".", "..")
+
 @Composable
 fun RenameDialog(
     currentName: String,
@@ -57,23 +60,43 @@ fun RenameDialog(
     onDismiss: () -> Unit
 ) {
     var name by remember { mutableStateOf(currentName) }
+    val trimmed = name.trim()
+    val hasIllegalChars = trimmed.any { it in ILLEGAL_FILENAME_CHARS }
+    val isReserved = trimmed in RESERVED_NAMES
+    val isValid = trimmed.isNotBlank() && trimmed != currentName && !hasIllegalChars && !isReserved
+    val errorText = when {
+        hasIllegalChars -> stringResource(R.string.rename_error_illegal_chars)
+        isReserved -> stringResource(R.string.rename_error_reserved_name)
+        else -> null
+    }
 
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.dialog_rename_title)) },
         text = {
-            OutlinedTextField(
-                value = name,
-                onValueChange = { name = it },
-                label = { Text(stringResource(R.string.dialog_rename_label)) },
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
-            )
+            Column {
+                OutlinedTextField(
+                    value = name,
+                    onValueChange = { name = it },
+                    label = { Text(stringResource(R.string.dialog_rename_label)) },
+                    singleLine = true,
+                    isError = errorText != null,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                if (errorText != null) {
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = errorText,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
+            }
         },
         confirmButton = {
             TextButton(
-                onClick = { if (name.isNotBlank() && name != currentName) onConfirm(name.trim()) },
-                enabled = name.isNotBlank() && name != currentName
+                onClick = { if (isValid) onConfirm(trimmed) },
+                enabled = isValid
             ) { Text(stringResource(R.string.action_rename)) }
         },
         dismissButton = {
