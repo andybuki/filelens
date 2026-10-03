@@ -198,6 +198,8 @@
     <string name="dialog_new_folder_label">Ordnername</string>
     <string name="dialog_rename_title">Umbenennen</string>
     <string name="dialog_rename_label">Neuer Name</string>
+    <string name="rename_error_illegal_chars">Name darf kein / enthalten</string>
+    <string name="rename_error_reserved_name">Name darf nicht \".\" oder \"..\" sein</string>
     <string name="dialog_delete_title">Löschen</string>
     <string name="dialog_delete_message">Möchten Sie wirklich löschen?</string>
     <string name="dialog_copy_move_target_label">%1$s %2$d Datei(en) nach:</string>
