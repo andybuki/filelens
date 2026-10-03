@@ -65,6 +65,7 @@ import com.filelens.commander.domain.model.FrequentFolder
 import com.filelens.commander.domain.model.HomeCategory
 import com.filelens.commander.domain.model.RecentFile
 import com.filelens.commander.ui.theme.CategoryArchive
+import com.filelens.commander.ui.theme.FlAccent
 import com.filelens.commander.ui.theme.CategoryAudio
 import com.filelens.commander.ui.theme.CategoryDirectory
 import com.filelens.commander.ui.theme.CategoryDocument
@@ -82,14 +83,14 @@ private data class CategoryTile(
 )
 
 private val CategoryTiles = listOf(
-    CategoryTile(Icons.Filled.AccountTree, R.string.home_category_browse, MaterialTheme.colorScheme.primary, browseAll = true),
+    CategoryTile(Icons.Filled.AccountTree, R.string.home_category_browse, FlAccent, browseAll = true),
     CategoryTile(Icons.Filled.Videocam, R.string.home_category_video, CategoryVideo, category = HomeCategory.VIDEO),
     CategoryTile(Icons.Filled.MusicNote, R.string.home_category_audio, CategoryAudio, category = HomeCategory.AUDIO),
     CategoryTile(Icons.Filled.Description, R.string.home_category_docs, CategoryDocument, category = HomeCategory.DOCUMENTS),
     CategoryTile(Icons.Filled.Image, R.string.home_category_images, CategoryImage, category = HomeCategory.IMAGES),
     CategoryTile(Icons.Filled.Archive, R.string.home_category_archives, CategoryArchive, category = HomeCategory.ARCHIVES),
     CategoryTile(Icons.Filled.Download, R.string.home_category_downloads, CategoryDirectory, category = HomeCategory.DOWNLOADS),
-    CategoryTile(Icons.Filled.Storage, R.string.home_category_large, MaterialTheme.colorScheme.primary, category = HomeCategory.LARGE_FILES)
+    CategoryTile(Icons.Filled.Storage, R.string.home_category_large, FlAccent, category = HomeCategory.LARGE_FILES)
 )
 
 @Composable

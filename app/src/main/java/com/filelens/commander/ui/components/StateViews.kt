@@ -225,7 +225,7 @@ private fun DashedArt(icon: ImageVector) {
             .size(132.dp)
             .clip(RoundedCornerShape(24.dp))
             .background(MaterialTheme.colorScheme.surface)
-            .drawDashedBorder(),
+            .drawDashedBorder(MaterialTheme.colorScheme.outlineVariant),
         contentAlignment = Alignment.Center
     ) {
         Icon(
@@ -256,13 +256,13 @@ private fun SolidArt(icon: ImageVector) {
     }
 }
 
-private fun Modifier.drawDashedBorder(): Modifier = this.drawBehind {
+private fun Modifier.drawDashedBorder(borderColor: Color): Modifier = this.drawBehind {
     val stroke = Stroke(
         width = 2.dp.toPx(),
         pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
     )
     drawRoundRect(
-        color = MaterialTheme.colorScheme.outlineVariant,
+        color = borderColor,
         style = stroke,
         cornerRadius = CornerRadius(24.dp.toPx(), 24.dp.toPx())
     )

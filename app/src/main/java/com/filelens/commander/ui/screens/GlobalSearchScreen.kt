@@ -433,6 +433,7 @@ private fun IdleHint() {
     }
 }
 
+@Composable
 private fun colorFor(category: FileCategory): Color = when (category) {
     FileCategory.DIRECTORY -> CategoryDirectory
     FileCategory.IMAGE -> CategoryImage
