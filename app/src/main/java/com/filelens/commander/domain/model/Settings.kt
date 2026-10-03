@@ -28,6 +28,19 @@ enum class StartScreen {
     FILES
 }
 
+enum class ThemeMode {
+    LIGHT,
+    DARK,
+    SYSTEM;
+
+    val displayName: String
+        get() = when (this) {
+            LIGHT -> "Light"
+            DARK -> "Dark"
+            SYSTEM -> "System"
+        }
+}
+
 data class AppSettings(
     val showHidden: Boolean = false,
     val hideEmptyFolders: Boolean = false,
@@ -68,7 +81,8 @@ data class AppSettings(
      */
     val telemetryEnabled: Boolean = false,
     /** Warn when entering /system, /data, /proc, /sys, /vendor, /apex. */
-    val warnRootStorage: Boolean = true
+    val warnRootStorage: Boolean = true,
+    val themeMode: ThemeMode = ThemeMode.LIGHT
 ) {
     companion object {
         const val DEFAULT_REMOTE_PREVIEW_LIMIT_MB = 50

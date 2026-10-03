@@ -9,6 +9,7 @@ import com.filelens.commander.domain.model.SizeUnits
 import com.filelens.commander.domain.model.SortDirection
 import com.filelens.commander.domain.model.SortField
 import com.filelens.commander.domain.model.StartScreen
+import com.filelens.commander.domain.model.ThemeMode
 import com.filelens.commander.domain.usecase.BackupUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -56,6 +57,7 @@ class SettingsViewModel @Inject constructor(
     fun setAskBeforeDelete(value: Boolean) = viewModelScope.launch { repo.setAskBeforeDelete(value) }
     fun setTelemetryEnabled(value: Boolean) = viewModelScope.launch { repo.setTelemetryEnabled(value) }
     fun setWarnRootStorage(value: Boolean) = viewModelScope.launch { repo.setWarnRootStorage(value) }
+    fun setThemeMode(mode: ThemeMode) = viewModelScope.launch { repo.setThemeMode(mode) }
     fun addSearchRoot(path: String) = viewModelScope.launch { repo.addSearchRoot(path) }
     fun removeSearchRoot(path: String) = viewModelScope.launch { repo.removeSearchRoot(path) }
 

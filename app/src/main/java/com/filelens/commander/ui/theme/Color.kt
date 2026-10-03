@@ -88,3 +88,33 @@ val CategoryFont = Color(0xFFDB2777)
 val CategoryExecutable = Color(0xFF6B7280)
 val CategoryCertificate = Color(0xFF0EA371)
 val CategoryUnknown = Color(0xFF94A3B8)
+
+// ============================================================================
+// Dark palette
+// ============================================================================
+
+val FlBgDark = Color(0xFF121214)
+val FlSurfaceDark = Color(0xFF1E1E22)
+val FlSurface2Dark = Color(0xFF2A2A2E)
+val FlSurface3Dark = Color(0xFF35353A)
+
+val FlBorderDark = Color(0xFF3A3A40)
+val FlBorder2Dark = Color(0xFF4A4A52)
+
+val FlInkDark = Color(0xFFE8E8EC)
+val FlTextDark = Color(0xFFA0A0A8)
+val FlText2Dark = Color(0xFF808088)
+val FlMutedDark = Color(0xFF606068)
+
+val FlDisabledDark = Color(0xFF3A3A40)
+val FlDisabledInkDark = Color(0xFF606068)
+
+val FlAccentDark = Color(0xFF9B6BF7)
+val FlAccentBrightDark = Color(0xFFB08DF8)
+val FlAccentPressDark = Color(0xFF7C3AED)
+val FlAccentTintDark = Color(0xFF2A1F3D)
+val FlAccentTint2Dark = Color(0x149B6BF7)
+val FlOnAccentDark = Color(0xFFFFFFFF)
+
+val FlNavyDark = Color(0xFF1A0E33)
+val FlNavy2Dark = Color(0xFF2E1065)

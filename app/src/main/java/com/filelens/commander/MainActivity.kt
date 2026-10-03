@@ -97,7 +97,7 @@ class MainActivity : FragmentActivity() {
                     }
                 }
             }
-            FileLensTheme {
+            FileLensTheme(themeMode = settings.themeMode) {
                 androidx.compose.runtime.CompositionLocalProvider(
                     com.filelens.commander.ui.util.LocalSizeUnits provides settings.sizeUnits
                 ) {
@@ -110,7 +110,7 @@ class MainActivity : FragmentActivity() {
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(innerPadding.calculateTopPadding())
-                                    .background(FlNavy)
+                                    .background(MaterialTheme.colorScheme.tertiary)
                             )
                             FileLensNavGraph(
                                 navController = navController,
