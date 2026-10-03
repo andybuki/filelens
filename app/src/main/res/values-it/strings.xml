@@ -198,6 +198,8 @@
     <string name="dialog_new_folder_label">Nome cartella</string>
     <string name="dialog_rename_title">Rinomina</string>
     <string name="dialog_rename_label">Nuovo nome</string>
+    <string name="rename_error_illegal_chars">Il nome non può contenere /</string>
+    <string name="rename_error_reserved_name">Il nome non può essere \".\" o \"..\"</string>
     <string name="dialog_delete_title">Elimina</string>
     <string name="dialog_delete_message">Sei sicuro di voler eliminare?</string>
     <string name="dialog_copy_move_target_label">%1$s %2$d file in:</string>

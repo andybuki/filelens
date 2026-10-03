@@ -198,6 +198,8 @@
     <string name="dialog_new_folder_label">フォルダー名</string>
     <string name="dialog_rename_title">名前を変更</string>
     <string name="dialog_rename_label">新しい名前</string>
+    <string name="rename_error_illegal_chars">名前に / を含めることはできません</string>
+    <string name="rename_error_reserved_name">名前を \".\" または \"..\" にすることはできません</string>
     <string name="dialog_delete_title">削除</string>
     <string name="dialog_delete_message">削除してもよろしいですか？</string>
     <string name="dialog_copy_move_target_label">%2$d ファイルを %1$s 先:</string>
