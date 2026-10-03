@@ -664,4 +664,7 @@
     <string name="error_corrupt_file">이 파일은 손상된 것으로 보이며 읽을 수 없습니다.</string>
     <string name="error_generic">문제가 발생했습니다. 다시 시도해 주세요.</string>
     <string name="inspector_loading_label">파일 검사 중…</string>
+    <string name="settings_theme">테마</string>
+    <string name="settings_version_dialog_title">버전 변경</string>
+    <string name="settings_version_dialog_desc">표시할 사용자 지정 버전 번호를 입력하세요.</string>
 </resources>

@@ -103,7 +103,7 @@ val FlBorder2Dark = Color(0xFF4A4A52)
 
 val FlInkDark = Color(0xFFE8E8EC)
 val FlTextDark = Color(0xFFA0A0A8)
-val FlText2Dark = Color(0xFF808088)
+val FlText2Dark = Color(0xFF9898A0)
 val FlMutedDark = Color(0xFF606068)
 
 val FlDisabledDark = Color(0xFF3A3A40)
