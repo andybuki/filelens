@@ -733,4 +733,18 @@
     <string name="settings_theme">المظهر</string>
     <string name="settings_version_dialog_title">تغيير الإصدار</string>
     <string name="settings_version_dialog_desc">أدخل رقم إصدار مخصص للعرض.</string>
+
+    <!-- Share targets, widget, dynamic color -->
+    <string name="share_target_inspect">افحص باستخدام FileLens</string>
+    <string name="share_target_strip_location">مشاركة بدون الموقع</string>
+    <string name="strip_location_chooser_title">مشاركة بدون الموقع</string>
+    <string name="strip_location_done">تمت إزالة الموقع. اختر مكان المشاركة.</string>
+    <string name="strip_location_none_found">لم يتم العثور على موقع. اختر مكان المشاركة.</string>
+    <string name="strip_location_failed">تعذّرت إزالة الموقع. لم تتم مشاركة أي شيء.</string>
+    <string name="incoming_open_failed">تعذّر فتح هذا الملف.</string>
+    <string name="widget_name">اختصارات FileLens</string>
+    <string name="widget_description">البحث والتنزيلات والصور والملفات بلمسة واحدة</string>
+    <string name="widget_open_app">فتح FileLens</string>
+    <string name="settings_dynamic_color">ألوان الخلفية</string>
+    <string name="settings_dynamic_color_desc">استخدام ألوان Material You من خلفيتك</string>
 </resources>

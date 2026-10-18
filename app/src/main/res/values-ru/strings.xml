@@ -707,4 +707,18 @@
     <string name="settings_theme">Тема</string>
     <string name="settings_version_dialog_title">Изменить версию</string>
     <string name="settings_version_dialog_desc">Введите пользовательский номер версии для отображения.</string>
+
+    <!-- Share targets, widget, dynamic color -->
+    <string name="share_target_inspect">Проверить в FileLens</string>
+    <string name="share_target_strip_location">Поделиться без геолокации</string>
+    <string name="strip_location_chooser_title">Поделиться без геолокации</string>
+    <string name="strip_location_done">Геолокация удалена. Выберите, куда отправить.</string>
+    <string name="strip_location_none_found">Геолокация не найдена. Выберите, куда отправить.</string>
+    <string name="strip_location_failed">Не удалось удалить геолокацию. Ничего не отправлено.</string>
+    <string name="incoming_open_failed">Не удалось открыть этот файл.</string>
+    <string name="widget_name">Ярлыки FileLens</string>
+    <string name="widget_description">Поиск, загрузки, изображения и файлы в одно касание</string>
+    <string name="widget_open_app">Открыть FileLens</string>
+    <string name="settings_dynamic_color">Цвета обоев</string>
+    <string name="settings_dynamic_color_desc">Использовать цвета Material You из ваших обоев</string>
 </resources>

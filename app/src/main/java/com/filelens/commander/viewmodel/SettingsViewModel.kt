@@ -58,6 +58,7 @@ class SettingsViewModel @Inject constructor(
     fun setTelemetryEnabled(value: Boolean) = viewModelScope.launch { repo.setTelemetryEnabled(value) }
     fun setWarnRootStorage(value: Boolean) = viewModelScope.launch { repo.setWarnRootStorage(value) }
     fun setThemeMode(mode: ThemeMode) = viewModelScope.launch { repo.setThemeMode(mode) }
+    fun setDynamicColor(value: Boolean) = viewModelScope.launch { repo.setDynamicColor(value) }
     fun addSearchRoot(path: String) = viewModelScope.launch { repo.addSearchRoot(path) }
     fun removeSearchRoot(path: String) = viewModelScope.launch { repo.removeSearchRoot(path) }
 

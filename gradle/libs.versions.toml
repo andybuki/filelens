@@ -25,6 +25,7 @@ smbj = "0.14.0"
 securityCrypto = "1.1.0-alpha06"
 biometric = "1.1.0"
 appcompat = "1.7.0"
+playReview = "2.0.2"
 playPublisher = "3.10.1"
 kover = "0.9.1"
 
@@ -63,6 +64,7 @@ smbj = { group = "com.hierynomus", name = "smbj", version.ref = "smbj" }
 androidx-security-crypto = { group = "androidx.security", name = "security-crypto", version.ref = "securityCrypto" }
 androidx-biometric = { group = "androidx.biometric", name = "biometric", version.ref = "biometric" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+play-review-ktx = { group = "com.google.android.play", name = "review-ktx", version.ref = "playReview" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

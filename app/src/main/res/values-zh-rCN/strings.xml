@@ -669,4 +669,18 @@
     <string name="settings_theme">主题</string>
     <string name="settings_version_dialog_title">更改版本</string>
     <string name="settings_version_dialog_desc">输入要显示的自定义版本号。</string>
+
+    <!-- Share targets, widget, dynamic color -->
+    <string name="share_target_inspect">使用 FileLens 检查</string>
+    <string name="share_target_strip_location">分享时去除位置</string>
+    <string name="strip_location_chooser_title">分享时去除位置</string>
+    <string name="strip_location_done">已移除位置信息。请选择分享目标。</string>
+    <string name="strip_location_none_found">未发现位置信息。请选择分享目标。</string>
+    <string name="strip_location_failed">无法移除位置信息，未分享任何内容。</string>
+    <string name="incoming_open_failed">无法打开此文件。</string>
+    <string name="widget_name">FileLens 快捷方式</string>
+    <string name="widget_description">一键进入搜索、下载、图片和文件</string>
+    <string name="widget_open_app">打开 FileLens</string>
+    <string name="settings_dynamic_color">壁纸颜色</string>
+    <string name="settings_dynamic_color_desc">使用壁纸中的 Material You 颜色</string>
 </resources>

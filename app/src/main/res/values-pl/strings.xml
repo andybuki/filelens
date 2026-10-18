@@ -707,4 +707,18 @@
     <string name="settings_theme">Motyw</string>
     <string name="settings_version_dialog_title">Zmień wersję</string>
     <string name="settings_version_dialog_desc">Wprowadź niestandardowy numer wersji do wyświetlenia.</string>
+
+    <!-- Share targets, widget, dynamic color -->
+    <string name="share_target_inspect">Sprawdź w FileLens</string>
+    <string name="share_target_strip_location">Udostępnij bez lokalizacji</string>
+    <string name="strip_location_chooser_title">Udostępnij bez lokalizacji</string>
+    <string name="strip_location_done">Lokalizacja usunięta. Wybierz, gdzie udostępnić.</string>
+    <string name="strip_location_none_found">Nie znaleziono lokalizacji. Wybierz, gdzie udostępnić.</string>
+    <string name="strip_location_failed">Nie udało się usunąć lokalizacji. Nic nie zostało udostępnione.</string>
+    <string name="incoming_open_failed">Nie udało się otworzyć tego pliku.</string>
+    <string name="widget_name">Skróty FileLens</string>
+    <string name="widget_description">Wyszukiwanie, Pobrane, Obrazy i Pliki jednym dotknięciem</string>
+    <string name="widget_open_app">Otwórz FileLens</string>
+    <string name="settings_dynamic_color">Kolory tapety</string>
+    <string name="settings_dynamic_color_desc">Używaj kolorów Material You z tapety</string>
 </resources>

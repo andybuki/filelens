@@ -127,6 +127,7 @@ dependencies {
     implementation(libs.androidx.security.crypto)
     implementation(libs.androidx.biometric)
     implementation(libs.androidx.appcompat)
+    implementation(libs.play.review.ktx)
 
     debugImplementation(libs.androidx.compose.ui.tooling)
 

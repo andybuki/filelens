@@ -692,4 +692,18 @@
     <string name="settings_theme">Tema</string>
     <string name="settings_version_dialog_title">Cambia versione</string>
     <string name="settings_version_dialog_desc">Inserisci un numero di versione personalizzato da visualizzare.</string>
+
+    <!-- Share targets, widget, dynamic color -->
+    <string name="share_target_inspect">Ispeziona con FileLens</string>
+    <string name="share_target_strip_location">Condividi senza posizione</string>
+    <string name="strip_location_chooser_title">Condividi senza posizione</string>
+    <string name="strip_location_done">Posizione rimossa. Scegli dove condividere.</string>
+    <string name="strip_location_none_found">Nessuna posizione trovata. Scegli dove condividere.</string>
+    <string name="strip_location_failed">Impossibile rimuovere la posizione. Non è stato condiviso nulla.</string>
+    <string name="incoming_open_failed">Impossibile aprire questo file.</string>
+    <string name="widget_name">Scorciatoie FileLens</string>
+    <string name="widget_description">Cerca, Download, Immagini e File con un tocco</string>
+    <string name="widget_open_app">Apri FileLens</string>
+    <string name="settings_dynamic_color">Colori dello sfondo</string>
+    <string name="settings_dynamic_color_desc">Usa i colori Material You del tuo sfondo</string>
 </resources>

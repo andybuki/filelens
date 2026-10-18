@@ -707,4 +707,18 @@
     <string name="settings_theme">Тема</string>
     <string name="settings_version_dialog_title">Змінити версію</string>
     <string name="settings_version_dialog_desc">Введіть власний номер версії для відображення.</string>
+
+    <!-- Share targets, widget, dynamic color -->
+    <string name="share_target_inspect">Перевірити у FileLens</string>
+    <string name="share_target_strip_location">Поділитися без геолокації</string>
+    <string name="strip_location_chooser_title">Поділитися без геолокації</string>
+    <string name="strip_location_done">Геолокацію видалено. Виберіть, куди надіслати.</string>
+    <string name="strip_location_none_found">Геолокацію не знайдено. Виберіть, куди надіслати.</string>
+    <string name="strip_location_failed">Не вдалося видалити геолокацію. Нічого не надіслано.</string>
+    <string name="incoming_open_failed">Не вдалося відкрити цей файл.</string>
+    <string name="widget_name">Ярлики FileLens</string>
+    <string name="widget_description">Пошук, завантаження, зображення та файли одним дотиком</string>
+    <string name="widget_open_app">Відкрити FileLens</string>
+    <string name="settings_dynamic_color">Кольори шпалер</string>
+    <string name="settings_dynamic_color_desc">Використовувати кольори Material You з ваших шпалер</string>
 </resources>

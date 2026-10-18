@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_background"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="10dp"
+    android:paddingEnd="6dp">
+
+    <FrameLayout
+        android:id="@+id/widget_brand"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="6dp"
+        android:background="@drawable/widget_brand_tile"
+        android:contentDescription="@string/widget_open_app">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_lens_mark" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/widget_search"
+        style="@style/Widget.FileLens.Action">
+
+        <ImageView
+            style="@style/Widget.FileLens.ActionIcon"
+            android:src="@drawable/ic_widget_search" />
+
+        <TextView
+            style="@style/Widget.FileLens.ActionLabel"
+            android:text="@string/search_title" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/widget_downloads"
+        style="@style/Widget.FileLens.Action">
+
+        <ImageView
+            style="@style/Widget.FileLens.ActionIcon"
+            android:src="@drawable/ic_widget_download" />
+
+        <TextView
+            style="@style/Widget.FileLens.ActionLabel"
+            android:text="@string/home_category_downloads" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/widget_images"
+        style="@style/Widget.FileLens.Action">
+
+        <ImageView
+            style="@style/Widget.FileLens.ActionIcon"
+            android:src="@drawable/ic_widget_image" />
+
+        <TextView
+            style="@style/Widget.FileLens.ActionLabel"
+            android:text="@string/home_category_images" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/widget_files"
+        style="@style/Widget.FileLens.Action">
+
+        <ImageView
+            style="@style/Widget.FileLens.ActionIcon"
+            android:src="@drawable/ic_widget_folder" />
+
+        <TextView
+            style="@style/Widget.FileLens.ActionLabel"
+            android:text="@string/home_category_browse" />
+    </LinearLayout>
+</LinearLayout>

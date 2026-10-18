@@ -716,4 +716,17 @@
     <string name="settings_show_onboarding_desc">Show the onboarding slides on next launch</string>
     <string name="settings_onboarding_reset_toast">Welcome guide will show on next launch</string>
 
+    <!-- Share targets, widget, dynamic color -->
+    <string name="share_target_inspect">Inspect with FileLens</string>
+    <string name="share_target_strip_location">Share without location</string>
+    <string name="strip_location_chooser_title">Share without location</string>
+    <string name="strip_location_done">Location removed. Choose where to share.</string>
+    <string name="strip_location_none_found">No location found. Choose where to share.</string>
+    <string name="strip_location_failed">Couldn\'t remove the location. Nothing was shared.</string>
+    <string name="incoming_open_failed">Couldn\'t open this file.</string>
+    <string name="widget_name">FileLens shortcuts</string>
+    <string name="widget_description">Search, Downloads, Images and Files in one tap</string>
+    <string name="widget_open_app">Open FileLens</string>
+    <string name="settings_dynamic_color">Wallpaper colors</string>
+    <string name="settings_dynamic_color_desc">Use Material You colors from your wallpaper</string>
 </resources>

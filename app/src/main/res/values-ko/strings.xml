@@ -669,4 +669,18 @@
     <string name="settings_theme">테마</string>
     <string name="settings_version_dialog_title">버전 변경</string>
     <string name="settings_version_dialog_desc">표시할 사용자 지정 버전 번호를 입력하세요.</string>
+
+    <!-- Share targets, widget, dynamic color -->
+    <string name="share_target_inspect">FileLens로 검사</string>
+    <string name="share_target_strip_location">위치 정보 없이 공유</string>
+    <string name="strip_location_chooser_title">위치 정보 없이 공유</string>
+    <string name="strip_location_done">위치 정보를 삭제했습니다. 공유할 곳을 선택하세요.</string>
+    <string name="strip_location_none_found">위치 정보가 없습니다. 공유할 곳을 선택하세요.</string>
+    <string name="strip_location_failed">위치 정보를 삭제하지 못했습니다. 아무것도 공유되지 않았습니다.</string>
+    <string name="incoming_open_failed">이 파일을 열 수 없습니다.</string>
+    <string name="widget_name">FileLens 바로가기</string>
+    <string name="widget_description">검색, 다운로드, 이미지, 파일을 한 번에</string>
+    <string name="widget_open_app">FileLens 열기</string>
+    <string name="settings_dynamic_color">배경화면 색상</string>
+    <string name="settings_dynamic_color_desc">배경화면의 Material You 색상 사용</string>
 </resources>
