@@ -332,7 +332,7 @@
     <string name="settings_backup_desc">अपनी सेटिंग, बुकमार्क, हाल की फ़ाइलें और बार-बार उपयोग किए गए फ़ोल्डर को JSON फ़ाइल में सहेजें जिसे बाद में पुनर्स्थापित किया जा सकता है।</string>
 
     <string name="settings_about_app_name">FileLens Commander</string>
-    <string name="settings_about_version">संस्करण 1.1.1</string>
+    <string name="settings_about_version">संस्करण 1.2.0</string>
     <string name="settings_about_vision_label">दृष्टिकोण</string>
     <string name="settings_about_vision_text">फ़ाइलें ब्राउज़ करें, अंदर झाँकें, खोलने से पहले समझें। ऑफ़लाइन, डिवाइस पर, बिना खाते के।</string>
     <string name="settings_licenses_intro">FileLens इन ओपन सोर्स लाइब्रेरी पर बना है:</string>
@@ -681,4 +681,18 @@
     <string name="settings_theme">थीम</string>
     <string name="settings_version_dialog_title">संस्करण बदलें</string>
     <string name="settings_version_dialog_desc">प्रदर्शित करने के लिए एक कस्टम संस्करण नंबर दर्ज करें।</string>
+
+    <!-- Share targets, widget, dynamic color -->
+    <string name="share_target_inspect">FileLens से जाँचें</string>
+    <string name="share_target_strip_location">लोकेशन के बिना शेयर करें</string>
+    <string name="strip_location_chooser_title">लोकेशन के बिना शेयर करें</string>
+    <string name="strip_location_done">लोकेशन हटा दी गई। चुनें कि कहाँ शेयर करना है।</string>
+    <string name="strip_location_none_found">कोई लोकेशन नहीं मिली। चुनें कि कहाँ शेयर करना है।</string>
+    <string name="strip_location_failed">लोकेशन नहीं हटाई जा सकी। कुछ भी शेयर नहीं किया गया।</string>
+    <string name="incoming_open_failed">यह फ़ाइल नहीं खुल सकी।</string>
+    <string name="widget_name">FileLens शॉर्टकट</string>
+    <string name="widget_description">एक टैप में खोज, डाउनलोड, इमेज और फ़ाइलें</string>
+    <string name="widget_open_app">FileLens खोलें</string>
+    <string name="settings_dynamic_color">वॉलपेपर के रंग</string>
+    <string name="settings_dynamic_color_desc">अपने वॉलपेपर से Material You रंग इस्तेमाल करें</string>
 </resources>

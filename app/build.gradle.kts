@@ -16,8 +16,8 @@ android {
         applicationId = "app.com.filelens"
         minSdk = 26
         targetSdk = 36
-        versionCode = 17
-        versionName = "1.1.1"
+        versionCode = 18
+        versionName = "1.2.0"
     }
 
     buildTypes {
@@ -127,6 +127,7 @@ dependencies {
     implementation(libs.androidx.security.crypto)
     implementation(libs.androidx.biometric)
     implementation(libs.androidx.appcompat)
+    implementation(libs.play.review.ktx)
 
     debugImplementation(libs.androidx.compose.ui.tooling)
 

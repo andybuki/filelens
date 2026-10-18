@@ -36,7 +36,11 @@ class RecentsRepository @Inject constructor(
     val combined: Flow<Pair<List<RecentFile>, List<FrequentFolder>>> =
         combine(recentFiles, frequentFolders) { a, b -> a to b }
 
+    // Files shared in from other apps are temporary cache copies.
+    private fun isTemporary(path: String) = path.startsWith(context.cacheDir.absolutePath)
+
     suspend fun recordFileOpen(path: String, displayName: String) {
+        if (isTemporary(path)) return
         store.edit { prefs ->
             val current = decodeFiles(prefs[KEY_FILES]).filterNot { it.path == path }
             val next = (listOf(RecentFile(path, displayName, System.currentTimeMillis())) + current)
@@ -46,7 +50,7 @@ class RecentsRepository @Inject constructor(
     }
 
     suspend fun recordFolderVisit(path: String, displayName: String) {
-        if (path.isBlank()) return
+        if (path.isBlank() || isTemporary(path)) return
         store.edit { prefs ->
             val current = decodeFolders(prefs[KEY_FOLDERS])
             val existing = current.firstOrNull { it.path == path }

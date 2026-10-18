@@ -332,7 +332,7 @@
     <string name="settings_backup_desc">Ayarlarınızı, yer imlerinizi, son dosyalarınızı ve sık kullanılan klasörlerinizi daha sonra geri yükleyebileceğiniz bir JSON dosyasına kaydedin.</string>
 
     <string name="settings_about_app_name">FileLens Commander</string>
-    <string name="settings_about_version">Sürüm 1.1.1</string>
+    <string name="settings_about_version">Sürüm 1.2.0</string>
     <string name="settings_about_vision_label">Vizyon</string>
     <string name="settings_about_vision_text">Dosyalara gözat, içine bak, açmadan önce anla. Çevrimdışı, cihazda, hesap gerektirmez.</string>
     <string name="settings_licenses_intro">FileLens şu açık kaynak kütüphaneler üzerine kurulmuştur:</string>
@@ -681,4 +681,18 @@
     <string name="settings_theme">Tema</string>
     <string name="settings_version_dialog_title">Sürümü değiştir</string>
     <string name="settings_version_dialog_desc">Görüntülenecek özel bir sürüm numarası girin.</string>
+
+    <!-- Share targets, widget, dynamic color -->
+    <string name="share_target_inspect">FileLens ile incele</string>
+    <string name="share_target_strip_location">Konum olmadan paylaş</string>
+    <string name="strip_location_chooser_title">Konum olmadan paylaş</string>
+    <string name="strip_location_done">Konum kaldırıldı. Nerede paylaşacağını seç.</string>
+    <string name="strip_location_none_found">Konum bulunamadı. Nerede paylaşacağını seç.</string>
+    <string name="strip_location_failed">Konum kaldırılamadı. Hiçbir şey paylaşılmadı.</string>
+    <string name="incoming_open_failed">Bu dosya açılamadı.</string>
+    <string name="widget_name">FileLens kısayolları</string>
+    <string name="widget_description">Tek dokunuşla Arama, İndirilenler, Görseller ve Dosyalar</string>
+    <string name="widget_open_app">FileLens\'i aç</string>
+    <string name="settings_dynamic_color">Duvar kâğıdı renkleri</string>
+    <string name="settings_dynamic_color_desc">Duvar kâğıdından Material You renklerini kullan</string>
 </resources>

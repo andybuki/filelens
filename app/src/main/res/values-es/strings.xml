@@ -279,7 +279,7 @@
     <string name="settings_remote_servers_desc">Explora FTP, SFTP y recursos compartidos SMB como carpetas locales.</string>
     <string name="settings_backup_desc">Guarda tu configuración, marcadores, archivos recientes y carpetas frecuentes en un archivo JSON que podrás restaurar más adelante.</string>
     <string name="settings_about_app_name">FileLens Commander</string>
-    <string name="settings_about_version">Versión 1.1.1</string>
+    <string name="settings_about_version">Versión 1.2.0</string>
     <string name="settings_about_vision_label">Visión</string>
     <string name="settings_about_vision_text">Explora archivos, echa un vistazo dentro, entiende antes de abrir. Sin conexión, en el dispositivo, sin cuentas.</string>
     <string name="settings_licenses_intro">FileLens está construido sobre estas bibliotecas de código abierto:</string>
@@ -618,4 +618,18 @@
     <string name="settings_theme">Tema</string>
     <string name="settings_version_dialog_title">Cambiar versión</string>
     <string name="settings_version_dialog_desc">Introduce un número de versión personalizado para mostrar.</string>
+
+    <!-- Share targets, widget, dynamic color -->
+    <string name="share_target_inspect">Inspeccionar con FileLens</string>
+    <string name="share_target_strip_location">Compartir sin ubicación</string>
+    <string name="strip_location_chooser_title">Compartir sin ubicación</string>
+    <string name="strip_location_done">Ubicación eliminada. Elige dónde compartir.</string>
+    <string name="strip_location_none_found">No se encontró ubicación. Elige dónde compartir.</string>
+    <string name="strip_location_failed">No se pudo eliminar la ubicación. No se compartió nada.</string>
+    <string name="incoming_open_failed">No se pudo abrir este archivo.</string>
+    <string name="widget_name">Accesos de FileLens</string>
+    <string name="widget_description">Búsqueda, Descargas, Imágenes y Archivos con un toque</string>
+    <string name="widget_open_app">Abrir FileLens</string>
+    <string name="settings_dynamic_color">Colores del fondo</string>
+    <string name="settings_dynamic_color_desc">Usar colores Material You de tu fondo de pantalla</string>
 </resources>
