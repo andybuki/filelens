@@ -332,7 +332,7 @@
     <string name="settings_backup_desc">अपनी सेटिंग, बुकमार्क, हाल की फ़ाइलें और बार-बार उपयोग किए गए फ़ोल्डर को JSON फ़ाइल में सहेजें जिसे बाद में पुनर्स्थापित किया जा सकता है।</string>
 
     <string name="settings_about_app_name">FileLens Commander</string>
-    <string name="settings_about_version">संस्करण 1.1.1</string>
+    <string name="settings_about_version">संस्करण 1.2.0</string>
     <string name="settings_about_vision_label">दृष्टिकोण</string>
     <string name="settings_about_vision_text">फ़ाइलें ब्राउज़ करें, अंदर झाँकें, खोलने से पहले समझें। ऑफ़लाइन, डिवाइस पर, बिना खाते के।</string>
     <string name="settings_licenses_intro">FileLens इन ओपन सोर्स लाइब्रेरी पर बना है:</string>

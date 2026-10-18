@@ -332,7 +332,7 @@
     <string name="settings_backup_desc">Salve suas configurações, favoritos, arquivos recentes e pastas frequentes em um arquivo JSON que você pode restaurar depois.</string>
 
     <string name="settings_about_app_name">FileLens Commander</string>
-    <string name="settings_about_version">Versão 1.1.1</string>
+    <string name="settings_about_version">Versão 1.2.0</string>
     <string name="settings_about_vision_label">Visão</string>
     <string name="settings_about_vision_text">Navegue por arquivos, veja o interior, entenda antes de abrir. Offline, no dispositivo, sem contas.</string>
     <string name="settings_licenses_intro">O FileLens é construído sobre estas bibliotecas de código aberto:</string>

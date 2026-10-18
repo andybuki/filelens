@@ -1,11 +1,9 @@
-FileLens 1.0 — erste stabile Version.
+FileLens 1.2.0
 
-• Helles Theme überall, Marke und Logo aufgefrischt.
-• Neuer Start-Tab: Zuletzt, Favoriten, Kategorien.
-• Versteckter Tresor hinter Biometrie.
-• Globale Suche, App-Manager, Papierkorb.
-• Einstellungen neu: Sprache, Start-Tab, Vor Löschen fragen.
-• Polierte Leerzustände, freundlichere Fehler.
-• Lokalisiert in 15 Sprachen inkl. Arabisch (RTL).
+• Mit FileLens prüfen: Dateien aus WhatsApp, Telegram, E-Mail oder Browser über Teilen oder Öffnen mit direkt im Inspektor öffnen.
+• Ohne Standort teilen: FileLens entfernt den GPS-Standort, bevor Fotos geteilt werden.
+• Startbildschirm-Widget: Suche, Downloads, Bilder und Dateien mit einem Tipp.
+• Hintergrundfarben (Material You) ab Android 12.
+• Sicher teilen entfernt jetzt mehr Standortfelder.
 
 Offline. Keine Konten. Kein Tracking.
