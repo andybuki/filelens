@@ -1,1 +1,1 @@
-Browse files, peek inside, understand before opening. Offline. No accounts.
+File manager with security inspection, EXIF cleaning & dual-pane commander.

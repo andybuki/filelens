@@ -1,1 +1,1 @@
-Зазирніть у файл до відкриття. Офлайн, без акаунтів.
+Gestor de archivos con inspección de seguridad, limpieza EXIF y commander.

@@ -1,1 +1,1 @@
-FileLens：確認して共有
+FileLens - ファイルマネージャー

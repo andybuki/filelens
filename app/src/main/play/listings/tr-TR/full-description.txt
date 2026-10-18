@@ -1,39 +1,39 @@
-FileLens, bir dosyayı açmadan veya paylaşmadan önce içinde ne olduğunu anlamanıza yardımcı olan akıllı bir Android dosya yöneticisidir.
+FileLens, yerleşik güvenlik denetimi özelliğine sahip güçlü bir çift panelli Android dosya yöneticisidir. Dosyalarınızı göz atın, düzenleyin ve yönetin — sonra derinlere inin: herhangi bir dosyayı açmadan veya paylaşmadan önce gizli riskleri inceleyin.
 
-AÇMADAN ÖNCE İNCELEYİN
-• Magic-bytes algılaması uzantı uyuşmazlıklarını yakalar (o .jpg aslında çalıştırılabilir bir dosya olabilir).
-• Her yaygın dosya türü için yan yana önizleme, meta veri ve yapı sekmeleri.
-• Risk rozetleri; fotoğraflardaki GPS, PDF'deki JavaScript, DOCX'teki izlenen değişiklikler, gizli Excel sayfaları ve arşivlerdeki etkin içerik gibi şeyleri işaret eder.
-• Onu etkileyen başlıca nedenleri gösteren yerel güven puanı.
+📂 DOSYA YÖNETİCİSİ
+• Tabletlerde ve Samsung DeX'te çift panelli Commander modu. Telefonda tek panel.
+• Geri alma ile kopyalama, taşıma, yeniden adlandırma, silme. Kurtarılabilir çöp kutusuna yumuşak silme.
+• Kalıplar, bul/değiştir ve düzenli ifadelerle toplu yeniden adlandırma.
+• İki dosyayı karşılaştırma: metin farkı, JSON/XML yapısal farkı, görüntüleri yan yana.
+• İki klasörü karşılaştırma ve senkronize etme. SHA-256 ile yinelenen dosyaları bulma.
+• Özelleştirilebilir Norton Commander F-tuşu kısayollarıyla tam klavye desteği.
+• SHA-256 veya MD5 hash ile indirme doğrulama.
 
-KAPSAMLI DESTEK
-• Resimler: GPS, kamera, tarihler dahil EXIF, isteğe bağlı temizleme ile.
-• Belgeler: DOCX, XLSX, PPTX revizyonları, gizli sayfalar, makrolar, dış bağlantılar.
-• PDF'ler: küçük resimler, JavaScript, gömülü dosyalar, şifreleme durumu.
-• Arşivler: ZIP, JAR, APK, OOXML, TAR, TAR.GZ, EPUB. İçeriğe çıkarmadan göz atın.
-• APK'lar: izinler, imzalar, hata ayıklama/yedekleme bayrakları, yerel kitaplıklar, izleyiciler.
-• Ses/video: etiketler, süre, codec, albüm kapağı, video küçük resimleri.
-• Kod/metin/yapılandırma: sözdizimi vurgulamalı önizleme, JSON, XML, YAML, TOML, INI, .env, günlüklerde gizli anahtar taraması.
-• SQLite: şema, tablo satırları, salt okunur sorgu tarayıcısı.
-• İkili: hex görünümü, entropi, ELF/DEX/SQLite başlıkları.
+🔍 GÜVENLİK DENETÇİSİ
+• Sihirli bayt tespiti uzantı uyumsuzluklarını yakalar — o .jpg aslında bir yürütülebilir dosya olabilir.
+• Risk rozetleri fotoğraflardaki GPS verilerini, PDF'lerdeki JavaScript'i, Office dosyalarındaki makroları, arşivlerdeki aktif içeriği işaretler.
+• Yerel güven puanı, bir dosyanın neden riskli olabileceğinin başlıca nedenlerini gösterir.
+• APK denetçisi: izinler, imzalar, hata ayıklama bayrakları, izleyiciler, yerel kütüphaneler.
 
-KOMUTAN MODU
-• Telefonda tek panel, tabletlerde ve DeX'te iki dosya paneli.
-• Tam klavye Norton tarzı F-tuşu kısayolları. Her bağlama özelleştirilebilir.
-• Kopyalama, taşıma, yeniden adlandırma, kalıplarla toplu yeniden adlandırma ({n}, {name}, {ext}, bul/değiştir, regex).
-• Ctrl+Z geri al ile geri yüklenebilir bir .trash dizinine yumuşak silme.
-• İki dosyayı karşılaştırın (metin diff, JSON/XML yapısal diff, yan yana resim, sağlama toplamları).
-• İki klasörü karşılaştırın (yalnızca sol, yalnızca sağ, değişen, aynı içerik-farklı ad) senkronizasyon eylemleriyle.
-• SHA-256 ile yinelenenleri bulun, tek dokunuşla "eski fazlaları sil".
-• İndirmeyi yapıştırılan bir karma (SHA-256 veya MD5) ile doğrulayın.
+📄 DERİN DOSYA ÖNİZLEME
+• Görüntüler: GPS, kamera modeli, tarihler dahil EXIF verileri.
+• Belgeler: DOCX, XLSX, PPTX revizyon geçmişi, gizli sayfalar, harici bağlantılar.
+• PDF: sayfa küçük resimleri, JavaScript tespiti, gömülü dosyalar, şifreleme durumu.
+• Arşivler: ZIP, JAR, APK, TAR, EPUB içeriğini çıkarmadan göz atma.
+• Ses/Video: etiketler, codec, süre, albüm kapağı, video küçük resimleri.
+• Kod ve Yapılandırma: JSON, XML, YAML, .env dosyaları için gizli dizi taramalı sözdizimi vurgulu önizleme.
+• SQLite: şema tarayıcı, tablo görüntüleyici, salt okunur sorgu aracı.
+• İkili: hex görüntüleyici, entropi analizi, dosya başlığı tespiti.
 
-GİZLİLİK ÖNCE
-• "Temizlenmiş kopyayı paylaş" akışı için EXIF, OOXML, PDF meta verilerini soyar.
-• Bir klasörde toplu gizlilik denetimi; temizlenmiş kopyaları paylaşılabilir bir ZIP'e paketler.
-• İnceleme raporlarını Markdown veya JSON olarak oluşturur.
+🔒 GİZLİLİK KORUMASI
+• Paylaşmadan önce EXIF, OOXML ve PDF meta verilerini kaldırma — konum sızıntısı yok.
+• Tek dokunuşla temizlenmiş kopyaları paylaşma.
+• Toplu gizlilik denetimi: tüm klasörleri tarama ve temizlenmiş kopyaları ZIP olarak dışa aktarma.
+• Markdown veya JSON formatında denetim raporları oluşturma.
 
-ÇEVRİMDIŞI, CİHAZDA
-• Hesap yok, temel çökme raporlaması dışında analitik yok, normal çalışma sırasında ağ çağrısı yok.
-• Ayarlar, yer imleri, son dosyalar ve sık klasörler sizin kontrol ettiğiniz bir JSON dosyasına yedeklenir.
+🛡️ ÇEVRİMDIŞI VE ÖZEL
+• Hesap gerekli değil. Temel çökme raporlaması dışında analiz yok.
+• Normal kullanımda ağ çağrısı yok — her şey cihazınızda çalışır.
+• Ayarlar ve yer imleri sizin kontrol ettiğiniz yerel bir JSON dosyasına yedeklenir.
 
-İnce ayar tutkunları, güvenlik bilincine sahip kullanıcılar, gazeteciler, sistem yöneticileri ve telefonundaki dosyaların içinde gerçekten ne olduğunu paylaşmadan önce bilmek isteyen herkes için tasarlandı.
+Güvenlik bilincine sahip kullanıcılar, gazeteciler, sistem yöneticileri, geliştiriciler ve dosyalarını paylaşmadan önce içinde ne olduğunu anlamak isteyen herkes için mükemmel.

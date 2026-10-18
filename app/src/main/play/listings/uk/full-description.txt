@@ -1,39 +1,39 @@
-FileLens — розумний файловий менеджер для Android. Дізнайтеся, що міститься у файлі, перш ніж його відкрити або надіслати.
+FileLens es un potente gestor de archivos de doble panel para Android con inspección de seguridad integrada. Navega, organiza y gestiona tus archivos — luego profundiza: inspecciona cualquier archivo en busca de riesgos ocultos antes de abrirlo o compartirlo.
 
-ПЕРЕВІРЯЙТЕ ПЕРЕД ВІДКРИТТЯМ
-• Магічні байти виявляють невідповідність розширення (цей .jpg може бути виконуваним файлом).
-• Паралельні вкладки попереднього перегляду, метаданих і структури для кожного типу файлів.
-• Позначки ризику: GPS у фото, JavaScript у PDF, відстежувані зміни в DOCX, приховані аркуші Excel, активний вміст в архівах.
-• Локальна оцінка довіри з головними чинниками.
+📂 GESTOR DE ARCHIVOS
+• Modo Commander de doble panel en tablets y Samsung DeX. Panel único en el teléfono.
+• Copiar, mover, renombrar, eliminar con deshacer. Eliminación suave a papelera recuperable.
+• Renombrado por lotes con patrones, buscar/reemplazar y expresiones regulares.
+• Comparar dos archivos: diff de texto, diff estructural JSON/XML, imágenes lado a lado.
+• Comparar y sincronizar dos carpetas. Encontrar duplicados mediante SHA-256.
+• Soporte completo de teclado con atajos F personalizables estilo Norton Commander.
+• Verificar descargas con hash SHA-256 o MD5.
 
-ГЛИБОКЕ ПОКРИТТЯ
-• Зображення: EXIF, GPS, камера, дати, опційне очищення.
-• Документи: правки DOCX/XLSX/PPTX, приховані аркуші, макроси, зовнішні посилання.
-• PDF: мініатюри, JavaScript, вбудовані файли, статус шифрування.
-• Архіви: ZIP, JAR, APK, OOXML, TAR, TAR.GZ, EPUB — перегляд без розпакування.
-• APK: дозволи, підписи, прапорці налагодження/резервної копії, нативні бібліотеки, трекери.
-• Аудіо/відео: теги, тривалість, кодек, обкладинки, мініатюри.
-• Код і конфіги: підсвічування синтаксису, пошук секретів у JSON, XML, YAML, TOML, INI, .env, логах.
-• SQLite: схема, рядки таблиць, браузер запитів у режимі читання.
-• Двійкові файли: hex-перегляд, ентропія, заголовки ELF/DEX/SQLite.
+🔍 INSPECTOR DE SEGURIDAD
+• La detección de magic-bytes captura discrepancias de extensión — ese .jpg podría ser un ejecutable.
+• Las insignias de riesgo alertan sobre datos GPS en fotos, JavaScript en PDFs, macros en archivos Office, contenido activo en archivos comprimidos.
+• Puntuación de confianza local que muestra las principales razones por las que un archivo podría ser riesgoso.
+• Inspector APK: permisos, firmas, flags de depuración, rastreadores, bibliotecas nativas.
 
-РЕЖИМ КОМАНДИРА
-• Одна панель на телефоні, дві панелі файлів на планшетах і DeX.
-• F-клавіші в стилі Norton із повною підтримкою клавіатури. Усі прив'язки налаштовуються.
-• Копіювання, переміщення, перейменування, пакетне перейменування за шаблонами.
-• М'яке видалення в кошик .trash зі скасуванням через Ctrl+Z.
-• Порівняння двох файлів (текстовий diff, структурний diff JSON/XML, зображення, контрольні суми).
-• Порівняння двох папок з діями синхронізації.
-• Пошук дублікатів за SHA-256 з видаленням старих копій одним дотиком.
-• Перевірка завантаження за вставленим хешем (SHA-256 або MD5).
+📄 VISTA PREVIA PROFUNDA DE ARCHIVOS
+• Imágenes: datos EXIF incluyendo GPS, modelo de cámara, fechas.
+• Documentos: DOCX, XLSX, PPTX con historial de revisiones, hojas ocultas, enlaces externos.
+• PDFs: miniaturas de páginas, detección de JavaScript, archivos incrustados, estado de cifrado.
+• Archivos comprimidos: explorar contenido de ZIP, JAR, APK, TAR, EPUB sin extraer.
+• Audio/Video: etiquetas, códec, duración, portada de álbum, miniaturas de video.
+• Código y Config: vista previa con resaltado de sintaxis y escaneo de secretos para JSON, XML, YAML, .env.
+• SQLite: explorador de esquema, visor de tablas, herramienta de consulta de solo lectura.
+• Binario: visor hexadecimal, análisis de entropía, detección de cabecera de archivo.
 
-ПРИВАТНІСТЬ ПОНАД УСЕ
-• Видаляє EXIF, OOXML і метадані PDF для надсилання очищеної копії.
-• Пакетний аудит приватності папки; упаковка очищених копій у ZIP.
-• Звіти про інспекцію у форматі Markdown або JSON.
+🔒 PROTECCIÓN DE PRIVACIDAD
+• Eliminar metadatos EXIF, OOXML y PDF antes de compartir — sin fugas de ubicación.
+• Compartir copias limpias con un toque.
+• Auditoría de privacidad por lotes: escanear carpetas completas y exportar copias limpias como ZIP.
+• Generar informes de inspección en Markdown o JSON.
 
-ОФЛАЙН, НА ПРИСТРОЇ
-• Без акаунтів, без аналітики окрім базових звітів про збої, без мережевих викликів під час звичайної роботи.
-• Налаштування, закладки, недавні файли та часті папки резервуються у JSON-файл, яким керуєте ви.
+🛡️ SIN CONEXIÓN Y PRIVADO
+• Sin cuentas necesarias. Sin análisis más allá de informes básicos de fallos.
+• Sin llamadas de red durante el uso normal — todo funciona en tu dispositivo.
+• Ajustes y marcadores respaldados en un archivo JSON local que tú controlas.
 
-Для ентузіастів, журналістів, системних адміністраторів і всіх, хто хоче знати, що насправді всередині файлів на телефоні, перш ніж ділитися ними.
+Perfecto para usuarios conscientes de la seguridad, periodistas, administradores de sistemas, desarrolladores y cualquiera que quiera entender qué hay realmente dentro de sus archivos antes de compartirlos.

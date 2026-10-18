@@ -1,1 +1,1 @@
-FileLens: Ispeziona, condividi
+FileLens  - Gestore File

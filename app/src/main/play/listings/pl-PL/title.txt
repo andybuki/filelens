@@ -1,1 +1,1 @@
-FileLens: sprawdź pliki
+FileLens - Menedżer plików

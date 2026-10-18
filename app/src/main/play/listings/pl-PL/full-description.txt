@@ -1,39 +1,39 @@
-FileLens to inteligentny menedżer plików dla Androida, który pomaga zrozumieć, co znajduje się w pliku, zanim go otworzysz lub udostępnisz.
+FileLens to potężny dwupanelowy menedżer plików na Androida z wbudowaną inspekcją bezpieczeństwa. Przeglądaj, organizuj i zarządzaj plikami — a potem idź głębiej: sprawdź dowolny plik pod kątem ukrytych zagrożeń, zanim go otworzysz lub udostępnisz.
 
-SPRAWDŹ PRZED OTWARCIEM
-• Wykrywanie magic-bytes wyłapuje niezgodności rozszerzeń (ten .jpg może być w rzeczywistości plikiem wykonywalnym).
-• Karty podglądu, metadanych i struktury obok siebie dla każdego popularnego typu pliku.
-• Odznaki ryzyka wskazują na GPS w zdjęciach, JavaScript w PDF-ach, śledzone zmiany w DOCX, ukryte arkusze Excela i aktywną zawartość w archiwach.
-• Lokalny wskaźnik zaufania z głównymi czynnikami, które na niego wpłynęły.
+📂 MENEDŻER PLIKÓW
+• Dwupanelowy tryb Commander na tabletach i Samsung DeX. Jeden panel na telefonie.
+• Kopiowanie, przenoszenie, zmiana nazwy, usuwanie z cofaniem. Miękkie usuwanie do odzyskiwalnego kosza.
+• Zbiorcza zmiana nazw z wzorcami, szukaj/zamień i wyrażeniami regularnymi.
+• Porównanie dwóch plików: diff tekstowy, diff strukturalny JSON/XML, obrazy obok siebie.
+• Porównanie i synchronizacja dwóch folderów. Znajdowanie duplikatów przez SHA-256.
+• Pełne wsparcie klawiatury z konfigurowalnymi skrótami F w stylu Norton Commander.
+• Weryfikacja pobranych plików za pomocą skrótu SHA-256 lub MD5.
 
-GŁĘBOKIE WSPARCIE
-• Obrazy: EXIF z GPS, aparatem, datami, z opcjonalnym czyszczeniem.
-• Dokumenty: rewizje DOCX, XLSX, PPTX, ukryte arkusze, makra, linki zewnętrzne.
-• PDF-y: miniatury, JavaScript, osadzone pliki, status szyfrowania.
-• Archiwa: ZIP, JAR, APK, OOXML, TAR, TAR.GZ, EPUB. Przeglądaj zawartość bez wypakowywania.
-• APK: uprawnienia, podpisy, flagi debugowania/kopii zapasowej, biblioteki natywne, trackery.
-• Audio/wideo: tagi, czas trwania, kodek, okładki, miniatury wideo.
-• Kod/tekst/konfiguracja: podgląd z podświetlaniem składni, skanowanie sekretów w JSON, XML, YAML, TOML, INI, .env, logach.
-• SQLite: schemat, wiersze tabel, przeglądarka zapytań tylko do odczytu.
-• Pliki binarne: widok hex, entropia, nagłówki ELF/DEX/SQLite.
+🔍 INSPEKTOR BEZPIECZEŃSTWA
+• Wykrywanie magic-bytes łapie niezgodności rozszerzeń — ten .jpg może być plikiem wykonywalnym.
+• Odznaki ryzyka ostrzegają przed danymi GPS w zdjęciach, JavaScriptem w PDF, makrami w plikach Office, aktywną zawartością w archiwach.
+• Lokalny wynik zaufania pokazuje główne powody, dla których plik może być ryzykowny.
+• Inspektor APK: uprawnienia, podpisy, flagi debugowania, trackery, biblioteki natywne.
 
-TRYB KOMANDORA
-• Pojedynczy panel na telefonie, dwa panele plików na tabletach i DeX.
-• Pełne skróty klawiszowe F-key w stylu Nortona. Każde przypisanie można dostosować.
-• Kopiowanie, przenoszenie, zmiana nazwy, masowa zmiana nazw według wzorców ({n}, {name}, {ext}, znajdź/zamień, regex).
-• Miękkie usuwanie do katalogu .trash z możliwością odzyskania i cofania Ctrl+Z.
-• Porównaj dwa pliki (różnice tekstowe, strukturalne diff JSON/XML, obrazy obok siebie, sumy kontrolne).
-• Porównaj dwa foldery (tylko lewy, tylko prawy, zmienione, ta sama zawartość-inne nazwy) z akcjami synchronizacji.
-• Znajdź duplikaty po SHA-256 z jednym dotknięciem "usuń stare nadmiary".
-• Zweryfikuj pobrany plik wklejonym hashem (SHA-256 lub MD5).
+📄 SZCZEGÓŁOWY PODGLĄD PLIKÓW
+• Obrazy: dane EXIF w tym GPS, model aparatu, daty.
+• Dokumenty: DOCX, XLSX, PPTX z historią rewizji, ukrytymi arkuszami, linkami zewnętrznymi.
+• PDF: miniatury stron, wykrywanie JavaScript, pliki osadzone, status szyfrowania.
+• Archiwa: przeglądanie zawartości ZIP, JAR, APK, TAR, EPUB bez rozpakowywania.
+• Audio/Wideo: tagi, kodek, czas trwania, okładka albumu, miniatury wideo.
+• Kod i konfiguracja: podgląd z podświetlaniem składni i skanowaniem sekretów dla JSON, XML, YAML, .env.
+• SQLite: przeglądarka schematu, podgląd tabel, narzędzie zapytań tylko do odczytu.
+• Binarny: przeglądarka hex, analiza entropii, wykrywanie nagłówka pliku.
 
-PRYWATNOŚĆ NA PIERWSZYM MIEJSCU
-• Usuwa metadane EXIF, OOXML, PDF na potrzeby przepływu "udostępnij oczyszczoną kopię".
-• Wsadowy audyt prywatności folderu; pakuje oczyszczone kopie do udostępnialnego ZIP-a.
-• Generuje raporty inspekcji jako Markdown lub JSON.
+🔒 OCHRONA PRYWATNOŚCI
+• Usuwanie metadanych EXIF, OOXML i PDF przed udostępnieniem — żadnych wycieków lokalizacji.
+• Udostępnianie oczyszczonych kopii jednym kliknięciem.
+• Zbiorczy audyt prywatności: skanowanie całych folderów i eksport oczyszczonych kopii jako ZIP.
+• Generowanie raportów inspekcji w formacie Markdown lub JSON.
 
-OFFLINE, NA URZĄDZENIU
-• Bez kont, bez analityki poza podstawowym raportowaniem awarii, bez wywołań sieciowych podczas normalnej pracy.
-• Ustawienia, zakładki, ostatnie pliki i częste foldery są kopiowane do pliku JSON, którym zarządzasz.
+🛡️ OFFLINE I PRYWATNIE
+• Konto nie jest wymagane. Brak analityki poza podstawowym raportowaniem awarii.
+• Brak połączeń sieciowych podczas normalnego użytkowania — wszystko działa na Twoim urządzeniu.
+• Ustawienia i zakładki zapisywane w lokalnym pliku JSON, który kontrolujesz.
 
-Zaprojektowany dla majsterkowiczów, użytkowników dbających o bezpieczeństwo, dziennikarzy, administratorów systemów i każdego, kto chce wiedzieć, co naprawdę znajduje się w plikach na jego telefonie, zanim je udostępni.
+Idealny dla użytkowników dbających o bezpieczeństwo, dziennikarzy, administratorów systemów, programistów i każdego, kto chce zrozumieć, co naprawdę znajduje się w plikach przed ich udostępnieniem.

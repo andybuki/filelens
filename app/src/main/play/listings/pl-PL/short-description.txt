@@ -1,1 +1,1 @@
-Sprawdź zawartość pliku przed otwarciem. Offline, bez kont.
+Menedżer plików: inspekcja bezpieczeństwa, czyszczenie EXIF, tryb dwupanelowy.

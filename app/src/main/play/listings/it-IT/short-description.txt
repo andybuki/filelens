@@ -1,1 +1,1 @@
-Sfoglia i file, guarda dentro, capisci prima di aprire. Offline. Senza account.
+Gestore file con ispezione sicurezza, pulizia EXIF e commander a doppio pannello

@@ -1,39 +1,39 @@
-FileLens é um gerenciador de arquivos inteligente para Android que ajuda você a entender o que há em um arquivo antes de abri-lo ou compartilhá-lo.
+FileLens é um poderoso gerenciador de arquivos de painel duplo para Android com inspeção de segurança integrada. Navegue, organize e gerencie seus arquivos — depois vá mais fundo: inspecione qualquer arquivo em busca de riscos ocultos antes de abri-lo ou compartilhá-lo.
 
-INSPECIONE ANTES DE ABRIR
-• A detecção por bytes mágicos identifica extensões falsas (aquele .jpg pode ser um executável).
-• Abas de pré-visualização, metadados e estrutura lado a lado para cada tipo de arquivo comum.
-• Selos de risco destacam itens como GPS em fotos, JavaScript em PDFs, alterações rastreadas em DOCX, planilhas ocultas no Excel e conteúdo ativo em arquivos compactados.
-• Pontuação de confiança local com os principais motivos que a influenciaram.
+📂 GERENCIADOR DE ARQUIVOS
+• Modo Commander de painel duplo em tablets e Samsung DeX. Painel único no celular.
+• Copiar, mover, renomear, excluir com desfazer. Exclusão suave para lixeira recuperável.
+• Renomeação em lote com padrões, localizar/substituir e expressões regulares.
+• Comparar dois arquivos: diff de texto, diff estrutural JSON/XML, imagens lado a lado.
+• Comparar e sincronizar duas pastas. Encontrar duplicatas por SHA-256.
+• Suporte completo a teclado com atalhos F personalizáveis no estilo Norton Commander.
+• Verificar downloads com hash SHA-256 ou MD5.
 
-COBERTURA PROFUNDA
-• Imagens: EXIF incluindo GPS, câmera, datas, com limpeza opcional.
-• Documentos: revisões DOCX, XLSX, PPTX, planilhas ocultas, macros, links externos.
-• PDFs: miniaturas, JavaScript, arquivos embutidos, status de criptografia.
-• Arquivos: ZIP, JAR, APK, OOXML, TAR, TAR.GZ, EPUB. Navegue pelo conteúdo sem extrair.
-• APKs: permissões, assinaturas, flags de depuração/backup, bibliotecas nativas, rastreadores.
-• Áudio/vídeo: tags, duração, codec, capas, miniaturas de vídeo.
-• Código/texto/config: pré-visualização com realce, varredura de segredos em JSON, XML, YAML, TOML, INI, .env, logs.
-• SQLite: esquema, linhas de tabela, navegador de consultas somente leitura.
-• Binário: visualização hex, entropia, cabeçalhos ELF/DEX/SQLite.
+🔍 INSPETOR DE SEGURANÇA
+• Detecção de magic-bytes captura incompatibilidades de extensão — aquele .jpg pode ser um executável.
+• Badges de risco alertam sobre dados GPS em fotos, JavaScript em PDFs, macros em arquivos Office, conteúdo ativo em arquivos compactados.
+• Pontuação de confiança local mostra os principais motivos pelos quais um arquivo pode ser arriscado.
+• Inspetor APK: permissões, assinaturas, flags de debug, rastreadores, bibliotecas nativas.
 
-MODO COMMANDER
-• Painel único no celular, dois painéis em tablets e DeX.
-• Atalhos de teclas F estilo Norton com teclado completo. Cada atalho é personalizável.
-• Copiar, mover, renomear, renomear em lote com padrões ({n}, {name}, {ext}, localizar/substituir, regex).
-• Exclusão suave para um diretório .trash recuperável com Ctrl+Z para desfazer.
-• Compare dois arquivos (diff de texto, diff estrutural JSON/XML, imagens lado a lado, somas de verificação).
-• Compare duas pastas (só esquerda, só direita, alterados, mesmo conteúdo nome diferente) com ações de sincronização.
-• Encontre duplicatas por SHA-256 com "excluir cópias antigas" em um toque.
-• Verifique um download contra um hash colado (SHA-256 ou MD5).
+📄 VISUALIZAÇÃO PROFUNDA DE ARQUIVOS
+• Imagens: dados EXIF incluindo GPS, modelo da câmera, datas.
+• Documentos: DOCX, XLSX, PPTX com histórico de revisões, planilhas ocultas, links externos.
+• PDFs: miniaturas de páginas, detecção de JavaScript, arquivos incorporados, status de criptografia.
+• Arquivos compactados: navegar pelo conteúdo de ZIP, JAR, APK, TAR, EPUB sem extrair.
+• Áudio/Vídeo: tags, codec, duração, capa do álbum, miniaturas de vídeo.
+• Código e Config: visualização com destaque de sintaxe e varredura de segredos para JSON, XML, YAML, .env.
+• SQLite: navegador de schema, visualizador de tabelas, ferramenta de consulta somente leitura.
+• Binário: visualizador hex, análise de entropia, detecção de cabeçalho de arquivo.
 
-PRIVACIDADE EM PRIMEIRO LUGAR
-• Remove metadados EXIF, OOXML e PDF para um fluxo de "compartilhar cópia limpa".
-• Auditoria de privacidade em lote em uma pasta; empacote cópias limpas em um ZIP compartilhável.
-• Gere relatórios de inspeção em Markdown ou JSON.
+🔒 PROTEÇÃO DE PRIVACIDADE
+• Remover metadados EXIF, OOXML e PDF antes de compartilhar — sem vazamento de localização.
+• Compartilhar cópias limpas com um toque.
+• Auditoria de privacidade em lote: escanear pastas inteiras e exportar cópias limpas como ZIP.
+• Gerar relatórios de inspeção em Markdown ou JSON.
 
-OFFLINE, NO APARELHO
-• Sem contas, sem analytics além do relatório básico de falhas, sem chamadas de rede em uso normal.
-• Configurações, favoritos, arquivos recentes e pastas frequentes são salvos em um arquivo JSON sob seu controle.
+🛡️ OFFLINE E PRIVADO
+• Sem necessidade de conta. Sem análises além de relatórios básicos de falhas.
+• Sem chamadas de rede durante o uso normal — tudo funciona no seu dispositivo.
+• Configurações e favoritos salvos em um arquivo JSON local que você controla.
 
-Feito para curiosos, usuários atentos à segurança, jornalistas, administradores de sistemas e qualquer um que queira saber o que realmente está dentro dos arquivos do celular antes de compartilhar.
+Perfeito para usuários preocupados com segurança, jornalistas, administradores de sistemas, desenvolvedores e qualquer pessoa que queira entender o que realmente está dentro de seus arquivos antes de compartilhá-los.

@@ -1,1 +1,1 @@
-FileLens: 분석 & 공유
+FileLens -  파일 관리자

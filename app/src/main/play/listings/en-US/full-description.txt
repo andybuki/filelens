@@ -1,39 +1,39 @@
-FileLens is a smart file manager for Android that helps you understand what's in a file before you open or share it.
+FileLens is a powerful dual-pane file manager for Android with built-in security inspection. Browse, organize, and manage your files — then go deeper: inspect any file for hidden risks before you open or share it.
 
-INSPECT BEFORE YOU OPEN
-• Magic-bytes detection catches extension mismatches (that .jpg might actually be an executable).
-• Side-by-side preview, metadata, and structure tabs for every common file type.
-• Risk badges call out things like GPS in photos, JavaScript in PDFs, tracked changes in DOCX, hidden Excel sheets, and active content in archives.
-• Local trust score with the top reasons that influenced it.
+📂 FILE MANAGER
+• Dual-pane Commander Mode on tablets and Samsung DeX. Single pane on phones.
+• Copy, move, rename, delete with undo. Soft-delete to recoverable trash.
+• Batch rename with patterns, find/replace, and regular expressions.
+• Compare two files: text diff, JSON/XML structural diff, image side-by-side.
+• Compare and sync two folders. Find duplicates by SHA-256.
+• Full keyboard support with customizable Norton Commander F-key shortcuts.
+• Verify downloads against a pasted SHA-256 or MD5 hash.
 
-DEEP COVERAGE
-• Images: EXIF including GPS, camera, dates, with optional cleaning.
-• Documents: DOCX, XLSX, PPTX revisions, hidden sheets, macros, external links.
-• PDFs: thumbnails, JavaScript, embedded files, encryption status.
-• Archives: ZIP, JAR, APK, OOXML, TAR, TAR.GZ, EPUB. Browse contents without extracting.
-• APKs: permissions, signatures, debug/backup flags, native libraries, trackers.
-• Audio/video: tags, duration, codec, album art, video thumbnails.
-• Code/text/config: syntax highlighted preview, secrets scan across JSON, XML, YAML, TOML, INI, .env, logs.
-• SQLite: schema, table rows, read-only query browser.
-• Binary: hex view, entropy, ELF/DEX/SQLite headers.
+🔍 SECURITY INSPECTOR
+• Magic-bytes detection catches extension mismatches — that .jpg might be an executable.
+• Risk badges flag GPS data in photos, JavaScript in PDFs, macros in Office files, active content in archives.
+• Local trust score shows the top reasons a file might be risky.
+• APK inspector: permissions, signatures, debug flags, trackers, native libraries.
 
-COMMANDER MODE
-• Single panel on phone, dual file panels on tablets and DeX.
-• Full-keyboard Norton-style F-key shortcuts. Every binding is customizable.
-• Copy, move, rename, batch rename with patterns ({n}, {name}, {ext}, find/replace, regex).
-• Soft-delete to a recoverable .trash directory with Ctrl+Z undo.
-• Compare two files (text diff, JSON/XML structural diff, image side-by-side, checksums).
-• Compare two folders (left-only, right-only, changed, same-content-different-name) with sync actions.
-• Find duplicates by SHA-256 with one-tap "delete old extras".
-• Verify a download against a pasted hash (SHA-256 or MD5).
+📄 DEEP FILE PREVIEW
+• Images: EXIF data including GPS, camera model, dates.
+• Documents: DOCX, XLSX, PPTX with revision history, hidden sheets, external links.
+• PDFs: page thumbnails, JavaScript detection, embedded files, encryption status.
+• Archives: browse ZIP, JAR, APK, TAR, EPUB contents without extracting.
+• Audio/Video: tags, codec, duration, album art, video thumbnails.
+• Code & Config: syntax-highlighted preview with secrets scan for JSON, XML, YAML, .env files.
+• SQLite: schema browser, table viewer, read-only query tool.
+• Binary: hex viewer, entropy analysis, file header detection.
 
-PRIVACY-FIRST
-• Strips EXIF, OOXML, PDF metadata for a "share cleaned copy" flow.
-• Batch privacy audit on a folder; pack cleaned copies into a sharable ZIP.
-• Generate inspection reports as Markdown or JSON.
+🔒 PRIVACY PROTECTION
+• Strip EXIF, OOXML, and PDF metadata before sharing — no location leaks.
+• Share cleaned copies with one tap.
+• Batch privacy audit: scan entire folders and export cleaned copies as ZIP.
+• Generate inspection reports in Markdown or JSON.
 
-OFFLINE, ON-DEVICE
-• No accounts, no analytics beyond basic crash reporting, no network calls during normal operation.
-• Settings, bookmarks, recent files, and frequent folders are backed up to a JSON file you control.
+🛡️ OFFLINE & PRIVATE
+• No accounts required. No analytics beyond crash reporting.
+• No network calls during normal use — everything runs on your device.
+• Settings and bookmarks backed up to a local JSON file you control.
 
-Designed for tinkerers, security-conscious users, journalists, sysadmins, and anyone who wants to know what's actually inside the files on their phone before sharing them.
+Perfect for security-conscious users, journalists, sysadmins, developers, and anyone who wants to understand what's inside their files before sharing them.

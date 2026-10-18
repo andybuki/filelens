@@ -1,1 +1,1 @@
-FileLens: İncele ve Paylaş
+FileLens - Dosya Yöneticisi

@@ -1,39 +1,39 @@
-FileLens ist ein intelligenter Dateimanager für Android, der dir hilft zu verstehen, was in einer Datei steckt, bevor du sie öffnest oder teilst.
+FileLens ist ein leistungsstarker Zwei-Panel-Dateimanager für Android mit integrierter Sicherheitsprüfung. Dateien durchsuchen, organisieren und verwalten — und dann tiefer gehen: Jede Datei auf versteckte Risiken prüfen, bevor Sie sie öffnen oder teilen.
 
-PRÜFEN VOR DEM ÖFFNEN
-• Magic-Bytes-Erkennung entlarvt falsche Endungen (das .jpg könnte tatsächlich eine ausführbare Datei sein).
-• Vorschau-, Metadaten- und Struktur-Tabs nebeneinander für jeden gängigen Dateityp.
-• Risiko-Badges weisen auf GPS in Fotos, JavaScript in PDFs, nachverfolgte Änderungen in DOCX, versteckte Excel-Blätter und aktive Inhalte in Archiven hin.
-• Lokale Vertrauenswertung mit den wichtigsten Gründen, die sie beeinflusst haben.
+📂 DATEIMANAGER
+• Zwei-Panel-Commander-Modus auf Tablets und Samsung DeX. Ein Panel auf dem Handy.
+• Kopieren, Verschieben, Umbenennen, Löschen mit Rückgängig. Sanftes Löschen in wiederherstellbaren Papierkorb.
+• Stapelweises Umbenennen mit Mustern, Suchen/Ersetzen und regulären Ausdrücken.
+• Zwei Dateien vergleichen: Textdiff, JSON/XML-Strukturvergleich, Bilder nebeneinander.
+• Zwei Ordner vergleichen und synchronisieren. Duplikate per SHA-256 finden.
+• Volle Tastaturunterstützung mit anpassbaren Norton-Commander-F-Tasten.
+• Downloads gegen SHA-256- oder MD5-Hash verifizieren.
 
-TIEFE ABDECKUNG
-• Bilder: EXIF inkl. GPS, Kamera, Datum, mit optionaler Bereinigung.
-• Dokumente: DOCX-, XLSX-, PPTX-Revisionen, versteckte Blätter, Makros, externe Links.
-• PDFs: Miniaturen, JavaScript, eingebettete Dateien, Verschlüsselungsstatus.
-• Archive: ZIP, JAR, APK, OOXML, TAR, TAR.GZ, EPUB. Inhalte ohne Entpacken durchsuchen.
-• APKs: Berechtigungen, Signaturen, Debug-/Backup-Flags, native Bibliotheken, Tracker.
-• Audio/Video: Tags, Dauer, Codec, Cover, Video-Miniaturen.
-• Code/Text/Config: Syntax-hervorgehobene Vorschau, Geheimnis-Scan über JSON, XML, YAML, TOML, INI, .env, Logs.
-• SQLite: Schema, Tabellenzeilen, Nur-Lese-Abfrage-Browser.
-• Binär: Hex-Ansicht, Entropie, ELF/DEX/SQLite-Header.
+🔍 SICHERHEITSPRÜFUNG
+• Magic-Bytes-Erkennung entdeckt Dateiendungs-Diskrepanzen — diese .jpg könnte eine ausführbare Datei sein.
+• Risiko-Badges warnen vor GPS-Daten in Fotos, JavaScript in PDFs, Makros in Office-Dateien, aktiven Inhalten in Archiven.
+• Lokaler Vertrauenswert zeigt die wichtigsten Gründe, warum eine Datei riskant sein könnte.
+• APK-Inspektor: Berechtigungen, Signaturen, Debug-Flags, Tracker, native Bibliotheken.
 
-COMMANDER-MODUS
-• Ein Panel am Telefon, zwei Datei-Panels auf Tablets und DeX.
-• Norton-artige F-Tasten-Shortcuts mit voller Tastatur. Jede Belegung ist anpassbar.
-• Kopieren, verschieben, umbenennen, Stapelumbenennung mit Mustern ({n}, {name}, {ext}, Suchen/Ersetzen, Regex).
-• Sanftes Löschen in ein wiederherstellbares .trash-Verzeichnis mit Strg+Z zum Rückgängigmachen.
-• Vergleiche zwei Dateien (Text-Diff, JSON/XML-Strukturdiff, Bilder nebeneinander, Prüfsummen).
-• Vergleiche zwei Ordner (nur links, nur rechts, geändert, gleicher Inhalt anderer Name) mit Sync-Aktionen.
-• Finde Duplikate per SHA-256 mit „alte Extras löschen" per Tipp.
-• Prüfe einen Download gegen einen eingefügten Hash (SHA-256 oder MD5).
+📄 DETAILLIERTE DATEIVORSCHAU
+• Bilder: EXIF-Daten inkl. GPS, Kameramodell, Aufnahmedatum.
+• Dokumente: DOCX, XLSX, PPTX mit Änderungsverlauf, versteckten Blättern, externen Links.
+• PDFs: Seitenvorschau, JavaScript-Erkennung, eingebettete Dateien, Verschlüsselungsstatus.
+• Archive: ZIP, JAR, APK, TAR, EPUB-Inhalte durchsuchen ohne zu entpacken.
+• Audio/Video: Tags, Codec, Dauer, Albumcover, Video-Thumbnails.
+• Code & Config: syntaxhervorgehobene Vorschau mit Secrets-Scan für JSON, XML, YAML, .env.
+• SQLite: Schema-Browser, Tabellenansicht, schreibgeschütztes Abfragetool.
+• Binär: Hex-Viewer, Entropieanalyse, Dateiheader-Erkennung.
 
-PRIVATSPHÄRE ZUERST
-• Entfernt EXIF-, OOXML-, PDF-Metadaten für einen „bereinigte Kopie teilen"-Ablauf.
-• Stapel-Privatsphäre-Audit auf einem Ordner; packe bereinigte Kopien in ein teilbares ZIP.
-• Erstelle Inspektionsberichte als Markdown oder JSON.
+🔒 DATENSCHUTZ
+• EXIF-, OOXML- und PDF-Metadaten vor dem Teilen entfernen — kein Standort-Leak.
+• Bereinigte Kopien mit einem Tipp teilen.
+• Stapel-Datenschutzprüfung: ganze Ordner scannen und bereinigte Kopien als ZIP exportieren.
+• Inspektionsberichte als Markdown oder JSON erstellen.
 
-OFFLINE, AUF DEM GERÄT
-• Keine Konten, keine Analytik über grundlegende Absturzberichte hinaus, keine Netzwerkaufrufe im Normalbetrieb.
-• Einstellungen, Lesezeichen, kürzliche Dateien und häufige Ordner werden in einer JSON-Datei gesichert, die du kontrollierst.
+🛡️ OFFLINE & PRIVAT
+• Keine Konten erforderlich. Keine Analyse außer grundlegender Absturzberichterstattung.
+• Keine Netzwerkverbindungen im Normalbetrieb — alles läuft auf Ihrem Gerät.
+• Einstellungen und Lesezeichen werden in einer lokalen JSON-Datei gesichert, die Sie kontrollieren.
 
-Gedacht für Bastler, sicherheitsbewusste Nutzer, Journalisten, Systemadministratoren und alle, die wissen wollen, was wirklich in den Dateien ihres Telefons steckt, bevor sie sie teilen.
+Perfekt für sicherheitsbewusste Nutzer, Journalisten, Systemadministratoren, Entwickler und alle, die verstehen möchten, was sich wirklich in ihren Dateien befindet.

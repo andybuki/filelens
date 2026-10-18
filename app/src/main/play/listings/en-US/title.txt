@@ -1,1 +1,1 @@
-FileLens: Inspect & Share
+FileLens - File Manager

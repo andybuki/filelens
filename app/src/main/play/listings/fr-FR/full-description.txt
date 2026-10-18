@@ -1,39 +1,39 @@
-FileLens est un gestionnaire de fichiers intelligent pour Android qui vous aide à comprendre ce que contient un fichier avant de l'ouvrir ou de le partager.
+FileLens est un puissant gestionnaire de fichiers à double panneau pour Android avec inspection de sécurité intégrée. Parcourez, organisez et gérez vos fichiers — puis allez plus loin : inspectez n'importe quel fichier à la recherche de risques cachés avant de l'ouvrir ou de le partager.
 
-INSPECTER AVANT D'OUVRIR
-• La détection par octets magiques repère les extensions trompeuses (ce .jpg pourrait être un exécutable).
-• Onglets côte à côte d'aperçu, métadonnées et structure pour chaque type de fichier courant.
-• Des badges de risque signalent le GPS dans les photos, le JavaScript dans les PDF, les modifications suivies dans DOCX, les feuilles Excel cachées et le contenu actif des archives.
-• Score de confiance local avec les principales raisons qui l'ont influencé.
+📂 GESTIONNAIRE DE FICHIERS
+• Mode Commander à double panneau sur tablettes et Samsung DeX. Panneau unique sur téléphone.
+• Copier, déplacer, renommer, supprimer avec annulation. Suppression douce vers une corbeille récupérable.
+• Renommage par lot avec modèles, rechercher/remplacer et expressions régulières.
+• Comparer deux fichiers : diff textuel, diff structurel JSON/XML, images côte à côte.
+• Comparer et synchroniser deux dossiers. Trouver les doublons par SHA-256.
+• Support clavier complet avec raccourcis F-touches Norton Commander personnalisables.
+• Vérifier les téléchargements avec un hash SHA-256 ou MD5.
 
-COUVERTURE APPROFONDIE
-• Images : EXIF dont GPS, appareil, dates, avec nettoyage optionnel.
-• Documents : révisions DOCX, XLSX, PPTX, feuilles cachées, macros, liens externes.
-• PDF : miniatures, JavaScript, fichiers intégrés, état de chiffrement.
-• Archives : ZIP, JAR, APK, OOXML, TAR, TAR.GZ, EPUB. Parcourez le contenu sans extraire.
-• APK : permissions, signatures, drapeaux debug/backup, bibliothèques natives, traqueurs.
-• Audio/vidéo : tags, durée, codec, pochettes, miniatures vidéo.
-• Code/texte/config : aperçu coloré, recherche de secrets dans JSON, XML, YAML, TOML, INI, .env, journaux.
-• SQLite : schéma, lignes de tables, navigateur de requêtes en lecture seule.
-• Binaire : vue hex, entropie, en-têtes ELF/DEX/SQLite.
+🔍 INSPECTEUR DE SÉCURITÉ
+• La détection magic-bytes repère les incohérences d'extension — ce .jpg pourrait être un exécutable.
+• Les badges de risque signalent les données GPS dans les photos, le JavaScript dans les PDF, les macros dans les fichiers Office, le contenu actif dans les archives.
+• Score de confiance local montrant les principales raisons pour lesquelles un fichier pourrait être risqué.
+• Inspecteur APK : permissions, signatures, drapeaux de débogage, trackers, bibliothèques natives.
 
-MODE COMMANDER
-• Panneau unique sur téléphone, deux panneaux sur tablette et DeX.
-• Raccourcis touches F façon Norton avec clavier complet. Chaque touche est personnalisable.
-• Copier, déplacer, renommer, renommage par lot avec motifs ({n}, {name}, {ext}, rechercher/remplacer, regex).
-• Suppression douce vers un dossier .trash récupérable avec Ctrl+Z pour annuler.
-• Comparez deux fichiers (diff texte, diff structurel JSON/XML, images côte à côte, sommes de contrôle).
-• Comparez deux dossiers (à gauche seul, à droite seul, modifiés, même contenu nom différent) avec actions de synchronisation.
-• Trouvez les doublons par SHA-256 avec « supprimer les anciennes copies » en un clic.
-• Vérifiez un téléchargement avec un hash collé (SHA-256 ou MD5).
+📄 APERÇU APPROFONDI DES FICHIERS
+• Images : données EXIF incluant GPS, modèle d'appareil photo, dates.
+• Documents : DOCX, XLSX, PPTX avec historique des révisions, feuilles masquées, liens externes.
+• PDF : miniatures de pages, détection JavaScript, fichiers intégrés, état du chiffrement.
+• Archives : parcourir le contenu ZIP, JAR, APK, TAR, EPUB sans extraction.
+• Audio/Vidéo : tags, codec, durée, pochette d'album, miniatures vidéo.
+• Code & Config : aperçu avec coloration syntaxique et scan de secrets pour JSON, XML, YAML, .env.
+• SQLite : navigateur de schéma, visualiseur de tables, outil de requête en lecture seule.
+• Binaire : visualiseur hexadécimal, analyse d'entropie, détection d'en-tête de fichier.
 
-CONFIDENTIALITÉ D'ABORD
-• Supprime les métadonnées EXIF, OOXML, PDF pour un flux « partager une copie nettoyée ».
-• Audit de confidentialité par lot sur un dossier ; emballez les copies nettoyées dans un ZIP partageable.
-• Générez des rapports d'inspection en Markdown ou JSON.
+🔒 PROTECTION DE LA VIE PRIVÉE
+• Supprimer les métadonnées EXIF, OOXML et PDF avant le partage — aucune fuite de localisation.
+• Partager des copies nettoyées en un tap.
+• Audit de confidentialité par lot : scanner des dossiers entiers et exporter les copies nettoyées en ZIP.
+• Générer des rapports d'inspection en Markdown ou JSON.
 
-HORS LIGNE, SUR L'APPAREIL
-• Pas de compte, pas d'analyse au-delà du rapport de plantage de base, pas d'appel réseau en usage normal.
-• Réglages, favoris, fichiers récents et dossiers fréquents sauvegardés dans un fichier JSON que vous contrôlez.
+🛡️ HORS LIGNE & PRIVÉ
+• Aucun compte requis. Aucune analyse au-delà des rapports de plantage.
+• Aucun appel réseau en utilisation normale — tout fonctionne sur votre appareil.
+• Paramètres et favoris sauvegardés dans un fichier JSON local que vous contrôlez.
 
-Conçu pour les bricoleurs, utilisateurs soucieux de sécurité, journalistes, administrateurs système et toute personne qui veut savoir ce qu'il y a vraiment dans les fichiers de son téléphone avant de les partager.
+Parfait pour les utilisateurs soucieux de la sécurité, les journalistes, les administrateurs système, les développeurs et tous ceux qui veulent comprendre ce qu'il y a vraiment dans leurs fichiers avant de les partager.
