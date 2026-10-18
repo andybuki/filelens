@@ -3,7 +3,12 @@ package com.filelens.commander.ui.theme
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.graphics.Color
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
+import androidx.compose.ui.platform.LocalContext
+import android.os.Build
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import com.filelens.commander.domain.model.ThemeMode
@@ -63,6 +68,7 @@ private val FlDarkColorScheme = darkColorScheme(
 @Composable
 fun FileLensTheme(
     themeMode: ThemeMode = ThemeMode.LIGHT,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val useDark = when (themeMode) {
@@ -70,9 +76,29 @@ fun FileLensTheme(
         ThemeMode.DARK -> true
         ThemeMode.SYSTEM -> isSystemInDarkTheme()
     }
+    val scheme = if (dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        val context = LocalContext.current
+        val base = if (useDark) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+        base.withBrandHeader(useDark).copy(
+            // Risk colours carry meaning; keep them stable across wallpapers.
+            error = RiskDanger,
+            errorContainer = if (useDark) FlDarkColorScheme.errorContainer else RiskDangerTint,
+            onErrorContainer = RiskDanger
+        )
+    } else {
+        if (useDark) FlDarkColorScheme else FlLightColorScheme
+    }
     MaterialTheme(
-        colorScheme = if (useDark) FlDarkColorScheme else FlLightColorScheme,
+        colorScheme = scheme,
         typography = Typography,
         content = content
     )
 }
+
+/**
+ * Screens paint their header band with `tertiary` under white text and light
+ * status-bar icons, so the band must stay dark whatever the wallpaper is.
+ */
+private fun ColorScheme.withBrandHeader(dark: Boolean): ColorScheme =
+    if (dark) copy(tertiary = primaryContainer, onTertiary = onPrimaryContainer)
+    else copy(tertiary = primary, onTertiary = onPrimary)

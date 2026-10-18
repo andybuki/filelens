@@ -133,7 +133,9 @@ fun MainScreen(
         if (initialCategory == null && initialPath.isNullOrBlank() && initialInspectPath.isNullOrBlank()) {
             return@LaunchedEffect
         }
-        fileListViewModel.state.first { it.currentPath.isNotEmpty() && !it.isLoading }
+        // A failed first listing (e.g. no storage access yet when a file was
+        // shared in) leaves currentPath empty, so settle on the error too.
+        fileListViewModel.state.first { (it.currentPath.isNotEmpty() || it.error != null) && !it.isLoading }
         when {
             initialCategory != null -> fileListViewModel.browseCategory(initialCategory)
             !initialPath.isNullOrBlank() -> fileListViewModel.navigateTo(initialPath)
@@ -161,6 +163,17 @@ fun MainScreen(
             inspectorViewModel.selectFile(item)
         }
         consumedInitial = true
+    }
+
+    val inspectedPath = inspectorState.info?.path
+    val inspectionDone = inspectorState.result != null && !inspectorState.isAnalyzing
+    LaunchedEffect(inspectedPath, inspectionDone) {
+        if (inspectedPath == null || !inspectionDone) return@LaunchedEffect
+        // Let the result settle on screen before any rating prompt.
+        kotlinx.coroutines.delay(1500)
+        (context as? android.app.Activity)?.let {
+            com.filelens.commander.ui.util.InAppReview.onInspectionCompleted(it)
+        }
     }
 
     LaunchedEffect(fileListState.remoteNotice) {
@@ -362,6 +375,7 @@ fun MainScreen(
                             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                         }
                         context.startActivity(Intent.createChooser(intent, context.getString(R.string.main_chooser_share_cleaned)))
+                        com.filelens.commander.ui.util.InAppReview.recordSafeShare(context)
                     } catch (_: Exception) {}
                 }
             }

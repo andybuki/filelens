@@ -82,7 +82,9 @@ data class AppSettings(
     val telemetryEnabled: Boolean = false,
     /** Warn when entering /system, /data, /proc, /sys, /vendor, /apex. */
     val warnRootStorage: Boolean = true,
-    val themeMode: ThemeMode = ThemeMode.LIGHT
+    val themeMode: ThemeMode = ThemeMode.LIGHT,
+    /** Material You: take colours from the wallpaper (Android 12+ only). */
+    val dynamicColor: Boolean = false
 ) {
     companion object {
         const val DEFAULT_REMOTE_PREVIEW_LIMIT_MB = 50

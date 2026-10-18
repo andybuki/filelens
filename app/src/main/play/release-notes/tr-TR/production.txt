@@ -1,11 +1,9 @@
-FileLens 1.0 — ilk kararlı sürüm.
+FileLens 1.2.0
 
-• Her yerde açık tema, yenilenen marka ve lens işareti.
-• Yeni Ana Sayfa: Son, Favoriler ve Kategoriler tek yerde.
-• Biyometri arkasında gizli kasa.
-• Klasörlerde genel arama, uygulama yöneticisi, geri dönüşüm kutusu.
-• Ayarlar elden geçirildi: dil seçici, varsayılan ana sekme, silmeden önce sor.
-• Cilalı boş durumlar, yükleme iskeletleri, daha dostça hatalar.
-• Arapça (RTL) dahil 15 dile yerelleştirme.
+• FileLens ile incele: WhatsApp, Telegram, e-posta veya tarayıcıdaki dosyaları Paylaş ya da Birlikte aç ile doğrudan denetleyicide aç.
+• Konum olmadan paylaş: FileLens, fotoğrafları paylaşmadan önce GPS konumunu kaldırır.
+• Ana ekran widget'ı: Tek dokunuşla Arama, İndirilenler, Görseller ve Dosyalar.
+• Android 12+ için duvar kâğıdı renkleri (Material You).
+• Güvenli paylaşım artık daha fazla konum verisini kaldırıyor.
 
 Çevrimdışı. Hesap yok. İzleme yok.

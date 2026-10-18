@@ -46,7 +46,8 @@ class SettingsRepository @Inject constructor(
             searchRoots = p[KEY_SEARCH_ROOTS] ?: emptySet(),
             telemetryEnabled = p[KEY_TELEMETRY_ENABLED] ?: false,
             warnRootStorage = p[KEY_WARN_ROOT_STORAGE] ?: true,
-            themeMode = p[KEY_THEME_MODE]?.let { runCatching { ThemeMode.valueOf(it) }.getOrNull() } ?: ThemeMode.LIGHT
+            themeMode = p[KEY_THEME_MODE]?.let { runCatching { ThemeMode.valueOf(it) }.getOrNull() } ?: ThemeMode.LIGHT,
+            dynamicColor = p[KEY_DYNAMIC_COLOR] ?: false
         )
     }
 
@@ -134,6 +135,10 @@ class SettingsRepository @Inject constructor(
         store.edit { it[KEY_THEME_MODE] = mode.name }
     }
 
+    suspend fun setDynamicColor(value: Boolean) {
+        store.edit { it[KEY_DYNAMIC_COLOR] = value }
+    }
+
     val hasSeenOnboarding: Flow<Boolean> = store.data.map { p ->
         p[KEY_HAS_SEEN_ONBOARDING] ?: false
     }
@@ -162,5 +167,6 @@ class SettingsRepository @Inject constructor(
         val KEY_TELEMETRY_ENABLED = booleanPreferencesKey("telemetry_enabled")
         val KEY_WARN_ROOT_STORAGE = booleanPreferencesKey("warn_root_storage")
         val KEY_THEME_MODE = stringPreferencesKey("theme_mode")
+        val KEY_DYNAMIC_COLOR = booleanPreferencesKey("dynamic_color")
     }
 }

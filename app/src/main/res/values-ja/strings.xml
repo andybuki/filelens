@@ -332,7 +332,7 @@
     <string name="settings_backup_desc">設定、ブックマーク、最近のファイル、よく使うフォルダーをJSONファイルに保存して後で復元できます。</string>
 
     <string name="settings_about_app_name">FileLens Commander</string>
-    <string name="settings_about_version">バージョン 1.1.1</string>
+    <string name="settings_about_version">バージョン 1.2.0</string>
     <string name="settings_about_vision_label">ビジョン</string>
     <string name="settings_about_vision_text">ファイルを参照し、中身をのぞき、開く前に理解する。オフライン、デバイス上、アカウント不要。</string>
     <string name="settings_licenses_intro">FileLens は以下のオープンソースライブラリを使用しています:</string>
@@ -668,4 +668,18 @@
     <string name="settings_theme">テーマ</string>
     <string name="settings_version_dialog_title">バージョンを変更</string>
     <string name="settings_version_dialog_desc">表示するカスタムバージョン番号を入力してください。</string>
+
+    <!-- Share targets, widget, dynamic color -->
+    <string name="share_target_inspect">FileLensで検査</string>
+    <string name="share_target_strip_location">位置情報なしで共有</string>
+    <string name="strip_location_chooser_title">位置情報なしで共有</string>
+    <string name="strip_location_done">位置情報を削除しました。共有先を選んでください。</string>
+    <string name="strip_location_none_found">位置情報は見つかりませんでした。共有先を選んでください。</string>
+    <string name="strip_location_failed">位置情報を削除できませんでした。何も共有されていません。</string>
+    <string name="incoming_open_failed">このファイルを開けませんでした。</string>
+    <string name="widget_name">FileLensショートカット</string>
+    <string name="widget_description">検索、ダウンロード、画像、ファイルにワンタップで</string>
+    <string name="widget_open_app">FileLensを開く</string>
+    <string name="settings_dynamic_color">壁紙の色</string>
+    <string name="settings_dynamic_color_desc">壁紙のMaterial Youカラーを使用</string>
 </resources>

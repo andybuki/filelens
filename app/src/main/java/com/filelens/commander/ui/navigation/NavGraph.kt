@@ -66,10 +66,14 @@ fun FileLensNavGraph(
     navController: NavHostController,
     showOnboarding: Boolean = false,
     startFromFiles: Boolean = false,
+    initialRoute: String? = null,
+    shortcutRoute: String? = null,
+    onShortcutConsumed: () -> Unit = {},
     onOnboardingComplete: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val landing = when {
+        initialRoute != null -> initialRoute
         showOnboarding -> Routes.ONBOARDING
         startFromFiles -> Routes.main()
         else -> Routes.HOME
@@ -237,6 +241,13 @@ fun FileLensNavGraph(
                 onBack = { navController.popBackStack() }
             )
         }
+    }
+    // After NavHost so its graph is set before we navigate.
+    androidx.compose.runtime.LaunchedEffect(shortcutRoute) {
+        if (shortcutRoute != null && landing != Routes.ONBOARDING) {
+            navController.navigate(shortcutRoute)
+        }
+        if (shortcutRoute != null) onShortcutConsumed()
     }
 }
 

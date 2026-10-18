@@ -332,7 +332,7 @@
     <string name="settings_backup_desc">Zapisz ustawienia, zakładki, ostatnie pliki i częste foldery do pliku JSON, który możesz później przywrócić.</string>
 
     <string name="settings_about_app_name">FileLens Commander</string>
-    <string name="settings_about_version">Wersja 1.1.1</string>
+    <string name="settings_about_version">Wersja 1.2.0</string>
     <string name="settings_about_vision_label">Wizja</string>
     <string name="settings_about_vision_text">Przeglądaj pliki, zaglądaj do środka, rozumiej przed otwarciem. Offline, na urządzeniu, bez kont.</string>
     <string name="settings_licenses_intro">FileLens jest zbudowany na tych bibliotekach open source:</string>
@@ -707,4 +707,18 @@
     <string name="settings_theme">Motyw</string>
     <string name="settings_version_dialog_title">Zmień wersję</string>
     <string name="settings_version_dialog_desc">Wprowadź niestandardowy numer wersji do wyświetlenia.</string>
+
+    <!-- Share targets, widget, dynamic color -->
+    <string name="share_target_inspect">Sprawdź w FileLens</string>
+    <string name="share_target_strip_location">Udostępnij bez lokalizacji</string>
+    <string name="strip_location_chooser_title">Udostępnij bez lokalizacji</string>
+    <string name="strip_location_done">Lokalizacja usunięta. Wybierz, gdzie udostępnić.</string>
+    <string name="strip_location_none_found">Nie znaleziono lokalizacji. Wybierz, gdzie udostępnić.</string>
+    <string name="strip_location_failed">Nie udało się usunąć lokalizacji. Nic nie zostało udostępnione.</string>
+    <string name="incoming_open_failed">Nie udało się otworzyć tego pliku.</string>
+    <string name="widget_name">Skróty FileLens</string>
+    <string name="widget_description">Wyszukiwanie, Pobrane, Obrazy i Pliki jednym dotknięciem</string>
+    <string name="widget_open_app">Otwórz FileLens</string>
+    <string name="settings_dynamic_color">Kolory tapety</string>
+    <string name="settings_dynamic_color_desc">Używaj kolorów Material You z tapety</string>
 </resources>

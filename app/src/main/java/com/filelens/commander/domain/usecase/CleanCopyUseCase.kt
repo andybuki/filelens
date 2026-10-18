@@ -36,16 +36,33 @@ class CleanCopyUseCase @Inject constructor() {
         }
     }
 
+    /**
+     * Removes only location data in place, leaving camera, date and
+     * orientation intact. Returns true if any location data was found.
+     */
+    fun stripLocation(file: File): Boolean {
+        val exif = ExifInterface(file.absolutePath)
+        var found = false
+        for (tag in GPS_TAGS) {
+            if (exif.getAttribute(tag) != null) {
+                exif.setAttribute(tag, null)
+                found = true
+            }
+        }
+        // XMP can carry its own copy of the coordinates.
+        val xmp = exif.getAttribute(ExifInterface.TAG_XMP)
+        if (xmp != null && xmp.contains("GPS", ignoreCase = true)) {
+            exif.setAttribute(ExifInterface.TAG_XMP, null)
+            found = true
+        }
+        if (found) exif.saveAttributes()
+        return found
+    }
+
     private fun stripExif(file: File, stripped: MutableList<String>) {
         try {
             val exif = ExifInterface(file.absolutePath)
-            val gpsFields = listOf(
-                ExifInterface.TAG_GPS_LATITUDE, ExifInterface.TAG_GPS_LONGITUDE,
-                ExifInterface.TAG_GPS_LATITUDE_REF, ExifInterface.TAG_GPS_LONGITUDE_REF,
-                ExifInterface.TAG_GPS_ALTITUDE, ExifInterface.TAG_GPS_ALTITUDE_REF,
-                ExifInterface.TAG_GPS_DATESTAMP, ExifInterface.TAG_GPS_TIMESTAMP,
-                ExifInterface.TAG_GPS_PROCESSING_METHOD
-            )
+            val gpsFields = GPS_TAGS
             val personalFields = listOf(
                 ExifInterface.TAG_ARTIST, ExifInterface.TAG_COPYRIGHT,
                 ExifInterface.TAG_SOFTWARE, ExifInterface.TAG_CAMERA_OWNER_NAME,
@@ -99,6 +116,31 @@ class CleanCopyUseCase @Inject constructor() {
             zipIn.close()
             tempFile.renameTo(file)
         } catch (_: Exception) {}
+    }
+
+    companion object {
+        /** Formats whose EXIF block ExifInterface can rewrite in place. */
+        val EXIF_WRITABLE_EXTENSIONS = setOf("jpg", "jpeg", "png", "webp")
+
+        val GPS_TAGS = listOf(
+            ExifInterface.TAG_GPS_VERSION_ID,
+            ExifInterface.TAG_GPS_LATITUDE, ExifInterface.TAG_GPS_LATITUDE_REF,
+            ExifInterface.TAG_GPS_LONGITUDE, ExifInterface.TAG_GPS_LONGITUDE_REF,
+            ExifInterface.TAG_GPS_ALTITUDE, ExifInterface.TAG_GPS_ALTITUDE_REF,
+            ExifInterface.TAG_GPS_TIMESTAMP, ExifInterface.TAG_GPS_DATESTAMP,
+            ExifInterface.TAG_GPS_SATELLITES, ExifInterface.TAG_GPS_STATUS,
+            ExifInterface.TAG_GPS_MEASURE_MODE, ExifInterface.TAG_GPS_DOP,
+            ExifInterface.TAG_GPS_SPEED, ExifInterface.TAG_GPS_SPEED_REF,
+            ExifInterface.TAG_GPS_TRACK, ExifInterface.TAG_GPS_TRACK_REF,
+            ExifInterface.TAG_GPS_IMG_DIRECTION, ExifInterface.TAG_GPS_IMG_DIRECTION_REF,
+            ExifInterface.TAG_GPS_MAP_DATUM,
+            ExifInterface.TAG_GPS_DEST_LATITUDE, ExifInterface.TAG_GPS_DEST_LATITUDE_REF,
+            ExifInterface.TAG_GPS_DEST_LONGITUDE, ExifInterface.TAG_GPS_DEST_LONGITUDE_REF,
+            ExifInterface.TAG_GPS_DEST_BEARING, ExifInterface.TAG_GPS_DEST_BEARING_REF,
+            ExifInterface.TAG_GPS_DEST_DISTANCE, ExifInterface.TAG_GPS_DEST_DISTANCE_REF,
+            ExifInterface.TAG_GPS_PROCESSING_METHOD, ExifInterface.TAG_GPS_AREA_INFORMATION,
+            ExifInterface.TAG_GPS_DIFFERENTIAL, ExifInterface.TAG_GPS_H_POSITIONING_ERROR
+        )
     }
 
     sealed class CleanResult {

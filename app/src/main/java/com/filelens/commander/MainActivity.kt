@@ -37,6 +37,15 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
+import androidx.lifecycle.lifecycleScope
+import app.com.filelens.R
+import com.filelens.commander.data.IncomingFiles
+import com.filelens.commander.domain.model.HomeCategory
+import com.filelens.commander.ui.navigation.Routes
+import com.filelens.commander.widget.QuickActionsWidget
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import com.filelens.commander.ui.navigation.FileLensNavGraph
 import com.filelens.commander.ui.theme.FileLensTheme
 import com.filelens.commander.viewmodel.SettingsViewModel
@@ -46,6 +55,13 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : FragmentActivity() {
 
     private var hasStoragePermission by mutableStateOf(false)
+
+    /** Set when another app handed us a file; replaces the normal landing screen. */
+    private var incomingRoute by mutableStateOf<String?>(null)
+    private var importingIncoming by mutableStateOf(false)
+
+    /** Widget shortcut target, pushed on top of the landing screen. */
+    private var shortcutRoute by mutableStateOf<String?>(null)
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -69,6 +85,11 @@ class MainActivity : FragmentActivity() {
             statusBarStyle = SystemBarStyle.dark(android.graphics.Color.parseColor("#2E1065"))
         )
         checkStoragePermission()
+        if (savedInstanceState == null) {
+            handleLaunchIntent(intent)
+        } else {
+            incomingRoute = savedInstanceState.getString(STATE_INCOMING_ROUTE)
+        }
 
         setContent {
             val settingsViewModel: SettingsViewModel = hiltViewModel()
@@ -114,12 +135,19 @@ class MainActivity : FragmentActivity() {
                     }
                 }
             }
-            FileLensTheme(themeMode = settings.themeMode) {
+            FileLensTheme(themeMode = settings.themeMode, dynamicColor = settings.dynamicColor) {
                 androidx.compose.runtime.CompositionLocalProvider(
                     com.filelens.commander.ui.util.LocalSizeUnits provides settings.sizeUnits
                 ) {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    if (hasStoragePermission) {
+                    if (importingIncoming) {
+                        Box(
+                            modifier = Modifier.fillMaxSize().padding(innerPadding),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            androidx.compose.material3.CircularProgressIndicator()
+                        }
+                    } else if (hasStoragePermission || incomingRoute != null) {
                         val navController = rememberNavController()
                         val hasSeenOnboarding by settingsViewModel.hasSeenOnboarding.collectAsStateWithLifecycle()
                         Box(modifier = Modifier.fillMaxSize()) {
@@ -133,6 +161,9 @@ class MainActivity : FragmentActivity() {
                                 navController = navController,
                                 showOnboarding = !hasSeenOnboarding,
                                 startFromFiles = settings.startScreen == com.filelens.commander.domain.model.StartScreen.FILES,
+                                initialRoute = incomingRoute,
+                                shortcutRoute = shortcutRoute,
+                                onShortcutConsumed = { shortcutRoute = null },
                                 onOnboardingComplete = { settingsViewModel.completeOnboarding() },
                                 modifier = Modifier.padding(innerPadding)
                             )
@@ -167,6 +198,36 @@ class MainActivity : FragmentActivity() {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(STATE_INCOMING_ROUTE, incomingRoute)
+    }
+
+    private fun handleLaunchIntent(intent: Intent) {
+        shortcutRoute = when (intent.getStringExtra(QuickActionsWidget.EXTRA_ACTION)) {
+            QuickActionsWidget.ACTION_SEARCH -> Routes.GLOBAL_SEARCH
+            QuickActionsWidget.ACTION_DOWNLOADS -> Routes.main(category = HomeCategory.DOWNLOADS)
+            QuickActionsWidget.ACTION_IMAGES -> Routes.main(category = HomeCategory.IMAGES)
+            QuickActionsWidget.ACTION_FILES -> Routes.main()
+            else -> null
+        }
+        val uri = IncomingFiles.urisFrom(intent).firstOrNull() ?: return
+        importingIncoming = true
+        lifecycleScope.launch {
+            val copied = withContext(Dispatchers.IO) {
+                runCatching { IncomingFiles.copyToCache(this@MainActivity, uri, INCOMING_DIR) }.getOrNull()
+            }
+            if (copied != null) {
+                incomingRoute = Routes.main(path = copied.parent, inspect = copied.absolutePath)
+            } else {
+                android.widget.Toast.makeText(
+                    this@MainActivity, R.string.incoming_open_failed, android.widget.Toast.LENGTH_LONG
+                ).show()
+            }
+            importingIncoming = false
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         checkStoragePermission()
@@ -189,5 +250,10 @@ class MainActivity : FragmentActivity() {
         } else {
             requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
+    }
+
+    private companion object {
+        const val INCOMING_DIR = "incoming"
+        const val STATE_INCOMING_ROUTE = "incoming_route"
     }
 }

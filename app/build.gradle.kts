@@ -17,7 +17,7 @@ android {
         minSdk = 26
         targetSdk = 36
         versionCode = 18
-        versionName = "1.1.2"
+        versionName = "1.2.0"
     }
 
     buildTypes {
@@ -127,6 +127,7 @@ dependencies {
     implementation(libs.androidx.security.crypto)
     implementation(libs.androidx.biometric)
     implementation(libs.androidx.appcompat)
+    implementation(libs.play.review.ktx)
 
     debugImplementation(libs.androidx.compose.ui.tooling)
 
