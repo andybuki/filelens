@@ -169,7 +169,7 @@ It asks after a few inspections or Safe Shares, never on first launch. Ask frien
 
 | Week | Listing visitors | Installs | Conversion | Ratings (count / avg) | Top search term | What I did |
 |---|---|---|---|---|---|---|
-| 0 (start, 21 Oct) | ? | 55 installed audience (37 on 25 Sept, +0.7/day net) | ? | 0 | ? | Baseline from Play export |
+| 0 (start, 21 Oct) | ~26 impressions/day, ~1–6 visits/day | 55 installed audience (37 on 25 Sept, +0.7/day net) | ~59% | 0 | ? | Baseline from Play export |
 | 1 | | | | | | |
 | 2 | | | | | | |
 | 3 | | | | | | |
@@ -181,6 +181,25 @@ It asks after a few inspections or Safe Shares, never on first launch. Ask frien
 
 - **Conversion below 20% with many visitors:** the listing is the problem. Iterate the screenshots and the first line of the description.
 - **Conversion fine but few visitors:** visibility is the problem. Post more and add more directory listings.
+
+## Data check (Play exports, 25 Sept – 21 Oct)
+
+| Funnel step | Per day | Note |
+|---|---|---|
+| Impressions (app shown in Play search or lists) | ~26 (677 in 26 days) | Flat, no growth |
+| Listing visits | ~1–6 | On 4 days nobody opened the listing |
+| Conversion (visit → install) | **~59%** average | High. People who open the page mostly install |
+| Net installed audience | +0.7 | 37 → 55 |
+
+**What this means:** the listing is not the main bottleneck, *visibility* is.
+Too few people ever see FileLens. Priorities:
+
+1. **Outside traffic** (Reddit, XDA, AlternativeTo, reviewers) has the biggest effect. Each post multiplies the ~26 daily impressions.
+2. **The new keyword titles** should raise impressions from Play search. Watch the impressions line 7–14 days after merging.
+3. **Screenshots** still help, but they come third.
+
+India has the most impressions (133, about 20%) but only ~5 installed users.
+The hi-IN listing is worth checking once there's more data.
 
 ## Don't (yet)
 
