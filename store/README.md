@@ -34,6 +34,11 @@ Play Console, which is what we want unless we localise screenshots.
 
 ## What's still under `store/`
 
+- `growth-plan.md` — 30-day plan to grow installs, with ready-to-paste posts.
+- `screenshots/` — captioned screenshot generator: real captures in `raw/`,
+  captions in `captions.json`, run `node store/screenshots/render.js`,
+  results in `out/` (upload via Play Console store listing experiments).
+
 - `listing/feature-graphic.svg` — the editable source for the rendered
   PNG that ships in `app/src/main/play/listings/en-US/graphics/`.
 - `listing/screenshots-plan.md` — capture brief for the 8 phone + 4

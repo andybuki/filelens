@@ -1,0 +1,63 @@
+{
+  "_readme": "One entry per Play Store phone screenshot, in display order. 'raw' is a file in raw/ (a real capture from the app, 1080x2400). 'offset' (0-1) picks which vertical part of the capture shows; 0 = top. Entries with 'todo' are captures you still need to take on your phone; they are skipped until the raw file exists.",
+  "shots": [
+    {
+      "raw": "gps-risk.png",
+      "title": "Your photos reveal where you live",
+      "subtitle": "FileLens finds hidden GPS location before you share",
+      "offset": 0,
+      "todo": "Inspector > Risks tab on a holiday photo that has GPS. Danger card 'GPS location' visible."
+    },
+    {
+      "raw": "safe-share.png",
+      "title": "Share without the location",
+      "subtitle": "One tap strips GPS, camera and author data",
+      "offset": 0,
+      "todo": "Safe Share / 'Share cleaned copy' result on the same photo, showing what was removed."
+    },
+    {
+      "raw": "inspector-trusted.png",
+      "title": "Is this file safe?",
+      "subtitle": "A local trust score explains it before you open",
+      "offset": 0
+    },
+    {
+      "raw": "fake-extension.png",
+      "title": "That .jpg is really an app",
+      "subtitle": "Real file type from magic bytes, not the name",
+      "offset": 0,
+      "todo": "Inspector on a file whose extension lies (e.g. an APK renamed to .jpg). Mismatch warning visible."
+    },
+    {
+      "raw": "archive.png",
+      "title": "Peek inside without opening",
+      "subtitle": "Browse ZIP and APK files without extracting",
+      "offset": 0,
+      "todo": "Browsing inside an .apk or .zip: AndroidManifest.xml, classes.dex, META-INF/ in the list."
+    },
+    {
+      "raw": "home.png",
+      "title": "A full file manager, too",
+      "subtitle": "Categories, vault, app manager, recycle bin",
+      "offset": 0
+    },
+    {
+      "raw": "storage.png",
+      "title": "See what fills your phone",
+      "subtitle": "Storage by category, largest files first",
+      "offset": 0
+    },
+    {
+      "raw": "privacy-promise.png",
+      "title": "No ads. No trackers.",
+      "subtitle": "Everything runs offline on your device",
+      "offset": 0.42
+    },
+    {
+      "raw": "search.png",
+      "title": "Find any file fast",
+      "subtitle": "Search by name, extension or type",
+      "offset": 0
+    }
+  ]
+}

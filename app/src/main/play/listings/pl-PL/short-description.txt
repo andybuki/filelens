@@ -1,1 +1,1 @@
-Menedżer plików: inspekcja bezpieczeństwa, czyszczenie EXIF, tryb dwupanelowy.
+Usuń GPS i ukryte metadane przed udostępnieniem. Menedżer plików bez reklam.

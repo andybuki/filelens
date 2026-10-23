@@ -1,1 +1,1 @@
-FileLens - 文件管理器
+FileLens：EXIF清除与文件管理

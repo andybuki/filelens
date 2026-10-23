@@ -1,1 +1,1 @@
-FileLens फ़ाइल मैनेजर
+FileLens: EXIF और फ़ाइल मैनेजर

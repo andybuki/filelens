@@ -1,1 +1,1 @@
-FileLens - Gerenciador Arqs.
+FileLens: EXIF e Arquivos
