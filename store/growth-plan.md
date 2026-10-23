@@ -169,7 +169,7 @@ It asks after a few inspections or Safe Shares, never on first launch. Ask frien
 
 | Week | Listing visitors | Installs | Conversion | Ratings (count / avg) | Top search term | What I did |
 |---|---|---|---|---|---|---|
-| 0 (start) | | | | | | |
+| 0 (start, 21 Oct) | ? | 55 installed audience (37 on 25 Sept, +0.7/day net) | ? | 0 | ? | Baseline from Play export |
 | 1 | | | | | | |
 | 2 | | | | | | |
 | 3 | | | | | | |
