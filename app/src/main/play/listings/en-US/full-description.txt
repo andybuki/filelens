@@ -1,6 +1,14 @@
-FileLens is a powerful dual-pane file manager for Android with built-in security inspection. Browse, organize, and manage your files — then go deeper: inspect any file for hidden risks before you open or share it.
+Your photos carry hidden GPS location. Your documents keep author names, tracked changes and hidden sheets. Downloads can hide an app behind a .jpg name. FileLens shows you what is inside any file before you open or share it, and removes the hidden data with one tap.
 
-📂 FILE MANAGER
+It is also a complete file manager: no ads, no trackers, no accounts, and a free dark theme. Everything runs offline on your device.
+
+WHY PEOPLE SWITCH TO FILELENS
+• No ads and no tracking vendors. Nothing to opt out of.
+• No data collected, as declared in Play's Data safety section.
+• Free dark theme, no premium needed.
+• Deleted files go to a recoverable recycle bin first.
+
+FILE MANAGER
 • Dual-pane Commander Mode on tablets and Samsung DeX. Single pane on phones.
 • Copy, move, rename, delete with undo. Soft-delete to recoverable trash.
 • Batch rename with patterns, find/replace, and regular expressions.
@@ -9,13 +17,13 @@ FileLens is a powerful dual-pane file manager for Android with built-in security
 • Full keyboard support with customizable Norton Commander F-key shortcuts.
 • Verify downloads against a pasted SHA-256 or MD5 hash.
 
-🔍 SECURITY INSPECTOR
+SECURITY INSPECTOR
 • Magic-bytes detection catches extension mismatches — that .jpg might be an executable.
 • Risk badges flag GPS data in photos, JavaScript in PDFs, macros in Office files, active content in archives.
 • Local trust score shows the top reasons a file might be risky.
 • APK inspector: permissions, signatures, debug flags, trackers, native libraries.
 
-📄 DEEP FILE PREVIEW
+DEEP FILE PREVIEW
 • Images: EXIF data including GPS, camera model, dates.
 • Documents: DOCX, XLSX, PPTX with revision history, hidden sheets, external links.
 • PDFs: page thumbnails, JavaScript detection, embedded files, encryption status.
@@ -25,13 +33,13 @@ FileLens is a powerful dual-pane file manager for Android with built-in security
 • SQLite: schema browser, table viewer, read-only query tool.
 • Binary: hex viewer, entropy analysis, file header detection.
 
-🔒 PRIVACY PROTECTION
+PRIVACY PROTECTION
 • Strip EXIF, OOXML, and PDF metadata before sharing — no location leaks.
 • Share cleaned copies with one tap.
 • Batch privacy audit: scan entire folders and export cleaned copies as ZIP.
 • Generate inspection reports in Markdown or JSON.
 
-🛡️ OFFLINE & PRIVATE
+OFFLINE & PRIVATE
 • No accounts required. No analytics beyond crash reporting.
 • No network calls during normal use — everything runs on your device.
 • Settings and bookmarks backed up to a local JSON file you control.

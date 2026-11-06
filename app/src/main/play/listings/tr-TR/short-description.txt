@@ -1,1 +1,1 @@
-Güvenlik denetimi, EXIF temizleme ve çift panelli dosya yöneticisi.
+Paylaşmadan önce gizli GPS ve meta verileri silin. Reklamsız dosya yöneticisi.

@@ -1,1 +1,1 @@
-Dateimanager mit Sicherheitsprüfung, EXIF-Bereinigung & Zwei-Panel-Commander.
+Versteckte GPS- und Metadaten vor dem Teilen entfernen. Ohne Werbung, Tracking.

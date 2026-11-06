@@ -1,1 +1,1 @@
-FileLens - ファイルマネージャー
+FileLens: EXIF削除・ファイル管理

@@ -1,1 +1,1 @@
-File manager with security inspection, EXIF cleaning & dual-pane commander.
+Remove hidden GPS & metadata before sharing. File manager. No ads, no tracking.

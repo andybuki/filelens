@@ -467,7 +467,7 @@ Prioritised so heavy / high-token tasks land early and risk is front-loaded; fin
 #### Week 1 — Foundations (Design, Theme, Localization)
 
 - [x] **Day 1 — Design direction lock-in**
-  - [x] Delete dark-only assumptions from `README.md` design system; rewrite as light-first.
+  - [x] Delete dark-only assumptions from `design/README.md` design system; rewrite as light-first.
   - [x] Decide light palette: canvas `#F7F7F8`, surface `#FFFFFF`, surface-2 `#F0F1F4`, ink `#1A1B1F` / `#5A5E66` / `#9098A2`, keep violet accent `#7C3AED` (deeper for light contrast).
   - [x] Strip "theme" selector from settings (preserve preference key for migration only).
 - [x] **Day 2 — New logo + brand mark**

@@ -1,1 +1,1 @@
-Gestor de archivos con inspección de seguridad, limpieza EXIF y commander.
+Видаляйте GPS і приховані метадані перед надсиланням. Без реклами й трекерів.

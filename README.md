@@ -1,141 +1,110 @@
-# FileLens Design System
+<div align="center">
 
-FileLens is a **smart file commander for Android**. You browse files, **peek inside before opening**, inspect metadata, explore archives, and — the heart of the product — **understand the risk and trustworthiness of a file** before you act on it. It is privacy-first, offline, on-device. No accounts, no network, no analytics beyond crash reporting.
+<img src="design/FileLens%20Brand/filelens_icon_512_rounded.png" alt="" width="96" height="96">
 
-> Vision (from the repo): _"Browse files, peek inside, understand before opening."_ It combines a file manager + quick preview + metadata inspector + archive explorer + code outline + security/privacy hints.
+# FileLens
 
-The product flow is: **file list → tabbed inspector**. Tap a file and the inspector opens with tabs for **Overview · Preview · Structure · Metadata · Risks**, plus a local **Trust Score**, explainable **Risk Cards** (what was found / why it matters / recommended action), **Provenance** (where the file likely came from), and **Safe Share** (strip GPS/author metadata before sharing).
+**A file manager for Android that shows you what's inside a file before you open or share it.**
 
-This design system is a **fresh visual language** for FileLens — dark-first, Darcula-flavored, with a single confident violet accent and a **risk-&-trust visualization layer** as its signature. It deliberately departs from the stock Material 3 / Google-blue look the codebase shipped, to feel like a focused, IDE-grade tool rather than a generic file manager.
+[![Android CI](https://github.com/andybuki/filelens/actions/workflows/android-ci.yml/badge.svg)](https://github.com/andybuki/filelens/actions/workflows/android-ci.yml)
+[![License: GPL v3](https://img.shields.io/badge/license-GPL--3.0-7C2FCC.svg)](LICENSE)
+[![Android 8.0+](https://img.shields.io/badge/Android-8.0%2B-3DDC84.svg)](#build-from-source)
 
-## Sources
+<a href="https://play.google.com/store/apps/details?id=app.com.filelens&referrer=utm_source%3Dgithub%26utm_medium%3Dreadme"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" height="72"></a>
 
-- **Codebase:** `andybuki/filelens` on GitHub (private) — Kotlin + Jetpack Compose + Material 3, min SDK 26. Files read for domain + behavior:
-  - `ROADMAP.md` — vision, architecture, the full inspector / risk / trust / provenance feature set (Phases 1–8 + 7.0 "File Intelligence").
-  - `domain/model/InspectorResult.kt` — the data model: `TrustScore` (levels Trusted/Low/Medium/High + 0–100 score + top reasons), `RiskItem` (severity info/warning/danger × category privacy/security/active-content/integrity/metadata/encryption), `Provenance`, `SecretMatch`, `PreviewContent` (Text/Image/Hex/Tree).
-  - `domain/usecase/TrustScoreUseCase.kt` — scoring rules (start 100; danger −25, warning −10, info −3; tiers ≥90 / ≥70 / ≥40 / else).
-  - `ui/screens/MainScreen.kt` — adaptive layout: compact (phone: list + bottom-sheet inspector + commander toolbar) vs expanded (tablet: dual file panels or list + side inspector).
-  - `ui/components/FileListItem.kt`, `ui/theme/{Color,Type}.kt` — original Material palette + type (replaced here).
-- **Original theme (replaced):** Google-blue `#1A73E8` on white, Material 3 defaults, Roboto inherited. We keep Roboto, drop the blue, go dark-first violet.
-- **Chosen direction:** "A · Panel — clean Darcula" (from a 3-way exploration: Panel / Gutter / Lens). See `FileLens Directions.html`.
+No ads · No trackers · No account · Works offline
 
-## Products represented
+</div>
 
-- **FileLens Android app** — the only surface. Phone-first (single-pane: file list + bottom-sheet inspector + commander action bar). Tablet/landscape uses the same components in a two-pane layout.
+<p align="center">
+  <img src="store/screenshots/out/1.png" alt="Inspector with trust score" width="19%">
+  <img src="store/screenshots/out/2.png" alt="Home screen" width="19%">
+  <img src="store/screenshots/out/3.png" alt="Storage usage" width="19%">
+  <img src="store/screenshots/out/4.png" alt="Privacy promise" width="19%">
+  <img src="store/screenshots/out/5.png" alt="Search" width="19%">
+</p>
 
-## Index
+## Why FileLens
 
-- `README.md` — this file. Read top-to-bottom.
-- `SKILL.md` — Agent-Skill stub; invoke to generate FileLens-branded artifacts.
-- `colors_and_type.css` — all design tokens (CSS variables): neutrals, accent, risk, trust ramp, category seeds, type scale, spacing, radii, shadows, motion. Dark is `:root`; light is `[data-theme="light"]`.
-- `assets/` — `lens_mark.svg` (monochrome brand glyph, `currentColor`), `app_icon.svg` (full-color rounded app icon).
-- `fonts/` — _empty._ The app uses **Roboto** (UI) + **Roboto Mono** (data/code), loaded from Google Fonts; system fallbacks cover Roboto on Android natively. See VISUAL FOUNDATIONS.
-- `preview/` — one HTML card per concept; registered to the Design System tab.
-- `ui_kits/android/` — hi-fi recreation of the app: components + `index.html` click-through.
-- `FileLens Directions.html` — the original 3-direction exploration (kept for reference).
+Photos carry the exact GPS location where they were taken. Office files keep
+author names, tracked changes and hidden sheets. A "wedding_invitation.jpg"
+sent in a chat can be an Android app. FileLens shows this before you open or
+share the file, and removes the hidden data in one tap. Everything happens on
+your device.
 
----
+## Features
 
-## CONTENT FUNDAMENTALS
+**Inspector**
+- Real file type from magic bytes, so a `.jpg` that is really an APK is flagged.
+- Explainable risk cards (*what was found, why it matters, what to do*) and a local trust score. Heuristic, not an antivirus.
+- Images: EXIF with GPS, camera, dates. Documents: DOCX/XLSX/PPTX revisions, hidden sheets, macros, external links. PDF: JavaScript, embedded files, encryption.
+- APK: permissions, signatures, debug flags, trackers, native libraries.
+- Archives (ZIP, RAR, 7z, TAR, JAR, APK, EPUB) browsed without extracting; SQLite, JSON, XML, YAML, `.env` with a secrets scan; hex viewer and entropy.
 
-**Voice:** Calm, precise, protective. FileLens is the friend who reads the fine print for you. It states what it found plainly, explains *why it matters* in one sentence, and tells you the *safe next step*. It never alarms for effect and never claims certainty it doesn't have.
+**Privacy**
+- Safe Share: strips EXIF, OOXML and PDF metadata before sharing.
+- "Share without location" and "Inspect with FileLens" entries in Android's share menu, usable without opening the file manager.
+- Batch privacy audit of a folder, reports in Markdown or JSON.
 
-**Casing:** Sentence case everywhere — titles, dialogs, body. Title Case only for multi-word primary buttons / tab labels where it reads as a proper control ("Open safely", "Safe Share", "Open with"). Tabs are single words in sentence case ("Overview", "Preview", "Structure", "Metadata", "Risks").
+**File manager**
+- Dual-pane commander on tablets and Samsung DeX, keyboard and F-key shortcuts.
+- Recycle bin with undo, hidden vault, batch rename with regex, duplicate finder (SHA-256), file and folder compare.
+- FTP, SFTP and SMB; home-screen widget; Material You and a free dark theme.
+- 15 languages.
 
-**Person:** Second person for the user's things ("your photo still has GPS location", "where this file came from"). First-person plural when the app acts on the user's behalf ("we'll strip the location before sharing"). The app is the subject only in the lens metaphor copy ("What the lens found").
+## Privacy
 
-**Tone markers:**
-- **Explainable, three-beat risk copy:** _what was found_ → _why it matters_ → _what you can do_. E.g. "2 tracked changes present" / "Edits and reviewer comments are still stored in this document." / "Share a cleaned copy to remove them."
-- **Honest about confidence:** provenance and detection are heuristic — say "likely from Downloads", never "from Downloads, guaranteed". Trust score is explicitly **"not antivirus, not malware detection."**
-- **Concrete over abstract:** "Contains GPS location (48.85, 2.35)" beats "privacy concern".
-- **Short:** one short sentence per idea. Metadata is key/value, not prose.
+FileLens has no servers, no analytics and no advertising SDKs. Files are read
+and changed only on your device; network access is used only for remote
+servers you add yourself. See the [privacy policy](PRIVACY_POLICY.md).
 
-**Numbers, sizes, data:** Always **Roboto Mono** — file sizes ("1.8 MB"), hashes, line/byte counts, hex, IBAN/coords, trust score ("74 / 100"). Sizes use locale formatting; the app supports binary/decimal units.
+There is also a browser version of the photo and fake-file check:
+[FileLens Check](https://andybuki.github.io/filelens-check/) ([source](https://github.com/andybuki/filelens-check)).
 
-**Risk severity language:** three words only — **Info** · **Warning** · **Danger**. Trust tiers: **Trusted · Low risk · Medium risk · High risk**.
+## Build from source
 
-**Emoji usage:** **None.** No emoji as icons or decoration. (The original repo had none meaningful either.) Use Lucide icons.
+Requirements: JDK 17 and the Android SDK (API 36). Android Studio works out of the box.
 
-**Vibe in one line:** _A quiet, sharp instrument — it looks closely so you can decide._
+```bash
+git clone https://github.com/andybuki/filelens.git
+cd filelens
+./gradlew assembleDebug          # app/build/outputs/apk/debug/app-debug.apk
+./gradlew testDebugUnitTest      # unit tests
+./gradlew lintDebug              # Android lint
+```
 
----
+## Project structure
 
-## VISUAL FOUNDATIONS
+```
+app/src/main/java/com/filelens/commander/
+├── ui/          Jetpack Compose screens, components, theme (phone + tablet layouts)
+├── viewmodel/   Screen state
+├── domain/      Models and use cases (trust score, secret scanner, ...)
+├── inspector/   One inspector per format (image, PDF, Office, APK, ZIP, SQLite, ...)
+├── detector/    Magic-bytes file type detection
+├── vfs/         Virtual file system: local files, archive entries, remote servers
+├── data/        Settings, bookmarks, encrypted credentials
+├── di/          Hilt modules
+└── widget/      Home-screen widget
+app/src/main/play/   Play Store listing in 15 languages (published by CI)
+design/              Design system: tokens, brand assets, UI kit prototypes
+store/               Screenshot generator and store assets
+```
 
-**Palette DNA:** A **deep near-black canvas** (Darcula territory) layered with slightly lighter **panel** and **card** surfaces, hairline borders, and a single **violet** accent used only for interaction (primary actions, active tab/row, links, the lens mark). Color otherwise belongs to **meaning**: the risk semantics (danger/warning/info/safe), the trust ramp, and per-file-type category seeds. Decoration is never colored for its own sake.
+Kotlin, Jetpack Compose, Material 3, Hilt, Coroutines/Flow, Coil. Min SDK 26, target SDK 36.
+See [ROADMAP.md](ROADMAP.md) for what is done and what is next.
 
-- **Canvas `#16171A`** — the app background; the deepest layer.
-- **Surface `#1E2024`** — panels, the inspector sheet, list background.
-- **Surface-2 `#25272D`** — cards, raised rows, the selected/inspected item base.
-- **Surface-3 `#2E3138`** — inputs, hover, pressed wash.
-- **Borders `#34373E`** (hairline) / `#3F434B` (stronger) — 1px only.
-- **Ink `#E4E6EB` / `#A4A8B2` / `#6E727C`** — primary / secondary / tertiary text + icons.
-- **Accent violet `#A855F7`** — the only interaction color. Brighter `#C084FC` for active text on dark; `#8B3FD6` for pressed.
-- **Risk:** danger `#FF5C6C`, warning `#F5B642`, info `#4C8DFF`, safe `#36D399` — each with a ~14% tint for fills.
-- **Trust ramp:** Trusted `#36D399` (≥90) · Low `#8BD64F` (≥70) · Medium `#F5B642` (≥40) · High `#FF5C6C` (<40).
-- **Category seeds (16):** folder `#E3B341` · image `#4CC38A` · video `#FF6B6B` · audio `#FF8A3D` · document `#4C8DFF` · spreadsheet `#2EB872` · presentation `#FF7A45` · archive `#B07CF6` · code `#2DD4D4` · text `#8B98A8` · pdf `#F0616D` · apk `#3DDC84` · database `#C08457` · font `#EC6FA8` · executable `#9AA0AC` · unknown `#6E727C`. Used for the file-type icon, its tinted icon-tile, and the small uppercase ext badge.
+## Contributing
 
-**Type:** **Roboto** (400/500/700) for all UI; **Roboto Mono** (400/500/700) for data — sizes, hashes, hex, code, scores, coordinates. The original app inherited Roboto on Android; we keep it and add Roboto Mono for the inspector's data density. _Substitution flag: no font files ship in `fonts/` — both load from Google Fonts. If the team adopts bundled `.woff2`, drop them in `fonts/` and update `--fl-font-sans` / `--fl-font-mono`._
+Bug reports, translations and pull requests are welcome. Please read
+[CONTRIBUTING.md](CONTRIBUTING.md) first. Report security problems privately,
+as described in [SECURITY.md](SECURITY.md).
 
-**Type scale** (see `colors_and_type.css`): Display 30/700 · H1 24/700 (screen title) · H2 19/700 (card/sheet title) · H3 16/600 (section header) · Body 15/400 · Small 13/500 (labels, buttons, metadata) · Caption 11/700 uppercase tracked (eyebrows) · Mono 13/500 (data) · Mono-sm 11.5.
+## License
 
-**Spacing:** 4-based — 4, 8, 12, 16, 20, 24, 32, 40, 48, 64. Screen horizontal padding 16. Card padding 14–16. Row vertical padding 11–12. Gap between cards 12.
+FileLens is free software under the [GNU General Public License v3.0](LICENSE).
+You may use, study, share and modify it; distributed copies and derivatives
+must stay under the same license with their source code available.
 
-**Corner radii:** 6 (small badges), 8 (chips/tabs/ext badges), 11 (buttons, inputs, file rows), 14 (cards), 20 (bottom sheets, dialogs), 999 (pills, FAB). Comfortable but not pill-soft — it should read like a precise tool.
-
-**Backgrounds:** Flat dark. **No gradients** on content, **no patterns, no grain, no full-bleed photography.** The only gradient in the system is inside the app-icon asset. Illustrations appear only in empty/onboarding states — flat, duotone, violet+ink; use a sized placeholder rectangle if absent.
-
-**Borders:** Hairlines only — `1px solid var(--fl-border)`. A card has **either** a border **or** a shadow, rarely both. Selection is shown with an `inset 2px` accent bar + a faint accent-tint wash, not a heavy outline.
-
-**Shadows:** Minimal in dark mode — elevation reads through surface lightness + hairline borders. `--sh-xs` resting, `--sh-sm` sheets/menus, `--sh-md` dialogs. The one colored shadow is `--sh-accent` under the primary FAB / primary button. No inner shadows.
-
-**Animation:** Material-standard. 120ms micro (press), 200ms state, 300ms screen, 400ms for chart/gauge sweep. Easing `--ease-std` `cubic-bezier(0.4,0,0.2,1)`. Fades + small 8px vertical slides. **No bounces, no parallax.** The trust gauge / progress sweeps in once on appear (`--ease-out`).
-
-**Hover / press states (mobile + preview):**
-- Primary button **press:** fill → `--fl-accent-press`, scale(0.98).
-- Row **press:** `--fl-surface-3` wash, no scale. Selected row: accent-tint wash + inset accent bar.
-- Icon **press:** opacity 0.6.
-- Preview/web row **hover:** `--fl-surface-2` tint.
-
-**Transparency & blur:** Sparingly. Bottom-sheet scrim is 60% black. The app bar may use `backdrop-filter: blur(12px)` when content scrolls under it. Never translucent violet over content; tints are flat rgba.
-
-**Imagery vibe:** Cool, dark, precise. The brand image is the **lens mark** (a violet magnifier ring + center dot + reticle ticks). No photography.
-
-**Layout rules:**
-- **App bar** (transparent over canvas): lens mark + "FileLens" wordmark + search + sort/filter icons.
-- **Breadcrumb** row under the app bar (tertiary ink, chevron separators, current segment in secondary ink).
-- **File list** fills the middle. Comfortable rows: tinted icon tile + name (Roboto) + mono subtitle (size · date) + ext badge + a small severity dot when the file carries risk.
-- **Inspector** = bottom sheet on phone (grab handle, file header with trust chip, tab row, tab content), side panel on tablet.
-- **Commander action bar** pinned at the very bottom when files are selected (View / Copy / Move / New folder / Rename / Delete), Norton-Commander-style; F-key hints on tablet.
-- One **FAB**: Import / scan, violet, bottom-right, `--sh-accent`.
-
-**Iconography philosophy:** See ICONOGRAPHY.
-
-**Signature element — the Risk & Trust layer:**
-- **Trust chip:** a pill with a colored dot + "Low risk · 74", colored by trust tier.
-- **Severity dot:** an 8px dot on a file row when it carries a risk (danger/warning/info).
-- **Risk card:** surface-2 card with a 3px severity-colored left border, a severity+category header ("Warning · Metadata"), a one-line finding, and "why it matters" subtext; expandable to evidence + recommended action.
-- **Trust score:** "74 / 100" in mono + tier label; an optional thin linear or ring meter colored by tier. (Direction A keeps it as a compact chip + optional ring, not the big gauge.)
-- These are the colorful moments in an otherwise restrained dark UI.
-
----
-
-## ICONOGRAPHY
-
-The Compose codebase uses **Material Symbols** (`androidx.compose.material.icons`, filled set for file types). For HTML recreations we substitute **[Lucide](https://lucide.dev/)** (outline, 1.75px stroke, MIT, CDN). The clean outline weight suits the IDE-grade feel better than filled glyphs.
-
-> ⚠️ **Substitution:** Material Symbols fonts are not shipped here; Lucide is the CDN stand-in. Folder/category icons in the live app are *filled* Material icons — in the kit we use Lucide outline and reserve `fill` only for the folder glyph so directories read as solid. Flag and swap if an official icon kit is adopted.
-
-**Usage rules:**
-- Stroke 1.75 (Lucide default). Don't mix filled + outline in the same context (folder is the sanctioned exception).
-- Sizes: 28 (file-row icon tile glyph ~19 inside a 34 tile), 24 (app-bar + tab-bar), 20 (row-leading / inline), 16 (inside buttons + risk cards).
-- Color inherits from text/category. Active = `--fl-accent-bright`; inactive = `--fl-ink-3`; category icons use their seed color.
-- **No emoji. No unicode glyphs** (`✓`, `✕`) as icons — always a Lucide SVG.
-
-**Brand glyph:** `assets/lens_mark.svg` — monochrome, uses `currentColor`; sits in a violet rounded tile in the app bar (18px glyph in a 30px tile). `assets/app_icon.svg` is the full-color launcher icon (gradient violet lens on a dark rounded-square). Use the lens mark at 16–48px; the app icon at 48px+.
-
-**Category icons (Lucide):** folder→`folder` (filled) · image→`image` · video→`file-video`/`video` · audio→`file-audio`/`music` · document→`file-text` · spreadsheet→`sheet`/`table` · presentation→`presentation` · archive→`file-archive`/`archive` · code→`file-code`/`braces` · text→`file-text` · pdf→`file-text` (pdf-tinted) · apk→`package`/`smartphone` · database→`database` · font→`type` · executable→`terminal` · unknown→`file`.
-
-**Action icons (Lucide):** search→`search` · lens/scan→`scan-search` · sort/filter→`sliders-horizontal` · import/upload→`upload` · share→`share-2` · clean-share→`shield-check` · delete→`trash-2` · rename→`pencil` · new-folder→`folder-plus` · copy→`copy` · move→`folder-input` · back/up→`corner-left-up` · more→`more-vertical` · ignore-risk→`eye-off` · flag→`flag` · open-with→`external-link` · map→`map-pin` · key/secret→`key-round`.
-
-**Risk / trust icons:** danger→`shield-alert` · warning→`triangle-alert` · info→`info` · safe/trusted→`shield-check` · trust score→`gauge` · provenance→`map-pin` / source-specific.
+Roboto fonts in `design/fonts` are under their own licenses (Apache 2.0 / SIL OFL).
+Google Play and the Google Play logo are trademarks of Google LLC.

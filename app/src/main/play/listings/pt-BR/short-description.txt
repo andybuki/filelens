@@ -1,1 +1,1 @@
-Gerenciador de arquivos com inspeção de segurança, limpeza EXIF e commander.
+Remova GPS e metadados ocultos antes de compartilhar. Sem anúncios e rastreio.

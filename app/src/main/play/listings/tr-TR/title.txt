@@ -1,1 +1,1 @@
-FileLens - Dosya Yöneticisi
+FileLens: EXIF & Dosyalar

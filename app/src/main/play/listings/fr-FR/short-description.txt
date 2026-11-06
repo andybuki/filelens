@@ -1,1 +1,1 @@
-Gestionnaire de fichiers avec inspection sécurité, nettoyage EXIF & commander.
+Supprimez GPS et métadonnées cachées avant de partager. Sans pub ni pistage.
