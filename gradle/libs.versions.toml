@@ -26,7 +26,7 @@ securityCrypto = "1.1.0-alpha06"
 biometric = "1.1.0"
 appcompat = "1.7.0"
 playReview = "2.0.2"
-playPublisher = "3.10.1"
+playPublisher = "4.1.1"
 kover = "0.9.1"
 
 [libraries]
