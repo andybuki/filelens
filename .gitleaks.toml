@@ -1,0 +1,11 @@
+# Extends the default rules. The secret scanner's own patterns and its test
+# fixtures (a public example JWT, a truncated PEM header) are not real secrets.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Secret scanner patterns and test fixtures"
+paths = [
+  '''app/src/main/java/com/filelens/commander/domain/usecase/SecretScanner\.kt''',
+  '''app/src/test/java/com/filelens/commander/domain/usecase/SecretScannerTest\.kt''',
+]

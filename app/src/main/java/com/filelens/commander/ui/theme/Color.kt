@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 // ============================================================================
 // FileLens — light-only palette.
 // Violet accent on a near-white canvas. Source of truth lives alongside the
-// design tokens in colors_and_type.css / min/tokens.css.
+// design tokens in design/colors_and_type.css / design/min/tokens.css.
 // ============================================================================
 
 // ---------- Canvas / surface ramp ----------
